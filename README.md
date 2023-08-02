@@ -1,4 +1,5 @@
 # ecommerce
+# Project Description
 ### Project name: online furniture store “Comfort”
 **Purpose:** To create a convenient and functional online furniture store, applying all the acquired and existing knowledge in practice.
 
@@ -78,3 +79,60 @@ __________
 >   * Husky
 >   * CommerceTools
 __________
+# Script Documentation
+
+>**Instructions for use:**
+> - Make sure the software or tool is installed on your system. (Need a Node.js 14 and above)
+> - Open your system's terminal or command prompt.
+>  - Navigate to the directory where you want to use the tool (if applicable). You can use the `cd name_dir` command to change directories.
+> - Run command in the terminal or command prompt. Make sure to use the correct syntax and provide any required arguments or options.
+
+> **Script name:** `"start"`;\
+> **Usage Description:** The command **"start"** is used to start a development server using webpack and open the application in a web browser. It also specifies the webpack configuration file and sets the environment mode to "development".\
+> **Launch Command:** `npm start` or `npm run start`
+
+> **Script name:** `"build"`;\
+> **Usage Description:** The command **"build"** is used to run webpack and build your application in production mode. It specifies the webpack configuration file and sets the environment mode to  "production".\
+> **Launch Command:** `npm run build`
+
+> **Script name:** `"lint"`\
+> **Usage Description:** The command **"lint"** is used to run ESLint, a popular static code analysis tool, on TypeScript files in the current directory and its subdirectories.\
+> **Launch Command:** `npm run lint`
+
+> **Script name:** `"lint:fix"`\
+> **Usage Description:** The command **"lint:fix"** is used to run ESLint on all JavaScript and TypeScript files within the "src" directory and its subdirectories. Additionally, it applies automatic fixes for fixable issues found in the code.\
+> **Launch Command:** `npm run lint:fix`
+
+> **Script name:** `"style"`\
+> **Usage Description:** The command **"style"** is used to compile a Sass (SCSS) file into a CSS file and watch for changes in the source Sass file. When changes are made to the Sass file, it automatically compiles the changes into the corresponding CSS file.\
+> **Launch Command:** `npm run style`
+
+# Instructions for setting up the project
+
+### Requirements
+
+**Before you start working with the project, make sure that you have the following tools installed:**
+1. Node.js (version 14 or higher is recommended).
+  - You can install it here [Node.js](https://nodejs.org/ru).
+  - To check the version, use the command:
+  ```shell
+  npm --version
+  ```
+2. First clone the repository to your local computer and navigate to the project directory.
+```shell
+git clone <https://github.com/iozefavichus/ecommerce.git>
+cd ecommerce/dir-project
+```
+3. Install all project dependencies:
+```shell
+npm install
+```
+4. Go to the right branch for development:
+```shell
+git checkout name-branch
+```
+5. To develop, you need to create a new branch from the one you will work with.\
+  - To create a new branch and go directly to it, use the command:
+```shell
+git checkout -b name-branch
+```
