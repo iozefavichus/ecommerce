@@ -69,7 +69,7 @@ __________
 Also, meetups are agreed upon by the team to track the current progress and identify weaknesses of the project.
 __________
 
-> **Используемый стек:**
+> **The stack used:**
 >   * Sass
 >   * Eslint
 >   * Prettier
