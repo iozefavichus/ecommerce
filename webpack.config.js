@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-undef */
 const path = require('path');
 const { merge } = require('webpack-merge');
@@ -5,6 +6,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const EslingPlugin = require('eslint-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const ProdConfig = require('./webpack.prod.config');
+const DevConfig = require('./webpack.dev.config');
 
 const baseConfig = {
     entry: path.resolve(__dirname, './src/index'),
@@ -48,9 +51,7 @@ const baseConfig = {
 
 module.exports = ({ mode }) => {
     const isProductionMode = mode === 'prod';
-    const envConfig = isProductionMode
-        ? require('./webpack.prod.config.js')
-        : require('./webpack.dev.config');
+    const envConfig = isProductionMode ? ProdConfig : DevConfig;
 
     return merge(baseConfig, envConfig);
 };
