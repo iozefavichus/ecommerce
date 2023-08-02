@@ -1,55 +1,69 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
-    },
-    "extends": [
-        "airbnb/base",
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "prettier"
-    ],
-    "overrides": [
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "airbnb/base",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "**/*.ts",
+        "**/*.tsx"
+      ],
+      "plugins": [
+        "@typescript-eslint"
+      ],
+      "rules": {
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": [
+          "error"
+        ]
+      }
+    }
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": 2,
+    "@typescript-eslint/no-var-requires": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
       {
-        "files": ["**/*.ts", "**/*.tsx"],
-        "plugins": ["@typescript-eslint"],
-        "rules": {
-          "no-use-before-define": "off",
-          "@typescript-eslint/no-use-before-define": ["error"]
-        }
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
       }
     ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
-    },
-    "plugins": [
-        "@typescript-eslint"
-    ],
-    "rules": {
-      "import/extensions": [
-        "error",
-        "ignorePackages",
-        {
-          "js": "never",
-          "jsx": "never",
-          "ts": "never",
-          "tsx": "never"
-        }
-      ],
-      "no-plusplus": "off",
-      "no-param-reassign": "off",
-      "import/prefer-default-export": "off",
-      "no-restricted-syntax": "off",
-      "no-shadow": "off",
-      "no-unused-vars": "off",
-      "no-restricted-globals": "off"
-    },
+    "no-plusplus": "off",
+    "no-param-reassign": "off",
+    "import/prefer-default-export": "off",
+    "no-restricted-syntax": "off",
+    "no-shadow": "off",
+    "no-unused-vars": "off",
+    "no-restricted-globals": "off"
+  },
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
       }
     }
   }
