@@ -1,0 +1,27 @@
+# Ignore temporary files and directories created by the operating system
+.DS_Store
+Thumbs.db
+
+# Ignore files created by the development environment
+.vscode/
+
+# Ignore log files
+*.log
+
+# Ignore files with sensitive data (for example, API keys)
+secrets.env
+
+# Ignore project build files
+/build/
+/dist/
+
+# Ignore dependencies and external libraries
+/node_modules/
+/vendor/
+
+# Ignore executable program files
+*.exe
+*.out
+
+# Ignore files and directories containing sensitive information about the environment
+.env
