@@ -12,7 +12,6 @@ Thumbs.db
 secrets.env
 
 # Ignore project build files
-/build/
 /dist/
 
 # Ignore dependencies and external libraries
