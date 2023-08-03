@@ -91,21 +91,33 @@ __________
 > **Usage Description:** The command **"start"** is used to start a development server using webpack and open the application in a web browser. It also specifies the webpack configuration file and sets the environment mode to "development".\
 > **Launch Command:** `npm start` or `npm run start`
 
-> **Script name:** `"build"`;\
-> **Usage Description:** The command **"build"** is used to run webpack and build your application in production mode. It specifies the webpack configuration file and sets the environment mode to  "production".\
+> **Script name:** `"build:prod"`;\
+> **Usage Description:** The command **"build:prod"** is used to run webpack and build your application in production mode. It specifies the webpack configuration file and sets the environment mode to  "production".\
 > **Launch Command:** `npm run build`
 
-> **Script name:** `"lint"`\
-> **Usage Description:** The command **"lint"** is used to run ESLint, a popular static code analysis tool, on TypeScript files in the current directory and its subdirectories.\
-> **Launch Command:** `npm run lint`
+> **Script name:** `"build:dev"`\
+> **Usage Description:** The command **"build:dev"** is used to run webpack and build your application in production mode. It specifies the webpack configuration file and sets the environment mode to  "development".\
+> **Launch Command:**
 
-> **Script name:** `"lint:fix"`\
-> **Usage Description:** The command **"lint:fix"** is used to run ESLint on all JavaScript and TypeScript files within the "src" directory and its subdirectories. Additionally, it applies automatic fixes for fixable issues found in the code.\
-> **Launch Command:** `npm run lint:fix`
+> **Script name:** `"lint:ts"`\
+> **Usage Description:** The command **"lint:ts"** is used to run ESLint, a popular static code analysis tool, on TypeScript files in the current directory and its subdirectories.\
+> **Launch Command:** `npm run lint:ts`
 
-> **Script name:** `"style"`\
-> **Usage Description:** The command **"style"** is used to compile a Sass (SCSS) file into a CSS file and watch for changes in the source Sass file. When changes are made to the Sass file, it automatically compiles the changes into the corresponding CSS file.\
-> **Launch Command:** `npm run style`
+> **Script name:** `"lint:ts:fix"`\
+> **Usage Description:** The command **"lint:ts:fix"** is used to run ESLint on all JavaScript and TypeScript files within the "src" directory and its subdirectories. Additionally, it applies automatic fixes for fixable issues found in the code.\
+> **Launch Command:** `npm run lint:ts:fix`
+
+> **Script name:** `"lint:scss"`\
+> **Usage Description:** The command **"lint:scss"** use to run Stylelint, a linter for stylesheets, on all SCSS (Sass) files within the current directory and its subdirectories.\
+> **Launch Command:** `npm run lint:scss`
+
+> **Script name:** `"lint:scss:fix"`\
+> **Usage Description:** The command "npx style lint **"lint:scss:fix"** is used to run Stylelint on all SCSS (Sass) files within the current directory and its subdirectories, and it also automatically fixes certain linting issues.\
+> **Launch Command:** `npm run lint:scss:fix`
+
+> **Script name:** `"test:unit"`\
+> **Usage Description:** The command "test:unit" runs the Jest test runner\
+> **Launch Command:** `npm run test:unit`
 
 # Instructions for setting up the project
 
