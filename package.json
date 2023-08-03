@@ -57,5 +57,9 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.(ts)": ["npm run lint:ts:fix", "git add"],
+    "*.(scss)": ["npm run lint:scss:fix", "git add"]
   }
 }
