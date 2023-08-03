@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
@@ -8,8 +7,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const EslintPlugin = require('eslint-webpack-plugin');
-const ProdConfig = require('./webpack.prod.config');
-const DevConfig = require('./webpack.dev.config');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
@@ -88,7 +85,7 @@ const plugins = () => {
   ];
 };
 
-const baseConfig = {
+module.exports = {
   mode: 'development',
   target: ['web', 'es6'],
   entry: {
@@ -150,11 +147,4 @@ const baseConfig = {
       },
     ],
   },
-};
-
-module.exports = ({ mode }) => {
-  const isProductionMode = mode === 'prod';
-  const envConfig = isProductionMode ? ProdConfig : DevConfig;
-
-  return merge(baseConfig, envConfig);
 };
