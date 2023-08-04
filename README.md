@@ -97,7 +97,11 @@ __________
 
 > **Script name:** `"build:dev"`\
 > **Usage Description:** The command **"build:dev"** is used to run webpack and build your application in production mode. It specifies the webpack configuration file and sets the environment mode to  "development".\
-> **Launch Command:**
+> **Launch Command:** `npm run build:dev`
+
+> **Script name:** `"prettier"`\
+> **Usage Description:** The command **"prettier"** is used to format files with .ts (TypeScript) and .json extensions using the Prettier tool.\
+> **Launch Command:** `npm run prettier`
 
 > **Script name:** `"lint:ts"`\
 > **Usage Description:** The command **"lint:ts"** is used to run ESLint, a popular static code analysis tool, on TypeScript files in the current directory and its subdirectories.\
@@ -116,8 +120,12 @@ __________
 > **Launch Command:** `npm run lint:scss:fix`
 
 > **Script name:** `"test:unit"`\
-> **Usage Description:** The command "test:unit" runs the Jest test runner\
+> **Usage Description:** The command **"test:unit"** runs the Jest test runner\
 > **Launch Command:** `npm run test:unit`
+
+> **Script name:** `"prepare"`\
+> **Usage Description:** The command **"prepare"** is a command used to set up Husky in a project.\
+> **Launch Command:** `npm run prepare`
 
 # Instructions for setting up the project
 
