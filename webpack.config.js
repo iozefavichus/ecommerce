@@ -51,39 +51,37 @@ const cssLoaders = (extra) => {
 
 const pages = fs.readdirSync(path.resolve(__dirname, 'src')).filter((fileName) => fileName.endsWith('.html'));
 
-const plugins = () => {
-  return [
-    ...pages.map(
-      (page) =>
-        new HTMLWebpackPlugin({
-          template: page,
-          filename: page,
-          inject: 'body',
-          minify: {
-            collapseWhitespace: isProd,
-          },
-        }),
-    ),
-    new CleanWebpackPlugin(),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: '**/*',
-          context: path.resolve(__dirname, './src'),
-          globOptions: {
-            ignore: ['**/*.js', '**/*.ts', '**/*.css', '**/*.scss', '**/*.sass', '**/*.html'],
-          },
-          noErrorOnMissing: true,
-          force: true,
+const plugins = () => [
+  ...pages.map(
+    (page) =>
+      new HTMLWebpackPlugin({
+        template: page,
+        filename: page,
+        inject: 'body',
+        minify: {
+          collapseWhitespace: isProd,
         },
-      ],
-    }),
-    new MiniCssExtractPlugin({
-      filename: filename('css'),
-    }),
-    new EslintPlugin(),
-  ];
-};
+      }),
+  ),
+  new CleanWebpackPlugin(),
+  new CopyPlugin({
+    patterns: [
+      {
+        from: '**/*',
+        context: path.resolve(__dirname, './src'),
+        globOptions: {
+          ignore: ['**/*.js', '**/*.ts', '**/*.css', '**/*.scss', '**/*.sass', '**/*.html'],
+        },
+        noErrorOnMissing: true,
+        force: true,
+      },
+    ],
+  }),
+  new MiniCssExtractPlugin({
+    filename: filename('css'),
+  }),
+  new EslintPlugin(),
+];
 
 module.exports = {
   mode: 'development',
