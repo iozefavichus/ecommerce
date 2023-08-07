@@ -1,4 +1,4 @@
-import { createCustomElement } from '../../../shared/utilities/helper-functions';
+import { createCustomElement } from '../../shared/utilities/helper-functions';
 
 const createNavBar = (): HTMLElement => {
   const navBar = createCustomElement('nav', ['nav']);

@@ -1,2 +1,3 @@
 @import 'normalize.css';
-@import './components/header';
+@import 'abstract/constants';
+@import '../components/pages/header/header';
