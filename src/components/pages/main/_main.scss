@@ -6,7 +6,6 @@
 }
 
 .wrapper-img {
-  background: #44aee8;
   width: 1440px;
   height: 716px;
 }
@@ -24,7 +23,7 @@
   width: 643px;
   height: 443px;
   border-radius: 10px;
-  background: #fff3e3;
+  background: $color-brand;
   position: absolute;
   top: 153px;
   right: 58px;
@@ -48,7 +47,7 @@
   }
 
   &__title {
-    color: $color-text-brand;
+    color: $color-brand-dark;
     font-family: Poppins, sans-serif;
     font-size: 52px;
     font-style: normal;
@@ -68,7 +67,7 @@
   }
 
   &__button {
-    background: $color-text-brand;
+    background: $color-brand-dark;
     padding: 25px 72px;
     color: #fff;
     font-family: Poppins, sans-serif;

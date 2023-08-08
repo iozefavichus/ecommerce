@@ -1,8 +1,17 @@
+.header {
+  background-color: $color-brand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
 .header__wrapper {
   @include display-flex(center, space-around);
 
   width: 95%;
-  margin: 30px auto;
+  margin: auto;
+  padding: 30px 0;
 }
 
 .logo {
@@ -28,25 +37,32 @@
 }
 
 .logo__text {
-  margin-left: 10px;
-  color: $color-text-brand;
+  margin: 0 0 0 10px;
+  color: $color-brand-dark;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .nav {
   display: flex;
   justify-content: space-between;
-  width: 30%;
 }
 
 .nav-link {
   text-decoration: none;
-  color: $color-text-base;
+  color: $font-color;
+  margin-left: 75px;
 
   @extend %hover-transition;
 
+  &:nth-child(1) {
+    margin: 0;
+  }
+
   &:hover {
     cursor: pointer;
-    color: $color-text-brand;
+    color: $color-brand-dark;
   }
 }
 
@@ -71,13 +87,16 @@
 
 .login-link {
   text-decoration: none;
-  color: $color-text-base;
+  color: $font-color;
   margin-left: 10px;
+  padding: 5px 10px;
+  background-color: $color-brand-dark;
+  border-radius: 20px;
 
   @extend %hover-transition;
 
   &:hover {
     cursor: pointer;
-    color: $color-text-brand;
+    opacity: 0.7;
   }
 }
