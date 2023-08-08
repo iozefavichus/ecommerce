@@ -1,6 +1,17 @@
 $color-text-base: rgb(0 0 0);
 $color-text-brand: rgb(184 142 47);
 
+%icon-param {
+  background-size: contain;
+  width: 20px;
+  height: 20px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}
+
 %hover-transition {
   transition: 0.5s;
 }

@@ -19,11 +19,15 @@ const createIconBar = (): HTMLElement => {
   const iconBar = createCustomElement('div', ['icon-bar']);
   const logIn = createCustomElement('a', ['login-link'], 'Log in') as HTMLLinkElement;
   logIn.href = '#';
-  const linkBasket = createCustomElement('a', ['basket']) as HTMLLinkElement;
+  const linkProfile = createCustomElement('a', ['profile-link']) as HTMLLinkElement;
+  linkProfile.href = '#';
+  const profileIcon = createCustomElement('div', ['profile__icon']);
+  linkProfile.append(profileIcon);
+  const linkBasket = createCustomElement('a', ['basket-link']) as HTMLLinkElement;
   linkBasket.href = '#';
-  const basketIcon = createCustomElement('span', ['basket__icon']);
+  const basketIcon = createCustomElement('div', ['basket__icon']);
   linkBasket.append(basketIcon);
-  iconBar.append(linkBasket, logIn);
+  iconBar.append(linkProfile, linkBasket, logIn);
   return iconBar;
 };
 
