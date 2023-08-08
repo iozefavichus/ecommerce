@@ -1,5 +1,9 @@
 .header {
   background-color: $color-brand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 
 .header__wrapper {
@@ -35,6 +39,9 @@
 .logo__text {
   margin: 0 0 0 10px;
   color: $color-brand-dark;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .nav {
@@ -44,7 +51,7 @@
 
 .nav-link {
   text-decoration: none;
-  color: $color-text-base;
+  color: $font-color;
   margin-left: 75px;
 
   @extend %hover-transition;
@@ -80,7 +87,7 @@
 
 .login-link {
   text-decoration: none;
-  color: $color-text-base;
+  color: $font-color;
   margin-left: 10px;
   padding: 5px 10px;
   background-color: $color-brand-dark;
@@ -91,6 +98,5 @@
   &:hover {
     cursor: pointer;
     opacity: 0.7;
-    color: $color-brand-dark;
   }
 }

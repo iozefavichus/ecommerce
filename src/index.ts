@@ -1,4 +1,4 @@
-import { drawHeader } from './components/pages/header/draw-header';
 import './sass/main.scss';
+import { render } from './components/shared/utilities/render';
 
-drawHeader();
+render();
