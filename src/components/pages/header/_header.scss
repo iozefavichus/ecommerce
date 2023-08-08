@@ -1,0 +1,83 @@
+.header__wrapper {
+  @include display-flex(center, space-around);
+
+  width: 95%;
+  margin: 30px auto;
+}
+
+.logo {
+  @include display-flex(center, space-between);
+
+  text-decoration: none;
+  color: $color-text-base;
+
+  @extend %hover-transition;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}
+
+.logo__icon {
+  background-image: url('../assets/icons/main_logo.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 30px;
+  height: 20px;
+}
+
+.logo__text {
+  margin-left: 10px;
+  color: $color-text-brand;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: $color-text-base;
+
+  @extend %hover-transition;
+
+  &:hover {
+    cursor: pointer;
+    color: $color-text-brand;
+  }
+}
+
+.icon-bar {
+  @include display-flex(center, space-between);
+}
+
+.profile__icon {
+  background-image: url('../assets/icons/account.svg');
+
+  @extend %icon-param;
+  @extend %hover-transition;
+}
+
+.basket__icon {
+  margin-left: 10px;
+  background-image: url('../assets/icons/shopping-cart.svg');
+
+  @extend %icon-param;
+  @extend %hover-transition;
+}
+
+.login-link {
+  text-decoration: none;
+  color: $color-text-base;
+  margin-left: 10px;
+
+  @extend %hover-transition;
+
+  &:hover {
+    cursor: pointer;
+    color: $color-text-brand;
+  }
+}
