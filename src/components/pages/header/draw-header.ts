@@ -1,4 +1,6 @@
+import { customRoute } from '../../app/router/router';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { renderChangeContent } from '../../shared/utilities/render';
 
 const createNavBar = (): HTMLElement => {
   const navBar = createCustomElement('nav', ['nav']);
@@ -19,15 +21,23 @@ const createIconBar = (): HTMLElement => {
   const iconBar = createCustomElement('div', ['icon-bar']);
   const logIn = createCustomElement('a', ['login-link'], 'Log in') as HTMLLinkElement;
   logIn.href = '/login';
+  logIn.addEventListener('click', (event): void => {
+    event.preventDefault();
+    customRoute(event);
+    const newPath = window.location.pathname;
+    renderChangeContent(newPath);
+  });
+  const registrationLink = createCustomElement('a', ['registration-link'], 'Registration') as HTMLLinkElement;
+  registrationLink.href = '/registration';
   const linkProfile = createCustomElement('a', ['profile-link']) as HTMLLinkElement;
   linkProfile.href = '/profile';
-  const profileIcon = createCustomElement('div', ['profile__icon']);
-  linkProfile.append(profileIcon);
+  linkProfile.addEventListener('click', (event): void => {
+    event.preventDefault();
+    customRoute(event);
+  });
   const linkBasket = createCustomElement('a', ['basket-link']) as HTMLLinkElement;
   linkBasket.href = '/basket';
-  const basketIcon = createCustomElement('div', ['basket__icon']);
-  linkBasket.append(basketIcon);
-  iconBar.append(linkProfile, linkBasket, logIn);
+  iconBar.append(linkProfile, linkBasket, logIn, registrationLink);
   return iconBar;
 };
 

@@ -50,6 +50,12 @@
   }
 }
 
+.footer__nav {
+  @include display-flex(center, space-between);
+
+  width: 100%;
+}
+
 .rss-link {
   &:hover {
     cursor: pointer;
