@@ -31,7 +31,7 @@ const createIconBar = (): HTMLElement => {
   return iconBar;
 };
 
-export const drawHeader = () => {
+export const drawHeader = (): void => {
   const body = document.querySelector('body');
   const header = createCustomElement('header', ['header']);
   body?.append(header);

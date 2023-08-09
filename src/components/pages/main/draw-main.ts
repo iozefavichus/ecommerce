@@ -1,7 +1,7 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 
 const createDiscover = (): HTMLElement => {
-  const imgWrapper = createCustomElement('div', ['wrapper-img']);
+  const imgWrapper = createCustomElement('div', ['main__wrapper']);
   const bgMain = createCustomElement('div', ['main-img']);
   const discoverBlock = createCustomElement('div', ['discover-block']);
   const discoverInnerBlock = createCustomElement('div', ['discover-inner-block']);
@@ -22,7 +22,7 @@ const createDiscover = (): HTMLElement => {
 
 export const drawMain = () => {
   const body = document.querySelector('body');
-  const wrapper = createCustomElement('div', ['wrapper']);
+  const wrapper = createCustomElement('main', ['main']);
   body?.append(wrapper);
   const discover = createDiscover();
   wrapper.append(discover);
