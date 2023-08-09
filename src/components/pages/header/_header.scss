@@ -42,14 +42,14 @@
 }
 
 .nav {
-  display: flex;
-  justify-content: space-between;
+  @include display-flex(center, space-between);
+
+  width: 30%;
 }
 
 .nav-link {
   text-decoration: none;
   color: $font-color;
-  margin-left: 75px;
   font-weight: 600;
 
   @extend %hover-transition;
@@ -62,20 +62,24 @@
     cursor: pointer;
     color: $color-brand-dark;
   }
+
+  &:active {
+    color: $color-text-base;
+  }
 }
 
 .icon-bar {
   @include display-flex(center, space-between);
 }
 
-.profile__icon {
+.profile-link {
   background-image: url('../assets/icons/account.svg');
 
   @extend %icon-param;
   @extend %hover-transition;
 }
 
-.basket__icon {
+.basket-link {
   margin-left: 10px;
   background-image: url('../assets/icons/shopping-cart.svg');
 
@@ -97,5 +101,9 @@
   &:hover {
     cursor: pointer;
     opacity: 0.7;
+  }
+
+  &:active {
+    box-shadow: inset 2px 2px 2px 2px $color-text-base;
   }
 }
