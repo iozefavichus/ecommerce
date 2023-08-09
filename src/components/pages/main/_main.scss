@@ -1,26 +1,21 @@
-.wrapper {
-  max-width: 1440px;
-  margin: 0 auto;
-  width: 100%;
-  flex: 1 1 auto;
-}
+.main__wrapper {
+  width: 75%;
+  margin: auto;
 
-.wrapper-img {
-  width: 1440px;
-  height: 716px;
+  // height: 716px;
 }
 
 .main-img {
   background:
     url('../assets/images/scandinavian.png'),
     lightgray 50% / cover no-repeat;
-  width: 1440px;
+  width: 100%;
   height: 716px;
   position: relative;
 }
 
 .discover-block {
-  width: 643px;
+  width: 45%;
   height: 443px;
   border-radius: 10px;
   background: $color-brand;
