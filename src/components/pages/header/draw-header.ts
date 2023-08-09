@@ -27,6 +27,8 @@ const createIconBar = (): HTMLElement => {
     const newPath = window.location.pathname;
     renderChangeContent(newPath);
   });
+  const registrationLink = createCustomElement('a', ['registration-link'], 'Registration') as HTMLLinkElement;
+  registrationLink.href = '/registration';
   const linkProfile = createCustomElement('a', ['profile-link']) as HTMLLinkElement;
   linkProfile.href = '/profile';
   linkProfile.addEventListener('click', (event): void => {
@@ -35,7 +37,7 @@ const createIconBar = (): HTMLElement => {
   });
   const linkBasket = createCustomElement('a', ['basket-link']) as HTMLLinkElement;
   linkBasket.href = '/basket';
-  iconBar.append(linkProfile, linkBasket, logIn);
+  iconBar.append(linkProfile, linkBasket, logIn, registrationLink);
   return iconBar;
 };
 

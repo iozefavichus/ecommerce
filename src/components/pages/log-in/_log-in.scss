@@ -36,8 +36,23 @@
   }
 }
 
-.submit-btn,
+.submit-btn {
+  width: 30%;
+  padding: 10px 0;
+
+  &:active {
+    box-shadow: inset 2px 2px 2px 2px $color-text-base;
+  }
+}
+
 .registration-btn {
   width: 30%;
   padding: 10px 0;
+  text-align: center;
+  text-decoration: none;
+  color: $color-text-base;
+
+  &:active {
+    box-shadow: inset 2px 2px 2px 2px $color-text-base;
+  }
 }

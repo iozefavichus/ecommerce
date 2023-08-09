@@ -87,7 +87,8 @@
   @extend %hover-transition;
 }
 
-.login-link {
+.login-link,
+.registration-link {
   color: $font-color;
   margin-left: 10px;
   padding: 5px 10px;

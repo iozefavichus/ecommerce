@@ -31,7 +31,8 @@ export const drawLogInPage = () => {
   const mailBlock = createMailBlock();
   const passwordBlock = createPasswordBlock();
   const submitBtn = createCustomElement('button', ['submit-btn', 'button'], 'Submit');
-  const registrationBtn = createCustomElement('button', ['registration-btn', 'button'], 'Registration');
+  const registrationBtn = createCustomElement('a', ['registration-btn', 'button'], 'Registration') as HTMLLinkElement;
+  registrationBtn.href = '/registration';
   const or = createCustomElement('p', ['or'], 'or');
   authorizationForm.append(mailBlock, passwordBlock, submitBtn, or, registrationBtn);
   authorization.append(heading, authorizationForm);
