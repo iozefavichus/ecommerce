@@ -12,42 +12,60 @@ const createPageTitle = (): HTMLElement => {
 
 }
 
+const setLabel = (elem: HTMLElement, labelfor: string): void=> {
+    elem.setAttribute('for', labelfor);
+  };
+
+const setInput = (elem: HTMLElement, name?: string, type?:string, placeholder?: string, required?: boolean ): void=> {
+    elem.setAttribute('name', name ?? '');
+    elem.setAttribute('type', type ?? '');
+    elem.setAttribute('placeholder', placeholder ?? '');
+    if (required) {
+        elem.setAttribute('required','');
+    }
+  };
+
 const createRegistration = (): HTMLElement => {
     const bgMain = createCustomElement('div', ['reg-main']);
     const registrationForm = createCustomElement('form',['registration_form']);
     const registrationContainer = createCustomElement('div', ['reg-container']);
     const nameLabel = createCustomElement('label',['label'],'Name *');
-    nameLabel.setAttribute('for','name');
-    nameLabel.setAttribute('required','');
+    setLabel(nameLabel, 'name');
     const nameInput = createCustomElement('input',['input']);
-    nameInput.setAttribute('name','name');
+    setInput(nameInput, 'name', 'text', '', true)
     const surnameLabel = createCustomElement('label',['label'],'Surname *');
-    surnameLabel.setAttribute('for','surname');
-    surnameLabel.setAttribute('required','');
+    setLabel(surnameLabel, 'surname');
     const surnameInput = createCustomElement('input',['input']);
-    surnameInput.setAttribute('name','surname');
+    setInput(surnameInput, 'surname', 'text', '', true)
     const birthLabel = createCustomElement('label',['label'],'Date of birthday *');
-    birthLabel.setAttribute('required','');
+    setLabel(birthLabel, 'birth');
     const birthInput = createCustomElement('input',['input']);
+    setInput(birthInput, 'birth', 'date', '', true)
     const streetLabel = createCustomElement('label',['label'],'Street *');
-    streetLabel.setAttribute('required','');
+    setLabel(streetLabel, 'street');
     const streetInput = createCustomElement('input',['input']);
+    setInput(streetInput, 'street', 'text', '', true)
     const cityLabel = createCustomElement('label',['label'],'City *');
-    cityLabel.setAttribute('required','');
+    setLabel(cityLabel, 'city');
     const cityInput = createCustomElement('input',['input']);
+    setInput(cityInput, 'city', 'text', '', true)
     const postLabel = createCustomElement('label',['label'],'Postal Code *');
-    postLabel.setAttribute('required','');
+    setLabel(postLabel, 'post');
     const postInput = createCustomElement('input',['input']);
+    setInput(postInput, 'post', 'number', '', true)
     const countryLabel = createCustomElement('label',['label'],'Country *');
+    setLabel(countryLabel, 'country');
     const countryInput = createCustomElement('input',['input']);
+    setInput(countryInput, 'country', 'text', '', true)
     const emailLabel = createCustomElement('label',['label'],'Email *');
+    setLabel(emailLabel, 'email');
     const emailInput = createCustomElement('input',['input']);
-    emailInput.setAttribute('type','email');
+    setInput(emailInput, 'email', 'text', '', true)
     const passwordLabel = createCustomElement('label',['label'],'Password *');
+    setLabel(passwordLabel, 'password');
     const passwordInput = createCustomElement('input',['input']);
-    passwordInput.setAttribute('type','psw');
+    setInput(passwordInput, 'password', 'psw', '', true)
     const registrationBtn = createCustomElement('button', ['registration__button'], 'Register');
-
 
     registrationForm.append(registrationContainer);
     registrationContainer.append(nameLabel, nameInput, surnameLabel, surnameInput, birthLabel, birthInput, streetLabel, streetInput, cityLabel, cityInput, postLabel, postInput, countryLabel, countryInput, emailLabel, emailInput, passwordLabel, passwordInput, registrationBtn);
