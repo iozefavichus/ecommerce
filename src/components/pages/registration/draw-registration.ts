@@ -1,6 +1,6 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { RegistrationForm } from './registration-form';
-import { checkPassword } from './passwordvalidation';
+import { checkPassword, writeErrors} from './passwordvalidation';
 
 const form = RegistrationForm();
 
@@ -109,10 +109,14 @@ export const checkInputs = () => {
       setSuccess(countryInput);
   }
 
-  const checkPass = checkPassword(passwordValue);
+  const checkPass: Array<string> = checkPassword(passwordValue);
 
   if(checkPass){
-    setError(passwordInput, checkPass)
+    const errors = writeErrors(checkPass);
+    passwordInput.classList.add('input-error');
+    const formControl = passwordInput.parentElement;
+    const container = formControl?.querySelector('.small-text');
+    container?.append(errors);
   } else {
     setSuccess(passwordInput);
   }

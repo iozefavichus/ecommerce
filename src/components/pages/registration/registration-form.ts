@@ -44,7 +44,7 @@ const createFormDiv = (labelName: string, labeltext: string, inputId: string, in
     const label = createLabel(['label'], labelName, labeltext );
     container.append(label);
     const input = createFormElement<HTMLInputElement>('input', ['input'], inputId, container, inputType);
-    const message = createCustomElement('p', ['small-text'],'error message');
+    const message = createCustomElement('div', ['small-text'],'error message');
     container.append(message);
 
     return {
