@@ -1,5 +1,6 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { RegistrationForm } from './registration-form';
+import { checkPassword } from './passwordvalidation';
 
 const form = RegistrationForm();
 
@@ -103,15 +104,17 @@ export const checkInputs = () => {
   }
 
   if(countryValue === ''){
-      setError(countryInput, 'Country cannot be blank')
+      setError(countryInput, 'Country cannot be blank');
   } else {
       setSuccess(countryInput);
   }
 
-  if(passwordValue === ''){
-      setError(passwordInput, 'Password cannot be blank')
+  const checkPass = checkPassword(passwordValue);
+
+  if(checkPass){
+    setError(passwordInput, checkPass)
   } else {
-      setSuccess(passwordInput);
+    setSuccess(passwordInput);
   }
 
   if(emailValue === ''){
