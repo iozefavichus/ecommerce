@@ -3,6 +3,7 @@ import { createCustomElement } from "../../shared/utilities/helper-functions";
 
 const regUppercase = /^(?=.*[A-Z])/;
 const regLowercase = /^(?=.*[a-z])/;
+const regLetters =/^(?=.*[A-Z])(?=.*[a-z])/;
 const regNumbers = /^(?=.*[0-9])/;
 const regSpecial = /^(?=.*[!@#$%^&*])/;
 const regSpace = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{5,})/;
@@ -28,6 +29,34 @@ export const checkPassword = (value: string): Array<string>=> {
         result.push('Password must not contain leading or trailing whitespace');
     }
     return result;
+}
+
+export const checkName =(value: string): Array<string> => {
+    const result: Array<string> = [];
+    if (value.length < 1){
+        result.push('Name must be at least 1 character long');
+    }
+    if(!regLetters.test(value)){
+        result.push('Name must not contain special characters or numbers');
+    }
+    return result;
+}
+
+export const checkSurname =(value: string): Array<string> => {
+    const result: Array<string> = [];
+    if (value.length < 1){
+        result.push('Surname must be at least 1 character long');
+    }
+    if(!regLetters.test(value)){
+        result.push('Surname must not contain special characters or numbers');
+    }
+    return result;
+}
+
+export const checkBirth =(value: string): boolean=> {
+    const date = new Date(value);
+    const difference:number = (+(new Date().getTime() - +(date)) / (24 * 3600 * 365.25 * 1000));
+    return difference >= 13;
 }
 
 export const writeErrors = (errors: Array<string>): HTMLElement => {

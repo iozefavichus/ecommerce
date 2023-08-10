@@ -1,6 +1,6 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { RegistrationForm } from './registration-form';
-import { checkPassword, writeErrors} from './passwordvalidation';
+import { checkPassword, checkName, checkSurname, checkBirth, writeErrors} from './passwordvalidation';
 
 const form = RegistrationForm();
 
@@ -67,22 +67,43 @@ export const checkInputs = () => {
   const passwordInput = form.passwordDiv.input;
   const passwordValue = passwordInput.value.trim();
 
-  if(nameValue === ''){
-      setError(nameInput, 'Name cannot be blank')
+  const checkNameResult: Array<string> = checkName(nameValue);
+  const checkSurnameResult: Array<string> = checkSurname(surnameValue);
+  const checkBirthResult = checkBirth(birthValue);
+
+  if(checkNameResult){
+    const formControl = nameInput.parentElement;
+    const container = formControl?.querySelector('.small-text');
+    if(container){
+      container.innerHTML = '';
+    }
+    const errors = writeErrors(checkNameResult);
+    passwordInput.classList.add('input-error');
+    container?.append(errors);
   } else {
       setSuccess(nameInput);
   }
 
-  if(surnameValue === ''){
-      setError(surnameInput, 'Surname cannot be blank')
+  if(checkSurnameResult){
+    const formControl = surnameInput.parentElement;
+    const container = formControl?.querySelector('.small-text');
+    if(container){
+      container.innerHTML = '';
+    }
+    const errors = writeErrors(checkSurnameResult);
+    passwordInput.classList.add('input-error');
+    container?.append(errors);
   } else {
       setSuccess(surnameInput);
   }
 
   if(birthValue === ''){
-      setError(birthInput, 'Date of birth cannot be blank')
+      setError(birthInput, 'Date of birth cannot be blank');
+  }
+  if(!checkBirthResult){
+    setError(birthInput, 'Oops! You must be over 13 years old')
   } else {
-      setSuccess(birthInput);
+     setSuccess(birthInput);
   }
 
   if(streetValue === ''){
@@ -112,10 +133,13 @@ export const checkInputs = () => {
   const checkPass: Array<string> = checkPassword(passwordValue);
 
   if(checkPass){
-    const errors = writeErrors(checkPass);
-    passwordInput.classList.add('input-error');
     const formControl = passwordInput.parentElement;
     const container = formControl?.querySelector('.small-text');
+    if(container){
+      container.innerHTML = '';
+    }
+    const errors = writeErrors(checkPass);
+    passwordInput.classList.add('input-error');
     container?.append(errors);
   } else {
     setSuccess(passwordInput);
