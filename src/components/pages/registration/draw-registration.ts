@@ -1,4 +1,7 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { RegistrationForm } from './registration-form';
+
+const form = RegistrationForm();
 
 const createPageTitle = (): HTMLElement => {
     const bgMain = createCustomElement('div', ['reg-img']);
@@ -9,68 +12,6 @@ const createPageTitle = (): HTMLElement => {
     registrationBlock.append(registrationTitle, registrationSubtitle);
     bgMain.append(registrationBlock);
     return bgMain;
-
-}
-
-const setLabel = (elem: HTMLElement, labelfor: string): void=> {
-    elem.setAttribute('for', labelfor);
-  };
-
-const setInput = (elem: HTMLElement, name?: string, type?:string, placeholder?: string, required?: boolean ): void=> {
-    elem.setAttribute('name', name ?? '');
-    elem.setAttribute('type', type ?? '');
-    elem.setAttribute('placeholder', placeholder ?? '');
-    if (required) {
-        elem.setAttribute('required','');
-    }
-  };
-
-const createRegistration = (): HTMLElement => {
-    const bgMain = createCustomElement('div', ['reg-main']);
-    const registrationForm = createCustomElement('form',['registration_form']);
-    const registrationContainer = createCustomElement('div', ['reg-container']);
-    const nameLabel = createCustomElement('label',['label'],'Name *');
-    setLabel(nameLabel, 'name');
-    const nameInput = createCustomElement('input',['input']);
-    setInput(nameInput, 'name', 'text', '', true)
-    const surnameLabel = createCustomElement('label',['label'],'Surname *');
-    setLabel(surnameLabel, 'surname');
-    const surnameInput = createCustomElement('input',['input']);
-    setInput(surnameInput, 'surname', 'text', '', true)
-    const birthLabel = createCustomElement('label',['label'],'Date of birthday *');
-    setLabel(birthLabel, 'birth');
-    const birthInput = createCustomElement('input',['input']);
-    setInput(birthInput, 'birth', 'date', '', true)
-    const streetLabel = createCustomElement('label',['label'],'Street *');
-    setLabel(streetLabel, 'street');
-    const streetInput = createCustomElement('input',['input']);
-    setInput(streetInput, 'street', 'text', '', true)
-    const cityLabel = createCustomElement('label',['label'],'City *');
-    setLabel(cityLabel, 'city');
-    const cityInput = createCustomElement('input',['input']);
-    setInput(cityInput, 'city', 'text', '', true)
-    const postLabel = createCustomElement('label',['label'],'Postal Code *');
-    setLabel(postLabel, 'post');
-    const postInput = createCustomElement('input',['input']);
-    setInput(postInput, 'post', 'number', '', true)
-    const countryLabel = createCustomElement('label',['label'],'Country *');
-    setLabel(countryLabel, 'country');
-    const countryInput = createCustomElement('input',['input']);
-    setInput(countryInput, 'country', 'text', '', true)
-    const emailLabel = createCustomElement('label',['label'],'Email *');
-    setLabel(emailLabel, 'email');
-    const emailInput = createCustomElement('input',['input']);
-    setInput(emailInput, 'email', 'text', '', true)
-    const passwordLabel = createCustomElement('label',['label'],'Password *');
-    setLabel(passwordLabel, 'password');
-    const passwordInput = createCustomElement('input',['input']);
-    setInput(passwordInput, 'password', 'psw', '', true)
-    const registrationBtn = createCustomElement('button', ['registration__button'], 'Register');
-
-    registrationForm.append(registrationContainer);
-    registrationContainer.append(nameLabel, nameInput, surnameLabel, surnameInput, birthLabel, birthInput, streetLabel, streetInput, cityLabel, cityInput, postLabel, postInput, countryLabel, countryInput, emailLabel, emailInput, passwordLabel, passwordInput, registrationBtn);
-    bgMain.append(registrationForm);
-    return bgMain;
 }
 
 export const drawRegistration = () => {
@@ -79,6 +20,110 @@ export const drawRegistration = () => {
     body?.append(wrapper);
     const pageTitle = createPageTitle();
     wrapper.append(pageTitle);
-    const registration = createRegistration();
-    wrapper.append(registration);
+    const registration = form;
+    wrapper.append(registration.wrapper);
   };
+
+
+const setError = (input: HTMLInputElement, message: string) => {
+  input.classList.add('input-error');
+  const formControl = input.parentElement;
+  const small = formControl?.querySelector('.small-text');
+  if(small){
+      small.classList.add('small-visible');
+      small.innerHTML = message;
+  }
+}
+
+const setSuccess = (input: HTMLInputElement) => {
+  input.classList.remove('input-error');
+  const formControl = input.parentElement;
+  formControl?.classList.remove('form-error');
+  const small = formControl?.querySelector('.small-text');
+  small?.classList.remove('small-visible');
+}
+
+const EMAIL_REGEXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+const checkEmail = (email: string): boolean => EMAIL_REGEXP.test(email);
+
+export const checkInputs = () => {
+  const nameInput = form.nameDiv.input;
+  const nameValue = nameInput.value.trim();
+  const surnameInput = form.surnameDiv.input;
+  const surnameValue = surnameInput.value.trim();
+  const birthInput = form.birthDiv.input;
+  const birthValue = birthInput.value.trim();
+  const streetInput = form.streetDiv.input;
+  const streetValue = streetInput.value.trim();
+  const cityInput = form.cityDiv.input;
+  const cityValue = cityInput.value.trim();
+  const postInput = form.postDiv.input;
+  const postValue = postInput.value.trim();
+  const countryInput = form.countryDiv.input;
+  const countryValue = countryInput.value.trim();
+  const emailInput = form.emailDiv.input;
+  const emailValue = emailInput.value.trim();
+  const passwordInput = form.passwordDiv.input;
+  const passwordValue = passwordInput.value.trim();
+
+  if(nameValue === ''){
+      setError(nameInput, 'Name cannot be blank')
+  } else {
+      setSuccess(nameInput);
+  }
+
+  if(surnameValue === ''){
+      setError(surnameInput, 'Surname cannot be blank')
+  } else {
+      setSuccess(surnameInput);
+  }
+
+  if(birthValue === ''){
+      setError(birthInput, 'Date of birth cannot be blank')
+  } else {
+      setSuccess(birthInput);
+  }
+
+  if(streetValue === ''){
+      setError(streetInput, 'Street cannot be blank')
+  } else {
+      setSuccess(streetInput);
+  }
+
+  if(cityValue === ''){
+      setError(cityInput, 'City cannot be blank')
+  } else {
+      setSuccess(cityInput);
+  }
+
+  if(postValue === ''){
+      setError(postInput, 'Post cannot be blank')
+  } else {
+      setSuccess(postInput);
+  }
+
+  if(countryValue === ''){
+      setError(countryInput, 'Country cannot be blank')
+  } else {
+      setSuccess(countryInput);
+  }
+
+  if(passwordValue === ''){
+      setError(passwordInput, 'Password cannot be blank')
+  } else {
+      setSuccess(passwordInput);
+  }
+
+  if(emailValue === ''){
+      setError(emailInput, 'Email cannot be blank')
+  } else if (!checkEmail(emailValue)) {
+      setError(emailInput, 'Email is not correct')
+  } else {
+      setSuccess(emailInput)
+  }
+}
+
+form.form.addEventListener('submit',(e: SubmitEvent) => {
+  e.preventDefault();
+  checkInputs();
+});

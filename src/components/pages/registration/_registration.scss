@@ -47,6 +47,11 @@
     justify-content: center;
 }
 
+.form-control {
+  display: flex;
+  flex-direction: column;
+}
+
 .registration__button {
     padding: 25px 72px;
     color: #000000;
@@ -67,7 +72,7 @@
     border: 1px solid grey;
     border-radius: 10px;
     margin-top: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     width: 450px;
     height: 75px;
 }
@@ -77,6 +82,23 @@
     margin-top: 20px;
 }
 
-// .input:invalid {
-//     border: red;
-// }
+.small-text {
+  color: red;
+  visibility: hidden;
+}
+
+.small-visible{
+  visibility: visible;
+}
+
+.form-error {
+  border: 1px solid red;
+}
+
+.form-success {
+  border: 1px solid green ;
+}
+
+.input-error{
+  border: 1px solid red;
+}
