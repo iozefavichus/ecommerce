@@ -59,6 +59,17 @@ export const checkBirth =(value: string): boolean=> {
     return difference >= 13;
 }
 
+export const checkCity =(value: string): Array<string> => {
+    const result: Array<string> = [];
+    if (value.length < 1){
+        result.push('City must be at least 1 character long');
+    }
+    if(!regLetters.test(value)){
+        result.push('City must not contain special characters or numbers');
+    }
+    return result;
+}
+
 export const writeErrors = (errors: Array<string>): HTMLElement => {
     const container = createCustomElement('ul',['']);
     for (let i=0; i< errors.length; i += 1){

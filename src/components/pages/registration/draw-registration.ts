@@ -1,6 +1,6 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { RegistrationForm } from './registration-form';
-import { checkPassword, checkName, checkSurname, checkBirth, writeErrors} from './passwordvalidation';
+import { checkPassword, checkName, checkSurname, checkBirth, checkCity,  writeErrors} from './validation';
 
 const form = RegistrationForm();
 
@@ -70,6 +70,7 @@ export const checkInputs = () => {
   const checkNameResult: Array<string> = checkName(nameValue);
   const checkSurnameResult: Array<string> = checkSurname(surnameValue);
   const checkBirthResult = checkBirth(birthValue);
+  const checkCityResult: Array<string> = checkCity(cityValue);
 
   if(checkNameResult){
     const formControl = nameInput.parentElement;
@@ -78,7 +79,7 @@ export const checkInputs = () => {
       container.innerHTML = '';
     }
     const errors = writeErrors(checkNameResult);
-    passwordInput.classList.add('input-error');
+    nameInput.classList.add('input-error');
     container?.append(errors);
   } else {
       setSuccess(nameInput);
@@ -91,7 +92,7 @@ export const checkInputs = () => {
       container.innerHTML = '';
     }
     const errors = writeErrors(checkSurnameResult);
-    passwordInput.classList.add('input-error');
+    surnameInput.classList.add('input-error');
     container?.append(errors);
   } else {
       setSuccess(surnameInput);
@@ -112,8 +113,15 @@ export const checkInputs = () => {
       setSuccess(streetInput);
   }
 
-  if(cityValue === ''){
-      setError(cityInput, 'City cannot be blank')
+  if(checkCityResult){
+    const formControl = cityInput.parentElement;
+    const container = formControl?.querySelector('.small-text');
+    if(container){
+      container.innerHTML = '';
+    }
+    const errors = writeErrors(checkCityResult);
+    cityInput.classList.add('input-error');
+    container?.append(errors);
   } else {
       setSuccess(cityInput);
   }
