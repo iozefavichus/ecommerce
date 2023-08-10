@@ -21,7 +21,7 @@ const createDiscover = (): HTMLElement => {
 };
 
 const createBrowse = (): HTMLElement => {
-  const wrapper = createCustomElement('div', ['wrapper']);
+  const wrapper = createCustomElement('div', ['main__wrapper']);
   const sectionBrowse = createCustomElement('section', ['browse']);
   const browseTitle = createCustomElement('p', ['browse__title'], `Browse The Range <br/>`);
   const browseSubtitle = createCustomElement(
