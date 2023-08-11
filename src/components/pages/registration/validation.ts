@@ -3,10 +3,13 @@ import { createCustomElement } from "../../shared/utilities/helper-functions";
 
 const regUppercase = /^(?=.*[A-Z])/;
 const regLowercase = /^(?=.*[a-z])/;
-const regLetters =/^(?=.*[A-Z])(?=.*[a-z])/;
+const regLetters =/^(?=.*[a-zA-Z])/;
 const regNumbers = /^(?=.*[0-9])/;
 const regSpecial = /^(?=.*[!@#$%^&*])/;
 const regSpace = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{5,})/;
+const regPost = {
+    'USA': /^([0-9]){5,}/
+};
 
 export const checkPassword = (value: string): Array<string>=> {
     const result: Array<string> = [];
@@ -66,6 +69,21 @@ export const checkCity =(value: string): Array<string> => {
     }
     if(!regLetters.test(value)){
         result.push('City must not contain special characters or numbers');
+    }
+    return result;
+}
+
+export const checkPost = (country: string, value: string): Array<string> => {
+    const result: Array<string> = [];
+    if (value.length < 1){
+        result.push('Post code cannot be blank');
+    }
+    if((country==='USA')&&!regPost.USA.test(value)){
+        result.push('Your post code does not match USA postal codes.');
+        result.push('You need DDDDD format (where D - digit)');
+    }
+    if(country===''){
+        result.push('Please enter your country first');
     }
     return result;
 }

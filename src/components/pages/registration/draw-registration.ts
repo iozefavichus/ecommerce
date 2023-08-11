@@ -1,6 +1,6 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { RegistrationForm } from './registration-form';
-import { checkPassword, checkName, checkSurname, checkBirth, checkCity,  writeErrors} from './validation';
+import { checkPassword, checkName, checkSurname, checkBirth, checkCity, checkPost,  writeErrors} from './validation';
 
 const form = RegistrationForm();
 
@@ -71,6 +71,7 @@ export const checkInputs = () => {
   const checkSurnameResult: Array<string> = checkSurname(surnameValue);
   const checkBirthResult = checkBirth(birthValue);
   const checkCityResult: Array<string> = checkCity(cityValue);
+  const checkPostResult = checkPost(countryValue, postValue);
 
   if(checkNameResult){
     const formControl = nameInput.parentElement;
@@ -126,11 +127,19 @@ export const checkInputs = () => {
       setSuccess(cityInput);
   }
 
-  if(postValue === ''){
-      setError(postInput, 'Post cannot be blank')
-  } else {
-      setSuccess(postInput);
+if(checkPostResult){
+  const formControl = postInput.parentElement;
+  const container = formControl?.querySelector('.small-text');
+  if(container){
+    container.innerHTML = '';
   }
+  const errors = writeErrors(checkPostResult);
+  postInput.classList.add('input-error');
+  container?.append(errors);
+} else {
+    setSuccess(postInput);
+}
+
 
   if(countryValue === ''){
       setError(countryInput, 'Country cannot be blank');
@@ -156,7 +165,7 @@ export const checkInputs = () => {
   if(emailValue === ''){
       setError(emailInput, 'Email cannot be blank')
   } else if (!checkEmail(emailValue)) {
-      setError(emailInput, 'Email is not correct')
+      setError(emailInput, 'Email is not correct. It must be xxxx@xxxx type')
   } else {
       setSuccess(emailInput)
   }
