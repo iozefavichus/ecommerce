@@ -1,7 +1,8 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 
+const wrapper = createCustomElement('div', ['main__wrapper']);
+
 const createDiscover = (): HTMLElement => {
-  const imgWrapper = createCustomElement('div', ['main__wrapper']);
   const bgMain = createCustomElement('div', ['main-img']);
   const discoverBlock = createCustomElement('div', ['discover-block']);
   const discoverInnerBlock = createCustomElement('div', ['discover-inner-block']);
@@ -16,12 +17,11 @@ const createDiscover = (): HTMLElement => {
   discoverInnerBlock.append(discoverAppointment, discoverTitle, discoverSubtitle, discoverBtn);
   discoverBlock.append(discoverInnerBlock);
   bgMain.append(discoverBlock);
-  imgWrapper.append(bgMain);
-  return imgWrapper;
+  wrapper.append(bgMain);
+  return wrapper;
 };
 
 const createBrowse = (): HTMLElement => {
-  const wrapper = createCustomElement('div', ['main__wrapper']);
   const sectionBrowse = createCustomElement('section', ['browse']);
   const browseTitle = createCustomElement('p', ['browse__title'], `Browse The Range <br/>`);
   const browseSubtitle = createCustomElement(
