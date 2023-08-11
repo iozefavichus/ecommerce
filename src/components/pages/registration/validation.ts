@@ -91,8 +91,7 @@ export const checkPost = (country: string, value: string): Array<string> => {
 export const writeErrors = (errors: Array<string>): HTMLElement => {
     const container = createCustomElement('ul',['']);
     for (let i=0; i< errors.length; i += 1){
-        const li = createCustomElement('li',['small-text']);
-        li.classList.add('small-visible');
+        const li = createCustomElement('li',['list-item']);
         li.innerHTML = errors[i];
         container.append(li);
     }

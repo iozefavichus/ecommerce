@@ -37,11 +37,28 @@ const setError = (input: HTMLInputElement, message: string) => {
 }
 
 const setSuccess = (input: HTMLInputElement) => {
+  console.log(input);
   input.classList.remove('input-error');
   const formControl = input.parentElement;
   formControl?.classList.remove('form-error');
   const small = formControl?.querySelector('.small-text');
   small?.classList.remove('small-visible');
+}
+
+const CheckIt = (result: Array<string>, input: HTMLInputElement ) => {
+  if(result.length > 0){
+    const formControl = input.parentElement;
+    const container = formControl?.querySelector('.small-text');
+    container?.classList.add('small-visible');
+    if(container){
+      container.innerHTML = '';
+    }
+    const errors = writeErrors(result);
+    input.classList.add('input-error');
+    container?.append(errors);
+  } else {
+    setSuccess(input);
+  }
 }
 
 const EMAIL_REGEXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
@@ -84,104 +101,37 @@ export const checkInputs = () => {
   const billingcheckPostResult = checkPost(billingcountryValue, billingpostValue);
   const checkPass: Array<string> = checkPassword(passwordValue);
 
-  if(checkNameResult){
-    const formControl = nameInput.parentElement;
-    const container = formControl?.querySelector('.small-text');
-    if(container){
-      container.innerHTML = '';
-    }
-    const errors = writeErrors(checkNameResult);
-    nameInput.classList.add('input-error');
-    container?.append(errors);
-  } else {
-      setSuccess(nameInput);
-  }
+  CheckIt(checkNameResult, nameInput);
+  CheckIt(checkSurnameResult, surnameInput);
 
-  if(checkSurnameResult){
-    const formControl = surnameInput.parentElement;
-    const container = formControl?.querySelector('.small-text');
-    if(container){
-      container.innerHTML = '';
-    }
-    const errors = writeErrors(checkSurnameResult);
-    surnameInput.classList.add('input-error');
-    container?.append(errors);
-  } else {
-      setSuccess(surnameInput);
-  }
-
-  if(birthValue === ''){
+if(birthValue === ''){
       setError(birthInput, 'Date of birth cannot be blank');
   }
-  if(!checkBirthResult){
+
+if(!checkBirthResult){
     setError(birthInput, 'Oops! You must be over 13 years old')
   } else {
      setSuccess(birthInput);
   }
 
-  if(shippingstreetValue === ''){
+if(shippingstreetValue === ''){
       setError(shippingstreetInput, 'Street cannot be blank')
   } else {
       setSuccess(shippingstreetInput);
   }
 
-  if(billingstreetValue === ''){
+CheckIt(shippingcheckCityResult, shippingcityInput);
+
+if(billingstreetValue === ''){
     setError(billingstreetInput, 'Street cannot be blank')
 } else {
     setSuccess(billingstreetInput);
 }
 
-  if(shippingcheckCityResult){
-    const formControl = shippingcityInput.parentElement;
-    const container = formControl?.querySelector('.small-text');
-    if(container){
-      container.innerHTML = '';
-    }
-    const errors = writeErrors(shippingcheckCityResult);
-    shippingcityInput.classList.add('input-error');
-    container?.append(errors);
-  } else {
-      setSuccess(shippingcityInput);
-  }
+CheckIt(billingcheckCityResult, billingcityInput);
+CheckIt(shippingcheckPostResult, shippingpostInput);
+CheckIt(billingcheckPostResult, billingpostInput);
 
-  if(billingcheckCityResult){
-    const formControl = billingcityInput.parentElement;
-    const container = formControl?.querySelector('.small-text');
-    if(container){
-      container.innerHTML = '';
-    }
-    const errors = writeErrors(billingcheckCityResult);
-    billingcityInput.classList.add('input-error');
-    container?.append(errors);
-  } else {
-      setSuccess(billingcityInput);
-  }
-
-if(shippingcheckPostResult){
-  const formControl = shippingpostInput.parentElement;
-  const container = formControl?.querySelector('.small-text');
-  if(container){
-    container.innerHTML = '';
-  }
-  const errors = writeErrors(shippingcheckPostResult);
-  shippingpostInput.classList.add('input-error');
-  container?.append(errors);
-} else {
-    setSuccess(shippingpostInput);
-}
-
-if(billingcheckPostResult){
-  const formControl = billingpostInput.parentElement;
-  const container = formControl?.querySelector('.small-text');
-  if(container){
-    container.innerHTML = '';
-  }
-  const errors = writeErrors(billingcheckPostResult);
-  billingpostInput.classList.add('input-error');
-  container?.append(errors);
-} else {
-    setSuccess(billingpostInput);
-}
 
 if(shippingcountryValue === ''){
       setError(shippingcountryInput, 'Country cannot be blank');
@@ -195,18 +145,7 @@ if(billingcountryValue === ''){
       setSuccess(billingcountryInput);
   }
 
-if(checkPass){
-    const formControl = passwordInput.parentElement;
-    const container = formControl?.querySelector('.small-text');
-    if(container){
-      container.innerHTML = '';
-    }
-    const errors = writeErrors(checkPass);
-    passwordInput.classList.add('input-error');
-    container?.append(errors);
-  } else {
-    setSuccess(passwordInput);
-  }
+ CheckIt(checkPass, passwordInput);
 
   if(emailValue === ''){
       setError(emailInput, 'Email cannot be blank')
