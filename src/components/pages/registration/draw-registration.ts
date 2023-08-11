@@ -54,14 +54,22 @@ export const checkInputs = () => {
   const surnameValue = surnameInput.value.trim();
   const birthInput = form.birthDiv.input;
   const birthValue = birthInput.value.trim();
-  const streetInput = form.streetDiv.input;
-  const streetValue = streetInput.value.trim();
-  const cityInput = form.cityDiv.input;
-  const cityValue = cityInput.value.trim();
-  const postInput = form.postDiv.input;
-  const postValue = postInput.value.trim();
-  const countryInput = form.countryDiv.input;
-  const countryValue = countryInput.value.trim();
+  const shippingstreetInput = form.ShippingstreetDiv.input;
+  const shippingstreetValue = shippingstreetInput.value.trim();
+  const shippingcityInput = form.ShippingcityDiv.input;
+  const shippingcityValue = shippingcityInput.value.trim();
+  const shippingpostInput = form.ShippingpostDiv.input;
+  const shippingpostValue = shippingpostInput.value.trim();
+  const shippingcountryInput = form.ShippingcountryDiv.input;
+  const shippingcountryValue = shippingcountryInput.value.trim();
+  const billingstreetInput = form.BillingstreetDiv.input;
+  const billingstreetValue = billingstreetInput.value.trim();
+  const billingcityInput = form.BillingcityDiv.input;
+  const billingcityValue = billingcityInput.value.trim();
+  const billingpostInput = form.BillingpostDiv.input;
+  const billingpostValue = billingpostInput.value.trim();
+  const billingcountryInput = form.BillingcountryDiv.input;
+  const billingcountryValue = billingcountryInput.value.trim();
   const emailInput = form.emailDiv.input;
   const emailValue = emailInput.value.trim();
   const passwordInput = form.passwordDiv.input;
@@ -70,8 +78,11 @@ export const checkInputs = () => {
   const checkNameResult: Array<string> = checkName(nameValue);
   const checkSurnameResult: Array<string> = checkSurname(surnameValue);
   const checkBirthResult = checkBirth(birthValue);
-  const checkCityResult: Array<string> = checkCity(cityValue);
-  const checkPostResult = checkPost(countryValue, postValue);
+  const shippingcheckCityResult: Array<string> = checkCity(shippingcityValue);
+  const billingcheckCityResult: Array<string> = checkCity(billingcityValue);
+  const shippingcheckPostResult = checkPost(shippingcountryValue, shippingpostValue);
+  const billingcheckPostResult = checkPost(billingcountryValue, billingpostValue);
+  const checkPass: Array<string> = checkPassword(passwordValue);
 
   if(checkNameResult){
     const formControl = nameInput.parentElement;
@@ -108,48 +119,83 @@ export const checkInputs = () => {
      setSuccess(birthInput);
   }
 
-  if(streetValue === ''){
-      setError(streetInput, 'Street cannot be blank')
+  if(shippingstreetValue === ''){
+      setError(shippingstreetInput, 'Street cannot be blank')
   } else {
-      setSuccess(streetInput);
+      setSuccess(shippingstreetInput);
   }
 
-  if(checkCityResult){
-    const formControl = cityInput.parentElement;
+  if(billingstreetValue === ''){
+    setError(billingstreetInput, 'Street cannot be blank')
+} else {
+    setSuccess(billingstreetInput);
+}
+
+  if(shippingcheckCityResult){
+    const formControl = shippingcityInput.parentElement;
     const container = formControl?.querySelector('.small-text');
     if(container){
       container.innerHTML = '';
     }
-    const errors = writeErrors(checkCityResult);
-    cityInput.classList.add('input-error');
+    const errors = writeErrors(shippingcheckCityResult);
+    shippingcityInput.classList.add('input-error');
     container?.append(errors);
   } else {
-      setSuccess(cityInput);
+      setSuccess(shippingcityInput);
   }
 
-if(checkPostResult){
-  const formControl = postInput.parentElement;
+  if(billingcheckCityResult){
+    const formControl = billingcityInput.parentElement;
+    const container = formControl?.querySelector('.small-text');
+    if(container){
+      container.innerHTML = '';
+    }
+    const errors = writeErrors(billingcheckCityResult);
+    billingcityInput.classList.add('input-error');
+    container?.append(errors);
+  } else {
+      setSuccess(billingcityInput);
+  }
+
+if(shippingcheckPostResult){
+  const formControl = shippingpostInput.parentElement;
   const container = formControl?.querySelector('.small-text');
   if(container){
     container.innerHTML = '';
   }
-  const errors = writeErrors(checkPostResult);
-  postInput.classList.add('input-error');
+  const errors = writeErrors(shippingcheckPostResult);
+  shippingpostInput.classList.add('input-error');
   container?.append(errors);
 } else {
-    setSuccess(postInput);
+    setSuccess(shippingpostInput);
 }
 
+if(billingcheckPostResult){
+  const formControl = billingpostInput.parentElement;
+  const container = formControl?.querySelector('.small-text');
+  if(container){
+    container.innerHTML = '';
+  }
+  const errors = writeErrors(billingcheckPostResult);
+  billingpostInput.classList.add('input-error');
+  container?.append(errors);
+} else {
+    setSuccess(billingpostInput);
+}
 
-  if(countryValue === ''){
-      setError(countryInput, 'Country cannot be blank');
+if(shippingcountryValue === ''){
+      setError(shippingcountryInput, 'Country cannot be blank');
   } else {
-      setSuccess(countryInput);
+      setSuccess(shippingcountryInput);
   }
 
-  const checkPass: Array<string> = checkPassword(passwordValue);
+if(billingcountryValue === ''){
+      setError(billingcountryInput, 'Country cannot be blank');
+  } else {
+      setSuccess(billingcountryInput);
+  }
 
-  if(checkPass){
+if(checkPass){
     const formControl = passwordInput.parentElement;
     const container = formControl?.querySelector('.small-text');
     if(container){
@@ -175,3 +221,11 @@ form.form.addEventListener('submit',(e: SubmitEvent) => {
   e.preventDefault();
   checkInputs();
 });
+
+form.radioButton2.input.addEventListener('click', () => {
+  form.billingDiv.classList.add('billing-visible');
+})
+
+form.radioButton.input.addEventListener('click', () => {
+  form.billingDiv.classList.remove('billing-visible');
+})

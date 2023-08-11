@@ -61,13 +61,20 @@ interface RegistrationObject {
     nameDiv: FromDivObject,
     surnameDiv: FromDivObject,
     birthDiv: FromDivObject,
-    streetDiv: FromDivObject,
-    cityDiv: FromDivObject,
-    postDiv: FromDivObject,
-    countryDiv: FromDivObject,
+    ShippingstreetDiv: FromDivObject,
+    ShippingcityDiv: FromDivObject,
+    ShippingpostDiv: FromDivObject,
+    ShippingcountryDiv: FromDivObject,
+    BillingstreetDiv: FromDivObject,
+    BillingcityDiv: FromDivObject,
+    BillingpostDiv: FromDivObject,
+    BillingcountryDiv: FromDivObject,
     emailDiv: FromDivObject,
     passwordDiv: FromDivObject,
-    submitBtn: HTMLButtonElement
+    submitBtn: HTMLButtonElement,
+    radioButton:FromDivObject,
+    radioButton2:FromDivObject,
+    billingDiv:HTMLElement
 }
 
 export const RegistrationForm = (
@@ -79,19 +86,38 @@ export const RegistrationForm = (
   const nameDiv = createFormDiv('name', 'Name*', 'name', 'text');
   const surnameDiv  = createFormDiv('surname','Surname*','surname','text');
   const birthDiv = createFormDiv('birth', 'Date of birth*', 'birth', 'date');
-  const streetDiv  = createFormDiv('street','Street*','street','text');
-  const cityDiv = createFormDiv('city', 'City*', 'city', 'text');
-  const postDiv  = createFormDiv('post','Post code*','post','text');
-  const countryDiv  = createFormDiv('country','Country*','country','text');
+  const shippingDiv = createCustomElement('div',['shipping'],'Shipping adress');
+  const ShippingstreetDiv  = createFormDiv('street','Street*','shippingstreet','text');
+  const ShippingcityDiv = createFormDiv('city', 'City*', 'shippingcity', 'text');
+  const ShippingpostDiv  = createFormDiv('post','Post code*','shippingpost','text');
+  const ShippingcountryDiv  = createFormDiv('country','Country*','shippingcountry','text');
+  const question = createCustomElement('div',['question'], 'Do you want to use the same for billing adress?')
+  const radioButton = createFormDiv('radio','Yes, billing and shipping adresses are the same','btn-adress','radio');
+  const radioButton2 = createFormDiv('radio','No, I want to use another billing adress','btn-adress2','radio');
+  radioButton.container.classList.remove('form-control');
+  radioButton2.container.classList.remove('form-control');
+  radioButton.input.classList.remove('input');
+  radioButton.input.classList.add('radio-btn');
+  radioButton.input.setAttribute('name','adress');
+  radioButton.input.setAttribute('checked','');
+  radioButton2.input.classList.remove('input');
+  radioButton2.input.classList.add('radio-btn');
+  radioButton2.input.setAttribute('name','adress');
+  const billingDiv = createCustomElement('div',['billing'],'Billing adress');
+  const BillingstreetDiv  = createFormDiv('street','Street*','billingstreet','text');
+  const BillingcityDiv = createFormDiv('city', 'City*', 'billingcity', 'text');
+  const BillingpostDiv  = createFormDiv('post','Post code*','billingpost','text');
+  const BillingcountryDiv  = createFormDiv('country','Country*','billingcountry','text');
   const emailDiv = createFormDiv('email', 'Email*', 'email', 'text');
   const passwordDiv  = createFormDiv('password','Password*','password','password');
   const submitBtn = createFormElement<HTMLButtonElement>('button', ['registration__button'], 'button-submit', container, 'submit');
   submitBtn.insertAdjacentHTML('beforeend','Register');
 
+  billingDiv.append(BillingstreetDiv.container, BillingcityDiv.container, BillingcountryDiv.container, BillingpostDiv.container);
   form.append(container);
-  container.append(nameDiv.container, surnameDiv.container, birthDiv.container, streetDiv.container, cityDiv.container, postDiv.container, countryDiv.container, emailDiv.container, passwordDiv.container,  submitBtn);
+  container.append(nameDiv.container, surnameDiv.container, birthDiv.container,emailDiv.container, passwordDiv.container, shippingDiv, ShippingstreetDiv.container, ShippingcityDiv.container, ShippingcountryDiv.container, ShippingpostDiv.container, question, radioButton.container, radioButton2.container, billingDiv,  submitBtn);
 
-  return {form, wrapper, nameDiv, surnameDiv, birthDiv, streetDiv, cityDiv, postDiv, countryDiv, emailDiv, passwordDiv, submitBtn};
+  return {form, wrapper, nameDiv, surnameDiv, birthDiv, ShippingstreetDiv, ShippingcityDiv, ShippingpostDiv, ShippingcountryDiv, BillingstreetDiv, BillingcityDiv, BillingcountryDiv, BillingpostDiv, emailDiv, passwordDiv, submitBtn, radioButton, radioButton2, billingDiv};
 };
 
 
