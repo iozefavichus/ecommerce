@@ -15,30 +15,32 @@
 .logo {
   @include display-flex(center, space-between);
 
-  text-decoration: none;
-  color: $color-text-base;
+  &__link {
+    text-decoration: none;
+    color: $color-text-base;
 
-  @extend %hover-transition;
+    @extend %hover-transition;
 
-  &:hover {
-    cursor: pointer;
-    opacity: 0.5;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.5;
+    }
   }
-}
 
-.logo__icon {
-  background-image: url('../assets/icons/main_logo.svg');
-  background-repeat: no-repeat;
-  background-size: contain;
-  width: 30px;
-  height: 20px;
-}
+  &__icon {
+    background-image: url('../assets/icons/main_logo.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 30px;
+    height: 20px;
+  }
 
-.logo__text {
-  margin: 0 0 0 10px;
-  color: $color-brand-dark;
-  font-size: 34px;
-  font-weight: 700;
+  &__text {
+    margin: 0 0 0 10px;
+    color: $color-brand-dark;
+    font-size: 34px;
+    font-weight: 700;
+  }
 }
 
 .nav {
