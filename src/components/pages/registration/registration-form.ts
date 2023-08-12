@@ -55,6 +55,22 @@ const createFormDiv = (labelName: string, labeltext: string, inputId: string, in
         }
 }
 
+const createFormWithOptions = (labelName: string, labeltext: string): HTMLElement => {
+  const container = createCustomElement('div', ['form-control']);
+  const label = createLabel(['label'], labelName, labeltext );
+  container.append(label);
+  const select = createCustomElement('select',['select-country']);
+  select.setAttribute('name','labelName');
+  const option = createCustomElement('option',['country'],'USA');
+  option.setAttribute('value','USA');
+  select.append(option);
+  container.append(select);
+  const message = createCustomElement('div', ['small-text'],'error message');
+  container.append(message);
+
+  return container
+}
+
 interface RegistrationObject {
     form: HTMLFormElement,
     wrapper: HTMLElement,
@@ -64,11 +80,11 @@ interface RegistrationObject {
     ShippingstreetDiv: FromDivObject,
     ShippingcityDiv: FromDivObject,
     ShippingpostDiv: FromDivObject,
-    ShippingcountryDiv: FromDivObject,
+    ShippingcountryDiv: HTMLElement,
     BillingstreetDiv: FromDivObject,
     BillingcityDiv: FromDivObject,
     BillingpostDiv: FromDivObject,
-    BillingcountryDiv: FromDivObject,
+    BillingcountryDiv: HTMLElement,
     emailDiv: FromDivObject,
     passwordDiv: FromDivObject,
     submitBtn: HTMLButtonElement,
@@ -90,7 +106,7 @@ export const RegistrationForm = (
   const ShippingstreetDiv  = createFormDiv('street','Street*','shippingstreet','text');
   const ShippingcityDiv = createFormDiv('city', 'City*', 'shippingcity', 'text');
   const ShippingpostDiv  = createFormDiv('post','Post code*','shippingpost','text');
-  const ShippingcountryDiv  = createFormDiv('country','Country*','shippingcountry','text');
+  const ShippingcountryDiv  = createFormWithOptions('country','Country*');
   const question = createCustomElement('div',['question'], 'Do you want to use the same for billing adress?')
   const radioButton = createFormDiv('radio','Yes, billing and shipping adresses are the same','btn-adress','radio');
   const radioButton2 = createFormDiv('radio','No, I want to use another billing adress','btn-adress2','radio');
@@ -107,15 +123,15 @@ export const RegistrationForm = (
   const BillingstreetDiv  = createFormDiv('street','Street*','billingstreet','text');
   const BillingcityDiv = createFormDiv('city', 'City*', 'billingcity', 'text');
   const BillingpostDiv  = createFormDiv('post','Post code*','billingpost','text');
-  const BillingcountryDiv  = createFormDiv('country','Country*','billingcountry','text');
+  const BillingcountryDiv  = createFormWithOptions('country','Country*');
   const emailDiv = createFormDiv('email', 'Email*', 'email', 'text');
   const passwordDiv  = createFormDiv('password','Password*','password','password');
   const submitBtn = createFormElement<HTMLButtonElement>('button', ['registration__button'], 'button-submit', container, 'submit');
   submitBtn.insertAdjacentHTML('beforeend','Register');
 
-  billingDiv.append(BillingstreetDiv.container, BillingcityDiv.container, BillingcountryDiv.container, BillingpostDiv.container);
+  billingDiv.append(BillingstreetDiv.container, BillingcityDiv.container, BillingcountryDiv, BillingpostDiv.container);
   form.append(container);
-  container.append(nameDiv.container, surnameDiv.container, birthDiv.container,emailDiv.container, passwordDiv.container, shippingDiv, ShippingstreetDiv.container, ShippingcityDiv.container, ShippingcountryDiv.container, ShippingpostDiv.container, question, radioButton.container, radioButton2.container, billingDiv,  submitBtn);
+  container.append(nameDiv.container, surnameDiv.container, birthDiv.container,emailDiv.container, passwordDiv.container, shippingDiv, ShippingstreetDiv.container, ShippingcityDiv.container, ShippingcountryDiv, ShippingpostDiv.container, question, radioButton.container, radioButton2.container, billingDiv,  submitBtn);
 
   return {form, wrapper, nameDiv, surnameDiv, birthDiv, ShippingstreetDiv, ShippingcityDiv, ShippingpostDiv, ShippingcountryDiv, BillingstreetDiv, BillingcityDiv, BillingcountryDiv, BillingpostDiv, emailDiv, passwordDiv, submitBtn, radioButton, radioButton2, billingDiv};
 };

@@ -92,10 +92,6 @@
   visibility: visible;
 }
 
-// .form-error {
-//   border: 1px solid red;
-// }
-
 .form-success {
   border: 1px solid green ;
 }
@@ -117,4 +113,11 @@
 
 .billing-visible{
   display: block;
+}
+
+.select-country{
+  width: 450px;
+  height: 75px;
+  border: 1px solid grey;
+  border-radius: 10px;
 }
