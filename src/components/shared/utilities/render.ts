@@ -1,4 +1,5 @@
 import { loginValidation } from '../../app/validation/login-validation';
+import { changePasswordDisplay } from '../../app/validation/open-password';
 import { drawFooter } from '../../pages/footer/draw-footer';
 import { drawHeader } from '../../pages/header/draw-header';
 import { drawLogInPage } from '../../pages/log-in/log-in';
@@ -40,6 +41,7 @@ export const renderChangeContent = (path: string): void => {
     drawLogInPage();
     loginValidation();
     authorization();
+    changePasswordDisplay();
   }
 };
 

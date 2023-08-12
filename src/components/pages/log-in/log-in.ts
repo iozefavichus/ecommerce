@@ -22,6 +22,14 @@ const createPasswordBlock = (): HTMLElement => {
   return labelPassword;
 };
 
+const createCheckbox = (): HTMLElement => {
+  const checkboxLabel = createCustomElement('label', ['label-checkbox'], 'Open password');
+  const checkbox = createCustomElement('input', ['open-password']) as HTMLInputElement;
+  checkbox.type = 'checkbox';
+  checkboxLabel.append(checkbox);
+  return checkboxLabel;
+};
+
 export const drawLogInPage = () => {
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   mainWrapper.innerHTML = '';
@@ -32,12 +40,13 @@ export const drawLogInPage = () => {
   authorizationForm.method = 'POST';
   const mailBlock = createMailBlock();
   const passwordBlock = createPasswordBlock();
+  const checkbox = createCheckbox();
   const submitBtn = createCustomElement('button', ['submit-btn', 'button'], 'Submit') as HTMLButtonElement;
   submitBtn.type = 'submit';
   const registrationBtn = createCustomElement('a', ['registration-btn', 'button'], 'Registration') as HTMLLinkElement;
   registrationBtn.href = '/registration';
   const or = createCustomElement('p', ['or'], 'or');
-  authorizationForm.append(mailBlock, passwordBlock, submitBtn);
+  authorizationForm.append(mailBlock, passwordBlock, checkbox, submitBtn);
   authorization.append(heading, authorizationForm, or, registrationBtn);
   mainWrapper.insertAdjacentHTML('beforeend', authorization.outerHTML);
 };

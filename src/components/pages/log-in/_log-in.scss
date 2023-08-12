@@ -12,7 +12,7 @@
 
   flex-direction: column;
   width: 20%;
-  gap: 40px;
+  gap: 30px;
   font-size: 20px;
 
   &__mail,
@@ -35,6 +35,10 @@
     width: 100%;
     flex-direction: column;
     gap: 15px;
+  }
+
+  &-checkbox {
+    margin-top: -10px;
   }
 }
 
@@ -62,4 +66,8 @@
 .warning-text {
   color: rgb(212 4 4);
   font-size: 12px;
+}
+
+.open-password {
+  margin-left: 10px;
 }
