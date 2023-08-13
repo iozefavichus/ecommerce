@@ -1,0 +1,58 @@
+.Authorization {
+  @include display-flex(center, center);
+
+  flex-direction: column;
+  width: 100%;
+  padding: 40px 0 100px;
+}
+
+.authorization-form {
+  @include display-flex(center, center);
+
+  flex-direction: column;
+  width: 30%;
+  gap: 40px;
+  font-size: 20px;
+
+  &__mail,
+  &__password {
+    border-radius: 10px;
+    border: 1px solid #9f9f9f;
+    padding: 15px 20px;
+  }
+}
+
+.heading-login {
+  padding-bottom: 50px;
+}
+
+.label {
+  &-mail,
+  &-password {
+    @include display-flex(flex-start, center);
+
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+.submit-btn {
+  width: 30%;
+  padding: 10px 0;
+
+  &:active {
+    box-shadow: inset 2px 2px 2px 2px $color-text-base;
+  }
+}
+
+.registration-btn {
+  width: 30%;
+  padding: 10px 0;
+  text-align: center;
+  text-decoration: none;
+  color: $color-text-base;
+
+  &:active {
+    box-shadow: inset 2px 2px 2px 2px $color-text-base;
+  }
+}
