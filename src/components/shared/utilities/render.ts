@@ -2,12 +2,12 @@ import { drawFooter } from '../../pages/footer/draw-footer';
 import { drawHeader } from '../../pages/header/draw-header';
 import { drawLogInPage } from '../../pages/log-in/log-in';
 import { drawMain } from '../../pages/main/draw-main';
-// import { drawNotFound } from '../../pages/notfound/draw-not-found';
+// import { drawRegistration } from '../../pages/registration/draw-registration';
 
 export const render = (): void => {
-  // drawNotFound();
   drawHeader();
   drawMain();
+  // drawRegistration();
   drawFooter();
 };
 
