@@ -5,6 +5,7 @@ import { drawHeader } from '../../pages/header/draw-header';
 import { drawLogInPage } from '../../pages/log-in/log-in';
 import { drawMain } from '../../pages/main/draw-main';
 import { authorization } from '../api/server-authorization';
+import { drawRegistration } from '../../pages/registration/draw-registration';
 
 export const render = (): void => {
   drawHeader();
@@ -29,7 +30,7 @@ export const renderChangeContent = (path: string): void => {
     console.log(renderPage);
   }
   if (renderPage === '/registration') {
-    console.log(renderPage);
+    drawRegistration();
   }
   if (renderPage === '/basket') {
     console.log(renderPage);

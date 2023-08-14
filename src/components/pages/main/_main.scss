@@ -1,5 +1,4 @@
 .main__wrapper {
-  width: 75%;
   margin: auto;
 }
 
@@ -74,6 +73,214 @@
     &:hover {
       cursor: pointer;
       opacity: 0.5;
+    }
+  }
+}
+
+.browse {
+  padding-top: 30px;
+
+  &__title {
+    color: $font-color;
+    text-align: center;
+    font-family: Poppins, sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  &__subtitle {
+    color: $font-color;
+    text-align: center;
+    font-family: Poppins, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    padding-top: 10px;
+    padding-bottom: 50px;
+  }
+
+  &__card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__img {
+    margin-left: 50px;
+  }
+
+  &__img1 {
+    background:
+      url('../assets/images/dining.png'),
+      lightgray 50% / cover no-repeat;
+    width: 381px;
+    height: 480px;
+    border-radius: 10px;
+  }
+
+  &__img2 {
+    background:
+      url('../assets/images/living.png'),
+      lightgray 50% / cover no-repeat;
+    width: 381px;
+    height: 480px;
+    border-radius: 10px;
+  }
+
+  &__img3 {
+    background:
+      url('../assets/images/bedroom.png'),
+      lightgray 50% / cover no-repeat;
+    width: 381px;
+    height: 480px;
+    border-radius: 10px;
+  }
+
+  &__img-text {
+    color: $font-color;
+    text-align: center;
+    font-family: Poppins, sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+  }
+}
+
+.products {
+  padding-top: 56px;
+
+  &__title {
+    color: $font-color-title;
+    text-align: center;
+    font-family: Poppins, sans-serif;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 48px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  &__card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  &__img {
+    margin-left: 32px;
+    gap: 32px;
+  }
+
+  &__img1 {
+    background: url('../assets/images/catalog/armchair_1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 285px;
+    height: 427px;
+    border-radius: 10px;
+  }
+
+  &__img2 {
+    background: url('../assets/images/catalog/bed_1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 285px;
+    height: 427px;
+    border-radius: 10px;
+  }
+
+  &__img3 {
+    background: url('../assets/images/catalog/sofa_1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 285px;
+    height: 427px;
+    border-radius: 10px;
+  }
+
+  &__img4 {
+    background: url('../assets/images/catalog/storage_1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 285px;
+    height: 427px;
+    border-radius: 10px;
+  }
+
+  &__img5 {
+    background: url('../assets/images/catalog/armchair_2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 285px;
+    height: 427px;
+    border-radius: 10px;
+  }
+
+  &__img6 {
+    background: url('../assets/images/catalog/bed_2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 285px;
+    height: 427px;
+    border-radius: 10px;
+  }
+
+  &__img7 {
+    background: url('../assets/images/catalog/sofa_2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 285px;
+    height: 427px;
+    border-radius: 10px;
+  }
+
+  &__img8 {
+    background: url('../assets/images/catalog/storage_2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 285px;
+    height: 427px;
+    border-radius: 10px;
+  }
+
+  &__img-text {
+    color: $font-color-title;
+    font-family: Poppins, sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 28.8px;
+  }
+
+  &__img-desc {
+    color: $font-color-desc;
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  &__img-price {
+    color: $font-color-title;
+    font-family: Poppins, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 30px;
+  }
+
+  &__btn {
+    display: flex;
+    color: $color-brand-dark;
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    padding: 12px 74px 12px 82px;
+    margin: 32px auto;
+
+    &:hover,
+    &:active {
+      border: 1px solid $color-brand-dark;
+      cursor: pointer;
+      transition: all 0.5s;
     }
   }
 }
