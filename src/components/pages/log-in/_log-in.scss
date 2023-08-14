@@ -1,17 +1,26 @@
-.Authorization {
+.authorization {
   @include display-flex(center, center);
 
+  gap: 20px;
   flex-direction: column;
   width: 100%;
-  padding: 40px 0 100px;
+  padding-bottom: 100px;
+}
+
+.heading-img {
+  width: 100%;
+  background-image: url('../assets/images/background_shop.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
 }
 
 .authorization-form {
   @include display-flex(center, center);
 
   flex-direction: column;
-  width: 30%;
-  gap: 40px;
+  width: 20%;
+  gap: 30px;
   font-size: 20px;
 
   &__mail,
@@ -23,7 +32,8 @@
 }
 
 .heading-login {
-  padding-bottom: 50px;
+  padding: 130px 0;
+  font-size: 48px;
 }
 
 .label {
@@ -31,13 +41,19 @@
   &-password {
     @include display-flex(flex-start, center);
 
+    width: 100%;
     flex-direction: column;
     gap: 15px;
+    padding-left: 12%;
+  }
+
+  &-checkbox {
+    margin-top: -10px;
   }
 }
 
 .submit-btn {
-  width: 30%;
+  width: 40%;
   padding: 10px 0;
 
   &:active {
@@ -46,7 +62,7 @@
 }
 
 .registration-btn {
-  width: 30%;
+  width: 10%;
   padding: 10px 0;
   text-align: center;
   text-decoration: none;
@@ -55,4 +71,13 @@
   &:active {
     box-shadow: inset 2px 2px 2px 2px $color-text-base;
   }
+}
+
+.warning-text {
+  color: rgb(212 4 4);
+  font-size: 12px;
+}
+
+.open-password {
+  margin-left: 10px;
 }

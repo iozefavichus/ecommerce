@@ -66,8 +66,8 @@ const createFormWithOptions = (labelName: string, labeltext: string): HTMLElemen
   container.append(label);
   const select = createCustomElement('select', ['select-country']);
   select.setAttribute('name', 'labelName');
-  const option = createCustomElement('option', ['country'], 'USA');
-  option.setAttribute('value', 'USA');
+  const option = createCustomElement('option', ['country'], 'United Kingdom');
+  option.setAttribute('value', 'United Kingdom');
   select.append(option);
   container.append(select);
   const message = createCustomElement('div', ['small-text'], 'error message');
