@@ -47,8 +47,8 @@ export const renderChangeContent = (path: string): void => {
   }
 };
 
-// window.addEventListener('popstate', (event) => {
-//   const windowOdj = event.target as Window;
-//   const path = windowOdj.location.pathname;
-//   renderChangeContent(path);
-// });
+window.addEventListener('popstate', (event) => {
+  const windowOdj = event.target as Window;
+  const path = windowOdj.location.pathname;
+  renderChangeContent(path);
+});

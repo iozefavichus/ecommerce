@@ -24,11 +24,11 @@ export class ClientApi {
       });
   }
 
-  public getProject() {
-    return this.apiRoot.login().post({
+  public loginCustomer(email: string, password: string) {
+    return this.apiRoot.me().login().post({
       body: {
-        email: this.email as string,
-        password: this.password as string,
+        email,
+        password,
       },
     });
   }
