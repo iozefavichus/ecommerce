@@ -1,5 +1,7 @@
 .reg-img {
   background: url('../assets/images/background_shop.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 316px;
   position: relative;
 }
@@ -72,6 +74,7 @@
   border-radius: 10px;
   margin-top: 15px;
   margin-bottom: 5px;
+  padding: 15px;
   width: 450px;
   height: 75px;
 }

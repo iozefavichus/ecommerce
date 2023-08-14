@@ -16,9 +16,10 @@ const createPageTitle = (): HTMLElement => {
 };
 
 export const drawRegistration = () => {
-  const body = document.querySelector('body');
+  const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
+  mainWrapper.innerHTML = '';
   const wrapper = createCustomElement('div', ['wrapper']);
-  body?.append(wrapper);
+  mainWrapper?.append(wrapper);
   const pageTitle = createPageTitle();
   wrapper.append(pageTitle);
   const registration = form;

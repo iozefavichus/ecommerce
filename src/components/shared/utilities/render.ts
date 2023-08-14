@@ -15,8 +15,9 @@ export const render = (): void => {
 
 export const renderChangeContent = (path: string): void => {
   const renderPage = path;
+
   if (renderPage === '/') {
-    const body = document.querySelector('body') as HTMLBodyElement;
+    const body = document.querySelector('body') as HTMLElement;
     body.innerHTML = '';
     render();
   }
@@ -46,8 +47,8 @@ export const renderChangeContent = (path: string): void => {
   }
 };
 
-window.addEventListener('popstate', (event) => {
-  const windowOdj = event.target as Window;
-  const path = windowOdj.location.pathname;
-  renderChangeContent(path);
-});
+// window.addEventListener('popstate', (event) => {
+//   const windowOdj = event.target as Window;
+//   const path = windowOdj.location.pathname;
+//   renderChangeContent(path);
+// });

@@ -4,7 +4,15 @@
   gap: 20px;
   flex-direction: column;
   width: 100%;
-  padding: 40px 0 100px;
+  padding-bottom: 100px;
+}
+
+.heading-img {
+  width: 100%;
+  background-image: url('../assets/images/background_shop.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
 }
 
 .authorization-form {
@@ -24,7 +32,8 @@
 }
 
 .heading-login {
-  padding-bottom: 50px;
+  padding: 130px 0;
+  font-size: 48px;
 }
 
 .label {
@@ -35,6 +44,7 @@
     width: 100%;
     flex-direction: column;
     gap: 15px;
+    padding-left: 12%;
   }
 
   &-checkbox {
