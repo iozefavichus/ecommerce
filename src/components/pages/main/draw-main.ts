@@ -1,7 +1,5 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 
-const wrapper = createCustomElement('div', ['main__wrapper']);
-
 const createDiscover = (): HTMLElement => {
   const bgMain = createCustomElement('div', ['main-img']);
   const discoverBlock = createCustomElement('div', ['discover-block']);
@@ -17,8 +15,7 @@ const createDiscover = (): HTMLElement => {
   discoverInnerBlock.append(discoverAppointment, discoverTitle, discoverSubtitle, discoverBtn);
   discoverBlock.append(discoverInnerBlock);
   bgMain.append(discoverBlock);
-  wrapper.append(bgMain);
-  return wrapper;
+  return bgMain;
 };
 
 const createBrowse = (): HTMLElement => {
@@ -44,8 +41,7 @@ const createBrowse = (): HTMLElement => {
   imgBlock3.append(imgBrowse3, imgText3);
   card.append(imgBlock1, imgBlock2, imgBlock3);
   sectionBrowse.append(browseTitle, browseSubtitle, card);
-  wrapper.append(sectionBrowse);
-  return wrapper;
+  return sectionBrowse;
 };
 
 const createOurProducts = (): HTMLElement => {
@@ -103,14 +99,15 @@ const createOurProducts = (): HTMLElement => {
   imgBlock8.append(imgProducts8, imgText8, imgDesc8, imgPrice8);
   card.append(imgBlock1, imgBlock2, imgBlock3, imgBlock4, imgBlock5, imgBlock6, imgBlock7, imgBlock8);
   sectionProducts.append(productsTitle, card, imgBtn);
-  wrapper.append(sectionProducts);
-  return wrapper;
+  return sectionProducts;
 };
 
 export const drawMain = () => {
   const body = document.querySelector('body');
-  const wrapper = createCustomElement('main', ['main']);
-  body?.append(wrapper);
+  const main = createCustomElement('main', ['main']);
+  body?.append(main);
+  const wrapper = createCustomElement('div', ['main__wrapper']);
+  main.append(wrapper);
   const discover = createDiscover();
   const browse = createBrowse();
   const ourProducts = createOurProducts();
