@@ -1,4 +1,4 @@
-body {
+.wrapImage {
   background-image: url('../assets/images/image.jpg');
   background-repeat: repeat-y;
   background-position: center;
@@ -11,7 +11,7 @@ body {
   font-size: 120px;
 }
 
-div {
+.not__found {
   padding: 40px;
   font-family: Poppins, sans-serif;
   text-align: center;

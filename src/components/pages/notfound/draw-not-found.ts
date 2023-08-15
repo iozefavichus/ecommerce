@@ -1,6 +1,8 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 
 const create404 = (): HTMLElement => {
+  const wrapImage = createCustomElement('div', ['wrapImage']);
+  const div = createCustomElement('div', ['not__found']);
   const error = createCustomElement('p', ['error'], 'E');
   const span1 = createCustomElement('span', [''], 'r');
   const span2 = createCustomElement('span', [''], 'ror');
@@ -9,11 +11,14 @@ const create404 = (): HTMLElement => {
   const span4 = createCustomElement('span', [''], '4');
   error.append(span1, span2);
   code.append(span3, span4);
-  return error;
+  div.append(error, code);
+  wrapImage.append(div);
+  return wrapImage;
 };
 
 export const drawNotFound = () => {
-  const div = createCustomElement('div', ['']);
+  const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
+  mainWrapper.innerHTML = '';
   const notFound = create404();
-  div.append(notFound);
+  mainWrapper.append(notFound);
 };
