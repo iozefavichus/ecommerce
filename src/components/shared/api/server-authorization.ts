@@ -13,8 +13,11 @@ export const authorization = () => {
     const password = passwordInput.value;
 
     if (email !== null && password !== null) {
-      const token = new ClientApi().loginCustomer(email, password);
-      console.log(token.clientRequest());
+      const authCustomer = new ClientApi().loginCustomer(email, password);
+      authCustomer.then((data) => {
+        console.log(data);
+        console.log('a');
+      });
     }
   });
 };

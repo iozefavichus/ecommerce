@@ -2,7 +2,7 @@ import { loginValidation } from '../../app/validation/login-validation';
 import { changePasswordDisplay } from '../../app/validation/open-password';
 import { drawFooter } from '../../pages/footer/draw-footer';
 import { drawHeader } from '../../pages/header/draw-header';
-import { drawLogInPage } from '../../pages/log-in/log-in';
+import { drawLogInPage } from '../../pages/log-in/login';
 import { drawMain } from '../../pages/main/draw-main';
 import { authorization } from '../api/server-authorization';
 import { drawRegistration } from '../../pages/registration/draw-registration';
@@ -46,6 +46,11 @@ export const renderChangeContent = (path: string): void => {
     changePasswordDisplay();
   }
 };
+
+window.addEventListener('DOMContentLoaded', () => {
+  const path = window.location.pathname;
+  renderChangeContent(path);
+});
 
 window.addEventListener('popstate', (event) => {
   const windowOdj = event.target as Window;
