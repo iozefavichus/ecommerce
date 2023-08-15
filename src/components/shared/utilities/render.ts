@@ -6,6 +6,7 @@ import { drawLogInPage } from '../../pages/log-in/login';
 import { drawMain } from '../../pages/main/draw-main';
 import { authorization } from '../api/server-authorization';
 import { drawRegistration } from '../../pages/registration/draw-registration';
+import { drawNotFound } from '../../pages/notfound/draw-not-found';
 
 export const render = (): void => {
   drawHeader();
@@ -21,23 +22,23 @@ export const renderChangeContent = (path: string): void => {
     body.innerHTML = '';
     render();
   }
-  if (renderPage === '/shope') {
-    console.log(renderPage);
+  if (renderPage === '/shop') {
+    drawNotFound();
   }
   if (renderPage === '/about') {
-    console.log(renderPage);
+    drawNotFound();
   }
   if (renderPage === '/contact') {
-    console.log(renderPage);
+    drawNotFound();
   }
   if (renderPage === '/registration') {
     drawRegistration();
   }
   if (renderPage === '/basket') {
-    console.log(renderPage);
+    drawNotFound();
   }
   if (renderPage === '/profile') {
-    console.log(renderPage);
+    drawNotFound();
   }
   if (renderPage === '/login') {
     drawLogInPage();
