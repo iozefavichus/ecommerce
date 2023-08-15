@@ -16,7 +16,6 @@ export const authorization = () => {
       const authCustomer = new ClientApi().loginCustomer(email, password);
       authCustomer.then((data) => {
         console.log(data);
-        console.log('a');
       });
     }
   });
