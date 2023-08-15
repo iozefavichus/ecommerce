@@ -24,12 +24,21 @@ export class ClientApi {
       });
   }
 
-  public loginCustomer(email: string, password: string) {
-    return this.apiRoot.me().login().post({
-      body: {
-        email,
-        password,
-      },
-    });
+  public async loginCustomer(email: string, password: string) {
+    const customer = await this.apiRoot
+      .me()
+      .login()
+      .post({
+        body: {
+          email,
+          password,
+        },
+      })
+      .execute();
+    return customer;
+  }
+
+  public getProject() {
+    return this.apiRoot.get().execute();
   }
 }
