@@ -1,19 +1,15 @@
-// const unexpectedStatus = ():Error =>
-//     new Error(`Cannot create new customer`);
+import { ClientApi } from "../../shared/api/clientAPI";
+import { regCardObj } from "../../../types/shared";
 
-// export const createNewCustomer = async(registrationCard: regCardObj): Promise<void | Error> => {
-//     try{
-//         const result = await fetch(``, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify(registrationCard)
-//         });
-//         if (result.status === 201) return;
+export const isNewCustomer = async (email: string) => {
+      const customers = await new ClientApi().getCustomers();
+      if(customers.find((data) => data.email === email)){
+        return true
+      };
+      return false;
+    }
 
-//         return unexpectedStatus();
-//     } catch(e){
-//         return e as Error;
-//     }
-// }
+export const createNewCustomer = async (registrationCard: regCardObj) => {
+      const result = await new ClientApi().createCustomer(registrationCard);
+      return result;
+    }

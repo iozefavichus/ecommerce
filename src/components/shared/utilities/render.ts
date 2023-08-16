@@ -6,10 +6,13 @@ import { drawLogInPage } from '../../pages/log-in/log-in';
 import { drawMain } from '../../pages/main/draw-main';
 import { authorization } from '../api/server-authorization';
 import { drawRegistration } from '../../pages/registration/draw-registration';
+// import { drawSuccess } from '../../pages/registration/success';
 
 export const render = (): void => {
   drawHeader();
   drawMain();
+  // drawRegistration();
+  // drawSuccess();
   drawFooter();
 };
 

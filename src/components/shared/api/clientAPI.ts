@@ -1,5 +1,6 @@
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
+import { regCardObj } from '../../../types/shared';
 
 export class ClientApi {
   private email;
@@ -32,4 +33,11 @@ export class ClientApi {
       },
     });
   }
+
+  public createCustomer(registrationCard: regCardObj){
+    return this.apiRoot.customers().post({
+        body: registrationCard
+      }).execute()
+  }
+
 }
