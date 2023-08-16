@@ -1,13 +1,9 @@
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { createAuthClient, ctpClient } from './build-client';
+import { clientTest, ctpClient } from './build-client';
 
-export const createApiAuth = (email: string, passward: string) => {
-  const client = createAuthClient(email, passward);
-  const apiAuth = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: 'ecommerce_furniture' });
-  return apiAuth;
-};
+export const api = createApiBuilderFromCtpClient(clientTest).withProjectKey({ projectKey: 'ecommerce_furniture' });
 
-export class StandardClientApi {
+export class StpClientApi {
   private email;
 
   private password;
@@ -31,7 +27,7 @@ export class StandardClientApi {
   }
 
   public async loginCustomer(email: string, password: string) {
-    const customer = await this.apiRoot
+    const response = await this.apiRoot
       .me()
       .login()
       .post({
@@ -41,7 +37,7 @@ export class StandardClientApi {
         },
       })
       .execute();
-    return customer;
+    return response;
   }
 
   public getProject() {

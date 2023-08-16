@@ -5,11 +5,11 @@ const hasSpaceInStartOrEnd = (email: string) => {
   return trimmedEmail !== email;
 };
 
-const redBorder = (input: HTMLInputElement) => {
+export const redBorder = (input: HTMLInputElement) => {
   input.style.border = '2px solid rgb(212, 4, 4)';
 };
 
-const greenBorder = (input: HTMLInputElement) => {
+export const greenBorder = (input: HTMLInputElement) => {
   input.style.border = '2px solid rgb(8, 250, 4)';
 };
 
