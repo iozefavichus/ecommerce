@@ -14,7 +14,14 @@ export const render = (): void => {
   drawFooter();
 };
 
+const routes = ['/', '/shop', '/about', '/contact', '/registration', '/basket', '/profile', '/login'];
+
 export const renderChangeContent = (path: string): void => {
+  for (const route in routes) {
+    if (Object.values(route)) {
+      drawNotFound();
+    }
+  }
   const renderPage = path;
 
   if (renderPage === '/') {
