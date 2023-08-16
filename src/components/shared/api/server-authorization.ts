@@ -1,10 +1,11 @@
+import { getLoginInLocalStorage, setLoginInLocalStorage } from '../../app/localStorage/localStorage';
 import { customRoute } from '../../app/router/router';
 import { redBorder } from '../../app/validation/login-validation';
 import { createCustomElement } from '../utilities/helper-functions';
 import { StpClientApi } from './stpClient-api';
 
 export const isLoginCustomer = {
-  isLogin: false,
+  isLogin: getLoginInLocalStorage('isLoginCustomer.isLogin'),
 };
 
 const styleNotFoundText = (elem: HTMLParagraphElement, content: string) => {
@@ -33,6 +34,7 @@ export const authorization = () => {
         .then((data) => {
           if (data.statusCode === 200) {
             isLoginCustomer.isLogin = true;
+            setLoginInLocalStorage('isLoginCustomer.isLogin', true);
             customRoute('/');
           }
         })

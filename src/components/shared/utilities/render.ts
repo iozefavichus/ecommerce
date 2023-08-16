@@ -7,6 +7,7 @@ import { drawMain } from '../../pages/main/draw-main';
 import { authorization, isLoginCustomer } from '../api/server-authorization';
 import { drawRegistration } from '../../pages/registration/draw-registration';
 import { drawNotFound } from '../../pages/notfound/draw-not-found';
+import { logoutCustomer } from '../../pages/log-in/log-out';
 
 export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
@@ -21,6 +22,7 @@ export const renderChangeContent = (path: string): void => {
     const body = document.querySelector('body') as HTMLElement;
     body.innerHTML = '';
     render(isLoginCustomer.isLogin);
+    logoutCustomer();
   }
   if (renderPage === '/shop') {
     drawNotFound();
