@@ -1,7 +1,13 @@
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { ctpClient } from './build-client';
+import { createAuthClient, ctpClient } from './build-client';
 
-export class ClientApi {
+export const createApiAuth = (email: string, passward: string) => {
+  const client = createAuthClient(email, passward);
+  const apiAuth = createApiBuilderFromCtpClient(client).withProjectKey({ projectKey: 'ecommerce_furniture' });
+  return apiAuth;
+};
+
+export class StandardClientApi {
   private email;
 
   private password;

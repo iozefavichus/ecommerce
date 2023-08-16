@@ -1,4 +1,4 @@
-import { ClientApi } from './clientAPI';
+import { createApiAuth } from './clientAPI';
 
 // login: lafa@gmail.com
 // password: aA1!aaaa
@@ -13,10 +13,20 @@ export const authorization = () => {
     const password = passwordInput.value;
 
     if (email !== null && password !== null) {
-      const authCustomer = new ClientApi().loginCustomer(email, password);
-      authCustomer.then((data) => {
-        console.log(data);
-      });
+      createApiAuth(email, password)
+        .login()
+        .post({
+          body: {
+            email,
+            password,
+          },
+        })
+        .execute()
+        .then((data) => console.log(data));
+      // const authCustomer = new StandardClientApi().loginCustomer(email, password);
+      // authCustomer.then((data) => {
+      //   console.log(data);
+      // });
     }
   });
 };
