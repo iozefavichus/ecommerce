@@ -74,9 +74,6 @@
 }
 
 .profile-link {
-  background-image: url('../assets/icons/account.svg');
-
-  @extend %icon-param;
   @extend %hover-transition;
 }
 
@@ -89,6 +86,7 @@
 }
 
 .login-link,
+.log-out,
 .registration-link {
   color: $font-color;
   margin-left: 10px;
