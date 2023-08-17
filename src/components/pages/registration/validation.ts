@@ -7,7 +7,7 @@ const regOnlyLetters = /^([a-zA-Z]+)/;
 const regNumbers = /^(?=.*[0-9])/;
 const regSpecial = /^(?=.*[!@#$%^&*])/;
 const regPost = {
-  USA: /^([0-9]){5,}/,
+  USA: /\d{5}/,
 };
 
 const hasSpaceInStartOrEnd = (email: string) => {
@@ -82,7 +82,7 @@ export const checkPost = (country: string, value: string): Array<string> => {
   if (value.length < 1) {
     result.push('Post code cannot be blank');
   }
-  if (country === 'USA' && !regPost.USA.test(value)) {
+  if (country === 'USA' && (!regPost.USA.test(value)||value.length>5)) {
     result.push('Your post code does not match USA postal codes.');
     result.push('You need DDDDD format (where D - digit)');
   }

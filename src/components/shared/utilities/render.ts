@@ -6,15 +6,13 @@ import { drawLogInPage } from '../../pages/log-in/login';
 import { drawMain } from '../../pages/main/draw-main';
 import { authorization, isLoginCustomer } from '../api/server-authorization';
 import { drawRegistration } from '../../pages/registration/draw-registration';
-// import { drawSuccess } from '../../pages/registration/success';
+import { drawSuccess } from '../../pages/registration/success';
 import { drawNotFound } from '../../pages/notfound/draw-not-found';
 import { logoutCustomer } from '../../pages/log-in/log-out';
 
 export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
   drawMain();
-  // drawRegistration();
-  // drawSuccess();
   drawFooter();
 };
 
@@ -51,6 +49,15 @@ export const renderChangeContent = (path: string): void => {
   }
   if (renderPage === '/profile') {
     drawNotFound();
+  }
+  if (renderPage === '/success') {
+    drawSuccess();
+    setTimeout(()=>{
+      const body = document.querySelector('body') as HTMLElement;
+      body.innerHTML = '';
+      render(isLoginCustomer.isLogin);
+      logoutCustomer();
+    },3000)
   }
   if (renderPage === '/login') {
     drawLogInPage();

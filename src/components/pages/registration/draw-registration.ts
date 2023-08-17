@@ -154,10 +154,11 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
     const createCustomer = new StpClientApi().createCustomer(registrationCard);
       createCustomer
         .then((data) => {
-          if (data.statusCode === 200) {
+          if (data.statusCode === 201) {
+            console.log('Yes');
             isLoginCustomer.isLogin = true;
             setLoginInLocalStorage('isLoginCustomer.isLogin', true);
-            customRoute('/');
+            customRoute('/success');
           }
         })
         .catch((error) => {
