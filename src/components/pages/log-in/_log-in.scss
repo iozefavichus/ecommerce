@@ -30,6 +30,14 @@
     border: 1px solid #9f9f9f;
     padding: 15px 20px;
   }
+
+  @include media-netbook {
+    width: 40%;
+  }
+
+  @include media-mobile {
+    width: 60%;
+  }
 }
 
 .heading-login {
@@ -47,6 +55,11 @@
 
   &-checkbox {
     margin-top: -10px;
+
+    @include media-mobile {
+      display: flex;
+      flex-direction: column-reverse;
+    }
   }
 }
 
@@ -56,6 +69,14 @@
 
   &:active {
     box-shadow: inset 2px 2px 2px 2px $color-text-base;
+  }
+
+  @include media-netbook {
+    width: fit-content;
+  }
+
+  @include media-mobile {
+    width: 100%;
   }
 }
 
@@ -69,6 +90,14 @@
   &:active {
     box-shadow: inset 2px 2px 2px 2px $color-text-base;
   }
+
+  @include media-netbook {
+    width: fit-content;
+  }
+
+  @include media-mobile {
+    width: 50%;
+  }
 }
 
 .warning-text {
@@ -78,4 +107,16 @@
 
 .open-password {
   margin-left: 10px;
+
+  @include media-mobile {
+    width: 20px;
+    height: 20px;
+    margin: 0 auto 20px;
+  }
+}
+
+.not-customer {
+  color: rgb(212 4 4);
+  text-align: center;
+  font-size: 24px;
 }

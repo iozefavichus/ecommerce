@@ -71,6 +71,7 @@ export const drawHeader = (isLogin: boolean): void => {
   logoLink.append(logoText);
   logo.append(logoIcon, logoLink);
   const navBar = createNavBar();
+  navBar.addEventListener('click', openCloseMenu);
   const hamburgerBtn = createHamburgerBtn();
   const iconBar = createIconBar(isLogin);
   wrapper.append(logo, navBar, hamburgerBtn, iconBar);
