@@ -111,6 +111,9 @@ module.exports = {
   },
   optimization: optimization(),
   devServer: {
+    historyApiFallback: {
+      disableDotRule: true,
+    },
     hot: true,
     port: 9000,
   },

@@ -3,7 +3,10 @@ import { RegistrationForm } from './registration-form';
 import { checkPassword, checkName, checkSurname, checkBirth, checkCity, checkPost, writeErrors } from './validation';
 import { createPageTitle } from '../../shared/utilities/title';
 import { regCardObj } from '../../../types/shared';
-import { createNewCustomer} from './api-helper';
+import { StpClientApi } from '../../shared/api/stpClient-api';
+import { customRoute } from '../../app/router/router';
+import { setLoginInLocalStorage } from '../../app/localStorage/localStorage';
+import { isLoginCustomer } from '../../shared/api/server-authorization';
 
 const form = RegistrationForm();
 
@@ -148,23 +151,19 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
 
   const warningsArray = document.querySelectorAll('.small-visible');
   if(warningsArray.length === 0){
-
-    // const customer = isNewCustomer(registrationCard.email);
-    // if(customer){
-    //   createNewCustomer(registrationCard);
-    // }
-    createNewCustomer(registrationCard);
+    const createCustomer = new StpClientApi().createCustomer(registrationCard);
+      createCustomer
+        .then((data) => {
+          if (data.statusCode === 200) {
+            isLoginCustomer.isLogin = true;
+            setLoginInLocalStorage('isLoginCustomer.isLogin', true);
+            customRoute('/');
+          }
+        })
+        .catch((error) => {
+          setError(form.emailDiv.input,error.message);
+        });
   }
-
-
-  // if(!isNewCustomer(form.emailDiv.input.value.trim())){
-  //   CheckIt(['The customer with this email is already existed'], form.emailDiv.input)
-  // } else {
-  //   createNewCustomer(registrationCard);
-  // }
-
-
-
 });
 
 form.radioButton2.input.addEventListener('click', () => {

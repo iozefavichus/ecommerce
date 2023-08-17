@@ -69,8 +69,8 @@ const createFormWithOptions = (labelName: string, labeltext: string): HTMLElemen
   container.append(label);
   const select = createCustomElement('select', ['select-country']);
   select.setAttribute('name', 'labelName');
-  const option = createCustomElement('option', ['country'], 'United Kingdom');
-  option.setAttribute('value', 'United Kingdom');
+  const option = createCustomElement('option', ['country'], 'USA');
+  option.setAttribute('value', 'USA');
   select.append(option);
   container.append(select);
   const message = createCustomElement('div', ['small-text'], 'error message');
@@ -85,6 +85,7 @@ interface RegistrationObject {
   nameDiv: FromDivObject;
   surnameDiv: FromDivObject;
   birthDiv: FromDivObject;
+  checkDefaultShipping: FromDivObject;
   ShippingstreetDiv: FromDivObject;
   ShippingcityDiv: FromDivObject;
   ShippingpostDiv: FromDivObject;
@@ -110,6 +111,11 @@ export const RegistrationForm = (): RegistrationObject => {
   const surnameDiv = createFormDiv('surname', 'Surname*', 'surname', 'text');
   const birthDiv = createFormDiv('birth', 'Date of birth*', 'birth', 'date');
   const shippingDiv = createCustomElement('div', ['shipping'], 'Shipping adress');
+  const checkDefaultShipping = createFormDiv('defaultShipping','Set as default shipping adress','default-shipping','checkbox');
+  checkDefaultShipping.input.setAttribute('name','defaultshipping');
+  checkDefaultShipping.container.classList.remove('form-control');
+  checkDefaultShipping.input.classList.remove('input');
+  checkDefaultShipping.input.classList.add('checkbox');
   const ShippingstreetDiv = createFormDiv('street', 'Street*', 'shippingstreet', 'text');
   const ShippingcityDiv = createFormDiv('city', 'City*', 'shippingcity', 'text');
   const ShippingpostDiv = createFormDiv('post', 'Post code*', 'shippingpost', 'text');
@@ -127,6 +133,11 @@ export const RegistrationForm = (): RegistrationObject => {
   radioButton2.input.classList.add('radio-btn');
   radioButton2.input.setAttribute('name', 'adress');
   const billingDiv = createCustomElement('div', ['billing'], 'Billing adress');
+  const checkDefaultBilling = createFormDiv('defaultBilling','Set as default billing adress','default-billing','checkbox');
+  checkDefaultBilling.input.setAttribute('name','defaultbilling');
+  checkDefaultBilling.container.classList.remove('form-control');
+  checkDefaultBilling.input.classList.remove('input');
+  checkDefaultBilling.input.classList.add('checkbox');
   const BillingstreetDiv = createFormDiv('street', 'Street*', 'billingstreet', 'text');
   const BillingcityDiv = createFormDiv('city', 'City*', 'billingcity', 'text');
   const BillingpostDiv = createFormDiv('post', 'Post code*', 'billingpost', 'text');
@@ -142,7 +153,7 @@ export const RegistrationForm = (): RegistrationObject => {
   );
   submitBtn.insertAdjacentHTML('beforeend', 'Register');
 
-  billingDiv.append(BillingstreetDiv.container, BillingcityDiv.container, BillingcountryDiv, BillingpostDiv.container);
+  billingDiv.append(checkDefaultBilling.container, BillingstreetDiv.container, BillingcityDiv.container, BillingcountryDiv, BillingpostDiv.container);
   form.append(container);
   container.append(
     nameDiv.container,
@@ -151,6 +162,7 @@ export const RegistrationForm = (): RegistrationObject => {
     emailDiv.container,
     passwordDiv.container,
     shippingDiv,
+    checkDefaultShipping.container,
     ShippingstreetDiv.container,
     ShippingcityDiv.container,
     ShippingcountryDiv,
@@ -235,6 +247,7 @@ BillingstreetDiv.input.addEventListener('input',(event)=>{
     nameDiv,
     surnameDiv,
     birthDiv,
+    checkDefaultShipping,
     ShippingstreetDiv,
     ShippingcityDiv,
     ShippingpostDiv,
