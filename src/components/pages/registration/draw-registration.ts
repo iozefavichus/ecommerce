@@ -142,11 +142,47 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
   if (form.billingDiv.classList.contains('billing-visible')) {
     checkBillingInfo();
   }
+
+  let cityBilling = form.ShippingcityDiv.input.value.trim();
+  let streetBilling = form.ShippingstreetDiv.input.value.trim();
+  let postalCodeBilling = form.ShippingpostDiv.input.value.trim();
+
+  if(form.billingDiv.classList.contains('billing-visible')){
+    cityBilling = form.ShippingcityDiv.input.value.trim();
+    streetBilling = form.ShippingstreetDiv.input.value.trim();
+    postalCodeBilling = form.ShippingpostDiv.input.value.trim();
+  }
+
+  let shipDef;
+  const shippingDefaultcheck = document.getElementById('default-shipping') as HTMLInputElement;
+  if(shippingDefaultcheck.checked){
+    shipDef = 0;
+  }
+  let billDef;
+  const billinggDefaultcheck = document.getElementById('default-billing') as HTMLInputElement;
+  if(billinggDefaultcheck.checked){
+    billDef = 1;
+  }
+
   const registrationCard: regCardObj = {
     email: form.emailDiv.input.value.trim(),
     firstName: form.nameDiv.input.value.trim(),
     lastName: form.surnameDiv.input.value.trim(),
-    password: form.passwordDiv.input.value.trim()
+    password: form.passwordDiv.input.value.trim(),
+    dateOfBirth: form.birthDiv.input.value,
+    addresses: [{
+      country: 'US',
+      city: form.ShippingcityDiv.input.value.trim(),
+      streetName: form.ShippingstreetDiv.input.value.trim(),
+      postalCode: form.ShippingpostDiv.input.value.trim(),
+    },{
+      country: 'US',
+      city: cityBilling,
+      streetName: streetBilling,
+      postalCode: postalCodeBilling,
+    }],
+    defaultShippingAddress: shipDef,
+    defaultBillingAddress:  billDef
   }
 
   const warningsArray = document.querySelectorAll('.small-visible');
@@ -155,7 +191,6 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
       createCustomer
         .then((data) => {
           if (data.statusCode === 201) {
-            console.log('Yes');
             isLoginCustomer.isLogin = true;
             setLoginInLocalStorage('isLoginCustomer.isLogin', true);
             customRoute('/success');

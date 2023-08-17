@@ -1,18 +1,17 @@
-// export interface baseAdress{
-//     country: string,
-//     streetName: string,
-//     postalCode: string,
-//     city: string
-// }
+interface baseAdress{
+    country: string,
+    city: string,
+    streetName: string,
+    postalCode: string,
+}
 
 export interface  regCardObj{
     email: string,
     firstName: string,
     lastName: string,
     password: string,
-
-    // dateOfBirth: Date,
-    // addresses: Array<baseAdress>,
-    // defaultShippingAddress: number,
-    // defaultBillingAddress:  number
+    dateOfBirth: string,
+    addresses: Array<baseAdress>,
+    defaultShippingAddress: number|undefined,
+    defaultBillingAddress:  number|undefined,
 }

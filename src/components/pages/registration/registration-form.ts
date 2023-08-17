@@ -132,7 +132,9 @@ export const RegistrationForm = (): RegistrationObject => {
   radioButton2.input.classList.remove('input');
   radioButton2.input.classList.add('radio-btn');
   radioButton2.input.setAttribute('name', 'adress');
-  const billingDiv = createCustomElement('div', ['billing'], 'Billing adress');
+
+  const billingDiv = createCustomElement('div', ['billing'], '');
+  const billingTitle = createCustomElement('div', ['billing-title'], 'Billing adress');
   const checkDefaultBilling = createFormDiv('defaultBilling','Set as default billing adress','default-billing','checkbox');
   checkDefaultBilling.input.setAttribute('name','defaultbilling');
   checkDefaultBilling.container.classList.remove('form-control');
@@ -153,7 +155,7 @@ export const RegistrationForm = (): RegistrationObject => {
   );
   submitBtn.insertAdjacentHTML('beforeend', 'Register');
 
-  billingDiv.append(checkDefaultBilling.container, BillingstreetDiv.container, BillingcityDiv.container, BillingcountryDiv, BillingpostDiv.container);
+  billingDiv.append(billingTitle, checkDefaultBilling.container, BillingstreetDiv.container, BillingcityDiv.container, BillingcountryDiv, BillingpostDiv.container);
   form.append(container);
   container.append(
     nameDiv.container,

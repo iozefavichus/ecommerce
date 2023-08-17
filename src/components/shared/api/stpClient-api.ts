@@ -47,7 +47,8 @@ export class StpClientApi {
 
   public async createCustomer(registrationCard: regCardObj){
     const response = await this.apiRoot
-      .customers()
+      .me()
+      .signup()
       .post({
         body: registrationCard
       })
