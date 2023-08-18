@@ -3,8 +3,12 @@ import { customRoute } from '../../app/router/router';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { openCloseMenuToBtn, closeMenuToNav } from './hamburger-menu';
 
+const headerClasses: Record<string, string> = {
+  NAV: 'nav',
+};
+
 const createNavBar = (): HTMLElement => {
-  const navBar = createCustomElement('nav', ['nav']);
+  const navBar = createCustomElement('nav', [headerClasses.NAV]);
   const linkHome = createCustomElement('a', ['nav-link'], 'Home') as HTMLLinkElement;
   linkHome.href = '/';
   const linkShop = createCustomElement('a', ['nav-link'], 'Shop') as HTMLLinkElement;
