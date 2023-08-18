@@ -7,68 +7,68 @@
     url('../assets/images/scandinavian.png'),
     lightgray 50% / cover no-repeat;
   width: 100%;
-  height: 716px;
+  height: rem(716);
   position: relative;
 }
 
 .discover-block {
   width: 45%;
-  height: 443px;
+  height: rem(443);
   border-radius: 10px;
   background: $color-brand;
   position: absolute;
-  top: 153px;
-  right: 58px;
+  top: rem(153);
+  right: rem(58);
 }
 
 .discover-inner-block {
-  width: 561px;
-  height: 344px;
+  width: rem(561);
+  height: rem(344);
 }
 
 .discover {
   &__appointment {
     color: $font-color;
     font-family: Poppins, sans-serif;
-    font-size: 16px;
+    font-size: em(16);
     font-style: normal;
     font-weight: 600;
     letter-spacing: 3px;
-    padding-top: 62px;
-    padding-left: 41px;
+    padding-top: rem(62);
+    padding-left: rem(41);
   }
 
   &__title {
     color: $color-brand-dark;
     font-family: Poppins, sans-serif;
-    font-size: 52px;
+    font-size: em(52);
     font-style: normal;
     font-weight: 700;
-    line-height: 65px;
+    line-height: rem(65);
     padding: 4px 42px 17px;
   }
 
   &__subtitle {
     color: $font-color;
     font-family: Poppins, sans-serif;
-    font-size: 18px;
+    font-size: em(18);
     font-style: normal;
     font-weight: 500;
-    line-height: 24px;
+    line-height: rem(24);
     padding: 0 56px 46px 41px;
   }
 
   &__button {
     background: $color-brand-dark;
-    padding: 25px 72px;
+    padding: rem(25) rem(72);
     color: #fff;
     font-family: Poppins, sans-serif;
-    font-size: 16px;
+    font-size: em(16);
     font-style: normal;
     font-weight: 700;
     text-transform: uppercase;
-    margin-left: 39px;
-    margin-bottom: 37px;
+    margin-left: rem(39);
+    margin-bottom: rem(37);
 
     &:hover {
       cursor: pointer;
@@ -78,13 +78,13 @@
 }
 
 .browse {
-  padding-top: 30px;
+  padding-top: rem(30);
 
   &__title {
     color: $font-color;
     text-align: center;
     font-family: Poppins, sans-serif;
-    font-size: 32px;
+    font-size: em(32);
     font-weight: 700;
   }
 
@@ -92,28 +92,26 @@
     color: $font-color;
     text-align: center;
     font-family: Poppins, sans-serif;
-    font-size: 20px;
+    font-size: em(20);
     font-weight: 400;
-    padding-top: 10px;
-    padding-bottom: 50px;
+    padding-top: rem(10);
+    padding-bottom: rem(50);
   }
 
   &__card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include display-flex(center, center);
   }
 
   &__img {
-    margin-left: 50px;
+    margin-left: rem(50);
   }
 
   &__img1 {
     background:
       url('../assets/images/dining.png'),
       lightgray 50% / cover no-repeat;
-    width: 381px;
-    height: 480px;
+    width: rem(381);
+    height: rem(480);
     border-radius: 10px;
   }
 
@@ -121,8 +119,8 @@
     background:
       url('../assets/images/living.png'),
       lightgray 50% / cover no-repeat;
-    width: 381px;
-    height: 480px;
+    width: rem(381);
+    height: rem(480);
     border-radius: 10px;
   }
 
@@ -130,8 +128,8 @@
     background:
       url('../assets/images/bedroom.png'),
       lightgray 50% / cover no-repeat;
-    width: 381px;
-    height: 480px;
+    width: rem(381);
+    height: rem(480);
     border-radius: 10px;
   }
 
@@ -145,37 +143,36 @@
 }
 
 .products {
-  padding-top: 56px;
+  padding-top: rem(56);
 
   &__title {
     color: $font-color-title;
     text-align: center;
     font-family: Poppins, sans-serif;
-    font-size: 40px;
+    font-size: em(40);
     font-weight: 700;
-    line-height: 48px;
-    padding-top: 32px;
-    padding-bottom: 32px;
+    line-height: rem(48);
+    padding-top: rem(32);
+    padding-bottom: rem(32);
   }
 
   &__card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include display-flex(center, center);
+
     flex-wrap: wrap;
   }
 
   &__img {
-    margin-left: 32px;
-    gap: 32px;
+    margin-left: rem(32);
+    gap: rem(32);
   }
 
   &__img1 {
     background: url('../assets/images/catalog/armchair_1.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    width: 285px;
-    height: 427px;
+    width: rem(285);
+    height: rem(427);
     border-radius: 10px;
   }
 
@@ -183,8 +180,8 @@
     background: url('../assets/images/catalog/bed_1.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    width: 285px;
-    height: 427px;
+    width: rem(285);
+    height: rem(427);
     border-radius: 10px;
   }
 
@@ -192,8 +189,8 @@
     background: url('../assets/images/catalog/sofa_1.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    width: 285px;
-    height: 427px;
+    width: rem(285);
+    height: rem(427);
     border-radius: 10px;
   }
 
@@ -201,8 +198,8 @@
     background: url('../assets/images/catalog/storage_1.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    width: 285px;
-    height: 427px;
+    width: rem(285);
+    height: rem(427);
     border-radius: 10px;
   }
 
@@ -210,8 +207,8 @@
     background: url('../assets/images/catalog/armchair_2.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    width: 285px;
-    height: 427px;
+    width: rem(285);
+    height: rem(427);
     border-radius: 10px;
   }
 
@@ -219,8 +216,8 @@
     background: url('../assets/images/catalog/bed_2.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    width: 285px;
-    height: 427px;
+    width: rem(285);
+    height: rem(427);
     border-radius: 10px;
   }
 
@@ -228,8 +225,8 @@
     background: url('../assets/images/catalog/sofa_2.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    width: 285px;
-    height: 427px;
+    width: rem(285);
+    height: rem(427);
     border-radius: 10px;
   }
 
@@ -237,44 +234,44 @@
     background: url('../assets/images/catalog/storage_2.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    width: 285px;
-    height: 427px;
+    width: rem(285);
+    height: rem(427);
     border-radius: 10px;
   }
 
   &__img-text {
     color: $font-color-title;
     font-family: Poppins, sans-serif;
-    font-size: 24px;
+    font-size: em(24);
     font-weight: 600;
-    line-height: 28.8px;
+    line-height: rem(28.8);
   }
 
   &__img-desc {
     color: $font-color-desc;
     font-family: Poppins, sans-serif;
-    font-size: 16px;
+    font-size: em(16);
     font-weight: 500;
-    line-height: 24px;
+    line-height: rem(24);
   }
 
   &__img-price {
     color: $font-color-title;
     font-family: Poppins, sans-serif;
-    font-size: 20px;
+    font-size: em(20);
     font-weight: 600;
-    line-height: 30px;
+    line-height: rem(30);
   }
 
   &__btn {
     display: flex;
     color: $color-brand-dark;
     font-family: Poppins, sans-serif;
-    font-size: 16px;
+    font-size: em(16);
     font-weight: 600;
-    line-height: 24px;
-    padding: 12px 74px 12px 82px;
-    margin: 32px auto;
+    line-height: rem(24);
+    padding: rem(12) rem(74) rem(12) rem(82);
+    margin: rem(32) auto;
 
     &:hover,
     &:active {
