@@ -5,14 +5,17 @@ const patterns: Record<string, RegExp> = {
   SYMBOL_IN_NAME: /^[^!@#$%^&*]+@/,
   SYMBOL_IN_DOMAINE: /@.*[!@#$%^&*0-9]/,
   UPPERCASE: /^(?=.*[A-Z])/,
-  LETTERS: /^(.*[a-zA-Z])/,
+  LETTERS: /^(.*[^a-zA-Z0-9_-]+@)/,
   LOWERCASE: /^(?=.*[a-z])/,
   NUMBER: /^(?=.*[0-9])/,
   VALUE: /^(?=.*[!@#$%^&*])/,
 };
 
+const CORRECT_DOMAIN = ['example.com', 'gmail.com', 'test.com'];
+
 const classNames: Record<string, string> = {
   WARNING_TEXT: 'warning-text',
+  INVALID: 'invalid',
 };
 
 const VALID_COLOR = '2px solid rgb(8, 250, 4)';
@@ -46,12 +49,14 @@ const validationMail = (): void => {
 
   mailInput?.addEventListener('input', (event) => {
     const mail: string = (event.target as HTMLInputElement).value;
+    const domain = mail.replace(/(.+)@/, '');
+    const isCorrectDomain = CORRECT_DOMAIN.findIndex((elem) => elem === domain);
 
     if (!hasSpaceInStartOrEnd(mail)) {
-      warningText.textContent = 'Remove the space at the beginning or end of the email';
+      warningText.textContent = 'Delete the space in the email line';
       isValid = false;
       applyStyle(mailInput, isValid);
-    } else if (!patterns.LETTERS.test(mail)) {
+    } else if (patterns.LETTERS.test(mail)) {
       warningText.textContent = 'Please use Latin letters';
       isValid = false;
       applyStyle(mailInput, isValid);
@@ -61,6 +66,10 @@ const validationMail = (): void => {
       patterns.SYMBOL_IN_DOMAINE.test(mail)
     ) {
       warningText.textContent = 'Your formatted email address is not correct! Correct formatted user@domen.name';
+      isValid = false;
+      applyStyle(mailInput, isValid);
+    } else if (isCorrectDomain === -1) {
+      warningText.textContent = 'Your can registration only domain example.com, gmail.com, test.com';
       isValid = false;
       applyStyle(mailInput, isValid);
     } else {
@@ -83,26 +92,21 @@ const validationPassword = (): void => {
 
     if (!patterns.UPPERCASE.test(password)) {
       warningText.textContent = 'Password must contain at least one uppercase letter (A-Z).';
-      isValid = false;
       applyStyle(pasInput, isValid);
     } else if (!patterns.LOWERCASE.test(password)) {
       warningText.textContent = 'Password must contain at least one lowercase letter (a-z).';
-      isValid = false;
       applyStyle(pasInput, isValid);
     } else if (!patterns.NUMBER.test(password)) {
       warningText.textContent = 'Password must contain at least one digit (0-9).';
-      isValid = false;
       applyStyle(pasInput, isValid);
     } else if (!patterns.VALUE.test(password)) {
       warningText.textContent = 'Password must contain at least one special character (e.g., !@#$%^&*).';
-      isValid = false;
       applyStyle(pasInput, isValid);
     } else if (password.length < 8) {
       warningText.textContent = 'Password must be at least 8 characters long.';
-      isValid = false;
       applyStyle(pasInput, isValid);
     } else if (!hasSpaceInStartOrEnd(password)) {
-      warningText.textContent = 'Remove the space at the beginning or end of the password';
+      warningText.textContent = 'Delete the space in the password line';
       isValid = false;
       applyStyle(pasInput, isValid);
     } else {

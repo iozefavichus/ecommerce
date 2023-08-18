@@ -142,6 +142,7 @@
 
 .profile-link {
   @extend %hover-transition;
+  @extend %icon-param;
 }
 
 .basket-link {

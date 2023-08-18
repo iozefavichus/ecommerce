@@ -26,8 +26,19 @@ export class StpClientApi {
       });
   }
 
-  public async loginCustomer(email: string, password: string) {
-    const response = await this.apiRoot
+  public returnCustomerByEmail(customerEmail: string) {
+    return this.apiRoot
+      .customers()
+      .get({
+        queryArgs: {
+          where: `email="${customerEmail}"`,
+        },
+      })
+      .execute();
+  }
+
+  public loginCustomer(email: string, password: string) {
+    return this.apiRoot
       .me()
       .login()
       .post({
@@ -37,7 +48,18 @@ export class StpClientApi {
         },
       })
       .execute();
-    return response;
+  }
+
+  public createCustomer() {
+    return this.apiRoot
+      .customers()
+      .post({
+        body: {
+          email: 'sdk@example.com',
+          password: 'aA1!aaaa',
+        },
+      })
+      .execute();
   }
 
   public getProject() {

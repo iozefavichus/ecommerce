@@ -1,8 +1,8 @@
-export const setLoginInLocalStorage = (key: string, value: boolean): void => {
+export const setLocalStorageLogin = (key: string, value: boolean): void => {
   localStorage.setItem(key, `${value}`);
 };
 
-export const getLoginInLocalStorage = (key: string): boolean => {
+export const getLocalStorageLogin = (key: string): boolean => {
   const localValue = localStorage.getItem(key);
   if (localValue) {
     const value = JSON.parse(localValue);
@@ -11,6 +11,6 @@ export const getLoginInLocalStorage = (key: string): boolean => {
   return false;
 };
 
-export const removeLoginInLocalStorage = (key: string): void => {
+export const removeLocalStorageLogin = (key: string): void => {
   localStorage.removeItem(key);
 };
