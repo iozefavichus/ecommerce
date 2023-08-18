@@ -3,12 +3,17 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 const regUppercase = /^(?=.*[A-Z])/;
 const regLowercase = /^(?=.*[a-z])/;
 const regLetters = /^(?=.*[a-zA-Z])/;
+const regOnlyLetters = /^([a-zA-Z]+)/;
 const regNumbers = /^(?=.*[0-9])/;
 const regSpecial = /^(?=.*[!@#$%^&*])/;
-const regSpace = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]{5,})/;
 const regPost = {
-  USA: /^([0-9]){5,}/,
+  USA: /\d{5}/,
 };
+
+const hasSpaceInStartOrEnd = (email: string) => {
+    const trimmedEmail = email.trim();
+    return trimmedEmail !== email;
+  };
 
 export const checkPassword = (value: string): Array<string> => {
   const result: Array<string> = [];
@@ -27,7 +32,7 @@ export const checkPassword = (value: string): Array<string> => {
   if (!regSpecial.test(value)) {
     result.push('Password must contain at least one special character (e.g., !@#$%^&*)');
   }
-  if (!regSpace.test(value)) {
+  if (hasSpaceInStartOrEnd(value)) {
     result.push('Password must not contain leading or trailing whitespace');
   }
   return result;
@@ -38,7 +43,7 @@ export const checkName = (value: string): Array<string> => {
   if (value.length < 1) {
     result.push('Name must be at least 1 character long');
   }
-  if (!regLetters.test(value)) {
+  if (!regOnlyLetters.test(value)) {
     result.push('Name must not contain special characters or numbers');
   }
   return result;
@@ -49,7 +54,7 @@ export const checkSurname = (value: string): Array<string> => {
   if (value.length < 1) {
     result.push('Surname must be at least 1 character long');
   }
-  if (!regLetters.test(value)) {
+  if (!regOnlyLetters.test(value)) {
     result.push('Surname must not contain special characters or numbers');
   }
   return result;
@@ -77,7 +82,7 @@ export const checkPost = (country: string, value: string): Array<string> => {
   if (value.length < 1) {
     result.push('Post code cannot be blank');
   }
-  if (country === 'USA' && !regPost.USA.test(value)) {
+  if (country === 'USA' && (!regPost.USA.test(value)||value.length>5)) {
     result.push('Your post code does not match USA postal codes.');
     result.push('You need DDDDD format (where D - digit)');
   }
@@ -86,6 +91,10 @@ export const checkPost = (country: string, value: string): Array<string> => {
   }
   return result;
 };
+
+const EMAIL_REGEXP =
+  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+export const checkEmail = (email: string): boolean => EMAIL_REGEXP.test(email);
 
 export const writeErrors = (errors: Array<string>): HTMLElement => {
   const container = createCustomElement('ul', ['']);

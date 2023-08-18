@@ -1,5 +1,6 @@
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { clientTest, ctpClient } from './build-client';
+import { regCardObj } from '../../../types/shared';
 
 export const api = createApiBuilderFromCtpClient(clientTest).withProjectKey({ projectKey: 'ecommerce_furniture' });
 
@@ -65,4 +66,16 @@ export class StpClientApi {
   public getProject() {
     return this.apiRoot.get().execute();
   }
+
+  public async createCustomer(registrationCard: regCardObj){
+    const response = await this.apiRoot
+      .me()
+      .signup()
+      .post({
+        body: registrationCard
+      })
+      .execute()
+    return response;
+  }
+
 }
