@@ -1,4 +1,7 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { checkName, checkSurname, checkBirth, checkEmail, checkPassword, checkCity, checkPost } from './validation';
+import { CheckIt, setError, setSuccess } from './draw-registration';
+
 
 const createFormElement = <T extends HTMLElement>(
   tag: string,
@@ -66,8 +69,8 @@ const createFormWithOptions = (labelName: string, labeltext: string): HTMLElemen
   container.append(label);
   const select = createCustomElement('select', ['select-country']);
   select.setAttribute('name', 'labelName');
-  const option = createCustomElement('option', ['country'], 'United Kingdom');
-  option.setAttribute('value', 'United Kingdom');
+  const option = createCustomElement('option', ['country'], 'USA');
+  option.setAttribute('value', 'USA');
   select.append(option);
   container.append(select);
   const message = createCustomElement('div', ['small-text'], 'error message');
@@ -82,6 +85,7 @@ interface RegistrationObject {
   nameDiv: FromDivObject;
   surnameDiv: FromDivObject;
   birthDiv: FromDivObject;
+  checkDefaultShipping: FromDivObject;
   ShippingstreetDiv: FromDivObject;
   ShippingcityDiv: FromDivObject;
   ShippingpostDiv: FromDivObject;
@@ -107,6 +111,11 @@ export const RegistrationForm = (): RegistrationObject => {
   const surnameDiv = createFormDiv('surname', 'Surname*', 'surname', 'text');
   const birthDiv = createFormDiv('birth', 'Date of birth*', 'birth', 'date');
   const shippingDiv = createCustomElement('div', ['shipping'], 'Shipping adress');
+  const checkDefaultShipping = createFormDiv('defaultShipping','Set as default shipping adress','default-shipping','checkbox');
+  checkDefaultShipping.input.setAttribute('name','defaultshipping');
+  checkDefaultShipping.container.classList.remove('form-control');
+  checkDefaultShipping.input.classList.remove('input');
+  checkDefaultShipping.input.classList.add('checkbox');
   const ShippingstreetDiv = createFormDiv('street', 'Street*', 'shippingstreet', 'text');
   const ShippingcityDiv = createFormDiv('city', 'City*', 'shippingcity', 'text');
   const ShippingpostDiv = createFormDiv('post', 'Post code*', 'shippingpost', 'text');
@@ -123,7 +132,14 @@ export const RegistrationForm = (): RegistrationObject => {
   radioButton2.input.classList.remove('input');
   radioButton2.input.classList.add('radio-btn');
   radioButton2.input.setAttribute('name', 'adress');
-  const billingDiv = createCustomElement('div', ['billing'], 'Billing adress');
+
+  const billingDiv = createCustomElement('div', ['billing'], '');
+  const billingTitle = createCustomElement('div', ['billing-title'], 'Billing adress');
+  const checkDefaultBilling = createFormDiv('defaultBilling','Set as default billing adress','default-billing','checkbox');
+  checkDefaultBilling.input.setAttribute('name','defaultbilling');
+  checkDefaultBilling.container.classList.remove('form-control');
+  checkDefaultBilling.input.classList.remove('input');
+  checkDefaultBilling.input.classList.add('checkbox');
   const BillingstreetDiv = createFormDiv('street', 'Street*', 'billingstreet', 'text');
   const BillingcityDiv = createFormDiv('city', 'City*', 'billingcity', 'text');
   const BillingpostDiv = createFormDiv('post', 'Post code*', 'billingpost', 'text');
@@ -139,7 +155,7 @@ export const RegistrationForm = (): RegistrationObject => {
   );
   submitBtn.insertAdjacentHTML('beforeend', 'Register');
 
-  billingDiv.append(BillingstreetDiv.container, BillingcityDiv.container, BillingcountryDiv, BillingpostDiv.container);
+  billingDiv.append(billingTitle, checkDefaultBilling.container, BillingstreetDiv.container, BillingcityDiv.container, BillingcountryDiv, BillingpostDiv.container);
   form.append(container);
   container.append(
     nameDiv.container,
@@ -148,6 +164,7 @@ export const RegistrationForm = (): RegistrationObject => {
     emailDiv.container,
     passwordDiv.container,
     shippingDiv,
+    checkDefaultShipping.container,
     ShippingstreetDiv.container,
     ShippingcityDiv.container,
     ShippingcountryDiv,
@@ -159,12 +176,80 @@ export const RegistrationForm = (): RegistrationObject => {
     submitBtn,
   );
 
+nameDiv.input.addEventListener('input',(event) =>{
+  const name: string = (event.target as HTMLInputElement).value.trim();
+  CheckIt(checkName(name), nameDiv.input);
+})
+surnameDiv.input.addEventListener('input',(event) =>{
+  const surname: string = (event.target as HTMLInputElement).value.trim();
+  CheckIt(checkSurname(surname), surnameDiv.input);
+})
+birthDiv.input.addEventListener('input',(event)=>{
+  const birthdate: string = (event.target as HTMLInputElement).value.trim();
+  if(birthdate === ''){
+    setError(birthDiv.input, 'Date of birth cannot be blank');
+  }
+  if (!checkBirth(birthdate)) {
+    setError(birthDiv.input, 'Oops! You must be over 13 years old');
+  } else {
+    setSuccess(birthDiv.input);
+  }
+})
+emailDiv.input.addEventListener('input',(event)=>{
+  const email: string = (event.target as HTMLInputElement).value.trim();
+  if (email === '') {
+    setError(emailDiv.input, 'Email cannot be blank');
+  } else if (!checkEmail(email)) {
+    setError(emailDiv.input, 'Email is not correct. It must be xxxx@xxxx.xxx type');
+  } else {
+    setSuccess(emailDiv.input);
+  }
+})
+passwordDiv.input.addEventListener('input',(event)=>{
+  const password: string = (event.target as HTMLInputElement).value;
+  CheckIt(checkPassword(password), passwordDiv.input);
+})
+ShippingcityDiv.input.addEventListener('input',(event)=>{
+  const shippingCity: string = (event.target as HTMLInputElement).value;
+  CheckIt(checkCity(shippingCity), ShippingcityDiv.input);
+})
+ShippingpostDiv.input.addEventListener('input',(event)=>{
+  const shippingPost: string = (event.target as HTMLInputElement).value;
+  CheckIt(checkPost('USA',shippingPost), ShippingpostDiv.input);
+})
+ShippingstreetDiv.input.addEventListener('input',(event)=>{
+  const shippingStreet: string = (event.target as HTMLInputElement).value;
+  if (shippingStreet === '') {
+    setError(ShippingstreetDiv.input, 'Street cannot be blank');
+  } else {
+    setSuccess(ShippingstreetDiv.input);
+  }
+})
+BillingcityDiv.input.addEventListener('input',(event)=>{
+  const billingCity: string = (event.target as HTMLInputElement).value;
+  CheckIt(checkCity(billingCity), BillingcityDiv.input);
+})
+BillingpostDiv.input.addEventListener('input',(event)=>{
+  const billingPost: string = (event.target as HTMLInputElement).value;
+  CheckIt(checkPost('USA',billingPost), BillingpostDiv.input);
+})
+BillingstreetDiv.input.addEventListener('input',(event)=>{
+  const billingStreet: string = (event.target as HTMLInputElement).value;
+  if (billingStreet === '') {
+    setError(BillingstreetDiv.input, 'Street cannot be blank');
+  } else {
+    setSuccess(BillingstreetDiv.input);
+  }
+})
+
+
   return {
     form,
     wrapper,
     nameDiv,
     surnameDiv,
     birthDiv,
+    checkDefaultShipping,
     ShippingstreetDiv,
     ShippingcityDiv,
     ShippingpostDiv,

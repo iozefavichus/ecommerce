@@ -1,32 +1,27 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { RegistrationForm } from './registration-form';
 import { checkPassword, checkName, checkSurname, checkBirth, checkCity, checkPost, writeErrors } from './validation';
+import { createPageTitle } from '../../shared/utilities/title';
+import { regCardObj } from '../../../types/shared';
+import { StpClientApi } from '../../shared/api/stpClient-api';
+import { customRoute } from '../../app/router/router';
+import { setLoginInLocalStorage } from '../../app/localStorage/localStorage';
+import { isLoginCustomer } from '../../shared/api/server-authorization';
 
 const form = RegistrationForm();
-
-const createPageTitle = (): HTMLElement => {
-  const bgMain = createCustomElement('div', ['reg-img']);
-  const registrationBlock = createCustomElement('div', ['registration-block']);
-  const registrationTitle = createCustomElement('p', ['registration__title'], `Registration page`);
-  const registrationSubtitle = createCustomElement('p', ['registration__subtitle'], `Home > Registration page`);
-
-  registrationBlock.append(registrationTitle, registrationSubtitle);
-  bgMain.append(registrationBlock);
-  return bgMain;
-};
 
 export const drawRegistration = () => {
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   mainWrapper.innerHTML = '';
   const wrapper = createCustomElement('div', ['wrapper']);
   mainWrapper?.append(wrapper);
-  const pageTitle = createPageTitle();
+  const pageTitle = createPageTitle('Registration page');
   wrapper.append(pageTitle);
   const registration = form;
   wrapper.append(registration.wrapper);
 };
 
-const setError = (input: HTMLInputElement, message: string) => {
+export const setError = (input: HTMLInputElement, message: string) => {
   input.classList.add('input-error');
   const formControl = input.parentElement;
   const small = formControl?.querySelector('.small-text');
@@ -36,7 +31,7 @@ const setError = (input: HTMLInputElement, message: string) => {
   }
 };
 
-const setSuccess = (input: HTMLInputElement) => {
+export const setSuccess = (input: HTMLInputElement) => {
   input.classList.remove('input-error');
   const formControl = input.parentElement;
   formControl?.classList.remove('form-error');
@@ -44,7 +39,7 @@ const setSuccess = (input: HTMLInputElement) => {
   small?.classList.remove('small-visible');
 };
 
-const CheckIt = (result: Array<string>, input: HTMLInputElement) => {
+export const CheckIt = (result: Array<string>, input: HTMLInputElement) => {
   if (result.length > 0) {
     const formControl = input.parentElement;
     const container = formControl?.querySelector('.small-text');
@@ -62,7 +57,7 @@ const CheckIt = (result: Array<string>, input: HTMLInputElement) => {
 
 const EMAIL_REGEXP =
   /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
-const checkEmail = (email: string): boolean => EMAIL_REGEXP.test(email);
+export const checkEmail = (email: string): boolean => EMAIL_REGEXP.test(email);
 
 export const checkInputs = () => {
   const nameInput = form.nameDiv.input;
@@ -146,6 +141,64 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
   checkInputs();
   if (form.billingDiv.classList.contains('billing-visible')) {
     checkBillingInfo();
+  }
+
+  let cityBilling = form.ShippingcityDiv.input.value.trim();
+  let streetBilling = form.ShippingstreetDiv.input.value.trim();
+  let postalCodeBilling = form.ShippingpostDiv.input.value.trim();
+
+  if(form.billingDiv.classList.contains('billing-visible')){
+    cityBilling = form.ShippingcityDiv.input.value.trim();
+    streetBilling = form.ShippingstreetDiv.input.value.trim();
+    postalCodeBilling = form.ShippingpostDiv.input.value.trim();
+  }
+
+  let shipDef;
+  const shippingDefaultcheck = document.getElementById('default-shipping') as HTMLInputElement;
+  if(shippingDefaultcheck.checked){
+    shipDef = 0;
+  }
+  let billDef;
+  const billinggDefaultcheck = document.getElementById('default-billing') as HTMLInputElement;
+  if(billinggDefaultcheck.checked){
+    billDef = 1;
+  }
+
+  const registrationCard: regCardObj = {
+    email: form.emailDiv.input.value.trim(),
+    firstName: form.nameDiv.input.value.trim(),
+    lastName: form.surnameDiv.input.value.trim(),
+    password: form.passwordDiv.input.value.trim(),
+    dateOfBirth: form.birthDiv.input.value,
+    addresses: [{
+      country: 'US',
+      city: form.ShippingcityDiv.input.value.trim(),
+      streetName: form.ShippingstreetDiv.input.value.trim(),
+      postalCode: form.ShippingpostDiv.input.value.trim(),
+    },{
+      country: 'US',
+      city: cityBilling,
+      streetName: streetBilling,
+      postalCode: postalCodeBilling,
+    }],
+    defaultShippingAddress: shipDef,
+    defaultBillingAddress:  billDef
+  }
+
+  const warningsArray = document.querySelectorAll('.small-visible');
+  if(warningsArray.length === 0){
+    const createCustomer = new StpClientApi().createCustomer(registrationCard);
+      createCustomer
+        .then((data) => {
+          if (data.statusCode === 201) {
+            isLoginCustomer.isLogin = true;
+            setLoginInLocalStorage('isLoginCustomer.isLogin', true);
+            customRoute('/success');
+          }
+        })
+        .catch((error) => {
+          setError(form.emailDiv.input,error.message);
+        });
   }
 });
 

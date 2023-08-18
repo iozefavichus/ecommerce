@@ -11,7 +11,7 @@
   height: 316px;
 }
 
-.registration-block {
+.page__block {
   width: auto;
   height: auto;
   position: absolute;
@@ -21,14 +21,14 @@
   transform: translate(-50%, -50%);
 }
 
-.registration__title {
+.page__title {
   font-family: Poppins, sans-serif;
   font-size: 48px;
   font-style: normal;
   font-weight: 400;
 }
 
-.registration__subtitle {
+.page__subtitle {
   font-family: Poppins, sans-serif;
   font-size: 16px;
   text-align: center;
@@ -61,7 +61,8 @@
   font-style: normal;
   font-weight: 700;
   text-transform: uppercase;
-  margin-left: 39px;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom: 37px;
   margin-top: 50px;
   border-radius: 10px;
@@ -109,6 +110,13 @@
   margin-top: 2px;
 }
 
+.checkbox {
+  width: 15px;
+  height: 15px;
+  margin-left: 15px;
+  margin-top: 2px;
+}
+
 .billing {
   display: none;
 }
@@ -122,4 +130,48 @@
   height: 75px;
   border: 1px solid grey;
   border-radius: 10px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.success__text {
+  font-family: Poppins, sans-serif;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  margin-top: 200px;
+  margin-bottom: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.success_subtitle{
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin-top: 200px;
+  margin-bottom: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.shipping, .billing-title{
+  font-family: Poppins, sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+
+.question {
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  margin-bottom: 20px;
+  margin-top: 30px;
 }
