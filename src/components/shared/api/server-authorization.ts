@@ -12,6 +12,7 @@ export const isLoginCustomer = {
 // password: aA1!aaaa
 // fhdsjfhsj@gmail.com
 // Xm@8CH9XB8StGGQ
+// Lala@test.com
 
 export const authorization = () => {
   const isValid = false;

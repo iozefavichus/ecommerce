@@ -51,31 +51,16 @@ export class StpClientApi {
       .execute();
   }
 
-  public createCustomer() {
-    return this.apiRoot
-      .customers()
-      .post({
-        body: {
-          email: 'sdk@example.com',
-          password: 'aA1!aaaa',
-        },
-      })
-      .execute();
-  }
-
   public getProject() {
     return this.apiRoot.get().execute();
   }
 
-  public async createCustomer(registrationCard: regCardObj){
-    const response = await this.apiRoot
-      .me()
-      .signup()
+  public createCustomer(registrationCard: regCardObj) {
+    return this.apiRoot
+      .customers()
       .post({
-        body: registrationCard
+        body: registrationCard,
       })
-      .execute()
-    return response;
+      .execute();
   }
-
 }
