@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1692387055698" clover="3.2.0">
-  <project timestamp="1692387055698" name="All files">
-    <metrics statements="74" coveredstatements="66" conditionals="25" coveredconditionals="22" methods="10" coveredmethods="10" elements="109" coveredelements="98" complexity="0" loc="74" ncloc="74" packages="2" files="2" classes="2"/>
+<coverage generated="1692387385541" clover="3.2.0">
+  <project timestamp="1692387385541" name="All files">
+    <metrics statements="74" coveredstatements="74" conditionals="25" coveredconditionals="25" methods="10" coveredmethods="10" elements="109" coveredelements="109" complexity="0" loc="74" ncloc="74" packages="2" files="2" classes="2"/>
     <package name="pages.registration">
-      <metrics statements="69" coveredstatements="64" conditionals="23" coveredconditionals="22" methods="9" coveredmethods="9"/>
+      <metrics statements="69" coveredstatements="69" conditionals="23" coveredconditionals="23" methods="9" coveredmethods="9"/>
       <file name="validation.ts" path="/Users/eugeniaiozefavichus/Desktop/St1_projects/ecommerce/ecommerce/src/components/pages/registration/validation.ts">
-        <metrics statements="69" coveredstatements="64" conditionals="23" coveredconditionals="22" methods="9" coveredmethods="9"/>
+        <metrics statements="69" coveredstatements="69" conditionals="23" coveredconditionals="23" methods="9" coveredmethods="9"/>
         <line num="1" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
@@ -57,35 +57,35 @@
         <line num="71" count="1" type="stmt"/>
         <line num="73" count="2" type="stmt"/>
         <line num="76" count="1" type="stmt"/>
-        <line num="77" count="3" type="stmt"/>
-        <line num="78" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="77" count="4" type="stmt"/>
+        <line num="78" count="4" type="cond" truecount="2" falsecount="0"/>
         <line num="79" count="1" type="stmt"/>
-        <line num="80" count="2" type="cond" truecount="4" falsecount="1"/>
+        <line num="80" count="3" type="cond" truecount="5" falsecount="0"/>
         <line num="81" count="1" type="stmt"/>
         <line num="82" count="1" type="stmt"/>
-        <line num="83" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="83" count="2" type="cond" truecount="1" falsecount="0"/>
         <line num="84" count="1" type="stmt"/>
-        <line num="86" count="3" type="stmt"/>
+        <line num="86" count="4" type="stmt"/>
         <line num="90" count="1" type="stmt"/>
         <line num="91" count="2" type="stmt"/>
         <line num="93" count="1" type="stmt"/>
         <line num="94" count="1" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
-        <line num="96" count="0" type="stmt"/>
-        <line num="97" count="0" type="stmt"/>
-        <line num="98" count="0" type="stmt"/>
-        <line num="100" count="0" type="stmt"/>
+        <line num="95" count="1" type="stmt"/>
+        <line num="96" count="1" type="stmt"/>
+        <line num="97" count="1" type="stmt"/>
+        <line num="98" count="1" type="stmt"/>
+        <line num="100" count="1" type="stmt"/>
       </file>
     </package>
     <package name="shared.utilities">
-      <metrics statements="5" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
       <file name="helper-functions.ts" path="/Users/eugeniaiozefavichus/Desktop/St1_projects/ecommerce/ecommerce/src/components/shared/utilities/helper-functions.ts">
-        <metrics statements="5" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="4" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="5" count="0" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="5" count="2" type="stmt"/>
       </file>
     </package>
   </project>

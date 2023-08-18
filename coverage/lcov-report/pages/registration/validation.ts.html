@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.5% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>74/80</span>
+                <span class='fraction'>80/80</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.65% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>22/23</span>
+                <span class='fraction'>23/23</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.75% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>64/69</span>
+                <span class='fraction'>69/69</span>
             </div>
         
             
@@ -240,16 +240,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -258,12 +258,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { createCustomElement } from '../../shared/utilities/helper-functions';
 &nbsp;
@@ -344,7 +344,7 @@ export const checkPost = (country: string, value: string): Array&lt;string&gt; =
   const result: Array&lt;string&gt; = [];
   if (value.length &lt; 1) {
     result.push('Post code cannot be blank');
-  } else if (country === 'USA' &amp;&amp; (!regPost.USA.test(value)||<span class="branch-2 cbranch-no" title="branch not covered" >value.length&gt;5)</span>) {
+  } else if (country === 'USA' &amp;&amp; (!regPost.USA.test(value)||value.length&gt;5)) {
     result.push('Your post code does not match USA postal codes.');
     result.push('You need DDDDD format (where D - digit)');
   }else if (country === '') {
@@ -359,12 +359,12 @@ export const checkEmail = (email: string): boolean =&gt; EMAIL_REGEXP.test(email
 &nbsp;
 export const writeErrors = (errors: Array&lt;string&gt;): HTMLElement =&gt; {
   const container = createCustomElement('ul', ['warnings']);
-<span class="cstat-no" title="statement not covered" >  for (let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; errors.length; i += 1) {</span>
-    const li = <span class="cstat-no" title="statement not covered" >createCustomElement('li', ['list-item']);</span>
-<span class="cstat-no" title="statement not covered" >    li.innerHTML = errors[i];</span>
-<span class="cstat-no" title="statement not covered" >    container.append(li);</span>
+  for (let i = 0; i &lt; errors.length; i += 1) {
+    const li = createCustomElement('li', ['list-item']);
+    li.innerHTML = errors[i];
+    container.append(li);
   }
-<span class="cstat-no" title="statement not covered" >  return container;</span>
+  return container;
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -373,7 +373,7 @@ export const writeErrors = (errors: Array&lt;string&gt;): HTMLElement =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-08-18T19:30:55.689Z
+                at 2023-08-18T19:36:25.532Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

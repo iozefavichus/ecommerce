@@ -29,6 +29,10 @@ test('Check postcode for USA', () => {
   ]);
 });
 
+test('Check postcode for USA', () => {
+    expect(checkPost('USA', '11111')).toEqual([]);
+  });
+
 test('Check postcode when country is blank', () => {
   expect(checkPost('', 'DFGSA')).toEqual(['Please enter your country first']);
 });
@@ -146,8 +150,7 @@ describe('When given true date of birth with age more then 13 years', () => {
   describe('When given array of warnings', () => {
     it('returns list', () => {
       const result = writeErrors(['error1']);
-      result.classList.contains('warnings');
       const expected = true;
-      expect(result).toEqual(expected);
+      expect(result.classList.contains('warnings')).toEqual(expected);
     });
   });
