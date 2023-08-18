@@ -27,8 +27,19 @@ export class StpClientApi {
       });
   }
 
-  public async loginCustomer(email: string, password: string) {
-    const response = await this.apiRoot
+  public returnCustomerByEmail(customerEmail: string) {
+    return this.apiRoot
+      .customers()
+      .get({
+        queryArgs: {
+          where: `email="${customerEmail}"`,
+        },
+      })
+      .execute();
+  }
+
+  public loginCustomer(email: string, password: string) {
+    return this.apiRoot
       .me()
       .login()
       .post({
@@ -38,21 +49,18 @@ export class StpClientApi {
         },
       })
       .execute();
-    return response;
   }
 
   public getProject() {
     return this.apiRoot.get().execute();
   }
 
-  public async createCustomer(registrationCard: regCardObj) {
-    const response = await this.apiRoot
-      .me()
-      .signup()
+  public createCustomer(registrationCard: regCardObj) {
+    return this.apiRoot
+      .customers()
       .post({
         body: registrationCard,
       })
       .execute();
-    return response;
   }
 }

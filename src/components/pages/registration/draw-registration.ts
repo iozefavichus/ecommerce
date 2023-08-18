@@ -5,7 +5,7 @@ import { createPageTitle } from '../../shared/utilities/title';
 import { regCardObj } from '../../../types/shared';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { customRoute } from '../../app/router/router';
-import { setLoginInLocalStorage } from '../../app/localStorage/localStorage';
+import { setLocalStorageLogin } from '../../app/localStorage/localStorage';
 import { isLoginCustomer } from '../../shared/api/server-authorization';
 
 const form = RegistrationForm();
@@ -195,7 +195,7 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
       .then((data) => {
         if (data.statusCode === 201) {
           isLoginCustomer.isLogin = true;
-          setLoginInLocalStorage('isLoginCustomer.isLogin', true);
+          setLocalStorageLogin('isLoginCustomer.isLogin', true);
           customRoute('/success');
         }
       })
