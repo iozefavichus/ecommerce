@@ -15,6 +15,7 @@ export const greenBorder = (input: HTMLInputElement) => {
 
 const mailValidation = (): void => {
   const formatPattern: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const lettersPattern = /^(?=.*[a-zA-Z])/;
   const mailInput = document.querySelector('.authorization-form__mail') as HTMLInputElement;
   const labelMail = document.querySelector('.label-mail') as HTMLElement;
   const warningText = createCustomElement('p', ['warning-text']);
@@ -28,6 +29,9 @@ const mailValidation = (): void => {
       redBorder(mailInput);
     } else if (hasSpaceInStartOrEnd(mail)) {
       warningText.textContent = 'Remove the space at the beginning or end of the email';
+      redBorder(mailInput);
+    } else if (!lettersPattern.test(mail)) {
+      warningText.textContent = 'Please use Latin letters';
       redBorder(mailInput);
     } else {
       warningText.textContent = '';

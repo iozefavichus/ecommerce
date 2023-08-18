@@ -8,13 +8,6 @@ export const isLoginCustomer = {
   isLogin: getLoginInLocalStorage('isLoginCustomer.isLogin'),
 };
 
-const styleNotFoundText = (elem: HTMLParagraphElement, content: string) => {
-  elem.textContent = `${content} Maybe the wrong password`;
-  elem.style.color = 'rgb(212, 4, 4)';
-  elem.style.textAlign = 'center';
-  elem.style.fontSize = '24px';
-};
-
 // login: lafa@gmail.com
 // password: aA1!aaaa
 export const authorization = () => {
@@ -43,7 +36,7 @@ export const authorization = () => {
           passwordInput.value = '';
           redBorder(mailInput);
           redBorder(passwordInput);
-          styleNotFoundText(notFoundText, error.message);
+          notFoundText.textContent = `${error.message} Maybe the wrong password`;
           formElem.prepend(notFoundText);
         });
     }
