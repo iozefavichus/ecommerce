@@ -11,7 +11,6 @@ import { drawNotFound } from '../../pages/notfound/draw-not-found';
 import { logoutCustomer } from '../../pages/log-in/log-out';
 import { customRoute } from '../../app/router/router';
 
-
 export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
   drawMain();
@@ -54,9 +53,9 @@ export const renderChangeContent = (path: string): void => {
   }
   if (renderPage === '/success') {
     drawSuccess();
-    setTimeout(()=>{
+    setTimeout(() => {
       customRoute('/');
-    },3000)
+    }, 3000);
   }
   if (renderPage === '/login') {
     drawLogInPage();

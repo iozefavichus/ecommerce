@@ -11,9 +11,9 @@ const regPost = {
 };
 
 const hasSpaceInStartOrEnd = (email: string) => {
-    const trimmedEmail = email.trim();
-    return trimmedEmail !== email;
-  };
+  const trimmedEmail = email.trim();
+  return trimmedEmail !== email;
+};
 
 export const checkPassword = (value: string): Array<string> => {
   const result: Array<string> = [];
@@ -82,7 +82,7 @@ export const checkPost = (country: string, value: string): Array<string> => {
   if (value.length < 1) {
     result.push('Post code cannot be blank');
   }
-  if (country === 'USA' && (!regPost.USA.test(value)||value.length>5)) {
+  if (country === 'USA' && (!regPost.USA.test(value) || value.length > 5)) {
     result.push('Your post code does not match USA postal codes.');
     result.push('You need DDDDD format (where D - digit)');
   }

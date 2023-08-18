@@ -45,15 +45,14 @@ export class StpClientApi {
     return this.apiRoot.get().execute();
   }
 
-  public async createCustomer(registrationCard: regCardObj){
+  public async createCustomer(registrationCard: regCardObj) {
     const response = await this.apiRoot
       .me()
       .signup()
       .post({
-        body: registrationCard
+        body: registrationCard,
       })
-      .execute()
+      .execute();
     return response;
   }
-
 }
