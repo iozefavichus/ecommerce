@@ -1,6 +1,6 @@
 import { getLoginInLocalStorage, setLoginInLocalStorage } from '../../app/localStorage/localStorage';
 import { customRoute } from '../../app/router/router';
-import { redBorder } from '../../app/validation/login-validation';
+import { applyStyle } from '../../app/validation/login-validation';
 import { createCustomElement } from '../utilities/helper-functions';
 import { StpClientApi } from './stpClient-api';
 
@@ -10,6 +10,9 @@ export const isLoginCustomer = {
 
 // login: lafa@gmail.com
 // password: aA1!aaaa
+// kuz@kuz.com
+// Xm@8CH9XB8StGGQ
+
 export const authorization = () => {
   const formElem = document.querySelector('#login-form');
   const notFoundText = createCustomElement('p', ['not-customer']) as HTMLParagraphElement;
@@ -32,10 +35,11 @@ export const authorization = () => {
           }
         })
         .catch((error) => {
+          const isValid = false;
           mailInput.value = '';
           passwordInput.value = '';
-          redBorder(mailInput);
-          redBorder(passwordInput);
+          applyStyle(mailInput, isValid);
+          applyStyle(passwordInput, isValid);
           notFoundText.textContent = `${error.message} Maybe the wrong password`;
           formElem.prepend(notFoundText);
         });

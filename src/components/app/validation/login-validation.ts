@@ -1,84 +1,119 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 
+const patterns: Record<string, RegExp> = {
+  FORMAT: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  SYMBOL_IN_NAME: /^[^!@#$%^&*]+@/,
+  SYMBOL_IN_DOMAINE: /@.*[!@#$%^&*0-9]/,
+  UPPERCASE: /^(?=.*[A-Z])/,
+  LETTERS: /^(.*[a-zA-Z])/,
+  LOWERCASE: /^(?=.*[a-z])/,
+  NUMBER: /^(?=.*[0-9])/,
+  VALUE: /^(?=.*[!@#$%^&*])/,
+};
+
+const classNames: Record<string, string> = {
+  WARNING_TEXT: 'warning-text',
+};
+
+const VALID_COLOR = '2px solid rgb(8, 250, 4)';
+const INVALID_COLOR = '2px solid rgb(212, 4, 4)';
+
 const hasSpaceInStartOrEnd = (email: string) => {
-  const trimmedEmail = email.trim();
-  return trimmedEmail !== email;
+  const withoutSpacesEmail = email.replace(' ', '');
+  return withoutSpacesEmail === email;
 };
 
-export const redBorder = (input: HTMLInputElement) => {
-  input.style.border = '2px solid rgb(212, 4, 4)';
+export const applyStyle = (input: HTMLInputElement, isValid: boolean) => {
+  const submitBtn = document.querySelector('.submit-btn') as HTMLButtonElement;
+
+  if (isValid) {
+    input.style.border = VALID_COLOR;
+    submitBtn.disabled = false;
+    submitBtn.classList.remove('disable');
+  } else {
+    input.style.border = INVALID_COLOR;
+    submitBtn.disabled = true;
+    submitBtn.classList.add('disable');
+  }
 };
 
-export const greenBorder = (input: HTMLInputElement) => {
-  input.style.border = '2px solid rgb(8, 250, 4)';
-};
-
-const mailValidation = (): void => {
-  const formatPattern: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const lettersPattern = /^(?=.*[a-zA-Z])/;
-  const mailInput = document.querySelector('.authorization-form__mail') as HTMLInputElement;
+const validationMail = (): void => {
+  let isValid = false;
   const labelMail = document.querySelector('.label-mail') as HTMLElement;
-  const warningText = createCustomElement('p', ['warning-text']);
+  const mailInput = document.querySelector('.authorization-form__mail') as HTMLInputElement;
+  const warningText = createCustomElement('p', [classNames.WARNING_TEXT]);
   labelMail.append(warningText);
 
   mailInput?.addEventListener('input', (event) => {
     const mail: string = (event.target as HTMLInputElement).value;
 
-    if (!formatPattern.test(mail)) {
-      warningText.textContent = 'Your formatted email address is not correct! Correct formatted user@domen.name';
-      redBorder(mailInput);
-    } else if (hasSpaceInStartOrEnd(mail)) {
+    if (!hasSpaceInStartOrEnd(mail)) {
       warningText.textContent = 'Remove the space at the beginning or end of the email';
-      redBorder(mailInput);
-    } else if (!lettersPattern.test(mail)) {
+      isValid = false;
+      applyStyle(mailInput, isValid);
+    } else if (!patterns.LETTERS.test(mail)) {
       warningText.textContent = 'Please use Latin letters';
-      redBorder(mailInput);
+      isValid = false;
+      applyStyle(mailInput, isValid);
+    } else if (
+      !patterns.FORMAT.test(mail) ||
+      !patterns.SYMBOL_IN_NAME.test(mail) ||
+      patterns.SYMBOL_IN_DOMAINE.test(mail)
+    ) {
+      warningText.textContent = 'Your formatted email address is not correct! Correct formatted user@domen.name';
+      isValid = false;
+      applyStyle(mailInput, isValid);
     } else {
       warningText.textContent = '';
-      greenBorder(mailInput);
+      isValid = true;
+      applyStyle(mailInput, isValid);
     }
   });
 };
 
-const passwordValidation = (): void => {
-  const uppercasePattern = /^(?=.*[A-Z])/;
-  const lowercasePattern = /^(?=.*[a-z])/;
-  const numberPattern = /^(?=.*[0-9])/;
-  const valuePattern = /^(?=.*[!@#$%^&*])/;
+const validationPassword = (): void => {
+  let isValid = false;
   const pasInput = document.querySelector('.authorization-form__password') as HTMLInputElement;
   const pasLabel = document.querySelector('.label-password') as HTMLElement;
-  const warningText = createCustomElement('p', ['warning-text']);
+  const warningText = createCustomElement('p', [classNames.WARNING_TEXT]);
   pasLabel.append(warningText);
 
   pasInput?.addEventListener('input', (event) => {
     const password: string = (event.target as HTMLInputElement).value;
 
-    if (!uppercasePattern.test(password)) {
+    if (!patterns.UPPERCASE.test(password)) {
       warningText.textContent = 'Password must contain at least one uppercase letter (A-Z).';
-      redBorder(pasInput);
-    } else if (!lowercasePattern.test(password)) {
+      isValid = false;
+      applyStyle(pasInput, isValid);
+    } else if (!patterns.LOWERCASE.test(password)) {
       warningText.textContent = 'Password must contain at least one lowercase letter (a-z).';
-      redBorder(pasInput);
-    } else if (!numberPattern.test(password)) {
+      isValid = false;
+      applyStyle(pasInput, isValid);
+    } else if (!patterns.NUMBER.test(password)) {
       warningText.textContent = 'Password must contain at least one digit (0-9).';
-      redBorder(pasInput);
-    } else if (!valuePattern.test(password)) {
+      isValid = false;
+      applyStyle(pasInput, isValid);
+    } else if (!patterns.VALUE.test(password)) {
       warningText.textContent = 'Password must contain at least one special character (e.g., !@#$%^&*).';
-      redBorder(pasInput);
+      isValid = false;
+      applyStyle(pasInput, isValid);
     } else if (password.length < 8) {
       warningText.textContent = 'Password must be at least 8 characters long.';
-      redBorder(pasInput);
-    } else if (hasSpaceInStartOrEnd(password)) {
+      isValid = false;
+      applyStyle(pasInput, isValid);
+    } else if (!hasSpaceInStartOrEnd(password)) {
       warningText.textContent = 'Remove the space at the beginning or end of the password';
-      redBorder(pasInput);
+      isValid = false;
+      applyStyle(pasInput, isValid);
     } else {
       warningText.textContent = '';
-      greenBorder(pasInput);
+      isValid = true;
+      applyStyle(pasInput, isValid);
     }
   });
 };
 
 export const loginValidation = (): void => {
-  mailValidation();
-  passwordValidation();
+  validationMail();
+  validationPassword();
 };
