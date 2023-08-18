@@ -1,10 +1,14 @@
 import { accountSVG } from '../../../assets/icons/accountSVG';
 import { customRoute } from '../../app/router/router';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
-import { openCloseMenu } from './hamburger-menu';
+import { openCloseMenuToBtn, closeMenuToNav } from './hamburger-menu';
+
+const headerClasses: Record<string, string> = {
+  NAV: 'nav',
+};
 
 const createNavBar = (): HTMLElement => {
-  const navBar = createCustomElement('nav', ['nav']);
+  const navBar = createCustomElement('nav', [headerClasses.NAV]);
   const linkHome = createCustomElement('a', ['nav-link'], 'Home') as HTMLLinkElement;
   linkHome.href = '/';
   const linkShop = createCustomElement('a', ['nav-link'], 'Shop') as HTMLLinkElement;
@@ -41,7 +45,7 @@ const createIconBar = (isLogin: boolean): HTMLElement => {
 const createHamburgerBtn = (): HTMLElement => {
   let quantitySpan = 4;
   const button = createCustomElement('div', ['hamburger']);
-  button.addEventListener('click', openCloseMenu);
+  button.addEventListener('click', openCloseMenuToBtn);
 
   while (quantitySpan > 0) {
     const span = createCustomElement('span', ['hamburger__line']);
@@ -71,7 +75,7 @@ export const drawHeader = (isLogin: boolean): void => {
   logoLink.append(logoText);
   logo.append(logoIcon, logoLink);
   const navBar = createNavBar();
-  navBar.addEventListener('click', openCloseMenu);
+  navBar.addEventListener('click', closeMenuToNav);
   const hamburgerBtn = createHamburgerBtn();
   const iconBar = createIconBar(isLogin);
   wrapper.append(logo, navBar, hamburgerBtn, iconBar);

@@ -71,6 +71,15 @@
     box-shadow: inset 2px 2px 2px 2px $color-text-base;
   }
 
+  &.disable {
+    opacity: 0.4;
+    cursor: default;
+
+    &:active {
+      box-shadow: none;
+    }
+  }
+
   @include media-netbook {
     width: fit-content;
   }

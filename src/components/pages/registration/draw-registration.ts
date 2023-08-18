@@ -4,7 +4,7 @@ import { checkPassword, checkName, checkSurname, checkBirth, checkCity, checkPos
 import { createPageTitle } from '../../shared/utilities/title';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { customRoute } from '../../app/router/router';
-import { setLoginInLocalStorage } from '../../app/localStorage/localStorage';
+import { setLocalStorageLogin } from '../../app/localStorage/localStorage';
 import { isLoginCustomer } from '../../shared/api/server-authorization';
 import { regCardObj } from "../../../types/shared";
 import { setError, setSuccess, CheckIt } from './validation-helpers';
@@ -110,7 +110,7 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
   let streetBilling = form.ShippingstreetDiv.input.value.trim();
   let postalCodeBilling = form.ShippingpostDiv.input.value.trim();
 
-  if(form.billingDiv.classList.contains('billing-visible')){
+  if (form.billingDiv.classList.contains('billing-visible')) {
     cityBilling = form.ShippingcityDiv.input.value.trim();
     streetBilling = form.ShippingstreetDiv.input.value.trim();
     postalCodeBilling = form.ShippingpostDiv.input.value.trim();
@@ -118,12 +118,12 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
 
   let shipDef;
   const shippingDefaultcheck = document.getElementById('default-shipping') as HTMLInputElement;
-  if(shippingDefaultcheck.checked){
+  if (shippingDefaultcheck.checked) {
     shipDef = 0;
   }
   let billDef;
   const billinggDefaultcheck = document.getElementById('default-billing') as HTMLInputElement;
-  if(billinggDefaultcheck.checked){
+  if (billinggDefaultcheck.checked) {
     billDef = 1;
   }
 
@@ -133,35 +133,38 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
     lastName: form.surnameDiv.input.value.trim(),
     password: form.passwordDiv.input.value.trim(),
     dateOfBirth: form.birthDiv.input.value,
-    addresses: [{
-      country: 'US',
-      city: form.ShippingcityDiv.input.value.trim(),
-      streetName: form.ShippingstreetDiv.input.value.trim(),
-      postalCode: form.ShippingpostDiv.input.value.trim(),
-    },{
-      country: 'US',
-      city: cityBilling,
-      streetName: streetBilling,
-      postalCode: postalCodeBilling,
-    }],
+    addresses: [
+      {
+        country: 'US',
+        city: form.ShippingcityDiv.input.value.trim(),
+        streetName: form.ShippingstreetDiv.input.value.trim(),
+        postalCode: form.ShippingpostDiv.input.value.trim(),
+      },
+      {
+        country: 'US',
+        city: cityBilling,
+        streetName: streetBilling,
+        postalCode: postalCodeBilling,
+      },
+    ],
     defaultShippingAddress: shipDef,
-    defaultBillingAddress:  billDef
-  }
+    defaultBillingAddress: billDef,
+  };
 
   const warningsArray = document.querySelectorAll('.small-visible');
-  if(warningsArray.length === 0){
+  if (warningsArray.length === 0) {
     const createCustomer = new StpClientApi().createCustomer(registrationCard);
-      createCustomer
-        .then((data) => {
-          if (data.statusCode === 201) {
-            isLoginCustomer.isLogin = true;
-            setLoginInLocalStorage('isLoginCustomer.isLogin', true);
-            customRoute('/success');
-          }
-        })
-        .catch((error) => {
-          setError(form.emailDiv.input,error.message);
-        });
+    createCustomer
+      .then((data) => {
+        if (data.statusCode === 201) {
+          isLoginCustomer.isLogin = true;
+          setLocalStorageLogin('isLoginCustomer.isLogin', true);
+          customRoute('/success');
+        }
+      })
+      .catch((error) => {
+        setError(form.emailDiv.input, error.message);
+      });
   }
 });
 
