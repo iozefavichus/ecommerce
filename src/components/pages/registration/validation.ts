@@ -53,8 +53,7 @@ export const checkSurname = (value: string): Array<string> => {
   const result: Array<string> = [];
   if (value.length < 1) {
     result.push('Surname must be at least 1 character long');
-  }
-  if (!regOnlyLetters.test(value)) {
+  }else if (!regOnlyLetters.test(value)) {
     result.push('Surname must not contain special characters or numbers');
   }
   return result;
@@ -70,8 +69,7 @@ export const checkCity = (value: string): Array<string> => {
   const result: Array<string> = [];
   if (value.length < 1) {
     result.push('City must be at least 1 character long');
-  }
-  if (!regLetters.test(value)) {
+  }else if (!regLetters.test(value)) {
     result.push('City must not contain special characters or numbers');
   }
   return result;
@@ -81,12 +79,10 @@ export const checkPost = (country: string, value: string): Array<string> => {
   const result: Array<string> = [];
   if (value.length < 1) {
     result.push('Post code cannot be blank');
-  }
-  if (country === 'USA' && (!regPost.USA.test(value)||value.length>5)) {
+  } else if (country === 'USA' && (!regPost.USA.test(value)||value.length>5)) {
     result.push('Your post code does not match USA postal codes.');
     result.push('You need DDDDD format (where D - digit)');
-  }
-  if (country === '') {
+  }else if (country === '') {
     result.push('Please enter your country first');
   }
   return result;
