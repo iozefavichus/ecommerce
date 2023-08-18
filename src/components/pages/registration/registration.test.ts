@@ -7,7 +7,7 @@ import {
   hasSpaceInStartOrEnd,
   checkPassword,
   checkBirth,
-  writeErrors
+  writeErrors,
 } from './validation';
 
 test('Check email', () => {
@@ -30,8 +30,8 @@ test('Check postcode for USA', () => {
 });
 
 test('Check postcode for USA', () => {
-    expect(checkPost('USA', '11111')).toEqual([]);
-  });
+  expect(checkPost('USA', '11111')).toEqual([]);
+});
 
 test('Check postcode when country is blank', () => {
   expect(checkPost('', 'DFGSA')).toEqual(['Please enter your country first']);
@@ -62,12 +62,12 @@ describe('When given blank surname', () => {
 });
 
 describe('When given surname with numbers', () => {
-    it('returns warnings that surname must not contain special characters or numbers', () => {
-      const result = checkSurname('a2sdasd');
-      const expected = ['Surname must not contain special characters or numbers'];
-      expect(result).toEqual(expected);
-    });
+  it('returns warnings that surname must not contain special characters or numbers', () => {
+    const result = checkSurname('a2sdasd');
+    const expected = ['Surname must not contain special characters or numbers'];
+    expect(result).toEqual(expected);
   });
+});
 
 describe('When given blank name', () => {
   it('returns warnings that name must be at least 1 character long', () => {
@@ -78,12 +78,12 @@ describe('When given blank name', () => {
 });
 
 describe('When given name with numbers', () => {
-    it('returns warnings that name must not contain special characters or numbers', () => {
-      const result = checkName('111asdasd');
-      const expected = ['Name must not contain special characters or numbers'];
-      expect(result).toEqual(expected);
-    });
+  it('returns warnings that name must not contain special characters or numbers', () => {
+    const result = checkName('111asdasd');
+    const expected = ['Name must not contain special characters or numbers'];
+    expect(result).toEqual(expected);
   });
+});
 
 describe('When given email with spaces in the end', () => {
   it('returns true if there are spaces in the end after email', () => {
@@ -132,25 +132,25 @@ describe('When given right password with leading whitespace', () => {
 });
 
 describe('When given true date of birth with age more then 13 years', () => {
-    it('returns true', () => {
-      const result = checkBirth(' 12-12-2000');
-      const expected = true;
-      expect(result).toEqual(expected);
-    });
+  it('returns true', () => {
+    const result = checkBirth(' 12-12-2000');
+    const expected = true;
+    expect(result).toEqual(expected);
   });
+});
 
-  describe('When given city with numbers', () => {
-    it('returns warnings that city must not contain special characters or numbers', () => {
-      const result = checkCity('111asdasd');
-      const expected = ['City must not contain special characters or numbers'];
-      expect(result).toEqual(expected);
-    });
+describe('When given city with numbers', () => {
+  it('returns warnings that city must not contain special characters or numbers', () => {
+    const result = checkCity('111asdasd');
+    const expected = ['City must not contain special characters or numbers'];
+    expect(result).toEqual(expected);
   });
+});
 
-  describe('When given array of warnings', () => {
-    it('returns list', () => {
-      const result = writeErrors(['error1']);
-      const expected = true;
-      expect(result.classList.contains('warnings')).toEqual(expected);
-    });
+describe('When given array of warnings', () => {
+  it('returns list', () => {
+    const result = writeErrors(['error1']);
+    const expected = true;
+    expect(result.classList.contains('warnings')).toEqual(expected);
   });
+});
