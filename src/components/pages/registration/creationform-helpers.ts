@@ -72,6 +72,6 @@ export const createFormWithOptions = (labelName: string, labeltext: string): HTM
     container.append(select);
     const message = createCustomElement('div', ['small-text'], 'error message');
     container.append(message);
-  
+
     return container;
   };

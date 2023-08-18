@@ -2,15 +2,14 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 
 const regUppercase = /^(?=.*[A-Z])/;
 const regLowercase = /^(?=.*[a-z])/;
-const regLetters = /^(?=.*[a-zA-Z])/;
-const regOnlyLetters = /^([a-zA-Z]+)/;
+const regOnlyLetters = /^([a-zA-Z]+$)/;
 const regNumbers = /^(?=.*[0-9])/;
 const regSpecial = /^(?=.*[!@#$%^&*])/;
 const regPost = {
   USA: /\d{5}/,
 };
 
-const hasSpaceInStartOrEnd = (email: string) => {
+export const hasSpaceInStartOrEnd = (email: string) => {
     const trimmedEmail = email.trim();
     return trimmedEmail !== email;
   };
@@ -42,8 +41,7 @@ export const checkName = (value: string): Array<string> => {
   const result: Array<string> = [];
   if (value.length < 1) {
     result.push('Name must be at least 1 character long');
-  }
-  if (!regOnlyLetters.test(value)) {
+  }else if (!regOnlyLetters.test(value)) {
     result.push('Name must not contain special characters or numbers');
   }
   return result;
@@ -69,7 +67,7 @@ export const checkCity = (value: string): Array<string> => {
   const result: Array<string> = [];
   if (value.length < 1) {
     result.push('City must be at least 1 character long');
-  }else if (!regLetters.test(value)) {
+  }else if (!regOnlyLetters.test(value)) {
     result.push('City must not contain special characters or numbers');
   }
   return result;
@@ -93,7 +91,7 @@ const EMAIL_REGEXP =
 export const checkEmail = (email: string): boolean => EMAIL_REGEXP.test(email);
 
 export const writeErrors = (errors: Array<string>): HTMLElement => {
-  const container = createCustomElement('ul', ['']);
+  const container = createCustomElement('ul', ['warnings']);
   for (let i = 0; i < errors.length; i += 1) {
     const li = createCustomElement('li', ['list-item']);
     li.innerHTML = errors[i];
