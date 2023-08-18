@@ -3,10 +3,6 @@ export const changePasswordDisplay = () => {
   const passwordInput = document.querySelector('.authorization-form__password') as HTMLInputElement;
 
   checkbox?.addEventListener('click', () => {
-    if (checkbox.checked) {
-      passwordInput.type = 'text';
-    } else {
-      passwordInput.type = 'password';
-    }
+    passwordInput.type = checkbox.checked ? 'text' : 'password';
   });
 };

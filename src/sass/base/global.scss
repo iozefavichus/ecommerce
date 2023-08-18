@@ -9,7 +9,9 @@
 body {
   font-family: Poppins, sans-serif;
 
-  &.open {
-    overflow: hidden;
+  @include media-table {
+    &.open {
+      overflow: hidden;
+    }
   }
 }
