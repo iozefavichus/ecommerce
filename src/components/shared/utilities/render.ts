@@ -9,6 +9,8 @@ import { drawRegistration } from '../../pages/registration/draw-registration';
 import { drawSuccess } from '../../pages/registration/success';
 import { drawNotFound } from '../../pages/notfound/draw-not-found';
 import { logoutCustomer } from '../../pages/log-in/log-out';
+import { customRoute } from '../../app/router/router';
+
 
 export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
@@ -53,10 +55,7 @@ export const renderChangeContent = (path: string): void => {
   if (renderPage === '/success') {
     drawSuccess();
     setTimeout(()=>{
-      const body = document.querySelector('body') as HTMLElement;
-      body.innerHTML = '';
-      render(isLoginCustomer.isLogin);
-      logoutCustomer();
+      customRoute('/');
     },3000)
   }
   if (renderPage === '/login') {
