@@ -4,12 +4,13 @@ import { drawFooter } from '../../pages/footer/draw-footer';
 import { drawHeader } from '../../pages/header/draw-header';
 import { drawLogInPage } from '../../pages/log-in/login';
 import { drawMain } from '../../pages/main/draw-main';
-import { authorization } from '../api/server-authorization';
+import { authorization, isLoginCustomer } from '../api/server-authorization';
 import { drawRegistration } from '../../pages/registration/draw-registration';
 import { drawNotFound } from '../../pages/notfound/draw-not-found';
+import { logoutCustomer } from '../../pages/log-in/log-out';
 
-export const render = (): void => {
-  drawHeader();
+export const render = (isLogin: boolean): void => {
+  drawHeader(isLogin);
   drawMain();
   drawFooter();
 };
@@ -27,7 +28,8 @@ export const renderChangeContent = (path: string): void => {
   if (renderPage === '/') {
     const body = document.querySelector('body') as HTMLElement;
     body.innerHTML = '';
-    render();
+    render(isLoginCustomer.isLogin);
+    logoutCustomer();
   }
   if (renderPage === '/shop') {
     drawNotFound();

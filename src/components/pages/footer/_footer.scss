@@ -13,7 +13,10 @@
   align-items: center;
   justify-items: center;
   gap: 15px 0;
-  grid-template-columns: 1fr 1fr 1fr;
+
+  @include media-table {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .mall-name {
@@ -54,6 +57,10 @@
   @include display-flex(center, space-between);
 
   width: 100%;
+
+  @include media-table {
+    display: none;
+  }
 }
 
 .rss-link {

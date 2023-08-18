@@ -1,3 +1,4 @@
+// import { mailValidation } from '../../app/validation/login-validation';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 
 const createMailBlock = (): HTMLElement => {
@@ -5,7 +6,7 @@ const createMailBlock = (): HTMLElement => {
   const inputMail = createCustomElement('input', ['authorization-form__mail']) as HTMLInputElement;
   inputMail.type = 'text';
   inputMail.placeholder = 'mail';
-  inputMail.autocomplete = 'username';
+  inputMail.autocomplete = 'email';
   inputMail.setAttribute('required', '');
   labelMail.append(inputMail);
   return labelMail;

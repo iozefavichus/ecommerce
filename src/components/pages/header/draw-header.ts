@@ -1,5 +1,7 @@
+import { accountSVG } from '../../../assets/icons/accountSVG';
 import { customRoute } from '../../app/router/router';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { openCloseMenu } from './hamburger-menu';
 
 const createNavBar = (): HTMLElement => {
   const navBar = createCustomElement('nav', ['nav']);
@@ -16,21 +18,40 @@ const createNavBar = (): HTMLElement => {
   return navBar;
 };
 
-const createIconBar = (): HTMLElement => {
+const createIconBar = (isLogin: boolean): HTMLElement => {
+  const colorProfile = isLogin ? 'rgb(8, 250, 4)' : 'rgb(0, 0, 0)';
+  const iconProfile = accountSVG(colorProfile);
   const iconBar = createCustomElement('div', ['icon-bar']);
   const logIn = createCustomElement('a', ['login-link'], 'Log in') as HTMLLinkElement;
   logIn.href = '/login';
+  const logOut = createCustomElement('a', ['log-out'], 'Log out') as HTMLLinkElement;
   const registrationLink = createCustomElement('a', ['registration-link'], 'Registration') as HTMLLinkElement;
   registrationLink.href = '/registration';
   const linkProfile = createCustomElement('a', ['profile-link']) as HTMLLinkElement;
+  linkProfile.innerHTML = iconProfile;
   linkProfile.href = '/profile';
   const linkBasket = createCustomElement('a', ['basket-link']) as HTMLLinkElement;
   linkBasket.href = '/basket';
-  iconBar.append(linkProfile, linkBasket, logIn, registrationLink);
+  const logBtn = isLogin ? logOut : logIn;
+  const regBtn = isLogin ? '' : registrationLink;
+  iconBar.append(linkProfile, linkBasket, logBtn, regBtn);
   return iconBar;
 };
 
-export const drawHeader = (): void => {
+const createHamburgerBtn = (): HTMLElement => {
+  let quantitySpan = 4;
+  const button = createCustomElement('div', ['hamburger']);
+  button.addEventListener('click', openCloseMenu);
+
+  while (quantitySpan > 0) {
+    const span = createCustomElement('span', ['hamburger__line']);
+    button.append(span);
+    quantitySpan -= 1;
+  }
+  return button;
+};
+
+export const drawHeader = (isLogin: boolean): void => {
   const body = document.querySelector('body');
   const header = createCustomElement('header', ['header']);
   body?.append(header);
@@ -50,6 +71,8 @@ export const drawHeader = (): void => {
   logoLink.append(logoText);
   logo.append(logoIcon, logoLink);
   const navBar = createNavBar();
-  const iconBar = createIconBar();
-  wrapper.append(logo, navBar, iconBar);
+  navBar.addEventListener('click', openCloseMenu);
+  const hamburgerBtn = createHamburgerBtn();
+  const iconBar = createIconBar(isLogin);
+  wrapper.append(logo, navBar, hamburgerBtn, iconBar);
 };
