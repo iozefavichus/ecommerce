@@ -55,7 +55,7 @@ export const renderChangeContent = (path: string): void => {
     drawSuccess();
     setTimeout(() => {
       customRoute('/');
-    }, 2000);
+    }, 1500);
   }
   if (renderPage === '/login') {
     drawLogInPage();

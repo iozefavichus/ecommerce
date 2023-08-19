@@ -11,7 +11,7 @@
     "lint:ts:fix": "eslint \"**/*.ts\" --fix",
     "lint:scss": "npx stylelint \"**/*.scss\"",
     "lint:scss:fix": "npx stylelint \"**/*.scss\" --fix",
-    "test:unit": "jest",
+    "test:unit": "jest --coverage",
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -61,6 +61,7 @@
     "@commercetools/sdk-auth": "^4.0.1",
     "@commercetools/sdk-client-v2": "^2.2.0",
     "dotenv": "^16.3.1",
+    "jest-environment-jsdom": "^29.6.2",
     "node-fetch": "^2.6.12",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "normalize.css": "^8.0.1"

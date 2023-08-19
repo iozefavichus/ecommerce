@@ -1,14 +1,15 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { RegistrationForm } from './registration-form';
-import { checkPassword, checkName, checkSurname, checkBirth, checkCity, checkPost, writeErrors } from './validation';
+import { checkPassword, checkName, checkSurname, checkBirth, checkCity, checkPost, checkEmail } from './validation';
 import { createPageTitle } from '../../shared/utilities/title';
-import { regCardObj } from '../../../types/shared';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { customRoute } from '../../app/router/router';
 import { setLocalStorageLogin } from '../../app/localStorage/localStorage';
 import { isLoginCustomer } from '../../shared/api/server-authorization';
+import { regCardObj } from '../../../types/shared';
+import { setError, setSuccess, CheckIt } from './validation-helpers';
 
-const form = RegistrationForm();
+export const form = RegistrationForm();
 
 export const drawRegistration = () => {
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
@@ -20,44 +21,6 @@ export const drawRegistration = () => {
   const registration = form;
   wrapper.append(registration.wrapper);
 };
-
-export const setError = (input: HTMLInputElement, message: string) => {
-  input.classList.add('input-error');
-  const formControl = input.parentElement;
-  const small = formControl?.querySelector('.small-text');
-  if (small) {
-    small.classList.add('small-visible');
-    small.innerHTML = message;
-  }
-};
-
-export const setSuccess = (input: HTMLInputElement) => {
-  input.classList.remove('input-error');
-  const formControl = input.parentElement;
-  formControl?.classList.remove('form-error');
-  const small = formControl?.querySelector('.small-text');
-  small?.classList.remove('small-visible');
-};
-
-export const CheckIt = (result: Array<string>, input: HTMLInputElement) => {
-  if (result.length > 0) {
-    const formControl = input.parentElement;
-    const container = formControl?.querySelector('.small-text');
-    container?.classList.add('small-visible');
-    if (container) {
-      container.innerHTML = '';
-    }
-    const errors = writeErrors(result);
-    input.classList.add('input-error');
-    container?.append(errors);
-  } else {
-    setSuccess(input);
-  }
-};
-
-const EMAIL_REGEXP =
-  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
-export const checkEmail = (email: string): boolean => EMAIL_REGEXP.test(email);
 
 export const checkInputs = () => {
   const nameInput = form.nameDiv.input;

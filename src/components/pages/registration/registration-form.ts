@@ -1,6 +1,6 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { checkName, checkSurname, checkBirth, checkEmail, checkPassword, checkCity, checkPost } from './validation';
-import { CheckIt, setError, setSuccess } from './draw-registration';
+import { setError, setSuccess, CheckIt } from './validation-helpers';
 
 const createFormElement = <T extends HTMLElement>(
   tag: string,
