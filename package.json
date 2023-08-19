@@ -11,7 +11,7 @@
     "lint:ts:fix": "eslint \"**/*.ts\" --fix",
     "lint:scss": "npx stylelint \"**/*.scss\"",
     "lint:scss:fix": "npx stylelint \"**/*.scss\" --fix",
-    "test:unit": "jest --coverage",
+    "test:unit": "jest",
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -37,7 +37,6 @@
     "jest": "^29.6.2",
     "lint-staged": "^13.2.3",
     "mini-css-extract-plugin": "^2.7.6",
-    "path-browserify": "^1.0.1",
     "prettier": "^3.0.0",
     "sass": "^1.64.2",
     "sass-loader": "^13.3.2",
@@ -58,12 +57,8 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@commercetools/platform-sdk": "^4.11.0",
-    "@commercetools/sdk-auth": "^4.0.1",
     "@commercetools/sdk-client-v2": "^2.2.0",
-    "dotenv": "^16.3.1",
-    "jest-environment-jsdom": "^29.6.2",
     "node-fetch": "^2.6.12",
-    "node-polyfill-webpack-plugin": "^2.0.1",
     "normalize.css": "^8.0.1"
   },
   "husky": {
