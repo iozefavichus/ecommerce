@@ -1,8 +1,13 @@
-import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { clientTest, ctpClient } from './build-client';
+import {
+  ClientResponse,
+  Customer,
+  CustomerPagedQueryResponse,
+  CustomerSignInResult,
+  Project,
+  createApiBuilderFromCtpClient,
+} from '@commercetools/platform-sdk';
+import { ctpClient } from './build-client';
 import { regCardObj } from '../../../types/shared';
-
-export const api = createApiBuilderFromCtpClient(clientTest).withProjectKey({ projectKey: 'ecommerce_furniture' });
 
 export class StpClientApi {
   private email;
@@ -16,18 +21,18 @@ export class StpClientApi {
     this.password = password;
   }
 
-  public getCustomers() {
+  public getCustomers(): Promise<Customer[]> {
     return this.apiRoot
       .customers()
       .get()
       .execute()
-      .then((data) => {
+      .then((data: ClientResponse<CustomerPagedQueryResponse>) => {
         const customers = data.body.results;
         return customers;
       });
   }
 
-  public returnCustomerByEmail(customerEmail: string) {
+  public returnCustomerByEmail(customerEmail: string): Promise<ClientResponse<CustomerPagedQueryResponse>> {
     return this.apiRoot
       .customers()
       .get({
@@ -38,7 +43,7 @@ export class StpClientApi {
       .execute();
   }
 
-  public loginCustomer(email: string, password: string) {
+  public loginCustomer(email: string, password: string): Promise<ClientResponse<CustomerSignInResult>> {
     return this.apiRoot
       .me()
       .login()
@@ -51,11 +56,11 @@ export class StpClientApi {
       .execute();
   }
 
-  public getProject() {
+  public getProject(): Promise<ClientResponse<Project>> {
     return this.apiRoot.get().execute();
   }
 
-  public createCustomer(registrationCard: regCardObj) {
+  public createCustomer(registrationCard: regCardObj): Promise<ClientResponse<CustomerSignInResult>> {
     return this.apiRoot
       .customers()
       .post({
