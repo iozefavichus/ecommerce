@@ -1,5 +1,5 @@
 TN:
-SF:src/components/pages/registration/validation.ts
+SF:src\components\pages\registration\validation.ts
 FN:12,(anonymous_0)
 FN:17,(anonymous_1)
 FN:40,(anonymous_2)
@@ -118,7 +118,7 @@ BRF:23
 BRH:23
 end_of_record
 TN:
-SF:src/components/shared/utilities/helper-functions.ts
+SF:src\components\shared\utilities\helper-functions.ts
 FN:1,(anonymous_0)
 FNF:1
 FNH:1
@@ -127,11 +127,13 @@ DA:1,1
 DA:2,2
 DA:3,2
 DA:4,2
-DA:5,2
-LF:5
-LH:5
-BRDA:4,0,0,2
-BRDA:4,0,1,2
-BRF:2
-BRH:2
+DA:6,2
+DA:7,2
+LF:6
+LH:6
+BRDA:3,0,0,2
+BRDA:6,1,0,2
+BRDA:6,1,1,2
+BRF:3
+BRH:3
 end_of_record

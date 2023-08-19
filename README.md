@@ -147,12 +147,14 @@ cd ecommerce/dir-project
 ```shell
 npm install
 ```
-4. Go to the right branch for development:
+4. Create ```.env``` file with constants project.
+5. Go to the right branch for development:
 ```shell
 git checkout name-branch
 ```
-5. To develop, you need to create a new branch from the one you will work with.\
+6. To develop, you need to create a new branch from the one you will work with.\
   - To create a new branch and go directly to it, use the command:
 ```shell
 git checkout -b name-branch
 ```
+7. Work in your branch.

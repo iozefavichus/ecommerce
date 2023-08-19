@@ -15,3 +15,5 @@ export interface regCardObj {
   defaultShippingAddress: number | undefined;
   defaultBillingAddress: number | undefined;
 }
+
+export type Constants = Record<string, string>;
