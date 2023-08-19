@@ -1,4 +1,7 @@
 import './sass/main.scss';
-import { getProject } from './components/shared/api/clientAPI';
+import { render } from './components/shared/utilities/render';
+import { app } from './components/app/app';
+import { isLoginCustomer } from './components/shared/api/server-authorization';
 
-getProject().then((project) => console.log(project));
+render(isLoginCustomer.isLogin);
+app();
