@@ -58,10 +58,14 @@ export const renderChangeContent = (path: string): void => {
     },1500)
   }
   if (renderPage === '/login') {
-    drawLogInPage();
-    loginValidation();
-    authorization();
-    changePasswordDisplay();
+    if (isLoginCustomer.isLogin) {
+      drawNotFound();
+    } else {
+      drawLogInPage();
+      loginValidation();
+      authorization();
+      changePasswordDisplay();
+    }
   }
 };
 
