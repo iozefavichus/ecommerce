@@ -1,7 +1,12 @@
 import 'dotenv/config';
 import fetch from 'node-fetch';
 import SdkAuth from '@commercetools/sdk-auth';
-import { ClientBuilder, type AuthMiddlewareOptions, type HttpMiddlewareOptions } from '@commercetools/sdk-client-v2';
+import {
+  ClientBuilder,
+  type AuthMiddlewareOptions,
+  type HttpMiddlewareOptions,
+  Client,
+} from '@commercetools/sdk-client-v2';
 
 const host = process.env.CTP_AUTH_URL as string;
 const projectKey = process.env.CTP_PROJECT_KEY as string;
@@ -27,13 +32,11 @@ const httpMiddlewareOptions: HttpMiddlewareOptions = {
 };
 
 // Export the ClientBuilder
-export const ctpClient = new ClientBuilder()
+export const ctpClient: Client = new ClientBuilder()
   .withClientCredentialsFlow(authMiddlewareOptions)
   .withHttpMiddleware(httpMiddlewareOptions)
   .withLoggerMiddleware()
   .build();
-
-export const clientTest = new ClientBuilder().withClientCredentialsFlow(authMiddlewareOptions).build();
 
 export const authClient = new SdkAuth({
   host,

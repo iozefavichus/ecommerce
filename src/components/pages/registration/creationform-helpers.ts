@@ -1,4 +1,4 @@
-import { createCustomElement } from "../../shared/utilities/helper-functions";
+import { createCustomElement } from '../../shared/utilities/helper-functions';
 
 export const createFormElement = <T extends HTMLElement>(
   tag: string,
@@ -44,7 +44,12 @@ export interface FromDivObject {
   message: HTMLElement;
 }
 
-export const createFormDiv = (labelName: string, labeltext: string, inputId: string, inputType: string): FromDivObject => {
+export const createFormDiv = (
+  labelName: string,
+  labeltext: string,
+  inputId: string,
+  inputType: string,
+): FromDivObject => {
   const container = createCustomElement('div', ['form-control']);
   const label = createLabel(['label'], labelName, labeltext);
   container.append(label);
@@ -61,17 +66,17 @@ export const createFormDiv = (labelName: string, labeltext: string, inputId: str
 };
 
 export const createFormWithOptions = (labelName: string, labeltext: string): HTMLElement => {
-    const container = createCustomElement('div', ['form-control']);
-    const label = createLabel(['label'], labelName, labeltext);
-    container.append(label);
-    const select = createCustomElement('select', ['select-country']);
-    select.setAttribute('name', 'labelName');
-    const option = createCustomElement('option', ['country'], 'USA');
-    option.setAttribute('value', 'USA');
-    select.append(option);
-    container.append(select);
-    const message = createCustomElement('div', ['small-text'], 'error message');
-    container.append(message);
+  const container = createCustomElement('div', ['form-control']);
+  const label = createLabel(['label'], labelName, labeltext);
+  container.append(label);
+  const select = createCustomElement('select', ['select-country']);
+  select.setAttribute('name', 'labelName');
+  const option = createCustomElement('option', ['country'], 'USA');
+  option.setAttribute('value', 'USA');
+  select.append(option);
+  container.append(select);
+  const message = createCustomElement('div', ['small-text'], 'error message');
+  container.append(message);
 
-    return container;
-  };
+  return container;
+};

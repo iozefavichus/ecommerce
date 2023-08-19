@@ -1,22 +1,49 @@
 import { accountSVG } from '../../../assets/icons/accountSVG';
+import { Constants } from '../../../types/shared';
 import { customRoute } from '../../app/router/router';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { openCloseMenuToBtn, closeMenuToNav } from './hamburger-menu';
 
-const headerClasses: Record<string, string> = {
+export const headerClasses: Constants = {
+  HEADER: 'header',
+  HEADER_WRAPPER: 'header__wrapper',
+  LOGO: 'logo',
+  LOGO_LINK: 'logo__link',
+  LOGO_ICON: 'logo__icon',
+  LOGO_TEXT: 'logo__text',
   NAV: 'nav',
+  NAV_LINK: 'nav-link',
+  HAMBURGER_BTN: 'hamburger',
+  HAMBURGER_LINE: 'hamburger__line',
+  ICON_BAR: 'icon-bar',
+  PROFILE_LINK: 'profile-link',
+  BASKET_LINK: 'basket-link',
+  LOGIN_LINK: 'login-link',
+  LOGOUT: 'log-out',
+  REG_LINK: 'registration-link',
+};
+
+export const links: Constants = {
+  HOME: '/',
+  SHOP: '/shop',
+  ABOUT: '/about',
+  CONTACT: '/contact',
+  LOGIN: '/login',
+  REG: '/registration',
+  PROFILE: '/profile',
+  BASKET: '/basket',
 };
 
 const createNavBar = (): HTMLElement => {
   const navBar = createCustomElement('nav', [headerClasses.NAV]);
-  const linkHome = createCustomElement('a', ['nav-link'], 'Home') as HTMLLinkElement;
-  linkHome.href = '/';
-  const linkShop = createCustomElement('a', ['nav-link'], 'Shop') as HTMLLinkElement;
-  linkShop.href = '/shop';
-  const linkAbout = createCustomElement('a', ['nav-link'], 'About') as HTMLLinkElement;
-  linkAbout.href = '/about';
-  const linkContact = createCustomElement('a', ['nav-link'], 'Contact') as HTMLLinkElement;
-  linkContact.href = '/contact';
+  const linkHome = createCustomElement('a', [headerClasses.NAV_LINK], 'Home') as HTMLLinkElement;
+  linkHome.href = links.HOME;
+  const linkShop = createCustomElement('a', [headerClasses.NAV_LINK], 'Shop') as HTMLLinkElement;
+  linkShop.href = links.SHOP;
+  const linkAbout = createCustomElement('a', [headerClasses.NAV_LINK], 'About') as HTMLLinkElement;
+  linkAbout.href = links.ABOUT;
+  const linkContact = createCustomElement('a', [headerClasses.NAV_LINK], 'Contact') as HTMLLinkElement;
+  linkContact.href = links.CONTACT;
   navBar.append(linkHome, linkShop, linkAbout, linkContact);
 
   return navBar;
@@ -25,17 +52,17 @@ const createNavBar = (): HTMLElement => {
 const createIconBar = (isLogin: boolean): HTMLElement => {
   const colorProfile = isLogin ? 'rgb(8, 250, 4)' : 'rgb(0, 0, 0)';
   const iconProfile = accountSVG(colorProfile);
-  const iconBar = createCustomElement('div', ['icon-bar']);
-  const logIn = createCustomElement('a', ['login-link'], 'Log in') as HTMLLinkElement;
-  logIn.href = '/login';
-  const logOut = createCustomElement('a', ['log-out'], 'Log out') as HTMLLinkElement;
-  const registrationLink = createCustomElement('a', ['registration-link'], 'Registration') as HTMLLinkElement;
-  registrationLink.href = '/registration';
-  const linkProfile = createCustomElement('a', ['profile-link']) as HTMLLinkElement;
+  const iconBar = createCustomElement('div', [headerClasses.ICON_BAR]);
+  const logIn = createCustomElement('a', [headerClasses.LOGIN_LINK], 'Log in') as HTMLLinkElement;
+  logIn.href = links.LOGIN;
+  const logOut = createCustomElement('a', [headerClasses.LOGOUT], 'Log out') as HTMLLinkElement;
+  const registrationLink = createCustomElement('a', [headerClasses.REG_LINK], 'Registration') as HTMLLinkElement;
+  registrationLink.href = links.REG;
+  const linkProfile = createCustomElement('a', [headerClasses.PROFILE_LINK]) as HTMLLinkElement;
   linkProfile.innerHTML = iconProfile;
-  linkProfile.href = '/profile';
-  const linkBasket = createCustomElement('a', ['basket-link']) as HTMLLinkElement;
-  linkBasket.href = '/basket';
+  linkProfile.href = links.PROFILE;
+  const linkBasket = createCustomElement('a', [headerClasses.BASKET_LINK]) as HTMLLinkElement;
+  linkBasket.href = links.PROFILE;
   const logBtn = isLogin ? logOut : logIn;
   const regBtn = isLogin ? '' : registrationLink;
   iconBar.append(linkProfile, linkBasket, logBtn, regBtn);
@@ -44,11 +71,11 @@ const createIconBar = (isLogin: boolean): HTMLElement => {
 
 const createHamburgerBtn = (): HTMLElement => {
   let quantitySpan = 4;
-  const button = createCustomElement('div', ['hamburger']);
+  const button = createCustomElement('div', [headerClasses.HAMBURGER_BTN]);
   button.addEventListener('click', openCloseMenuToBtn);
 
   while (quantitySpan > 0) {
-    const span = createCustomElement('span', ['hamburger__line']);
+    const span = createCustomElement('span', [headerClasses.HAMBURGER_LINE]);
     button.append(span);
     quantitySpan -= 1;
   }
@@ -57,21 +84,21 @@ const createHamburgerBtn = (): HTMLElement => {
 
 export const drawHeader = (isLogin: boolean): void => {
   const body = document.querySelector('body');
-  const header = createCustomElement('header', ['header']);
+  const header = createCustomElement('header', [headerClasses.HEADER]);
   body?.append(header);
-  const wrapper = createCustomElement('div', ['header__wrapper']);
+  const wrapper = createCustomElement('div', [headerClasses.HEADER_WRAPPER]);
   header.append(wrapper);
-  const logo = createCustomElement('div', ['logo']);
-  const logoLink = createCustomElement('a', ['logo__link']) as HTMLLinkElement;
-  logoLink.href = '/';
-  logoLink.addEventListener('click', (event) => {
+  const logo = createCustomElement('div', [headerClasses.LOGO]);
+  const logoLink = createCustomElement('a', [headerClasses.LOGO_LINK]) as HTMLLinkElement;
+  logoLink.href = links.HOME;
+  logoLink.addEventListener('click', (event): void => {
     event.preventDefault();
     const linkElem = event.currentTarget as HTMLElement;
     const path = linkElem.getAttribute('href') as string;
     customRoute(path);
   });
-  const logoIcon = createCustomElement('div', ['logo__icon']);
-  const logoText = createCustomElement('h1', ['logo__text'], 'Comfort');
+  const logoIcon = createCustomElement('div', [headerClasses.LOGO_ICON]);
+  const logoText = createCustomElement('h1', [headerClasses.LOGO_TEXT], 'Comfort');
   logoLink.append(logoText);
   logo.append(logoIcon, logoLink);
   const navBar = createNavBar();

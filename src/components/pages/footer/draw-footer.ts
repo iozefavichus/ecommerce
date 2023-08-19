@@ -1,7 +1,9 @@
+import { Constants } from '../../../types/shared';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { headerClasses } from '../header/draw-header';
 
-const footerClasses = {
-  NAV_LINK: 'nav-link',
+const footerClasses: Constants = {
+  NAV_LINK: headerClasses.NAV_LINK,
   ADDRESS: 'address',
   ADDRESS_CONTAIN: 'address-container',
   ADDRESS_LINK: 'address__link',
