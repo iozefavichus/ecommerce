@@ -1,6 +1,7 @@
+import { Constants } from '../../../types/shared';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 
-const footerClasses = {
+const footerClasses: Constants = {
   NAV_LINK: 'nav-link',
   ADDRESS: 'address',
   ADDRESS_CONTAIN: 'address-container',

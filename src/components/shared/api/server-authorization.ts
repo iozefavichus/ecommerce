@@ -1,10 +1,10 @@
 import { getLocalStorageLogin, setLocalStorageLogin } from '../../app/localStorage/localStorage';
 import { customRoute } from '../../app/router/router';
-import { applyStyle } from '../../app/validation/login-validation';
+import { applyStyle } from '../../app/validation/login-valid';
 import { createCustomElement } from '../utilities/helper-functions';
 import { StpClientApi } from './stpClient-api';
 
-export const isLoginCustomer = {
+export const isLoginCustomer: Record<string, boolean> = {
   isLogin: getLocalStorageLogin('isLoginCustomer.isLogin'),
 };
 
@@ -13,22 +13,23 @@ export const isLoginCustomer = {
 // fhdsjfhsj@gmail.com
 // Xm@8CH9XB8StGGQ
 // Lala@test.com
+// password: aA1!aaaa
 
-export const authorization = () => {
+export const authorization = (): void => {
   const isValid = false;
   const formElem = document.querySelector('#login-form') as HTMLElement;
   const notFoundText = createCustomElement('p', ['not-customer']) as HTMLParagraphElement;
   formElem.prepend(notFoundText);
 
-  formElem?.addEventListener('submit', async (event) => {
+  formElem?.addEventListener('submit', async (event): Promise<void> => {
     event.preventDefault();
     const mailInput = document.querySelector('.authorization-form__mail') as HTMLInputElement;
     const passwordInput = document.querySelector('.authorization-form__password') as HTMLInputElement;
-    const email = mailInput.value;
-    const password = passwordInput.value;
+    const email: string = mailInput.value;
+    const password: string = passwordInput.value;
 
     if (email !== null && password !== null) {
-      const hasCustomer = (await new StpClientApi().returnCustomerByEmail(email)).body.results.length > 0;
+      const hasCustomer: boolean = (await new StpClientApi().returnCustomerByEmail(email)).body.results.length > 0;
 
       if (hasCustomer) {
         try {

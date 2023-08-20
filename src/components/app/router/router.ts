@@ -8,8 +8,8 @@ export const customRoute = (pathName: string): void => {
   renderChangeContent(newPath);
 };
 
-export const routing = () => {
-  body?.addEventListener('click', (event) => {
+export const routing = (): void => {
+  body?.addEventListener('click', (event): void => {
     const elem = event.target as HTMLElement;
 
     if (elem.tagName === 'A') {

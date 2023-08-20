@@ -1,7 +1,7 @@
-import { loginValidation } from '../../app/validation/login-validation';
+import { loginValidation } from '../../app/validation/login-valid';
 import { changePasswordDisplay } from '../../app/validation/open-password';
 import { drawFooter } from '../../pages/footer/draw-footer';
-import { drawHeader } from '../../pages/header/draw-header';
+import { drawHeader, links } from '../../pages/header/header';
 import { drawLogInPage } from '../../pages/log-in/login';
 import { drawMain } from '../../pages/main/draw-main';
 import { authorization, isLoginCustomer } from '../api/server-authorization';
@@ -27,7 +27,7 @@ export const renderChangeContent = (path: string): void => {
   }
   const renderPage = path;
 
-  if (renderPage === '/') {
+  if (renderPage === links.HOME) {
     const body = document.querySelector('body') as HTMLElement;
     body.innerHTML = '';
     render(isLoginCustomer.isLogin);
@@ -43,7 +43,11 @@ export const renderChangeContent = (path: string): void => {
     drawNotFound();
   }
   if (renderPage === '/registration') {
-    drawRegistration();
+    if (isLoginCustomer.isLogin) {
+      customRoute(links.HOME);
+    } else {
+      drawRegistration();
+    }
   }
   if (renderPage === '/basket') {
     drawNotFound();
@@ -54,14 +58,18 @@ export const renderChangeContent = (path: string): void => {
   if (renderPage === '/success') {
     drawSuccess();
     setTimeout(() => {
-      customRoute('/');
-    },1500)
+      customRoute(links.HOME);
+    }, 1500);
   }
   if (renderPage === '/login') {
-    drawLogInPage();
-    loginValidation();
-    authorization();
-    changePasswordDisplay();
+    if (isLoginCustomer.isLogin) {
+      customRoute(links.HOME);
+    } else {
+      drawLogInPage();
+      loginValidation();
+      authorization();
+      changePasswordDisplay();
+    }
   }
 };
 

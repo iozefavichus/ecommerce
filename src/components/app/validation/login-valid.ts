@@ -1,3 +1,4 @@
+import { Constants } from '../../../types/shared';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 
 const patterns: Record<string, RegExp> = {
@@ -5,15 +6,14 @@ const patterns: Record<string, RegExp> = {
   SYMBOL_IN_NAME: /^[^!@#$%^&*]+@/,
   SYMBOL_IN_DOMAINE: /@.*[!@#$%^&*0-9]/,
   UPPERCASE: /^(?=.*[A-Z])/,
-  LETTERS: /^(.*[^a-zA-Z0-9_-]+@)/,
   LOWERCASE: /^(?=.*[a-z])/,
   NUMBER: /^(?=.*[0-9])/,
   VALUE: /^(?=.*[!@#$%^&*])/,
 };
 
-const CORRECT_DOMAIN = ['example.com', 'gmail.com', 'test.com'];
+const CORRECT_DOMAIN: string[] = ['example.com', 'gmail.com', 'test.com'];
 
-const classNames: Record<string, string> = {
+const classNames: Constants = {
   WARNING_TEXT: 'warning-text',
   INVALID: 'invalid',
 };
@@ -21,12 +21,12 @@ const classNames: Record<string, string> = {
 const VALID_COLOR = '2px solid rgb(8, 250, 4)';
 const INVALID_COLOR = '2px solid rgb(212, 4, 4)';
 
-const hasSpaceInStartOrEnd = (email: string) => {
+const hasSpaceInStartOrEnd = (email: string): boolean => {
   const withoutSpacesEmail = email.replace(' ', '');
   return withoutSpacesEmail === email;
 };
 
-export const applyStyle = (input: HTMLInputElement, isValid: boolean) => {
+export const applyStyle = (input: HTMLInputElement, isValid: boolean): void => {
   const submitBtn = document.querySelector('.submit-btn') as HTMLButtonElement;
 
   if (isValid) {
@@ -47,17 +47,13 @@ const validationMail = (): void => {
   const warningText = createCustomElement('p', [classNames.WARNING_TEXT]);
   labelMail.append(warningText);
 
-  mailInput?.addEventListener('input', (event) => {
+  mailInput?.addEventListener('input', (event): void => {
     const mail: string = (event.target as HTMLInputElement).value;
-    const domain = mail.replace(/(.+)@/, '');
-    const isCorrectDomain = CORRECT_DOMAIN.findIndex((elem) => elem === domain);
+    const domain: string = mail.replace(/(.+)@/, '');
+    const isCorrectDomain: number = CORRECT_DOMAIN.findIndex((elem) => elem === domain);
 
     if (!hasSpaceInStartOrEnd(mail)) {
       warningText.textContent = 'Delete the space in the email line';
-      isValid = false;
-      applyStyle(mailInput, isValid);
-    } else if (patterns.LETTERS.test(mail)) {
-      warningText.textContent = 'Please use Latin letters';
       isValid = false;
       applyStyle(mailInput, isValid);
     } else if (
@@ -87,7 +83,7 @@ const validationPassword = (): void => {
   const warningText = createCustomElement('p', [classNames.WARNING_TEXT]);
   pasLabel.append(warningText);
 
-  pasInput?.addEventListener('input', (event) => {
+  pasInput?.addEventListener('input', (event): void => {
     const password: string = (event.target as HTMLInputElement).value;
 
     if (!patterns.UPPERCASE.test(password)) {

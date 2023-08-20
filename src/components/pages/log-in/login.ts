@@ -1,9 +1,25 @@
-// import { mailValidation } from '../../app/validation/login-validation';
+import { Constants } from '../../../types/shared';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 
+const loginClasses: Constants = {
+  IMG: 'heading-img',
+  HEADING: 'heading-login',
+  AUTH: 'authorization',
+  AUTH_FORM: 'authorization-form',
+  LABEL_CHECKBOX: 'label-checkbox',
+  LABEL_PAS: 'label-password',
+  LABEL_MAIL: 'label-mail',
+  INPUT_MAIL: 'authorization-form__mail',
+  INPUT_PAS: 'authorization-form__password',
+  OPEN_PAS: 'open-password',
+  SUBMIT_BTN: 'submit-btn',
+  REG_BTN: 'registration-btn',
+  BTN: 'button',
+};
+
 const createMailBlock = (): HTMLElement => {
-  const labelMail = createCustomElement('label', ['label-mail'], 'Your mail');
-  const inputMail = createCustomElement('input', ['authorization-form__mail']) as HTMLInputElement;
+  const labelMail = createCustomElement('label', [loginClasses.LABEL_MAIL], 'Your mail');
+  const inputMail = createCustomElement('input', [loginClasses.INPUT_MAIL]) as HTMLInputElement;
   inputMail.type = 'text';
   inputMail.placeholder = 'mail';
   inputMail.autocomplete = 'email';
@@ -13,8 +29,8 @@ const createMailBlock = (): HTMLElement => {
 };
 
 const createPasswordBlock = (): HTMLElement => {
-  const labelPassword = createCustomElement('label', ['label-password'], 'Your password');
-  const inputPassword = createCustomElement('input', ['authorization-form__password']) as HTMLInputElement;
+  const labelPassword = createCustomElement('label', [loginClasses.LABEL_PAS], 'Your password');
+  const inputPassword = createCustomElement('input', [loginClasses.INPUT_PAS]) as HTMLInputElement;
   inputPassword.type = 'password';
   inputPassword.placeholder = 'password';
   inputPassword.autocomplete = 'current-password';
@@ -24,32 +40,42 @@ const createPasswordBlock = (): HTMLElement => {
 };
 
 const createCheckbox = (): HTMLElement => {
-  const checkboxLabel = createCustomElement('label', ['label-checkbox'], 'Open password');
-  const checkbox = createCustomElement('input', ['open-password']) as HTMLInputElement;
+  const checkboxLabel = createCustomElement('label', [loginClasses.LABEL_CHECKBOX], 'Open password');
+  const checkbox = createCustomElement('input', [loginClasses.OPEN_PAS]) as HTMLInputElement;
   checkbox.type = 'checkbox';
   checkboxLabel.append(checkbox);
   return checkboxLabel;
 };
 
-export const drawLogInPage = () => {
+const drawLogInPage = (): void => {
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   mainWrapper.innerHTML = '';
-  const headingImg = createCustomElement('div', ['heading-img']);
-  const heading = createCustomElement('h2', ['heading-login'], 'Log in profile');
+  const headingImg = createCustomElement('div', [loginClasses.IMG]);
+  const heading = createCustomElement('h2', [loginClasses.HEADING], 'Log in profile');
   headingImg.append(heading);
-  const authorization = createCustomElement('div', ['authorization']);
-  const authorizationForm = createCustomElement('form', ['authorization-form']) as HTMLFormElement;
+  const authorization = createCustomElement('div', [loginClasses.AUTH]);
+  const authorizationForm = createCustomElement('form', [loginClasses.AUTH_FORM]) as HTMLFormElement;
   authorizationForm.id = 'login-form';
   authorizationForm.method = 'POST';
   const mailBlock = createMailBlock();
   const passwordBlock = createPasswordBlock();
   const checkbox = createCheckbox();
-  const submitBtn = createCustomElement('button', ['submit-btn', 'button'], 'Submit') as HTMLButtonElement;
+  const submitBtn = createCustomElement(
+    'button',
+    [loginClasses.SUBMIT_BTN, loginClasses.BTN],
+    'Submit',
+  ) as HTMLButtonElement;
   submitBtn.type = 'submit';
-  const registrationBtn = createCustomElement('a', ['registration-btn', 'button'], 'Registration') as HTMLLinkElement;
+  const registrationBtn = createCustomElement(
+    'a',
+    [loginClasses.REG_BTN, loginClasses.BTN],
+    'Registration',
+  ) as HTMLLinkElement;
   registrationBtn.href = '/registration';
   const or = createCustomElement('p', ['or'], 'or');
   authorizationForm.append(mailBlock, passwordBlock, checkbox, submitBtn);
   authorization.append(headingImg, authorizationForm, or, registrationBtn);
-  mainWrapper.insertAdjacentHTML('beforeend', authorization.outerHTML);
+  mainWrapper.append(authorization);
 };
+
+export { loginClasses, createMailBlock, createPasswordBlock, createCheckbox, drawLogInPage };
