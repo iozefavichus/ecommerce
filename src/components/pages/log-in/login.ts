@@ -78,4 +78,4 @@ const drawLogInPage = (): void => {
   mainWrapper.append(authorization);
 };
 
-export { createMailBlock, createPasswordBlock, createCheckbox, drawLogInPage };
+export { loginClasses, createMailBlock, createPasswordBlock, createCheckbox, drawLogInPage };
