@@ -1,4 +1,3 @@
-import { loginValidation } from '../../app/validation/login-valid';
 import { changePasswordDisplay } from '../../app/validation/open-password';
 import { drawFooter } from '../../pages/footer/draw-footer';
 import { drawHeader, links } from '../../pages/header/header';
@@ -66,7 +65,6 @@ export const renderChangeContent = (path: string): void => {
       customRoute(links.HOME);
     } else {
       drawLogInPage();
-      loginValidation();
       authorization();
       changePasswordDisplay();
     }

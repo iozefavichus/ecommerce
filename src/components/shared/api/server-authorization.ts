@@ -8,10 +8,6 @@ export const isLoginCustomer: Record<string, boolean> = {
   isLogin: getLocalStorageLogin('isLoginCustomer.isLogin'),
 };
 
-// sdk@example.com
-// password: aA1!aaaa
-// fhdsjfhsj@gmail.com
-// Xm@8CH9XB8StGGQ
 // Lala@test.com
 // password: aA1!aaaa
 

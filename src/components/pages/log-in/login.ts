@@ -1,5 +1,5 @@
 import { Constants } from '../../../types/shared';
-import { validationMail } from '../../app/validation/login-valid';
+import { validationMail, validationPassword } from '../../app/validation/login-valid';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 
 const loginClasses: Constants = {
@@ -42,7 +42,12 @@ const createPasswordBlock = (): HTMLElement => {
   inputPassword.placeholder = 'password';
   inputPassword.autocomplete = 'current-password';
   inputPassword.setAttribute('required', '');
-  labelPassword.append(inputPassword);
+  const warningText = createCustomElement('p', [loginClasses.WARNING_TEXT]);
+  inputPassword.addEventListener('input', (event) => {
+    const password: string = (event.target as HTMLInputElement).value;
+    validationPassword(password, warningText);
+  });
+  labelPassword.append(inputPassword, warningText);
   return labelPassword;
 };
 
