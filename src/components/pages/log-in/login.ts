@@ -1,5 +1,6 @@
 import { Constants } from '../../../types/shared';
 import { validationMail, validationPassword } from '../../app/validation/login-valid';
+import { changePasswordDisplay } from '../../app/validation/open-password';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 
 const loginClasses: Constants = {
@@ -55,6 +56,9 @@ const createCheckbox = (): HTMLElement => {
   const checkboxLabel = createCustomElement('label', [loginClasses.LABEL_CHECKBOX], 'Open password');
   const checkbox = createCustomElement('input', [loginClasses.OPEN_PAS]) as HTMLInputElement;
   checkbox.type = 'checkbox';
+  checkbox.addEventListener('click', (event: MouseEvent) => {
+    changePasswordDisplay(event);
+  });
   checkboxLabel.append(checkbox);
   return checkboxLabel;
 };

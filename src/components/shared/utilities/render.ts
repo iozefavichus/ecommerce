@@ -1,4 +1,3 @@
-import { changePasswordDisplay } from '../../app/validation/open-password';
 import { drawFooter } from '../../pages/footer/draw-footer';
 import { drawHeader, links } from '../../pages/header/header';
 import { drawLogInPage } from '../../pages/log-in/login';
@@ -66,7 +65,6 @@ export const renderChangeContent = (path: string): void => {
     } else {
       drawLogInPage();
       authorization();
-      changePasswordDisplay();
     }
   }
 };
