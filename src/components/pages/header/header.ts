@@ -4,7 +4,7 @@ import { customRoute } from '../../app/router/router';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { openCloseMenuToBtn, closeMenuToNav } from './hamburger-menu';
 
-export const headerClasses: Constants = {
+const headerClasses: Constants = {
   HEADER: 'header',
   HEADER_WRAPPER: 'header__wrapper',
   LOGO: 'logo',
@@ -23,7 +23,7 @@ export const headerClasses: Constants = {
   REG_LINK: 'registration-link',
 };
 
-export const links: Constants = {
+const links: Constants = {
   HOME: '/',
   SHOP: '/shop',
   ABOUT: '/about',
@@ -82,12 +82,10 @@ const createHamburgerBtn = (): HTMLElement => {
   return button;
 };
 
-export const drawHeader = (isLogin: boolean): void => {
+const drawHeader = (isLogin: boolean): void => {
   const body = document.querySelector('body');
   const header = createCustomElement('header', [headerClasses.HEADER]);
-  body?.append(header);
   const wrapper = createCustomElement('div', [headerClasses.HEADER_WRAPPER]);
-  header.append(wrapper);
   const logo = createCustomElement('div', [headerClasses.LOGO]);
   const logoLink = createCustomElement('a', [headerClasses.LOGO_LINK]) as HTMLLinkElement;
   logoLink.href = links.HOME;
@@ -106,4 +104,8 @@ export const drawHeader = (isLogin: boolean): void => {
   const hamburgerBtn = createHamburgerBtn();
   const iconBar = createIconBar(isLogin);
   wrapper.append(logo, navBar, hamburgerBtn, iconBar);
+  header.append(wrapper);
+  body?.append(header);
 };
+
+export { headerClasses, links, createNavBar, createIconBar, createHamburgerBtn, drawHeader };

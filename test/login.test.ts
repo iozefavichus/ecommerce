@@ -1,6 +1,6 @@
 import * as login from '../src/components/pages/log-in/login';
 
-describe('login module', () => {
+describe('Login module', () => {
   test('it should create a mail block with the correct structure', () => {
     const mailBlock = login.createMailBlock();
 
@@ -43,7 +43,7 @@ describe('login module', () => {
     expect(checkInput.type).toBe('checkbox');
   });
 
-  describe('Test create login page', () => {
+  describe('It create login page', () => {
     beforeEach(() => {
       document.body.innerHTML = '<div class="main__wrapper"></div>';
     });
