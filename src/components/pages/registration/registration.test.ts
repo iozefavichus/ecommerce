@@ -9,6 +9,7 @@ import {
   checkBirth,
   writeErrors,
 } from './validation';
+import { createLabel, createFormElement, createFormDiv, createFormWithOptions } from './creationform-helpers';
 
 test('Check email', () => {
   expect(checkEmail('mama@gmail.com')).toEqual(true);
@@ -154,3 +155,38 @@ describe('When given array of warnings', () => {
     expect(result.classList.contains('warnings')).toEqual(expected);
   });
 });
+
+describe('When given array of classes for label', () => {
+  it('returns that it has this class', () => {
+    const result = createLabel(['label'],'name');
+    const expected = true;
+    expect(result.classList.contains('label')).toEqual(expected);
+  });
+});
+
+describe('When given array of classes for element of form', () => {
+  it('returns that it has this class', () => {
+    const result = createFormElement('div',['wrong'],'name');
+    const expected = true;
+    expect(result.classList.contains('wrong')).toEqual(expected);
+  });
+});
+
+describe('When create form div element', () => {
+  it('returns input with type attribute', () => {
+    const result = createFormDiv('labelname','Label text','input-id','input');
+    const expected = true;
+    expect(result.input.hasAttribute('type')).toEqual(expected);
+  });
+});
+
+describe('When create form element with options', () => {
+  it('returns that it has this class form-control', () => {
+    const result = createFormWithOptions('labelname','Label text');
+    const expected = true;
+    expect(result.classList.contains('form-control')).toEqual(expected);
+  });
+});
+
+
+
