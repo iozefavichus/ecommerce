@@ -11,8 +11,6 @@ const patterns: Record<string, RegExp> = {
   VALUE: /^(?=.*[!@#$%^&*])/,
 };
 
-const CORRECT_DOMAIN: string[] = ['example.com', 'gmail.com', 'test.com'];
-
 const classNames: Constants = {
   WARNING_TEXT: 'warning-text',
   INVALID: 'invalid',
@@ -26,7 +24,7 @@ const hasSpaceInStartOrEnd = (email: string): boolean => {
   return withoutSpacesEmail === email;
 };
 
-export const applyStyle = (input: HTMLInputElement, isValid: boolean): void => {
+const applyStyle = (input: HTMLInputElement, isValid: boolean): void => {
   const submitBtn = document.querySelector('.submit-btn') as HTMLButtonElement;
 
   if (isValid) {
@@ -40,40 +38,28 @@ export const applyStyle = (input: HTMLInputElement, isValid: boolean): void => {
   }
 };
 
-const validationMail = (): void => {
+const validationMail = (mail: string, elem: HTMLElement): void => {
   let isValid = false;
-  const labelMail = document.querySelector('.label-mail') as HTMLElement;
   const mailInput = document.querySelector('.authorization-form__mail') as HTMLInputElement;
-  const warningText = createCustomElement('p', [classNames.WARNING_TEXT]);
-  labelMail.append(warningText);
 
-  mailInput?.addEventListener('input', (event): void => {
-    const mail: string = (event.target as HTMLInputElement).value;
-    const domain: string = mail.replace(/(.+)@/, '');
-    const isCorrectDomain: number = CORRECT_DOMAIN.findIndex((elem) => elem === domain);
-
-    if (!hasSpaceInStartOrEnd(mail)) {
-      warningText.textContent = 'Delete the space in the email line';
-      isValid = false;
-      applyStyle(mailInput, isValid);
-    } else if (
-      !patterns.FORMAT.test(mail) ||
-      !patterns.SYMBOL_IN_NAME.test(mail) ||
-      patterns.SYMBOL_IN_DOMAINE.test(mail)
-    ) {
-      warningText.textContent = 'Your formatted email address is not correct! Correct formatted user@domen.name';
-      isValid = false;
-      applyStyle(mailInput, isValid);
-    } else if (isCorrectDomain === -1) {
-      warningText.textContent = 'Your can registration only domain example.com, gmail.com, test.com';
-      isValid = false;
-      applyStyle(mailInput, isValid);
-    } else {
-      warningText.textContent = '';
-      isValid = true;
-      applyStyle(mailInput, isValid);
-    }
-  });
+  if (!hasSpaceInStartOrEnd(mail)) {
+    elem.textContent = 'Delete the space in the email line';
+    isValid = false;
+    applyStyle(mailInput, isValid);
+  } else if (
+    !patterns.FORMAT.test(mail) ||
+    !patterns.SYMBOL_IN_NAME.test(mail) ||
+    patterns.SYMBOL_IN_DOMAINE.test(mail)
+  ) {
+    elem.textContent =
+      "Your formatted email address is not correct! Correct formatted user@domen.name, you don't can use !@#$%^&*";
+    isValid = false;
+    applyStyle(mailInput, isValid);
+  } else {
+    elem.textContent = '';
+    isValid = true;
+    applyStyle(mailInput, isValid);
+  }
 };
 
 const validationPassword = (): void => {
@@ -113,7 +99,9 @@ const validationPassword = (): void => {
   });
 };
 
-export const loginValidation = (): void => {
-  validationMail();
+const loginValidation = (): void => {
+  // validationMail();
   validationPassword();
 };
+
+export { applyStyle, validationMail, validationPassword, loginValidation };

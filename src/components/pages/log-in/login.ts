@@ -1,4 +1,5 @@
 import { Constants } from '../../../types/shared';
+import { validationMail } from '../../app/validation/login-valid';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 
 const loginClasses: Constants = {
@@ -15,6 +16,7 @@ const loginClasses: Constants = {
   SUBMIT_BTN: 'submit-btn',
   REG_BTN: 'registration-btn',
   BTN: 'button',
+  WARNING_TEXT: 'warning-text',
 };
 
 const createMailBlock = (): HTMLElement => {
@@ -24,7 +26,12 @@ const createMailBlock = (): HTMLElement => {
   inputMail.placeholder = 'mail';
   inputMail.autocomplete = 'email';
   inputMail.setAttribute('required', '');
-  labelMail.append(inputMail);
+  const warningText = createCustomElement('p', [loginClasses.WARNING_TEXT]);
+  inputMail.addEventListener('input', (event) => {
+    const mail: string = (event.target as HTMLInputElement).value;
+    validationMail(mail, warningText);
+  });
+  labelMail.append(inputMail, warningText);
   return labelMail;
 };
 
