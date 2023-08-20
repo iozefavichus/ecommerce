@@ -47,7 +47,7 @@ const createCheckbox = (): HTMLElement => {
   return checkboxLabel;
 };
 
-export const drawLogInPage = (): void => {
+const drawLogInPage = (): void => {
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   mainWrapper.innerHTML = '';
   const headingImg = createCustomElement('div', [loginClasses.IMG]);
@@ -75,5 +75,7 @@ export const drawLogInPage = (): void => {
   const or = createCustomElement('p', ['or'], 'or');
   authorizationForm.append(mailBlock, passwordBlock, checkbox, submitBtn);
   authorization.append(headingImg, authorizationForm, or, registrationBtn);
-  mainWrapper.insertAdjacentHTML('beforeend', authorization.outerHTML);
+  mainWrapper.append(authorization);
 };
+
+export { loginClasses, createMailBlock, createPasswordBlock, createCheckbox, drawLogInPage };

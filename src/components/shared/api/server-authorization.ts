@@ -1,6 +1,6 @@
 import { getLocalStorageLogin, setLocalStorageLogin } from '../../app/localStorage/localStorage';
 import { customRoute } from '../../app/router/router';
-import { applyStyle } from '../../app/validation/login-validation';
+import { applyStyle } from '../../app/validation/login-valid';
 import { createCustomElement } from '../utilities/helper-functions';
 import { StpClientApi } from './stpClient-api';
 
@@ -13,6 +13,7 @@ export const isLoginCustomer: Record<string, boolean> = {
 // fhdsjfhsj@gmail.com
 // Xm@8CH9XB8StGGQ
 // Lala@test.com
+// password: aA1!aaaa
 
 export const authorization = (): void => {
   const isValid = false;

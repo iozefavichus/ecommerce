@@ -6,7 +6,6 @@ const patterns: Record<string, RegExp> = {
   SYMBOL_IN_NAME: /^[^!@#$%^&*]+@/,
   SYMBOL_IN_DOMAINE: /@.*[!@#$%^&*0-9]/,
   UPPERCASE: /^(?=.*[A-Z])/,
-  LETTERS: /^(.*[^a-zA-Z0-9_-]+@)/,
   LOWERCASE: /^(?=.*[a-z])/,
   NUMBER: /^(?=.*[0-9])/,
   VALUE: /^(?=.*[!@#$%^&*])/,
@@ -55,10 +54,6 @@ const validationMail = (): void => {
 
     if (!hasSpaceInStartOrEnd(mail)) {
       warningText.textContent = 'Delete the space in the email line';
-      isValid = false;
-      applyStyle(mailInput, isValid);
-    } else if (patterns.LETTERS.test(mail)) {
-      warningText.textContent = 'Please use Latin letters';
       isValid = false;
       applyStyle(mailInput, isValid);
     } else if (
