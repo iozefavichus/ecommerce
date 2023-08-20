@@ -63,9 +63,9 @@ const createIconBar = (isLogin: boolean): HTMLElement => {
   linkProfile.href = links.PROFILE;
   const linkBasket = createCustomElement('a', [headerClasses.BASKET_LINK]) as HTMLLinkElement;
   linkBasket.href = links.PROFILE;
-  const logBtn = isLogin ? logOut : logIn;
-  const regBtn = isLogin ? '' : registrationLink;
-  iconBar.append(linkProfile, linkBasket, logBtn, regBtn);
+  const logBtn = isLogin ? logOut : '';
+  // const regBtn = isLogin ? '' : registrationLink;
+  iconBar.append(linkProfile, linkBasket, logIn, registrationLink, logBtn);
   return iconBar;
 };
 

@@ -122,11 +122,6 @@ module.exports = {
       '@': path.resolve(__dirname, 'src'),
       '@types': path.resolve(__dirname, 'src/types'),
     },
-    // fallback: {
-    //   "path": false,
-    //   "os": false,
-    //   "crypto": false,
-    // }
   },
   optimization: optimization(),
   devServer: {
@@ -134,7 +129,7 @@ module.exports = {
       disableDotRule: true,
     },
     hot: true,
-    port: 9000,
+    port: 5000,
   },
   devtool: isDev ? 'source-map' : false,
   plugins: plugins(),
