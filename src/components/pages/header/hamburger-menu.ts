@@ -1,4 +1,4 @@
-export const openCloseMenuToBtn = (): void => {
+const openCloseMenuToBtn = (): void => {
   const body = document.querySelector('body');
   const btn = document.querySelector('.hamburger');
   const menu = document.querySelector('.nav');
@@ -8,7 +8,7 @@ export const openCloseMenuToBtn = (): void => {
   body?.classList.toggle('open');
 };
 
-export const closeMenuToNav = (): void => {
+const closeMenuToNav = (): void => {
   const body = document.querySelector('body');
   const btn = document.querySelector('.hamburger');
   const menu = document.querySelector('.nav');
@@ -17,3 +17,5 @@ export const closeMenuToNav = (): void => {
   btn?.classList.remove('open');
   body?.classList.remove('open');
 };
+
+export { openCloseMenuToBtn, closeMenuToNav };
