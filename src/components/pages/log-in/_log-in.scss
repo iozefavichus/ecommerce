@@ -82,6 +82,7 @@
 
   @include media-netbook {
     width: fit-content;
+    padding: 10px;
   }
 
   @include media-mobile {
@@ -102,6 +103,7 @@
 
   @include media-netbook {
     width: fit-content;
+    padding: 10px;
   }
 
   @include media-mobile {

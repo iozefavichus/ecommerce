@@ -82,42 +82,38 @@ const validationPassword = (password: string, warningText: HTMLElement): void =>
   let isValid = false;
   const pasInput = document.querySelector('.authorization-form__password') as HTMLInputElement;
 
-  pasInput?.addEventListener('input', (event): void => {
-    const password: string = (event.target as HTMLInputElement).value;
-
-    if (!patterns.UPPERCASE.test(password)) {
-      warningText.textContent = 'Password must contain at least one uppercase letter (A-Z).';
-      applyStyle(pasInput, isValid);
-      toggleValidClass(pasInput, isValid);
-    } else if (!patterns.LOWERCASE.test(password)) {
-      warningText.textContent = 'Password must contain at least one lowercase letter (a-z).';
-      applyStyle(pasInput, isValid);
-      toggleValidClass(pasInput, isValid);
-    } else if (!patterns.NUMBER.test(password)) {
-      warningText.textContent = 'Password must contain at least one digit (0-9).';
-      applyStyle(pasInput, isValid);
-      toggleValidClass(pasInput, isValid);
-    } else if (!patterns.VALUE.test(password)) {
-      warningText.textContent = 'Password must contain at least one special character (e.g., !@#$%^&*).';
-      applyStyle(pasInput, isValid);
-      toggleValidClass(pasInput, isValid);
-    } else if (password.length < 8) {
-      warningText.textContent = 'Password must be at least 8 characters long.';
-      applyStyle(pasInput, isValid);
-      toggleValidClass(pasInput, isValid);
-    } else if (!hasSpaceInStartOrEnd(password)) {
-      warningText.textContent = 'Delete the space in the password line';
-      isValid = false;
-      applyStyle(pasInput, isValid);
-      toggleValidClass(pasInput, isValid);
-    } else {
-      warningText.textContent = '';
-      isValid = true;
-      applyStyle(pasInput, isValid);
-      toggleValidClass(pasInput, isValid);
-    }
-    toggleSubmitBtnActivation();
-  });
+  if (!patterns.UPPERCASE.test(password)) {
+    warningText.textContent = 'Password must contain at least one uppercase letter (A-Z).';
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  } else if (!patterns.LOWERCASE.test(password)) {
+    warningText.textContent = 'Password must contain at least one lowercase letter (a-z).';
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  } else if (!patterns.NUMBER.test(password)) {
+    warningText.textContent = 'Password must contain at least one digit (0-9).';
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  } else if (!patterns.VALUE.test(password)) {
+    warningText.textContent = 'Password must contain at least one special character (e.g., !@#$%^&*).';
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  } else if (password.length < 8) {
+    warningText.textContent = 'Password must be at least 8 characters long.';
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  } else if (!hasSpaceInStartOrEnd(password)) {
+    warningText.textContent = 'Delete the space in the password line';
+    isValid = false;
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  } else {
+    warningText.textContent = '';
+    isValid = true;
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  }
+  toggleSubmitBtnActivation();
 };
 
 export { applyStyle, validationMail, validationPassword };
