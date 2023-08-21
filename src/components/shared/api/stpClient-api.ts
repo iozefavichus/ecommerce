@@ -5,6 +5,8 @@ import {
   CustomerSignInResult,
   Project,
   createApiBuilderFromCtpClient,
+  Product,
+  ProductPagedQueryResponse,
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
 import { regCardObj } from '../../../types/shared';
@@ -67,5 +69,17 @@ export class StpClientApi {
         body: registrationCard,
       })
       .execute();
+  }
+
+  public getProducts(): Promise<Product[]> {
+    return this.apiRoot
+      .products()
+      .get()
+      .execute()
+      .then((data: ClientResponse<ProductPagedQueryResponse>) => {
+        const products = data.body.results;
+        console.log(products);
+        return products;
+      });
   }
 }
