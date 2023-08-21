@@ -128,18 +128,15 @@
     @include media-netbook {
       font-size: em(15);
       line-height: rem(21);
-      width: rem(400);
     }
 
     @include media-table {
       font-size: em(14);
       line-height: rem(20);
-      width: rem(310);
       padding: 0;
     }
 
     @include media-mobile {
-      width: rem(200);
       padding-bottom: rem(10);
     }
   }
@@ -166,11 +163,13 @@
     @include media-table {
       font-size: em(14);
       padding: rem(13) rem(40);
+      margin-top: rem(10);
     }
 
     @include media-mobile {
       font-size: em(14);
       padding: rem(10) rem(30);
+      margin-top: rem(6);
     }
 
     &:hover {
