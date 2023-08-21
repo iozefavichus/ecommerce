@@ -158,7 +158,7 @@ describe('When given array of warnings', () => {
 
 describe('When given array of classes for label', () => {
   it('returns that it has this class', () => {
-    const result = createLabel(['label'],'name');
+    const result = createLabel(['label'], 'name');
     const expected = true;
     expect(result.classList.contains('label')).toEqual(expected);
   });
@@ -166,7 +166,7 @@ describe('When given array of classes for label', () => {
 
 describe('When given array of classes for element of form', () => {
   it('returns that it has this class', () => {
-    const result = createFormElement('div',['wrong'],'name');
+    const result = createFormElement('div', ['wrong'], 'name');
     const expected = true;
     expect(result.classList.contains('wrong')).toEqual(expected);
   });
@@ -174,7 +174,7 @@ describe('When given array of classes for element of form', () => {
 
 describe('When create form div element', () => {
   it('returns input with type attribute', () => {
-    const result = createFormDiv('labelname','Label text','input-id','input');
+    const result = createFormDiv('labelname', 'Label text', 'input-id', 'input');
     const expected = true;
     expect(result.input.hasAttribute('type')).toEqual(expected);
   });
@@ -182,11 +182,8 @@ describe('When create form div element', () => {
 
 describe('When create form element with options', () => {
   it('returns that it has this class form-control', () => {
-    const result = createFormWithOptions('labelname','Label text');
+    const result = createFormWithOptions('labelname', 'Label text');
     const expected = true;
     expect(result.classList.contains('form-control')).toEqual(expected);
   });
 });
-
-
-
