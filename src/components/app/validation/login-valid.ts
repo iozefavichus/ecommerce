@@ -1,11 +1,11 @@
 const patterns: Record<string, RegExp> = {
   FORMAT: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  SYMBOL_IN_NAME: /^[^!@#$%^&*]+@/,
-  SYMBOL_IN_DOMAINE: /@.*[!@#$%^&*0-9]/,
+  SYMBOL_IN_NAME: /^[^№`~!@#$^&*()=[\]\\{}|;':",/<>?£]+@/,
+  SYMBOL_IN_DOMAINE: /@.*[!@#$%^&*]/,
   UPPERCASE: /^(?=.*[A-Z])/,
   LOWERCASE: /^(?=.*[a-z])/,
   NUMBER: /^(?=.*[0-9])/,
-  VALUE: /^(?=.*[!@#$%^&*])/,
+  VALUE: /^(?=.*[№`~!@#$^&*()=[\]\\{}|;':",/<>?£])/,
 };
 
 const VALID_COLOR = '2px solid rgb(8, 250, 4)';
@@ -65,7 +65,7 @@ const validationMail = (mail: string, elem: HTMLElement): void => {
     patterns.SYMBOL_IN_DOMAINE.test(mail)
   ) {
     elem.textContent =
-      "Your formatted email address is not correct! Correct formatted user@domen.name, you don't can use !@#$%^&*";
+      "Your formatted email address is not correct! Correct formatted user@domen.name, you don't can use !@#$%^&* in user@";
     isValid = false;
     applyStyle(mailInput, isValid);
     toggleValidClass(mailInput, isValid);
