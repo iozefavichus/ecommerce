@@ -1,6 +1,3 @@
-import { Constants } from '../../../types/shared';
-import { createCustomElement } from '../../shared/utilities/helper-functions';
-
 const patterns: Record<string, RegExp> = {
   FORMAT: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   SYMBOL_IN_NAME: /^[^!@#$%^&*]+@/,
@@ -11,13 +8,6 @@ const patterns: Record<string, RegExp> = {
   VALUE: /^(?=.*[!@#$%^&*])/,
 };
 
-const CORRECT_DOMAIN: string[] = ['example.com', 'gmail.com', 'test.com'];
-
-const classNames: Constants = {
-  WARNING_TEXT: 'warning-text',
-  INVALID: 'invalid',
-};
-
 const VALID_COLOR = '2px solid rgb(8, 250, 4)';
 const INVALID_COLOR = '2px solid rgb(212, 4, 4)';
 
@@ -26,94 +16,104 @@ const hasSpaceInStartOrEnd = (email: string): boolean => {
   return withoutSpacesEmail === email;
 };
 
-export const applyStyle = (input: HTMLInputElement, isValid: boolean): void => {
-  const submitBtn = document.querySelector('.submit-btn') as HTMLButtonElement;
-
+const applyStyle = (input: HTMLInputElement, isValid: boolean): void => {
   if (isValid) {
     input.style.border = VALID_COLOR;
+  } else {
+    input.style.border = INVALID_COLOR;
+  }
+};
+
+const toggleValidClass = (input: HTMLInputElement, isValid: boolean) => {
+  if (isValid) {
+    input.style.border = VALID_COLOR;
+    input.classList.add('valid');
+  } else {
+    input.style.border = INVALID_COLOR;
+    input.classList.remove('valid');
+  }
+};
+
+const toggleSubmitBtnActivation = (): void => {
+  const submitBtn = document.querySelector('.submit-btn') as HTMLButtonElement;
+  const mailInput = document.querySelector('.authorization-form__mail');
+  const pasInput = document.querySelector('.authorization-form__password');
+  const mailIsValid = mailInput?.classList.contains('valid');
+  const pasIsValid = pasInput?.classList.contains('valid');
+
+  if (mailIsValid && pasIsValid) {
     submitBtn.disabled = false;
     submitBtn.classList.remove('disable');
   } else {
-    input.style.border = INVALID_COLOR;
     submitBtn.disabled = true;
     submitBtn.classList.add('disable');
   }
 };
 
-const validationMail = (): void => {
+const validationMail = (mail: string, elem: HTMLElement): void => {
   let isValid = false;
-  const labelMail = document.querySelector('.label-mail') as HTMLElement;
   const mailInput = document.querySelector('.authorization-form__mail') as HTMLInputElement;
-  const warningText = createCustomElement('p', [classNames.WARNING_TEXT]);
-  labelMail.append(warningText);
 
-  mailInput?.addEventListener('input', (event): void => {
-    const mail: string = (event.target as HTMLInputElement).value;
-    const domain: string = mail.replace(/(.+)@/, '');
-    const isCorrectDomain: number = CORRECT_DOMAIN.findIndex((elem) => elem === domain);
-
-    if (!hasSpaceInStartOrEnd(mail)) {
-      warningText.textContent = 'Delete the space in the email line';
-      isValid = false;
-      applyStyle(mailInput, isValid);
-    } else if (
-      !patterns.FORMAT.test(mail) ||
-      !patterns.SYMBOL_IN_NAME.test(mail) ||
-      patterns.SYMBOL_IN_DOMAINE.test(mail)
-    ) {
-      warningText.textContent = 'Your formatted email address is not correct! Correct formatted user@domen.name';
-      isValid = false;
-      applyStyle(mailInput, isValid);
-    } else if (isCorrectDomain === -1) {
-      warningText.textContent = 'Your can registration only domain example.com, gmail.com, test.com';
-      isValid = false;
-      applyStyle(mailInput, isValid);
-    } else {
-      warningText.textContent = '';
-      isValid = true;
-      applyStyle(mailInput, isValid);
-    }
-  });
+  if (!hasSpaceInStartOrEnd(mail)) {
+    elem.textContent = 'Delete the space in the email line';
+    isValid = false;
+    applyStyle(mailInput, isValid);
+    toggleValidClass(mailInput, isValid);
+  } else if (
+    !patterns.FORMAT.test(mail) ||
+    !patterns.SYMBOL_IN_NAME.test(mail) ||
+    patterns.SYMBOL_IN_DOMAINE.test(mail)
+  ) {
+    elem.textContent =
+      "Your formatted email address is not correct! Correct formatted user@domen.name, you don't can use !@#$%^&*";
+    isValid = false;
+    applyStyle(mailInput, isValid);
+    toggleValidClass(mailInput, isValid);
+  } else {
+    elem.textContent = '';
+    isValid = true;
+    applyStyle(mailInput, isValid);
+    toggleValidClass(mailInput, isValid);
+  }
+  toggleSubmitBtnActivation();
 };
 
-const validationPassword = (): void => {
+const validationPassword = (password: string, warningText: HTMLElement): void => {
   let isValid = false;
   const pasInput = document.querySelector('.authorization-form__password') as HTMLInputElement;
-  const pasLabel = document.querySelector('.label-password') as HTMLElement;
-  const warningText = createCustomElement('p', [classNames.WARNING_TEXT]);
-  pasLabel.append(warningText);
 
-  pasInput?.addEventListener('input', (event): void => {
-    const password: string = (event.target as HTMLInputElement).value;
-
-    if (!patterns.UPPERCASE.test(password)) {
-      warningText.textContent = 'Password must contain at least one uppercase letter (A-Z).';
-      applyStyle(pasInput, isValid);
-    } else if (!patterns.LOWERCASE.test(password)) {
-      warningText.textContent = 'Password must contain at least one lowercase letter (a-z).';
-      applyStyle(pasInput, isValid);
-    } else if (!patterns.NUMBER.test(password)) {
-      warningText.textContent = 'Password must contain at least one digit (0-9).';
-      applyStyle(pasInput, isValid);
-    } else if (!patterns.VALUE.test(password)) {
-      warningText.textContent = 'Password must contain at least one special character (e.g., !@#$%^&*).';
-      applyStyle(pasInput, isValid);
-    } else if (password.length < 8) {
-      warningText.textContent = 'Password must be at least 8 characters long.';
-      applyStyle(pasInput, isValid);
-    } else if (!hasSpaceInStartOrEnd(password)) {
-      warningText.textContent = 'Delete the space in the password line';
-      isValid = false;
-      applyStyle(pasInput, isValid);
-    } else {
-      warningText.textContent = '';
-      isValid = true;
-      applyStyle(pasInput, isValid);
-    }
-  });
+  if (!patterns.UPPERCASE.test(password)) {
+    warningText.textContent = 'Password must contain at least one uppercase letter (A-Z).';
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  } else if (!patterns.LOWERCASE.test(password)) {
+    warningText.textContent = 'Password must contain at least one lowercase letter (a-z).';
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  } else if (!patterns.NUMBER.test(password)) {
+    warningText.textContent = 'Password must contain at least one digit (0-9).';
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  } else if (!patterns.VALUE.test(password)) {
+    warningText.textContent = 'Password must contain at least one special character (e.g., !@#$%^&*).';
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  } else if (password.length < 8) {
+    warningText.textContent = 'Password must be at least 8 characters long.';
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  } else if (!hasSpaceInStartOrEnd(password)) {
+    warningText.textContent = 'Delete the space in the password line';
+    isValid = false;
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  } else {
+    warningText.textContent = '';
+    isValid = true;
+    applyStyle(pasInput, isValid);
+    toggleValidClass(pasInput, isValid);
+  }
+  toggleSubmitBtnActivation();
 };
 
-export const loginValidation = (): void => {
-  validationMail();
-  validationPassword();
-};
+export { applyStyle, validationMail, validationPassword };

@@ -1,4 +1,6 @@
 import { Constants } from '../../../types/shared';
+import { validationMail, validationPassword } from '../../app/validation/login-valid';
+import { changePasswordDisplay } from '../../app/validation/open-password';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 
 const loginClasses: Constants = {
@@ -15,6 +17,7 @@ const loginClasses: Constants = {
   SUBMIT_BTN: 'submit-btn',
   REG_BTN: 'registration-btn',
   BTN: 'button',
+  WARNING_TEXT: 'warning-text',
 };
 
 const createMailBlock = (): HTMLElement => {
@@ -24,7 +27,12 @@ const createMailBlock = (): HTMLElement => {
   inputMail.placeholder = 'mail';
   inputMail.autocomplete = 'email';
   inputMail.setAttribute('required', '');
-  labelMail.append(inputMail);
+  const warningText = createCustomElement('p', [loginClasses.WARNING_TEXT]);
+  inputMail.addEventListener('input', (event) => {
+    const mail: string = (event.target as HTMLInputElement).value;
+    validationMail(mail, warningText);
+  });
+  labelMail.append(inputMail, warningText);
   return labelMail;
 };
 
@@ -35,7 +43,12 @@ const createPasswordBlock = (): HTMLElement => {
   inputPassword.placeholder = 'password';
   inputPassword.autocomplete = 'current-password';
   inputPassword.setAttribute('required', '');
-  labelPassword.append(inputPassword);
+  const warningText = createCustomElement('p', [loginClasses.WARNING_TEXT]);
+  inputPassword.addEventListener('input', (event) => {
+    const password: string = (event.target as HTMLInputElement).value;
+    validationPassword(password, warningText);
+  });
+  labelPassword.append(inputPassword, warningText);
   return labelPassword;
 };
 
@@ -43,6 +56,9 @@ const createCheckbox = (): HTMLElement => {
   const checkboxLabel = createCustomElement('label', [loginClasses.LABEL_CHECKBOX], 'Open password');
   const checkbox = createCustomElement('input', [loginClasses.OPEN_PAS]) as HTMLInputElement;
   checkbox.type = 'checkbox';
+  checkbox.addEventListener('click', (event: MouseEvent) => {
+    changePasswordDisplay(event);
+  });
   checkboxLabel.append(checkbox);
   return checkboxLabel;
 };
