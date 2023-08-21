@@ -14,7 +14,7 @@ describe('Login valid module', () => {
       drawLogInPage();
     });
 
-    test('show warning tex if mail have any symbol !@#$%^&*', () => {
+    test('show warning tex if mail have not correct formate', () => {
       const warningElem = document.querySelector('.warning-text') as HTMLElement;
       const WAR_TEXT = 'Delete the space in the email line';
 
