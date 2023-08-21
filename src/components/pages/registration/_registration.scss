@@ -73,6 +73,16 @@
   border: none;
   text-decoration: none;
 
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  &.disable {
+    opacity: 0.4;
+    cursor: default;
+  }
+
   @include media-netbook {
     padding: 10px;
   }

@@ -3,7 +3,7 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 const regUppercase = /^(?=.*[A-Z])/;
 const regLowercase = /^(?=.*[a-z])/;
 const regNumbers = /^(?=.*[0-9])/;
-const regSpecial = /^(?=.*[[!@#$%^&*"№)()£_№:,.;()-=?{}'>~|\]\\])/;
+const regSpecial = /^(?=.*[!@£#$%^&*_-])/;
 const regPost = {
   USA: /\d{5}/,
 };
