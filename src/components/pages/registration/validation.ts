@@ -2,9 +2,8 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 
 const regUppercase = /^(?=.*[A-Z])/;
 const regLowercase = /^(?=.*[a-z])/;
-const regOnlyLetters = /^([a-zA-Z]+$)/;
 const regNumbers = /^(?=.*[0-9])/;
-const regSpecial = /^(?=.*[!@#$%^&*])/;
+const regSpecial = /^(?=.*[[!@#$%^&*"№)()£_№:,.;()-=?{}'>~|\]\\])/;
 const regPost = {
   USA: /\d{5}/,
 };
@@ -41,8 +40,8 @@ export const checkName = (value: string): Array<string> => {
   const result: Array<string> = [];
   if (value.length < 1) {
     result.push('Name must be at least 1 character long');
-  } else if (!regOnlyLetters.test(value)) {
-    result.push('Name must not contain special characters or numbers');
+  } else if (regNumbers.test(value)||regSpecial.test(value)) {
+    result.push('Name must not contain special characters or number.');
   }
   return result;
 };
@@ -51,8 +50,8 @@ export const checkSurname = (value: string): Array<string> => {
   const result: Array<string> = [];
   if (value.length < 1) {
     result.push('Surname must be at least 1 character long');
-  } else if (!regOnlyLetters.test(value)) {
-    result.push('Surname must not contain special characters or numbers');
+  } else if (regNumbers.test(value)||regSpecial.test(value)) {
+    result.push('Surname must not contain special characters or numbers.');
   }
   return result;
 };
@@ -67,7 +66,7 @@ export const checkCity = (value: string): Array<string> => {
   const result: Array<string> = [];
   if (value.length < 1) {
     result.push('City must be at least 1 character long');
-  } else if (!regOnlyLetters.test(value)) {
+  } else if (regNumbers.test(value)||regSpecial.test(value)) {
     result.push('City must not contain special characters or numbers');
   }
   return result;
@@ -86,8 +85,7 @@ export const checkPost = (country: string, value: string): Array<string> => {
   return result;
 };
 
-const EMAIL_REGEXP =
-  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+const EMAIL_REGEXP =/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const checkEmail = (email: string): boolean => EMAIL_REGEXP.test(email);
 
 export const writeErrors = (errors: Array<string>): HTMLElement => {
