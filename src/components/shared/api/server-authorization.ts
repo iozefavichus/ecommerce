@@ -35,11 +35,12 @@ export const authorization = (): void => {
           customRoute('/');
         } catch {
           passwordInput.value = '';
-          applyStyle(passwordInput, isValid);
           notFoundText.textContent = 'Incorrect password entered';
         }
       } else {
         mailInput.value = '';
+        passwordInput.value = '';
+        applyStyle(passwordInput, isValid);
         applyStyle(mailInput, isValid);
         notFoundText.textContent = 'This email address has not been registered.';
       }

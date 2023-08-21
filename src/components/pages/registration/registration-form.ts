@@ -106,8 +106,8 @@ export const RegistrationForm = (): RegistrationObject => {
   const form = createFormElement<HTMLFormElement>('form', ['registration_form'], 'form', wrapper);
   const container = createCustomElement('div', ['reg-container']);
 
-  const mayBeLogIn = createCustomElement('p',['maybe-login'],'Have already registration?');
-  const logIn = createCustomElement('a',['loginlink-reg'],'Log in') as HTMLLinkElement;
+  const mayBeLogIn = createCustomElement('p', ['maybe-login'], 'Have already registration?');
+  const logIn = createCustomElement('a', ['loginlink-reg'], 'Log in') as HTMLLinkElement;
   logIn.href = '/login';
   mayBeLogIn.append(logIn);
 
