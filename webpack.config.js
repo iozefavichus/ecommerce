@@ -129,7 +129,7 @@ module.exports = {
       disableDotRule: true,
     },
     hot: true,
-    port: 9000,
+    port: 5000,
   },
   devtool: isDev ? 'source-map' : false,
   plugins: plugins(),
