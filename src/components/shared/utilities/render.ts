@@ -8,6 +8,7 @@ import { drawSuccess } from '../../pages/registration/success';
 import { drawNotFound } from '../../pages/notfound/draw-not-found';
 import { logoutCustomer } from '../../pages/log-in/log-out';
 import { customRoute } from '../../app/router/router';
+import { drawProfile } from '../../pages/profile/draw-profile';
 
 export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
@@ -51,7 +52,7 @@ export const renderChangeContent = (path: string): void => {
     drawNotFound();
   }
   if (renderPage === '/profile') {
-    drawNotFound();
+    drawProfile();
   }
   if (renderPage === '/success') {
     drawSuccess();
