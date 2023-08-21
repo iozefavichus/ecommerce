@@ -110,10 +110,10 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
   let streetBilling = form.ShippingstreetDiv.input.value.trim();
   let postalCodeBilling = form.ShippingpostDiv.input.value.trim();
 
-  if (form.billingDiv.classList.contains('billing-visible')) {
-    cityBilling = form.ShippingcityDiv.input.value.trim();
-    streetBilling = form.ShippingstreetDiv.input.value.trim();
-    postalCodeBilling = form.ShippingpostDiv.input.value.trim();
+  if (form.BillingcityDiv.input.value) {
+    cityBilling = form.BillingcityDiv.input.value.trim();
+    streetBilling = form.BillingstreetDiv.input.value.trim();
+    postalCodeBilling = form.BillingpostDiv.input.value.trim();
   }
 
   let shipDef;
@@ -147,6 +147,8 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
         postalCode: postalCodeBilling,
       },
     ],
+    shippingAddresses: [0],
+    billingAddresses: [1],
     defaultShippingAddress: shipDef,
     defaultBillingAddress: billDef,
   };
