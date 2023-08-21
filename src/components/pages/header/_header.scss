@@ -137,7 +137,18 @@
 }
 
 .icon-bar {
-  @include display-flex(center, space-between);
+  @include display-flex(center, flex-end);
+
+  flex-wrap: wrap;
+  gap: 10px 0;
+
+  @include media-netbook {
+    width: 35%;
+  }
+
+  @include media-table {
+    width: 70%;
+  }
 }
 
 .profile-link {

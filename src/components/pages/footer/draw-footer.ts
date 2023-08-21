@@ -1,9 +1,8 @@
 import { Constants } from '../../../types/shared';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
-import { headerClasses } from '../header/draw-header';
 
 const footerClasses: Constants = {
-  NAV_LINK: headerClasses.NAV_LINK,
+  NAV_LINK: 'nav-link',
   ADDRESS: 'address',
   ADDRESS_CONTAIN: 'address-container',
   ADDRESS_LINK: 'address__link',
@@ -54,7 +53,7 @@ const createFooterLinksContainer = (): HTMLElement => {
   return footerLinks;
 };
 
-export const drawFooter = (): void => {
+const drawFooter = (): void => {
   const body = document.querySelector('body');
   const footer = createCustomElement('footer', [footerClasses.FOOTER]);
   const wrapper = createCustomElement('div', [footerClasses.WRAPPER]);
@@ -66,10 +65,12 @@ export const drawFooter = (): void => {
   rssLink.setAttribute('target', '_blank');
   const rssLogo = createCustomElement('div', [footerClasses.RSS_LOGO]);
   rssLink.append(rssLogo);
-  const yearCreate = createCustomElement('h3', [footerClasses.YEAR], '2023Q1');
+  const yearCreate = createCustomElement('h3', [footerClasses.YEAR], '2023');
 
   footer.append(wrapper);
   wrapper.append(footerContainer);
   footerContainer.append(addressContainer, footerLinks, rssLink, yearCreate);
   body?.append(footer);
 };
+
+export { footerClasses, drawFooter };

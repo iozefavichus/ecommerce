@@ -106,6 +106,11 @@ export const RegistrationForm = (): RegistrationObject => {
   const form = createFormElement<HTMLFormElement>('form', ['registration_form'], 'form', wrapper);
   const container = createCustomElement('div', ['reg-container']);
 
+  const mayBeLogIn = createCustomElement('p', ['maybe-login'], 'Have already registration?');
+  const logIn = createCustomElement('a', ['loginlink-reg'], 'Log in') as HTMLLinkElement;
+  logIn.href = '/login';
+  mayBeLogIn.append(logIn);
+
   const nameDiv = createFormDiv('name', 'Name*', 'name', 'text');
   const surnameDiv = createFormDiv('surname', 'Surname*', 'surname', 'text');
   const birthDiv = createFormDiv('birth', 'Date of birth*', 'birth', 'date');
@@ -174,6 +179,7 @@ export const RegistrationForm = (): RegistrationObject => {
   );
   form.append(container);
   container.append(
+    mayBeLogIn,
     nameDiv.container,
     surnameDiv.container,
     birthDiv.container,

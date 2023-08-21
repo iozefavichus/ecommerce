@@ -38,28 +38,43 @@
   @include media-netbook {
     height: rem(380);
     top: rem(10);
+    background: none;
   }
 
   @include media-table {
     top: rem(32);
     height: rem(300);
+    background: none;
   }
 
   @include media-mobile {
     @include display-flex(center, center);
 
     flex-flow: column nowrap;
+    left: rem(64);
+    width: auto;
+    background: none;
   }
 }
 
 .discover-inner-block {
-  width: rem(561);
-  height: rem(344);
+  @include media-netbook {
+    @include display-flex(flex-start, center);
+
+    flex-flow: column wrap;
+  }
+
+  @include media-table {
+    @include display-flex(flex-start, center);
+
+    flex-flow: column wrap;
+  }
 
   @include media-mobile {
     @include display-flex(center, center);
 
     flex-flow: column nowrap;
+    width: auto;
   }
 }
 
@@ -97,6 +112,7 @@
     @include media-table {
       font-size: em(25);
       line-height: rem(38);
+      padding: 0;
     }
   }
 
@@ -112,18 +128,15 @@
     @include media-netbook {
       font-size: em(15);
       line-height: rem(21);
-      width: rem(430);
     }
 
     @include media-table {
       font-size: em(14);
       line-height: rem(20);
-      width: rem(330);
-      padding-bottom: rem(10);
+      padding: 0;
     }
 
     @include media-mobile {
-      width: rem(250);
       padding-bottom: rem(10);
     }
   }
@@ -150,11 +163,13 @@
     @include media-table {
       font-size: em(14);
       padding: rem(13) rem(40);
+      margin-top: rem(10);
     }
 
     @include media-mobile {
       font-size: em(14);
       padding: rem(10) rem(30);
+      margin-top: rem(6);
     }
 
     &:hover {
@@ -192,7 +207,7 @@
   }
 
   &__img {
-    margin-left: rem(50);
+    margin: 0 auto;
   }
 
   &__img1 {
@@ -202,6 +217,11 @@
     width: rem(381);
     height: rem(480);
     border-radius: 10px;
+
+    @include media-mobile {
+      background-size: contain;
+      width: rem(320);
+    }
   }
 
   &__img2 {
@@ -211,6 +231,11 @@
     width: rem(381);
     height: rem(480);
     border-radius: 10px;
+
+    @include media-mobile {
+      background-size: contain;
+      width: rem(320);
+    }
   }
 
   &__img3 {
@@ -220,6 +245,11 @@
     width: rem(381);
     height: rem(480);
     border-radius: 10px;
+
+    @include media-mobile {
+      background-size: contain;
+      width: rem(320);
+    }
   }
 
   &__img-text {
@@ -252,8 +282,7 @@
   }
 
   &__img {
-    margin-left: rem(32);
-    gap: rem(32);
+    margin: 0 auto;
   }
 
   &__img1 {

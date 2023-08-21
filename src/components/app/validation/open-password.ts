@@ -1,8 +1,6 @@
-export const changePasswordDisplay = (): void => {
-  const checkbox = document.querySelector('.open-password') as HTMLInputElement;
+export const changePasswordDisplay = (event: MouseEvent): void => {
+  const checkbox = event.target as HTMLInputElement;
   const passwordInput = document.querySelector('.authorization-form__password') as HTMLInputElement;
 
-  checkbox?.addEventListener('click', (): void => {
-    passwordInput.type = checkbox.checked ? 'text' : 'password';
-  });
+  passwordInput.type = checkbox.checked ? 'text' : 'password';
 };

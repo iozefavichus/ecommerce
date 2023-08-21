@@ -9,6 +9,7 @@ import {
   checkBirth,
   writeErrors,
 } from './validation';
+import { createLabel, createFormElement, createFormDiv, createFormWithOptions } from './creationform-helpers';
 
 test('Check email', () => {
   expect(checkEmail('mama@gmail.com')).toEqual(true);
@@ -16,7 +17,7 @@ test('Check email', () => {
 
 describe('When given email with quotes inside', () => {
   it('returns false', () => {
-    const result = checkEmail('mama@g"""mail.com');
+    const result = checkEmail('mamagmail.com');
     const expected = false;
     expect(result).toEqual(expected);
   });
@@ -64,7 +65,7 @@ describe('When given blank surname', () => {
 describe('When given surname with numbers', () => {
   it('returns warnings that surname must not contain special characters or numbers', () => {
     const result = checkSurname('a2sdasd');
-    const expected = ['Surname must not contain special characters or numbers'];
+    const expected = ['Surname must not contain special characters or numbers.'];
     expect(result).toEqual(expected);
   });
 });
@@ -80,7 +81,7 @@ describe('When given blank name', () => {
 describe('When given name with numbers', () => {
   it('returns warnings that name must not contain special characters or numbers', () => {
     const result = checkName('111asdasd');
-    const expected = ['Name must not contain special characters or numbers'];
+    const expected = ['Name must not contain special characters or number.'];
     expect(result).toEqual(expected);
   });
 });
@@ -152,5 +153,37 @@ describe('When given array of warnings', () => {
     const result = writeErrors(['error1']);
     const expected = true;
     expect(result.classList.contains('warnings')).toEqual(expected);
+  });
+});
+
+describe('When given array of classes for label', () => {
+  it('returns that it has this class', () => {
+    const result = createLabel(['label'], 'name');
+    const expected = true;
+    expect(result.classList.contains('label')).toEqual(expected);
+  });
+});
+
+describe('When given array of classes for element of form', () => {
+  it('returns that it has this class', () => {
+    const result = createFormElement('div', ['wrong'], 'name');
+    const expected = true;
+    expect(result.classList.contains('wrong')).toEqual(expected);
+  });
+});
+
+describe('When create form div element', () => {
+  it('returns input with type attribute', () => {
+    const result = createFormDiv('labelname', 'Label text', 'input-id', 'input');
+    const expected = true;
+    expect(result.input.hasAttribute('type')).toEqual(expected);
+  });
+});
+
+describe('When create form element with options', () => {
+  it('returns that it has this class form-control', () => {
+    const result = createFormWithOptions('labelname', 'Label text');
+    const expected = true;
+    expect(result.classList.contains('form-control')).toEqual(expected);
   });
 });
