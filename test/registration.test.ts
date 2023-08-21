@@ -8,8 +8,8 @@ import {
   checkPassword,
   checkBirth,
   writeErrors,
-} from './validation';
-import { createLabel, createFormElement, createFormDiv, createFormWithOptions } from './creationform-helpers';
+} from '../src/components/pages/registration/validation';
+import { createLabel, createFormElement, createFormDiv, createFormWithOptions } from '../src/components/pages/registration/creationform-helpers';
 
 test('Check email', () => {
   expect(checkEmail('mama@gmail.com')).toEqual(true);
@@ -65,7 +65,7 @@ describe('When given blank surname', () => {
 describe('When given surname with numbers', () => {
   it('returns warnings that surname must not contain special characters or numbers', () => {
     const result = checkSurname('a2sdasd');
-    const expected = ['Surname must not contain special characters or numbers'];
+    const expected = ['Surname must not contain special characters or numbers.'];
     expect(result).toEqual(expected);
   });
 });
@@ -81,7 +81,7 @@ describe('When given blank name', () => {
 describe('When given name with numbers', () => {
   it('returns warnings that name must not contain special characters or numbers', () => {
     const result = checkName('111asdasd');
-    const expected = ['Name must not contain special characters or numbers'];
+    const expected = ['Name must not contain special characters or number.'];
     expect(result).toEqual(expected);
   });
 });

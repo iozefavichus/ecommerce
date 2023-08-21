@@ -42,7 +42,7 @@ export const checkName = (value: string): Array<string> => {
   if (value.length < 1) {
     result.push('Name must be at least 1 character long');
   } else if (!regOnlyLetters.test(value)) {
-    result.push('Name must not contain special characters or numbers');
+    result.push('Name must not contain special characters or number.');
   }
   return result;
 };
@@ -52,7 +52,7 @@ export const checkSurname = (value: string): Array<string> => {
   if (value.length < 1) {
     result.push('Surname must be at least 1 character long');
   } else if (!regOnlyLetters.test(value)) {
-    result.push('Surname must not contain special characters or numbers');
+    result.push('Surname must not contain special characters or numbers.');
   }
   return result;
 };
