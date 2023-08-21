@@ -12,8 +12,8 @@ export interface regCardObj {
   password: string;
   dateOfBirth: string;
   addresses: Array<baseAdress>;
-  shippingAddresses:Array<number>;
-  billingAddresses:Array<number>;
+  shippingAddresses: Array<number>;
+  billingAddresses: Array<number>;
   defaultShippingAddress: number | undefined;
   defaultBillingAddress: number | undefined;
 }
