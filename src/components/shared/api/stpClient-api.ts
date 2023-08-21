@@ -7,6 +7,8 @@ import {
   createApiBuilderFromCtpClient,
   Product,
   ProductPagedQueryResponse,
+  ProductDiscount,
+  ProductDiscountPagedQueryResponse,
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
 import { regCardObj } from '../../../types/shared';
@@ -78,8 +80,18 @@ export class StpClientApi {
       .execute()
       .then((data: ClientResponse<ProductPagedQueryResponse>) => {
         const products = data.body.results;
-        console.log(products);
         return products;
+      });
+  }
+
+  public getProductDiscounts(): Promise<ProductDiscount[]> {
+    return this.apiRoot
+      .productDiscounts()
+      .get()
+      .execute()
+      .then((data: ClientResponse<ProductDiscountPagedQueryResponse>) => {
+        const productDiscounts = data.body.results;
+        return productDiscounts;
       });
   }
 }
