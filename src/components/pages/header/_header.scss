@@ -141,7 +141,10 @@
 
   flex-wrap: wrap;
   gap: 10px 0;
-  width: 35%;
+
+  @include media-netbook {
+    width: 35%;
+  }
 
   @include media-table {
     width: 70%;

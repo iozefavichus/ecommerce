@@ -4,7 +4,7 @@ import { drawLogInPage } from '../src/components/pages/log-in/login';
 
 describe('Login valid module', () => {
   describe('validationMail function', () => {
-    const NOT_CORRECT_1 = 'name!@mail.com';
+    const NOT_CORRECT_1 = 'name @mail.com';
     const NOT_CORRECT_2 = 'name@mail';
     const NOT_CORRECT_3 = 'name@mail.com ';
 
@@ -16,8 +16,7 @@ describe('Login valid module', () => {
 
     test('show warning tex if mail have any symbol !@#$%^&*', () => {
       const warningElem = document.querySelector('.warning-text') as HTMLElement;
-      const WAR_TEXT =
-        "Your formatted email address is not correct! Correct formatted user@domen.name, you don't can use !@#$%^&*";
+      const WAR_TEXT = 'Delete the space in the email line';
 
       validationMail(NOT_CORRECT_1, warningElem);
 
@@ -26,8 +25,7 @@ describe('Login valid module', () => {
 
     test('show warning tex if mail have not correct formate', () => {
       const warningElem = document.querySelector('.warning-text') as HTMLElement;
-      const WAR_TEXT =
-        "Your formatted email address is not correct! Correct formatted user@domen.name, you don't can use !@#$%^&*";
+      const WAR_TEXT = 'Your formatted email address is not correct! Correct formatted user@domen.name';
 
       validationMail(NOT_CORRECT_2, warningElem);
 
