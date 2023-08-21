@@ -9,6 +9,8 @@ import {
   ProductPagedQueryResponse,
   ProductDiscount,
   ProductDiscountPagedQueryResponse,
+  ProductProjection,
+  ProductProjectionPagedQueryResponse,
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
 import { regCardObj } from '../../../types/shared';
@@ -92,6 +94,17 @@ export class StpClientApi {
       .then((data: ClientResponse<ProductDiscountPagedQueryResponse>) => {
         const productDiscounts = data.body.results;
         return productDiscounts;
+      });
+  }
+
+  public getProductProjections(): Promise<ProductProjection[]> {
+    return this.apiRoot
+      .productProjections()
+      .get()
+      .execute()
+      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => {
+        const productProjections = data.body.results;
+        return productProjections;
       });
   }
 }
