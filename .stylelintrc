@@ -3,6 +3,8 @@
   "rules": {
     "selector-class-pattern": null,
     "selector-type-no-unknown": null,
-    "no-descending-specificity": null
+    "no-descending-specificity": null,
+    "scss/at-mixin-pattern": null,
+    "scss/dollar-variable-pattern": null
   }
 }

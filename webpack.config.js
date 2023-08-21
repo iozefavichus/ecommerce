@@ -1,5 +1,7 @@
 const fs = require('fs');
+require('dotenv').config()
 const path = require('path');
+const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
@@ -7,6 +9,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const EslintPlugin = require('eslint-webpack-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
@@ -81,6 +84,17 @@ const plugins = () => [
     filename: filename('css'),
   }),
   new EslintPlugin(),
+  new NodePolyfillPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        CTP_CLIENT_SECRET: JSON.stringify(process.env.CTP_CLIENT_SECRET),
+        CTP_PROJECT_KEY: JSON.stringify(process.env.CTP_PROJECT_KEY),
+        CTP_CLIENT_ID: JSON.stringify(process.env.CTP_CLIENT_ID),
+        CTP_SCOPES: JSON.stringify(process.env.CTP_SCOPES),
+        CTP_AUTH_URL: JSON.stringify(process.env.CTP_AUTH_URL),
+        CTP_API_URL: JSON.stringify(process.env.CTP_API_URL),
+      }
+    }),
 ];
 
 module.exports = {
@@ -111,6 +125,9 @@ module.exports = {
   },
   optimization: optimization(),
   devServer: {
+    historyApiFallback: {
+      disableDotRule: true,
+    },
     hot: true,
     port: 5000,
   },

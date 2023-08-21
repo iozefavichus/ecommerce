@@ -1,0 +1,135 @@
+.authorization {
+  @include display-flex(center, center);
+
+  gap: 20px;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 100px;
+}
+
+.heading-img {
+  width: 100%;
+  background-image: url('../assets/images/background_shop.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+}
+
+.authorization-form {
+  @include display-flex(center, center);
+
+  flex-direction: column;
+  width: 20%;
+  gap: 30px;
+  font-size: 20px;
+
+  &__mail,
+  &__password {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #9f9f9f;
+    padding: 15px 20px;
+  }
+
+  @include media-netbook {
+    width: 40%;
+  }
+
+  @include media-mobile {
+    width: 60%;
+  }
+}
+
+.heading-login {
+  padding: 130px 0;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.label {
+  &-mail,
+  &-password {
+    display: grid;
+    width: 100%;
+    gap: 15px;
+  }
+
+  &-checkbox {
+    margin-top: -10px;
+
+    @include media-mobile {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+  }
+}
+
+.submit-btn {
+  width: 40%;
+  padding: 10px 0;
+
+  &:active {
+    box-shadow: inset 2px 2px 2px 2px $color-text-base;
+  }
+
+  &.disable {
+    opacity: 0.4;
+    cursor: default;
+
+    &:active {
+      box-shadow: none;
+    }
+  }
+
+  @include media-netbook {
+    width: fit-content;
+    padding: 10px;
+  }
+
+  @include media-mobile {
+    width: 100%;
+  }
+}
+
+.registration-btn {
+  width: 10%;
+  padding: 10px 0;
+  text-align: center;
+  text-decoration: none;
+  color: $color-text-base;
+
+  &:active {
+    box-shadow: inset 2px 2px 2px 2px $color-text-base;
+  }
+
+  @include media-netbook {
+    width: fit-content;
+    padding: 10px;
+  }
+
+  @include media-mobile {
+    width: 50%;
+  }
+}
+
+.warning-text {
+  color: rgb(212 4 4);
+  font-size: 12px;
+}
+
+.open-password {
+  margin-left: 10px;
+
+  @include media-mobile {
+    width: 20px;
+    height: 20px;
+    margin: 0 auto 20px;
+  }
+}
+
+.not-customer {
+  color: rgb(212 4 4);
+  text-align: center;
+  font-size: 24px;
+}
