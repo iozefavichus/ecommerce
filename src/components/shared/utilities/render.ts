@@ -8,6 +8,7 @@ import { drawSuccess } from '../../pages/registration/success';
 import { drawNotFound } from '../../pages/notfound/draw-not-found';
 import { logoutCustomer } from '../../pages/log-in/log-out';
 import { customRoute } from '../../app/router/router';
+import { drawCatalog } from '../../pages/catalog/draw-catalog';
 
 export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
@@ -15,7 +16,7 @@ export const render = (isLogin: boolean): void => {
   drawFooter();
 };
 
-const routes = ['/', '/shop', '/about', '/contact', '/registration', '/basket', '/profile', '/login'];
+const routes = ['/', '/catalog', '/about', '/contact', '/registration', '/basket', '/profile', '/login'];
 
 export const renderChangeContent = (path: string): void => {
   for (const route in routes) {
@@ -31,8 +32,8 @@ export const renderChangeContent = (path: string): void => {
     render(isLoginCustomer.isLogin);
     logoutCustomer();
   }
-  if (renderPage === '/shop') {
-    drawNotFound();
+  if (renderPage === '/catalog') {
+    drawCatalog();
   }
   if (renderPage === '/about') {
     drawNotFound();
