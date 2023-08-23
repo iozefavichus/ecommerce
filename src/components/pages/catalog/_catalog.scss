@@ -114,7 +114,8 @@
     &--sort {
       @include display-flex(center, space-between);
 
-      width: calc(100% - 368px);
+      // width: calc(100% - 368px);
+      column-gap: 20px;
     }
 
     &__text2 {
@@ -139,4 +140,20 @@
       @include display-flex(center, center);
     }
   }
+}
+
+.product__wrapper {
+  max-width: 1440px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 40px 32px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.product__card {
+  width: 285px;
+  height: 446px;
+  border: 1px solid dodgerblue;
 }

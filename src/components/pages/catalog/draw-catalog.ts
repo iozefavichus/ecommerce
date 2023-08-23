@@ -43,10 +43,18 @@ const createPanel = (): HTMLElement => {
   return wrapper;
 };
 
+const createCard = (): HTMLElement => {
+  const productWrapper = createCustomElement('div', ['product__wrapper']);
+  const card = createCustomElement('div', ['product__card']);
+  productWrapper.append(card);
+  return productWrapper;
+};
+
 export const drawCatalog = () => {
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   mainWrapper.innerHTML = '';
   const searcher = createSearch();
   const panel = createPanel();
-  mainWrapper.append(searcher, panel);
+  const card = createCard();
+  mainWrapper.append(searcher, panel, card);
 };
