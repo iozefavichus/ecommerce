@@ -1,11 +1,13 @@
-import { getLocalStorageLogin, setLocalStorageLogin } from '../../app/localStorage/localStorage';
+import { setLocalStorageLogin } from '../../app/localStorage/localStorage';
 import { customRoute } from '../../app/router/router';
 import { applyStyle } from '../../app/validation/login-valid';
 import { createCustomElement } from '../utilities/helper-functions';
-import { StpClientApi } from './stpClient-api';
+import { AuthClientApi } from './authClient.-api';
+import { pasTokenCache } from './build-client';
+import { isToken } from './token';
 
 export const isLoginCustomer: Record<string, boolean> = {
-  isLogin: getLocalStorageLogin('isLoginCustomer.isLogin'),
+  isLogin: isToken(),
 };
 
 // Lala@test.com
@@ -25,13 +27,17 @@ export const authorization = (): void => {
     const password: string = passwordInput.value;
 
     if (email !== null && password !== null) {
-      const hasCustomer: boolean = (await new StpClientApi().returnCustomerByEmail(email)).body.results.length > 0;
+      const customer = await new AuthClientApi(email, password).returnCustomerByEmail();
+      const hasCustomer: boolean = customer.body.results.length > 0;
 
       if (hasCustomer) {
         try {
-          await new StpClientApi().loginCustomer(email, password);
+          await new AuthClientApi(email, password).loginCustomer();
           isLoginCustomer.isLogin = true;
-          setLocalStorageLogin('isLoginCustomer.isLogin', true);
+          const tokenData = Object.entries(pasTokenCache.get());
+          for (const [key, value] of tokenData) {
+            setLocalStorageLogin(key, value.toString());
+          }
           customRoute('/');
         } catch {
           passwordInput.value = '';

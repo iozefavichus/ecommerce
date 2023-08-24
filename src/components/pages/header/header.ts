@@ -31,7 +31,7 @@ const links: Constants = {
   LOGIN: '/login',
   REG: '/registration',
   PROFILE: '/profile',
-  BASKET: '/basket',
+  BASKET: '/cart',
 };
 
 const createNavBar = (): HTMLElement => {
