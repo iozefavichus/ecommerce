@@ -83,6 +83,10 @@ class StpClientApi {
         return productProjections;
       });
   }
+
+  public getProductById(productId: string) {
+    return this.apiRoot.products().withId({ ID: productId }).get().execute();
+  }
 }
 
 export { StpClientApi };

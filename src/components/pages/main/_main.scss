@@ -279,6 +279,9 @@
     @include display-flex(center, center);
 
     flex-wrap: wrap;
+    gap: 10px;
+    width: 90%;
+    margin: auto;
   }
 
   &__img {
