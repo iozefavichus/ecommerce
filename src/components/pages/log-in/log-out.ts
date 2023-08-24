@@ -1,4 +1,4 @@
-import { removeLocalStorageLogin } from '../../app/localStorage/localStorage';
+import { removeLocalStorageValue } from '../../app/localStorage/localStorage';
 
 const KEY_1 = 'isLoginCustomer.isLogin';
 const KEY_2 = 'refreshToken';
@@ -9,10 +9,10 @@ export const logoutCustomer = (): void => {
   const logoutBtn = document.querySelector('.log-out');
   logoutBtn?.addEventListener('click', (event) => {
     event.preventDefault();
-    removeLocalStorageLogin(KEY_1);
-    removeLocalStorageLogin(KEY_2);
-    removeLocalStorageLogin(KEY_3);
-    removeLocalStorageLogin(KEY_4);
+    removeLocalStorageValue(KEY_1);
+    removeLocalStorageValue(KEY_2);
+    removeLocalStorageValue(KEY_3);
+    removeLocalStorageValue(KEY_4);
     location.reload();
   });
 };

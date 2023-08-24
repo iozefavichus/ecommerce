@@ -1,4 +1,4 @@
-import { setLocalStorageLogin } from '../../app/localStorage/localStorage';
+import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { customRoute } from '../../app/router/router';
 import { applyStyle } from '../../app/validation/login-valid';
 import { createCustomElement } from '../utilities/helper-functions';
@@ -36,7 +36,7 @@ export const authorization = (): void => {
           isLoginCustomer.isLogin = true;
           const tokenData = Object.entries(pasTokenCache.get());
           for (const [key, value] of tokenData) {
-            setLocalStorageLogin(key, value.toString());
+            setLocalStorageValue(key, value.toString());
           }
           customRoute('/');
         } catch {
