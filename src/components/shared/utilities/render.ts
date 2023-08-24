@@ -20,7 +20,7 @@ export const render = (isLogin: boolean): void => {
   openDetail();
 };
 
-const routes = ['/', '/catalog', '/about', '/contact', '/registration', '/cart', '/profile', '/login', '/detail'];
+const routes = ['/', '/catalog', '/about', '/contact', '/registration', '/cart', '/profile', '/login'];
 
 export const renderChangeContent = (path: string, product?: Product): void => {
   for (const route in routes) {

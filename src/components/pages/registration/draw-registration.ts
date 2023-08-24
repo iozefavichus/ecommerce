@@ -8,6 +8,8 @@ import { setLocalStorageLogin } from '../../app/localStorage/localStorage';
 import { isLoginCustomer } from '../../shared/api/server-authorization';
 import { regCardObj } from '../../../types/shared';
 import { setError, setSuccess, CheckIt } from './validation-helpers';
+import { AuthClientApi } from '../../shared/api/authClient.-api';
+import { pasTokenCache } from '../../shared/api/build-client';
 
 export const form = RegistrationForm();
 
@@ -157,11 +159,20 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
   if (warningsArray.length === 0) {
     const createCustomer = new StpClientApi().createCustomer(registrationCard);
     createCustomer
-      .then((data) => {
+      .then(async (data) => {
         if (data.statusCode === 201) {
-          isLoginCustomer.isLogin = true;
-          setLocalStorageLogin('isLoginCustomer.isLogin', true);
-          customRoute('/success');
+          try {
+            const { email, password } = registrationCard;
+            await new AuthClientApi(email, password).loginCustomer();
+            isLoginCustomer.isLogin = true;
+            const tokenData = Object.entries(pasTokenCache.get());
+            for (const [key, value] of tokenData) {
+              setLocalStorageLogin(key, value.toString());
+            }
+            customRoute('/success');
+          } catch {
+            throw Error('User is not login');
+          }
         }
       })
       .catch((error) => {
