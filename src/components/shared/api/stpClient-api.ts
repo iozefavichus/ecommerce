@@ -1,7 +1,5 @@
 import {
   ClientResponse,
-  Customer,
-  CustomerPagedQueryResponse,
   CustomerSignInResult,
   Project,
   createApiBuilderFromCtpClient,
@@ -9,7 +7,7 @@ import {
 import { ctpClient } from './build-client';
 import { regCardObj } from '../../../types/shared';
 
-export class StpClientApi {
+class StpClientApi {
   private email;
 
   private password;
@@ -21,36 +19,14 @@ export class StpClientApi {
     this.password = password;
   }
 
-  public getCustomers(): Promise<Customer[]> {
-    return this.apiRoot
-      .customers()
-      .get()
-      .execute()
-      .then((data: ClientResponse<CustomerPagedQueryResponse>) => {
-        const customers = data.body.results;
-        return customers;
-      });
-  }
-
-  public returnCustomerByEmail(customerEmail: string): Promise<ClientResponse<CustomerPagedQueryResponse>> {
-    return this.apiRoot
-      .customers()
-      .get({
-        queryArgs: {
-          where: `email="${customerEmail}"`,
-        },
-      })
-      .execute();
-  }
-
-  public loginCustomer(email: string, password: string): Promise<ClientResponse<CustomerSignInResult>> {
+  public loginCustomer(): Promise<ClientResponse<CustomerSignInResult>> {
     return this.apiRoot
       .me()
       .login()
       .post({
         body: {
-          email,
-          password,
+          email: this.email as string,
+          password: this.password as string,
         },
       })
       .execute();
@@ -69,3 +45,5 @@ export class StpClientApi {
       .execute();
   }
 }
+
+export { StpClientApi };
