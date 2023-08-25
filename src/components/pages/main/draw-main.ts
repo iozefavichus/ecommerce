@@ -49,6 +49,8 @@ const createOurProducts = (): HTMLElement => {
   const productsTitle = createCustomElement('p', ['products__title'], 'Our Products');
   const card = createCustomElement('div', ['products__card']);
   const imgBlock1 = createCustomElement('div', ['products__img']);
+  // for test product detailed page
+  imgBlock1.setAttribute('data-id', '16332612-ea81-4bf0-b466-2f8a02b96e9b');
   const imgBlock2 = createCustomElement('div', ['products__img']);
   const imgBlock3 = createCustomElement('div', ['products__img']);
   const imgBlock4 = createCustomElement('div', ['products__img']);

@@ -1,4 +1,4 @@
-import * as login from '../src/components/pages/log-in/login';
+import * as login from '../src/components/pages/log-in/draw-login';
 
 describe('Login module', () => {
   test('it should create a mail block with the correct structure', () => {

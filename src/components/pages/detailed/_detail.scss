@@ -1,0 +1,26 @@
+.detail {
+  @include display-flex(center, space-between);
+
+  width: 90%;
+  margin: 40px auto;
+}
+
+.img-container {
+  width: 50%;
+}
+
+.img-product {
+  position: relative;
+  width: 100%;
+  padding-top: 50%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.product-info {
+  @include display-flex(flex-start, space-between);
+
+  flex-direction: column;
+  width: 50%;
+}

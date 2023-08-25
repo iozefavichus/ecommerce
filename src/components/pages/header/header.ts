@@ -25,26 +25,26 @@ const headerClasses: Constants = {
 
 const links: Constants = {
   HOME: '/',
-  SHOP: '/shop',
+  CATALOG: '/catalog',
   ABOUT: '/about',
   CONTACT: '/contact',
   LOGIN: '/login',
   REG: '/registration',
   PROFILE: '/profile',
-  BASKET: '/basket',
+  BASKET: '/cart',
 };
 
 const createNavBar = (): HTMLElement => {
   const navBar = createCustomElement('nav', [headerClasses.NAV]);
   const linkHome = createCustomElement('a', [headerClasses.NAV_LINK], 'Home') as HTMLLinkElement;
   linkHome.href = links.HOME;
-  const linkShop = createCustomElement('a', [headerClasses.NAV_LINK], 'Shop') as HTMLLinkElement;
-  linkShop.href = links.SHOP;
+  const linkCatalog = createCustomElement('a', [headerClasses.NAV_LINK], 'Catalog') as HTMLLinkElement;
+  linkCatalog.href = links.CATALOG;
   const linkAbout = createCustomElement('a', [headerClasses.NAV_LINK], 'About') as HTMLLinkElement;
   linkAbout.href = links.ABOUT;
   const linkContact = createCustomElement('a', [headerClasses.NAV_LINK], 'Contact') as HTMLLinkElement;
   linkContact.href = links.CONTACT;
-  navBar.append(linkHome, linkShop, linkAbout, linkContact);
+  navBar.append(linkHome, linkCatalog, linkAbout, linkContact);
 
   return navBar;
 };
