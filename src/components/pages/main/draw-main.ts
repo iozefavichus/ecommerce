@@ -9,9 +9,9 @@ const createDiscover = (): HTMLElement => {
   const discoverSubtitle = createCustomElement(
     'p',
     ['discover__subtitle'],
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.',
+    'Comfort is trusted by millions of businesses worldwide',
   );
-  const discoverBtn = createCustomElement('button', ['discover__button'], 'BUY Now');
+  const discoverBtn = createCustomElement('a', ['discover__button'], 'BUY Now');
   discoverInnerBlock.append(discoverAppointment, discoverTitle, discoverSubtitle, discoverBtn);
   discoverBlock.append(discoverInnerBlock);
   bgMain.append(discoverBlock);
@@ -21,11 +21,7 @@ const createDiscover = (): HTMLElement => {
 const createBrowse = (): HTMLElement => {
   const sectionBrowse = createCustomElement('section', ['browse']);
   const browseTitle = createCustomElement('p', ['browse__title'], `Browse The Range <br/>`);
-  const browseSubtitle = createCustomElement(
-    'p',
-    ['browse__subtitle'],
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  );
+  const browseSubtitle = createCustomElement('p', ['browse__subtitle'], 'View our products');
   const card = createCustomElement('div', ['browse__card']);
   const imgBlock1 = createCustomElement('div', ['browse__img']);
   const imgBlock2 = createCustomElement('div', ['browse__img']);
@@ -90,7 +86,7 @@ const createOurProducts = (): HTMLElement => {
   const imgText8 = createCustomElement('p', ['products__img-text'], 'Potty');
   const imgDesc8 = createCustomElement('p', ['products__img-desc'], 'Minimalist flower pot');
   const imgPrice8 = createCustomElement('p', ['products__img-price'], 'Rp 500.000');
-  const imgBtn = createCustomElement('button', ['products__btn'], 'Show More');
+  const imgBtn = createCustomElement('a', ['products__btn'], 'Show More');
   imgBlock1.append(imgProducts1, imgText1, imgDesc1, imgPrice1);
   imgBlock2.append(imgProducts2, imgText2, imgDesc2, imgPrice2);
   imgBlock3.append(imgProducts3, imgText3, imgDesc3, imgPrice3);
@@ -114,4 +110,8 @@ export const drawMain = () => {
   const browse = createBrowse();
   const ourProducts = createOurProducts();
   wrapper.append(discover, browse, ourProducts);
+  const discoverBtn = document.querySelector('.discover__button') as HTMLLinkElement;
+  const productsBtn = document.querySelector('.products__btn') as HTMLLinkElement;
+  discoverBtn.href = '/catalog';
+  productsBtn.href = '/catalog';
 };
