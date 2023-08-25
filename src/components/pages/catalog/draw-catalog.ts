@@ -1,4 +1,6 @@
+import { Product } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { StpClientApi } from '../../shared/api/stpClient-api';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -43,18 +45,21 @@ const createPanel = (): HTMLElement => {
   return wrapper;
 };
 
-const createCard = (): HTMLElement => {
+const drawCard = (product: Product): void => {
   const productWrapper = createCustomElement('div', ['product__wrapper']);
   const card = createCustomElement('div', ['product__card']);
+  console.log(product);
   productWrapper.append(card);
-  return productWrapper;
 };
 
-export const drawCatalog = () => {
+export const drawCatalog = async () => {
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   mainWrapper.innerHTML = '';
+  const products = await new StpClientApi().getProducts();
+  products.forEach((product) => {
+    drawCard(product);
+  });
   const searcher = createSearch();
   const panel = createPanel();
-  const card = createCard();
-  mainWrapper.append(searcher, panel, card);
+  mainWrapper.append(searcher, panel);
 };

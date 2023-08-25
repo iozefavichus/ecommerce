@@ -55,9 +55,8 @@
 
   @include display-flex(center, space-between);
 
-  margin: 0 auto;
   background: $color-panel-product;
-  padding-bottom: 46px;
+  margin: 0 auto 46px;
 
   &-filter {
     @include display-flex(center, space-between);
@@ -114,7 +113,6 @@
     &--sort {
       @include display-flex(center, space-between);
 
-      // width: calc(100% - 368px);
       column-gap: 20px;
     }
 

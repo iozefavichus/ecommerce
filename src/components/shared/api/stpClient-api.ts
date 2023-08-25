@@ -1,14 +1,14 @@
 import {
   ClientResponse,
-  CustomerSignInResult,
-  Project,
   createApiBuilderFromCtpClient,
+  CustomerSignInResult,
   Product,
-  ProductPagedQueryResponse,
   ProductDiscount,
   ProductDiscountPagedQueryResponse,
+  ProductPagedQueryResponse,
   ProductProjection,
   ProductProjectionPagedQueryResponse,
+  Project,
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
 import { regCardObj } from '../../../types/shared';
@@ -56,10 +56,7 @@ class StpClientApi {
       .products()
       .get()
       .execute()
-      .then((data: ClientResponse<ProductPagedQueryResponse>) => {
-        const products = data.body.results;
-        return products;
-      });
+      .then((data: ClientResponse<ProductPagedQueryResponse>) => data.body.results);
   }
 
   public getProductDiscounts(): Promise<ProductDiscount[]> {
@@ -67,10 +64,7 @@ class StpClientApi {
       .productDiscounts()
       .get()
       .execute()
-      .then((data: ClientResponse<ProductDiscountPagedQueryResponse>) => {
-        const productDiscounts = data.body.results;
-        return productDiscounts;
-      });
+      .then((data: ClientResponse<ProductDiscountPagedQueryResponse>) => data.body.results);
   }
 
   public getProductProjections(): Promise<ProductProjection[]> {
@@ -78,10 +72,7 @@ class StpClientApi {
       .productProjections()
       .get()
       .execute()
-      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => {
-        const productProjections = data.body.results;
-        return productProjections;
-      });
+      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
   }
 
   public getProductById(productId: string) {
