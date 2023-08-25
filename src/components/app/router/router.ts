@@ -1,13 +1,18 @@
 import { Product } from '@commercetools/platform-sdk';
 import { renderChangeContent } from '../../shared/utilities/render';
+import { getLocalStorage } from '../localStorage/localStorage';
+import { PRODUCT_BODY } from '../../pages/detailed/open-detail';
 
 const body = document.querySelector('body');
 
-export const customRoute = (pathName: string, product?: Product): void => {
+export const customRoute = (pathName: string, product?: Product | string): void => {
   window.history.pushState({}, '', pathName);
   const newPath = window.location.pathname;
+  const productInLocalStorage = getLocalStorage(PRODUCT_BODY);
   if (product) {
     renderChangeContent(newPath, product);
+  } else if (productInLocalStorage) {
+    renderChangeContent(newPath, JSON.parse(productInLocalStorage));
   } else {
     renderChangeContent(newPath);
   }

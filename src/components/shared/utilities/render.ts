@@ -10,12 +10,10 @@ import { drawNotFound } from '../../pages/notfound/draw-not-found';
 import { logoutCustomer } from '../../pages/log-in/log-out';
 import { customRoute } from '../../app/router/router';
 import { drawCatalog } from '../../pages/catalog/draw-catalog';
-import { openDetail } from '../../pages/detailed/open-detail';
+import { PRODUCT_KEY, openDetail } from '../../pages/detailed/open-detail';
 import { drawDetail } from '../../pages/detailed/draw-detail';
 import { getLocalStorage, removeLocalStorageValue } from '../../app/localStorage/localStorage';
 import { StpClientApi } from '../api/stpClient-api';
-
-const PRODUCT_ID_KEY = 'productId';
 
 export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
@@ -26,18 +24,16 @@ export const render = (isLogin: boolean): void => {
 
 const routes = ['/', '/catalog', '/about', '/contact', '/registration', '/cart', '/profile', '/login'];
 
-export const renderChangeContent = (path: string, product?: Product): void => {
+export const renderChangeContent = (path: string, product?: Product | string): void => {
   const renderPage = path;
   const isRouteLink = routes.find((link) => link === renderPage);
 
   if (isRouteLink) {
-    removeLocalStorageValue(PRODUCT_ID_KEY);
+    removeLocalStorageValue(PRODUCT_KEY);
   }
 
-  for (const route in routes) {
-    if (Object.values(route)) {
-      drawNotFound();
-    }
+  if (!isRouteLink && !product) {
+    drawNotFound();
   }
 
   if (renderPage === links.HOME) {
@@ -90,9 +86,9 @@ export const renderChangeContent = (path: string, product?: Product): void => {
 window.addEventListener('DOMContentLoaded', () => {
   const path = window.location.pathname;
 
-  const productPath = getLocalStorage(PRODUCT_ID_KEY);
+  const productPath = getLocalStorage(PRODUCT_KEY);
   if (productPath) {
-    new StpClientApi().getProductById(productPath).then((productData) => {
+    new StpClientApi().getProductByKey(productPath).then((productData) => {
       customRoute(productPath, productData.body);
     });
   } else {

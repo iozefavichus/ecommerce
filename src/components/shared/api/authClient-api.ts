@@ -1,9 +1,4 @@
-import {
-  ClientResponse,
-  CustomerPagedQueryResponse,
-  CustomerSignInResult,
-  createApiBuilderFromCtpClient,
-} from '@commercetools/platform-sdk';
+import { ClientResponse, CustomerSignInResult, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { createAuthPasswordClient } from './build-client';
 
 class AuthClientApi {
@@ -38,20 +33,6 @@ class AuthClientApi {
         body: {
           email: this.email as string,
           password: this.password as string,
-        },
-      })
-      .execute();
-  }
-
-  public returnCustomerByEmail(): Promise<ClientResponse<CustomerPagedQueryResponse>> {
-    if (!this.apiRoot) {
-      throw new Error('Authentication credentials are missing.');
-    }
-    return this.apiRoot
-      .customers()
-      .get({
-        queryArgs: {
-          where: `email="${this.email}"`,
         },
       })
       .execute();
