@@ -31,6 +31,7 @@ class MyTokenCache implements TokenCache {
     return this.myCache;
   }
 }
+
 export const pasTokenCache = new MyTokenCache();
 
 // Configure authMiddlewareOptions
