@@ -54,7 +54,7 @@ const createBlockProperty = (name: string, price: number): HTMLElement => {
   return propertyBlock;
 };
 
-const drawCard = (product: Product, el: HTMLElement): void => {
+export const drawCard = (product: Product, el: HTMLElement): void => {
   const card = createCustomElement('div', ['product__card']);
   const productKey = product.key;
   const productImg = product.masterData.current.masterVariant?.images;
