@@ -10,10 +10,9 @@ import { drawNotFound } from '../../pages/notfound/draw-not-found';
 import { logoutCustomer } from '../../pages/log-in/log-out';
 import { customRoute } from '../../app/router/router';
 import { drawCatalog } from '../../pages/catalog/draw-catalog';
-import { PRODUCT_KEY, openDetail } from '../../pages/detailed/open-detail';
+import { PRODUCT_BODY, PRODUCT_KEY, openDetail } from '../../pages/detailed/open-detail';
 import { drawDetail } from '../../pages/detailed/draw-detail';
-import { getLocalStorage, removeLocalStorageValue } from '../../app/localStorage/localStorage';
-import { StpClientApi } from '../api/stpClient-api';
+import { getLocalStorage } from '../../app/localStorage/localStorage';
 
 export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
@@ -27,10 +26,6 @@ const routes = ['/', '/catalog', '/about', '/contact', '/registration', '/cart',
 export const renderChangeContent = (path: string, product?: Product | string): void => {
   const renderPage = path;
   const isRouteLink = routes.find((link) => link === renderPage);
-
-  if (isRouteLink) {
-    removeLocalStorageValue(PRODUCT_KEY);
-  }
 
   if (!isRouteLink && !product) {
     drawNotFound();
@@ -85,12 +80,12 @@ export const renderChangeContent = (path: string, product?: Product | string): v
 
 window.addEventListener('DOMContentLoaded', () => {
   const path = window.location.pathname;
-
+  const clearPath = path.replace(/\//, '');
   const productPath = getLocalStorage(PRODUCT_KEY);
-  if (productPath) {
-    new StpClientApi().getProductByKey(productPath).then((productData) => {
-      customRoute(productPath, productData.body);
-    });
+  const productInLocalStorage = getLocalStorage(PRODUCT_BODY);
+
+  if (clearPath === productPath && productInLocalStorage) {
+    customRoute(productPath, JSON.parse(productInLocalStorage));
   } else {
     renderChangeContent(path);
   }
@@ -99,5 +94,13 @@ window.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('popstate', (event) => {
   const windowOdj = event.target as Window;
   const path = windowOdj.location.pathname;
-  renderChangeContent(path);
+  const clearPath = path.replace(/\//, '');
+  const productPath = getLocalStorage(PRODUCT_KEY);
+  const productInLocalStorage = getLocalStorage(PRODUCT_BODY);
+
+  if (clearPath === productPath && productInLocalStorage) {
+    customRoute(path, JSON.parse(productInLocalStorage));
+  } else {
+    renderChangeContent(path);
+  }
 });
