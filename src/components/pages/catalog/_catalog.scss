@@ -141,17 +141,47 @@
 }
 
 .product__wrapper {
-  max-width: 1440px;
-  width: 100%;
-
-  @include display-flex(center, space-between);
-
-  gap: 40px 32px;
-  flex-wrap: wrap;
+  width: 90%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 }
 
 .product__card {
   width: 285px;
-  height: 446px;
-  border: 1px solid dodgerblue;
+  height: 500px;
+}
+
+.products__img-block {
+  width: 100%;
+}
+
+.product__img {
+  background-size: cover;
+  width: 285px;
+  height: 427px;
+  border-radius: 10px;
+}
+
+.product__info {
+  @include display-flex(flex-start, space-between);
+
+  flex-direction: column;
+}
+
+.product__name {
+  color: $font-color-title;
+  font-family: Poppins, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: rem(28.8);
+}
+
+.product__price {
+  color: $font-color-desc;
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: rem(24);
 }

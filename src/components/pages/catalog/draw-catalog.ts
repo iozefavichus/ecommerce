@@ -45,21 +45,48 @@ const createPanel = (): HTMLElement => {
   return wrapper;
 };
 
-const drawCard = (product: Product): void => {
-  const productWrapper = createCustomElement('div', ['product__wrapper']);
+const createBlockProperty = (name: string, price: number): HTMLElement => {
+  const propertyBlock = createCustomElement('div', ['product__info']);
+  const productName = createCustomElement('h2', ['product__name'], `${name}`);
+  const productPrice = createCustomElement('p', ['product__price'], `USD ${price}`);
+
+  propertyBlock.append(productName, productPrice);
+  return propertyBlock;
+};
+
+const drawCard = (product: Product, el: HTMLElement): void => {
   const card = createCustomElement('div', ['product__card']);
-  console.log(product);
-  productWrapper.append(card);
+  const productKey = product.key;
+  const productImg = product.masterData.current.masterVariant?.images;
+  const productName = product.masterData.current.name.en;
+  const productPrice = product.masterData.current.masterVariant?.prices;
+  let price: number;
+  card.setAttribute('data-key', productKey as string);
+  const imgBlock = createCustomElement('div', ['products__img-block']);
+  const img = createCustomElement('img', ['product__img']) as HTMLImageElement;
+  card.append(imgBlock);
+  if (productImg && productImg?.length > 0) {
+    const srcImageProduct = productImg[0].url;
+    img.style.backgroundImage = `url(${srcImageProduct})`;
+  }
+  if (productPrice) {
+    price = productPrice[0].value.centAmount / 100;
+    const blockProperty = createBlockProperty(productName, price);
+    card.append(blockProperty);
+  }
+  imgBlock.append(img);
+  el.append(card);
 };
 
 export const drawCatalog = async () => {
+  const productWrapper = createCustomElement('div', ['product__wrapper']);
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   mainWrapper.innerHTML = '';
-  const products = await new StpClientApi().getProducts();
-  products.forEach((product) => {
-    drawCard(product);
-  });
   const searcher = createSearch();
   const panel = createPanel();
-  mainWrapper.append(searcher, panel);
+  mainWrapper.append(searcher, panel, productWrapper);
+  const products = await new StpClientApi().getProducts();
+  products.forEach((product) => {
+    drawCard(product, productWrapper);
+  });
 };
