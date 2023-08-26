@@ -13,7 +13,8 @@ const createDiscover = (): HTMLElement => {
     ['discover__subtitle'],
     'Comfort is trusted by millions of businesses worldwide',
   );
-  const discoverBtn = createCustomElement('a', ['discover__button'], 'BUY Now');
+  const discoverBtn = createCustomElement('a', ['discover__button'], 'BUY Now') as HTMLLinkElement;
+  discoverBtn.href = '/catalog';
   discoverInnerBlock.append(discoverAppointment, discoverTitle, discoverSubtitle, discoverBtn);
   discoverBlock.append(discoverInnerBlock);
   bgMain.append(discoverBlock);
@@ -55,10 +56,8 @@ export const drawMain = async () => {
   const productsTitle = createCustomElement('p', ['products__title'], 'Our Products');
   sectionProducts.append(productsTitle);
   wrapper.append(discover, browse, sectionProducts, productWrapper);
-  const products = await new StpClientApi().getProducts();
+  const products = await new StpClientApi().getProducts(4);
   products.forEach((product) => {
     drawCard(product, productWrapper);
   });
-  const discoverBtn = document.querySelector('.discover__button') as HTMLLinkElement;
-  discoverBtn.href = '/catalog';
 };

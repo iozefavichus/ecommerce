@@ -2,8 +2,9 @@ import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { customRoute } from '../../app/router/router';
 import { applyStyle } from '../../app/validation/login-valid';
 import { createCustomElement } from '../utilities/helper-functions';
-import { AuthClientApi } from './authClient.-api';
+import { AuthClientApi } from './authClient-api';
 import { pasTokenCache } from './build-client';
+import { StpClientApi } from './stpClient-api';
 import { isToken } from './token';
 
 export const isLoginCustomer: Record<string, boolean> = {
@@ -27,7 +28,7 @@ export const authorization = (): void => {
     const password: string = passwordInput.value;
 
     if (email !== null && password !== null) {
-      const customer = await new AuthClientApi(email, password).returnCustomerByEmail();
+      const customer = await new StpClientApi(email).getCustomerByEmail();
       const hasCustomer: boolean = customer.body.results.length > 0;
 
       if (hasCustomer) {
@@ -39,7 +40,7 @@ export const authorization = (): void => {
             setLocalStorageValue(key, value.toString());
           }
           customRoute('/');
-        } catch {
+        } catch (err) {
           passwordInput.value = '';
           notFoundText.textContent = 'Incorrect password entered';
         }

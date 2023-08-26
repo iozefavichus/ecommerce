@@ -3,7 +3,7 @@ import { renderChangeContent } from '../../shared/utilities/render';
 
 const body = document.querySelector('body');
 
-export const customRoute = (pathName: string, product?: Product): void => {
+export const customRoute = (pathName: string, product?: Product | string): void => {
   window.history.pushState({}, '', pathName);
   const newPath = window.location.pathname;
   if (product) {

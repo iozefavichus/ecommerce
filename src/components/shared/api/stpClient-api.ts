@@ -8,6 +8,7 @@ import {
   ProductPagedQueryResponse,
   ProductProjection,
   ProductProjectionPagedQueryResponse,
+  CustomerPagedQueryResponse,
   Project,
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
@@ -23,6 +24,20 @@ class StpClientApi {
   constructor(email?: string, password?: string) {
     this.email = email;
     this.password = password;
+  }
+
+  public getCustomerByEmail(): Promise<ClientResponse<CustomerPagedQueryResponse>> {
+    if (!this.apiRoot) {
+      throw new Error('Authentication credentials are missing.');
+    }
+    return this.apiRoot
+      .customers()
+      .get({
+        queryArgs: {
+          where: `email="${this.email}"`,
+        },
+      })
+      .execute();
   }
 
   public loginCustomer(): Promise<ClientResponse<CustomerSignInResult>> {
@@ -51,10 +66,10 @@ class StpClientApi {
       .execute();
   }
 
-  public getProducts(): Promise<Product[]> {
+  public getProducts(limitNum?: number): Promise<Product[]> {
     return this.apiRoot
       .products()
-      .get()
+      .get({ queryArgs: { limit: limitNum } })
       .execute()
       .then((data: ClientResponse<ProductPagedQueryResponse>) => data.body.results);
   }
@@ -75,8 +90,8 @@ class StpClientApi {
       .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
   }
 
-  public getProductById(productId: string) {
-    return this.apiRoot.products().withId({ ID: productId }).get().execute();
+  public getProductByKey(productId: string) {
+    return this.apiRoot.products().withKey({ key: productId }).get().execute();
   }
 }
 

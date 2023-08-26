@@ -8,7 +8,7 @@ import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { isLoginCustomer } from '../../shared/api/server-authorization';
 import { regCardObj } from '../../../types/shared';
 import { setError, setSuccess, CheckIt } from './validation-helpers';
-import { AuthClientApi } from '../../shared/api/authClient.-api';
+import { AuthClientApi } from '../../shared/api/authClient-api';
 import { pasTokenCache } from '../../shared/api/build-client';
 
 export const form = RegistrationForm();
