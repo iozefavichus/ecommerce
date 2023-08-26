@@ -25,10 +25,12 @@ const createPanel = (): HTMLElement => {
   const filterList = createCustomElement('img', ['panel__wrapper-img', 'panel__wrapper-list']);
   const separator = createCustomElement('span', ['panel__wrapper-separator']);
   const showBlock = createCustomElement('div', ['panel__wrapper-show']);
-  const showText = createCustomElement('p', ['panel__wrapper-show__text'], 'Showing 1–16 of 32 results');
+  const showText = createCustomElement('p', ['panel__wrapper-show__text'], `Showing 1–16 of 32 results`);
+  showText.setAttribute('id', 'numberProducts');
   const sortBlock = createCustomElement('div', ['panel__wrapper-show--sort']);
   const showTextNumber = createCustomElement('p', ['panel__wrapper-show__text', 'panel__wrapper-show__text2'], 'Show');
   const showNumber = createCustomElement('div', ['panel__wrapper-show--number', 'panel__wrapper-show__text2'], '16');
+  showNumber.setAttribute('id', 'numberCards');
   const showTextSort = createCustomElement(
     'p',
     ['panel__wrapper-show__text', 'panel__wrapper-show__text2'],
@@ -105,6 +107,15 @@ export const drawCatalog = async () => {
     btnPagination.setAttribute('disabled', '');
   }
   const products = await new StpClientApi().getProducts();
+  const numberCards = document.querySelector('#numberCards');
+  const numberProducts = document.querySelector('#numberProducts');
+  const size = Object.keys(products).length;
+  if (numberCards !== undefined && numberCards !== null) {
+    numberCards.textContent = String(size);
+  }
+  if (numberProducts !== undefined && numberProducts !== null) {
+    numberProducts.textContent = `Showing 1–${String(size)} of ${String(size)} results`;
+  }
   products.forEach((product) => {
     drawCard(product, productWrapper);
   });
