@@ -100,6 +100,10 @@ export const drawCatalog = async () => {
   const panel = createPanel();
   const navigation = createNavigation();
   mainWrapper.append(searcher, panel, productWrapper, navigation);
+  const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
+  if (btnPagination?.textContent === '1') {
+    btnPagination.setAttribute('disabled', '');
+  }
   const products = await new StpClientApi().getProducts();
   products.forEach((product) => {
     drawCard(product, productWrapper);
