@@ -66,10 +66,10 @@ class StpClientApi {
       .execute();
   }
 
-  public getProducts(): Promise<Product[]> {
+  public getProducts(limitNum?: number): Promise<Product[]> {
     return this.apiRoot
       .products()
-      .get()
+      .get({ queryArgs: { limit: limitNum } })
       .execute()
       .then((data: ClientResponse<ProductPagedQueryResponse>) => data.body.results);
   }

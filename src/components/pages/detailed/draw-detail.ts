@@ -2,12 +2,13 @@ import { Product } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createPageTitle } from '../../shared/utilities/title';
 
-const createInformBlock = (name: string, price: number): HTMLElement => {
+const createInformBlock = (name: string, price: string, description: string): HTMLElement => {
   const informBlock = createCustomElement('div', ['product-info']);
   const productName = createCustomElement('h2', ['product-name'], `${name}`);
   const productPrice = createCustomElement('p', ['product-price'], `USD ${price}`);
+  const productDescription = createCustomElement('p', ['product-description'], `${description}`);
 
-  informBlock.append(productName, productPrice);
+  informBlock.append(productName, productPrice, productDescription);
   return informBlock;
 };
 
@@ -38,7 +39,8 @@ export const drawDetail = (product: Product | string) => {
   } else {
     const productName = product.masterData.current.name.en;
     const productPrice = product.masterData.current.masterVariant?.prices;
-    let price: number;
+    const productDescription = product.masterData.current.description?.en ?? '';
+    let price: string;
 
     mailWrapper.innerHTML = '';
     const title = createPageTitle('Detail');
@@ -46,8 +48,9 @@ export const drawDetail = (product: Product | string) => {
     const imgBlock = createImagesBlock(product);
     detail.append(imgBlock);
     if (productPrice) {
-      price = productPrice[0].value.centAmount / 100;
-      const informBlock = createInformBlock(productName, price);
+      const priceInCent = productPrice[0].value.centAmount;
+      price = (priceInCent / 100).toFixed(2);
+      const informBlock = createInformBlock(productName, price, productDescription);
       detail.append(informBlock);
     }
     mailWrapper.append(title, detail);

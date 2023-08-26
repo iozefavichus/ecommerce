@@ -1,6 +1,7 @@
 import { Product } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
+import { openDetail } from '../detailed/open-detail';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -45,7 +46,7 @@ const createPanel = (): HTMLElement => {
   return wrapper;
 };
 
-const createBlockProperty = (name: string, price: number): HTMLElement => {
+const createBlockProperty = (name: string, price: string): HTMLElement => {
   const propertyBlock = createCustomElement('div', ['product__info']);
   const productName = createCustomElement('h2', ['product__name'], `${name}`);
   const productPrice = createCustomElement('p', ['product__price'], `USD ${price}`);
@@ -60,7 +61,7 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
   const productImg = product.masterData.current.masterVariant?.images;
   const productName = product.masterData.current.name.en;
   const productPrice = product.masterData.current.masterVariant?.prices;
-  let price: number;
+  let price: string;
   card.setAttribute('data-key', productKey as string);
   const imgBlock = createCustomElement('div', ['products__img-block']);
   const img = createCustomElement('img', ['product__img']) as HTMLImageElement;
@@ -70,10 +71,14 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
     img.style.backgroundImage = `url(${srcImageProduct})`;
   }
   if (productPrice) {
-    price = productPrice[0].value.centAmount / 100;
+    const priceInCent = productPrice[0].value.centAmount;
+    price = (priceInCent / 100).toFixed(2);
     const blockProperty = createBlockProperty(productName, price);
     card.append(blockProperty);
   }
+  card.addEventListener('click', (event) => {
+    openDetail(event);
+  });
   imgBlock.append(img);
   el.append(card);
 };

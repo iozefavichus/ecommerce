@@ -10,7 +10,7 @@ import { drawNotFound } from '../../pages/notfound/draw-not-found';
 import { logoutCustomer } from '../../pages/log-in/log-out';
 import { customRoute } from '../../app/router/router';
 import { drawCatalog } from '../../pages/catalog/draw-catalog';
-import { PRODUCT_BODY, PRODUCT_KEY, openDetail } from '../../pages/detailed/open-detail';
+import { PRODUCT_BODY, PRODUCT_KEY } from '../../pages/detailed/open-detail';
 import { drawDetail } from '../../pages/detailed/draw-detail';
 import { getLocalStorage } from '../../app/localStorage/localStorage';
 
@@ -18,7 +18,6 @@ export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
   drawMain();
   drawFooter();
-  openDetail();
 };
 
 const routes = ['/', '/catalog', '/about', '/contact', '/registration', '/cart', '/profile', '/login'];
