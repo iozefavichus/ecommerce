@@ -46,6 +46,15 @@ const createPanel = (): HTMLElement => {
   return wrapper;
 };
 
+const createNavigation = (): HTMLElement => {
+  const navBlock = createCustomElement('div', ['navigation']);
+  const btnNav1 = createCustomElement('button', ['navigation__btn', 'navigation__btn-active'], '1');
+  const btnNav2 = createCustomElement('button', ['navigation__btn'], '2');
+  const btnNavNext = createCustomElement('button', ['navigation__btn', 'navigation__btn-next'], 'Next');
+  navBlock.append(btnNav1, btnNav2, btnNavNext);
+  return navBlock;
+};
+
 const createBlockProperty = (name: string, price: string): HTMLElement => {
   const propertyBlock = createCustomElement('div', ['product__info']);
   const productName = createCustomElement('h2', ['product__name'], `${name}`);
@@ -89,7 +98,8 @@ export const drawCatalog = async () => {
   mainWrapper.innerHTML = '';
   const searcher = createSearch();
   const panel = createPanel();
-  mainWrapper.append(searcher, panel, productWrapper);
+  const navigation = createNavigation();
+  mainWrapper.append(searcher, panel, productWrapper, navigation);
   const products = await new StpClientApi().getProducts();
   products.forEach((product) => {
     drawCard(product, productWrapper);
