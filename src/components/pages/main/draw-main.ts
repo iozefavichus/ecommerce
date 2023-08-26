@@ -1,4 +1,6 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { StpClientApi } from '../../shared/api/stpClient-api';
+import { drawCard } from '../catalog/draw-catalog';
 
 const createDiscover = (): HTMLElement => {
   const bgMain = createCustomElement('div', ['main-img']);
@@ -9,9 +11,9 @@ const createDiscover = (): HTMLElement => {
   const discoverSubtitle = createCustomElement(
     'p',
     ['discover__subtitle'],
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.',
+    'Comfort is trusted by millions of businesses worldwide',
   );
-  const discoverBtn = createCustomElement('button', ['discover__button'], 'BUY Now');
+  const discoverBtn = createCustomElement('a', ['discover__button'], 'BUY Now');
   discoverInnerBlock.append(discoverAppointment, discoverTitle, discoverSubtitle, discoverBtn);
   discoverBlock.append(discoverInnerBlock);
   bgMain.append(discoverBlock);
@@ -21,11 +23,7 @@ const createDiscover = (): HTMLElement => {
 const createBrowse = (): HTMLElement => {
   const sectionBrowse = createCustomElement('section', ['browse']);
   const browseTitle = createCustomElement('p', ['browse__title'], `Browse The Range <br/>`);
-  const browseSubtitle = createCustomElement(
-    'p',
-    ['browse__subtitle'],
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  );
+  const browseSubtitle = createCustomElement('p', ['browse__subtitle'], 'View our products');
   const card = createCustomElement('div', ['browse__card']);
   const imgBlock1 = createCustomElement('div', ['browse__img']);
   const imgBlock2 = createCustomElement('div', ['browse__img']);
@@ -104,14 +102,23 @@ const createOurProducts = (): HTMLElement => {
   return sectionProducts;
 };
 
-export const drawMain = () => {
+export const drawMain = async () => {
   const body = document.querySelector('body');
   const main = createCustomElement('main', ['main']);
   body?.append(main);
   const wrapper = createCustomElement('div', ['main__wrapper']);
   main.append(wrapper);
+  const productWrapper = createCustomElement('div', ['product__wrapper']);
   const discover = createDiscover();
   const browse = createBrowse();
-  const ourProducts = createOurProducts();
-  wrapper.append(discover, browse, ourProducts);
+  const sectionProducts = createOurProducts();
+  const productsTitle = createCustomElement('p', ['products__title'], 'Our Products');
+  sectionProducts.append(productsTitle);
+  wrapper.append(discover, browse, sectionProducts, productWrapper);
+  const products = await new StpClientApi().getProducts();
+  products.forEach((product) => {
+    drawCard(product, productWrapper);
+  });
+  const discoverBtn = document.querySelector('.discover__button') as HTMLLinkElement;
+  discoverBtn.href = '/catalog';
 };
