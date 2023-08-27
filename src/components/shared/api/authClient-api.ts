@@ -1,4 +1,4 @@
-import { ClientResponse, CustomerSignInResult, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { createAuthPasswordClient } from './build-client';
 
 class AuthClientApi {
@@ -22,12 +22,9 @@ class AuthClientApi {
     }
   }
 
-  public loginCustomer(): Promise<ClientResponse<CustomerSignInResult>> {
-    if (!this.apiRoot) {
-      throw new Error('Authentication credentials are missing.');
-    }
+  public loginCustomer() {
     return this.apiRoot
-      .me()
+      ?.me()
       .login()
       .post({
         body: {
@@ -36,6 +33,14 @@ class AuthClientApi {
         },
       })
       .execute();
+  }
+
+  public getProductByKey(productKey: string) {
+    return this.apiRoot?.products().withKey({ key: productKey }).get().execute();
+  }
+
+  public getProductCategory(catId: string) {
+    return this.apiRoot?.categories().withId({ ID: catId }).get().execute();
   }
 }
 

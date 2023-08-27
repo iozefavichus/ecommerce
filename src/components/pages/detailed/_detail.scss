@@ -41,10 +41,11 @@
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  border: 1px solid $color-default;
 
   &:hover {
     cursor: pointer;
-    border: 0.1px solid $color-brand-dark;
+    border: 1px solid $color-brand-dark;
   }
 }
 
@@ -53,4 +54,12 @@
 
   flex-direction: column;
   width: 50%;
+}
+
+.product-price {
+  margin: 5px 0 40px;
+}
+
+.product-description {
+  width: 60%;
 }

@@ -3,7 +3,7 @@ import { drawFooter } from '../../pages/footer/draw-footer';
 import { drawHeader, links } from '../../pages/header/header';
 import { drawLogInPage } from '../../pages/log-in/draw-login';
 import { drawMain } from '../../pages/main/draw-main';
-import { authorization, isLoginCustomer } from '../api/server-authorization';
+import { authorization } from '../api/server-authorization';
 import { drawRegistration } from '../../pages/registration/draw-registration';
 import { drawSuccess } from '../../pages/registration/success';
 import { drawNotFound } from '../../pages/notfound/draw-not-found';
@@ -13,6 +13,7 @@ import { drawCatalog } from '../../pages/catalog/draw-catalog';
 import { PRODUCT_BODY, PRODUCT_KEY } from '../../pages/detailed/open-detail';
 import { drawDetail } from '../../pages/detailed/draw-detail';
 import { getLocalStorage } from '../../app/localStorage/localStorage';
+import { isLogin } from '../api/is-login';
 
 export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
@@ -33,7 +34,7 @@ export const renderChangeContent = (path: string, product?: Product | string): v
   if (renderPage === links.HOME) {
     const body = document.querySelector('body') as HTMLElement;
     body.innerHTML = '';
-    render(isLoginCustomer.isLogin);
+    render(isLogin());
     logoutCustomer();
   }
   if (renderPage === '/catalog') {
@@ -46,7 +47,7 @@ export const renderChangeContent = (path: string, product?: Product | string): v
     drawNotFound();
   }
   if (renderPage === '/registration') {
-    if (isLoginCustomer.isLogin) {
+    if (isLogin()) {
       customRoute(links.HOME);
     } else {
       drawRegistration();
@@ -65,7 +66,7 @@ export const renderChangeContent = (path: string, product?: Product | string): v
     }, 1500);
   }
   if (renderPage === '/login') {
-    if (isLoginCustomer.isLogin) {
+    if (isLogin()) {
       customRoute(links.HOME);
     } else {
       drawLogInPage();
