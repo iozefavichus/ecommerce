@@ -66,10 +66,15 @@ class StpClientApi {
       .then((data: ClientResponse<ProductDiscountPagedQueryResponse>) => data.body.results);
   }
 
-  public getProductProjections(): Promise<ProductProjection[]> {
+  public getProductProjections(fieldSort?: string): Promise<ProductProjection[]> {
     return this.apiRoot
       .productProjections()
-      .get()
+      .search()
+      .get({
+        queryArgs: {
+          sort: fieldSort,
+        },
+      })
       .execute()
       .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
   }

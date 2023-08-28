@@ -137,6 +137,11 @@
 
       @include display-flex(center, center);
     }
+
+    &--sorted_value {
+      background: $color-default;
+      color: $color-separator;
+    }
   }
 }
 
