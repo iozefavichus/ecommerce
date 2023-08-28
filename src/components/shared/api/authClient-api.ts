@@ -1,7 +1,5 @@
-
 import {
   ClientResponse,
-  CustomerSignInResult,
   createApiBuilderFromCtpClient,
   Product,
   ProductPagedQueryResponse,
@@ -51,6 +49,8 @@ class AuthClientApi {
       .get()
       .execute()
       .then((data: ClientResponse<ProductPagedQueryResponse>) => data.body.results);
+  }
+
   public getProductByKey(productKey: string) {
     return this.apiRoot?.products().withKey({ key: productKey }).get().execute();
   }

@@ -2,9 +2,9 @@ import { Product } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detailed/open-detail';
-import { isLoginCustomer } from '../../shared/api/server-authorization';
 import { AuthClientApi } from '../../shared/api/authClient-api';
 import { sortedValue } from './sort-catalog';
+import { isLogin } from '../../shared/api/is-login';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -118,7 +118,7 @@ export const drawCatalog = async () => {
     btnPagination.setAttribute('disabled', '');
   }
   let products;
-  if (!isLoginCustomer) {
+  if (!isLogin) {
     products = await new AuthClientApi().getProducts();
   } else {
     products = await new StpClientApi().getProducts();

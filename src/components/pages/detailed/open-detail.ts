@@ -15,7 +15,7 @@ export const openDetail = async (event: MouseEvent) => {
     setLocalStorageValue(PRODUCT_KEY, `${key}`);
     productPath = key;
     try {
-      const client = isLogin() ? new AuthClientApi() : new StpClientApi();
+      const client = !isLogin() ? new AuthClientApi() : new StpClientApi();
       const product = (await client.getProductByKey(key))?.body;
       const productBody = JSON.stringify(product);
       setLocalStorageValue(PRODUCT_BODY, productBody);
