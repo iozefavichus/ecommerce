@@ -5,7 +5,6 @@ import { createPageTitle } from '../../shared/utilities/title';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { customRoute } from '../../app/router/router';
 import { setLocalStorageValue } from '../../app/localStorage/localStorage';
-import { isLoginCustomer } from '../../shared/api/server-authorization';
 import { regCardObj } from '../../../types/shared';
 import { setError, setSuccess, CheckIt } from './validation-helpers';
 import { AuthClientApi } from '../../shared/api/authClient-api';
@@ -164,7 +163,6 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
           try {
             const { email, password } = registrationCard;
             await new AuthClientApi(email, password).loginCustomer();
-            isLoginCustomer.isLogin = true;
             const tokenData = Object.entries(pasTokenCache.get());
             for (const [key, value] of tokenData) {
               setLocalStorageValue(key, value.toString());

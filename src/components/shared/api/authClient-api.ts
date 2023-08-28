@@ -1,3 +1,4 @@
+
 import {
   ClientResponse,
   CustomerSignInResult,
@@ -28,12 +29,9 @@ class AuthClientApi {
     }
   }
 
-  public loginCustomer(): Promise<ClientResponse<CustomerSignInResult>> {
-    if (!this.apiRoot) {
-      throw new Error('Authentication credentials are missing.');
-    }
+  public loginCustomer() {
     return this.apiRoot
-      .me()
+      ?.me()
       .login()
       .post({
         body: {
@@ -53,6 +51,12 @@ class AuthClientApi {
       .get()
       .execute()
       .then((data: ClientResponse<ProductPagedQueryResponse>) => data.body.results);
+  public getProductByKey(productKey: string) {
+    return this.apiRoot?.products().withKey({ key: productKey }).get().execute();
+  }
+
+  public getProductCategory(catId: string) {
+    return this.apiRoot?.categories().withId({ ID: catId }).get().execute();
   }
 }
 

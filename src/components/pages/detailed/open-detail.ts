@@ -1,6 +1,8 @@
 import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { customRoute } from '../../app/router/router';
+import { AuthClientApi } from '../../shared/api/authClient-api';
 import { StpClientApi } from '../../shared/api/stpClient-api';
+import { isLogin } from '../../shared/api/is-login';
 
 let productPath: string;
 export const PRODUCT_BODY = 'product.body';
@@ -13,11 +15,10 @@ export const openDetail = async (event: MouseEvent) => {
     setLocalStorageValue(PRODUCT_KEY, `${key}`);
     productPath = key;
     try {
-      const response = await new StpClientApi().getProductByKey(key);
-      const product = await response.body;
+      const client = isLogin() ? new AuthClientApi() : new StpClientApi();
+      const product = (await client.getProductByKey(key))?.body;
       const productBody = JSON.stringify(product);
       setLocalStorageValue(PRODUCT_BODY, productBody);
-      console.log(product);
       customRoute(productPath, product);
     } catch {
       customRoute(productPath, 'Sorry but, product is finished');

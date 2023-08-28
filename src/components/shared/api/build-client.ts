@@ -11,7 +11,7 @@ import {
 } from '@commercetools/sdk-client-v2';
 
 const host = process.env.CTP_AUTH_URL as string;
-const projectKey = process.env.CTP_PROJECT_KEY as string;
+export const projectKey = process.env.CTP_PROJECT_KEY as string;
 const clientId = process.env.CTP_CLIENT_ID as string;
 const clientSecret = process.env.CTP_CLIENT_SECRET as string;
 
