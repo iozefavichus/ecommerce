@@ -5,11 +5,11 @@ import { createCustomElement } from '../utilities/helper-functions';
 import { AuthClientApi } from './authClient-api';
 import { pasTokenCache } from './build-client';
 import { StpClientApi } from './stpClient-api';
-import { isToken } from './token';
+// import { isToken } from './token';
 
-export const isLoginCustomer: Record<string, boolean> = {
-  isLogin: isToken(),
-};
+// export const isLoginCustomer: Record<string, boolean> = {
+//   isLogin: isToken(),
+// };
 
 // Lala@test.com
 // password: aA1!aaaa
@@ -34,7 +34,7 @@ export const authorization = (): void => {
       if (hasCustomer) {
         try {
           await new AuthClientApi(email, password).loginCustomer();
-          isLoginCustomer.isLogin = true;
+          // isLoginCustomer.isLogin = true;
           const tokenData = Object.entries(pasTokenCache.get());
           for (const [key, value] of tokenData) {
             setLocalStorageValue(key, value.toString());

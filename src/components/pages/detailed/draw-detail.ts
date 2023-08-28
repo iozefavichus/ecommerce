@@ -21,7 +21,7 @@ const createImagesBlock = (product: Product, numberImg = 0) => {
     productImgs.forEach((img, index) => {
       const smallImg = createCustomElement('div', ['small-img']);
       smallImg.setAttribute('data-img-num', `${index}`);
-      smallImg.style.backgroundImage = `url(${productImgs[index].url})`;
+      smallImg.style.backgroundImage = `url(${img.url})`;
       smallImages.append(smallImg);
     });
     bigImage.style.backgroundImage = `url(${productImgs[numberImg].url})`;
@@ -31,7 +31,7 @@ const createImagesBlock = (product: Product, numberImg = 0) => {
   return ImgBlock;
 };
 
-export const drawDetail = (product: Product | string) => {
+export const drawDetail = async (product: Product | string) => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   if (typeof product === 'string') {
     const textNotFound = createCustomElement('h1', ['not-found-product'], product);

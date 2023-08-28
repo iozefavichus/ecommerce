@@ -1,7 +1,7 @@
 import './sass/main.scss';
 import { render } from './components/shared/utilities/render';
 import { app } from './components/app/app';
-import { isLoginCustomer } from './components/shared/api/server-authorization';
+import { isLogin } from './components/shared/api/is-login';
 
-render(isLoginCustomer.isLogin);
+render(isLogin());
 app();

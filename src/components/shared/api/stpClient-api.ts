@@ -17,13 +17,10 @@ import { regCardObj } from '../../../types/shared';
 class StpClientApi {
   private email;
 
-  private password;
-
   private apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey: 'ecommerce_furniture' });
 
-  constructor(email?: string, password?: string) {
+  constructor(email?: string) {
     this.email = email;
-    this.password = password;
   }
 
   public getCustomerByEmail(): Promise<ClientResponse<CustomerPagedQueryResponse>> {
@@ -35,19 +32,6 @@ class StpClientApi {
       .get({
         queryArgs: {
           where: `email="${this.email}"`,
-        },
-      })
-      .execute();
-  }
-
-  public loginCustomer(): Promise<ClientResponse<CustomerSignInResult>> {
-    return this.apiRoot
-      .me()
-      .login()
-      .post({
-        body: {
-          email: this.email as string,
-          password: this.password as string,
         },
       })
       .execute();
@@ -90,8 +74,12 @@ class StpClientApi {
       .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
   }
 
-  public getProductByKey(productId: string) {
-    return this.apiRoot.products().withKey({ key: productId }).get().execute();
+  public getProductByKey(productKey: string) {
+    return this.apiRoot.products().withKey({ key: productKey }).get().execute();
+  }
+
+  public getProductCategory(catId: string) {
+    return this.apiRoot.categories().withId({ ID: catId }).get().execute();
   }
 }
 

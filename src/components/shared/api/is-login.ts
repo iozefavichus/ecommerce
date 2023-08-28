@@ -1,4 +1,4 @@
-export const isToken = (): boolean => {
+export const isLogin = (): boolean => {
   const localValue = localStorage.getItem('token');
   if (localValue) {
     return true;
