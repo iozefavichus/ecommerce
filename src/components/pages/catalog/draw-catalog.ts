@@ -4,6 +4,7 @@ import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detailed/open-detail';
 import { isLoginCustomer } from '../../shared/api/server-authorization';
 import { AuthClientApi } from '../../shared/api/authClient-api';
+import { sortedValue } from './sort-catalog';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -38,11 +39,18 @@ const createPanel = (): HTMLElement => {
     ['panel__wrapper-show__text', 'panel__wrapper-show__text2'],
     'Short by',
   );
-  const showSort = createCustomElement(
-    'div',
-    ['panel__wrapper-show--default', 'panel__wrapper-show__text2'],
-    'Default',
-  );
+  const showSort = createCustomElement('select', ['panel__wrapper-show--default', 'panel__wrapper-show__text2']);
+  const sortedValue = createCustomElement('option', [''], `Sort by ...`);
+  const sortedValue1 = createCustomElement('option', ['panel__wrapper-show--sorted_value'], `by name from a to z`);
+  const sortedValue2 = createCustomElement('option', ['panel__wrapper-show--sorted_value'], `by name from z to a`);
+  const sortedValue3 = createCustomElement('option', ['panel__wrapper-show--sorted_value'], `by price from ascending`);
+  const sortedValue4 = createCustomElement('option', ['panel__wrapper-show--sorted_value'], `by price from descending`);
+  sortedValue.setAttribute('hidden', '');
+  sortedValue1.setAttribute('data-value', 'sortNameASC');
+  sortedValue2.setAttribute('data-value', 'sortNameDESC');
+  sortedValue3.setAttribute('data-value', 'sortPriceUp');
+  sortedValue4.setAttribute('data-value', 'sortPriceDown');
+  showSort.append(sortedValue, sortedValue1, sortedValue2, sortedValue3, sortedValue4);
   filterBlock.append(filterRange, filterText, filterFour, filterList, separator);
   showBlock.append(showText, sortBlock);
   sortBlock.append(showTextNumber, showNumber, showTextSort, showSort);
@@ -104,6 +112,7 @@ export const drawCatalog = async () => {
   const panel = createPanel();
   const navigation = createNavigation();
   mainWrapper.append(searcher, panel, productWrapper, navigation);
+  const sortField = document.querySelector('.panel__wrapper-show--default') as HTMLSelectElement;
   const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
   if (btnPagination?.textContent === '1') {
     btnPagination.setAttribute('disabled', '');
@@ -123,6 +132,9 @@ export const drawCatalog = async () => {
   if (numberProducts !== undefined && numberProducts !== null) {
     numberProducts.textContent = `Showing 1–${String(size)} of ${String(size)} results`;
   }
+  sortField?.addEventListener('change', (event) => {
+    sortedValue(event);
+  });
   products.forEach((product) => {
     drawCard(product, productWrapper);
   });
