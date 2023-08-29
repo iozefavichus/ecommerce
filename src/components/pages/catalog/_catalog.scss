@@ -137,6 +137,11 @@
 
       @include display-flex(center, center);
     }
+
+    &--sorted_value {
+      background: $color-default;
+      color: $color-separator;
+    }
   }
 }
 
@@ -151,6 +156,12 @@
 .product__card {
   width: 285px;
   height: 500px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.5s;
+  }
 }
 
 .products__img-block {
@@ -184,4 +195,36 @@
   font-size: 16px;
   font-weight: 500;
   line-height: rem(24);
+}
+
+.navigation {
+  @include display-flex(center, center);
+
+  padding-top: 30px;
+  gap: 38px;
+
+  &__btn {
+    width: 60px;
+    height: 60px;
+    border: none;
+    background-color: transparent;
+    font-family: Poppins, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+
+    &-next {
+      width: 98px;
+      font-weight: 300;
+      color: $color-text-base;
+      border-radius: 10px;
+      background: $color-panel-product;
+    }
+
+    &-active {
+      border-radius: 10px;
+      background: $color-brand-dark;
+      color: $color-default;
+    }
+  }
 }
