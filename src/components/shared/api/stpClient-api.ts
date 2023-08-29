@@ -2,7 +2,6 @@ import {
   ClientResponse,
   createApiBuilderFromCtpClient,
   CustomerSignInResult,
-  Product,
   ProductDiscount,
   ProductDiscountPagedQueryResponse,
   ProductPagedQueryResponse,
@@ -10,6 +9,8 @@ import {
   ProductProjectionPagedQueryResponse,
   CustomerPagedQueryResponse,
   Project,
+  CategoryPagedQueryResponse,
+  Category,
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
 import { regCardObj } from '../../../types/shared';
@@ -50,7 +51,7 @@ class StpClientApi {
       .execute();
   }
 
-  public getProducts(limitNum?: number): Promise<Product[]> {
+  public getProducts(limitNum?: number) {
     return this.apiRoot
       .products()
       .get({ queryArgs: { limit: limitNum } })
@@ -77,6 +78,28 @@ class StpClientApi {
       })
       .execute()
       .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
+  }
+
+  public getProductSearchProjections(valueFilter?: string): Promise<ProductProjection[]> {
+    return this.apiRoot
+      ?.productProjections()
+      .search()
+      .get({
+        queryArgs: {
+          'text.en': valueFilter,
+          fuzzy: true,
+        },
+      })
+      .execute()
+      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
+  }
+
+  public getCategory(): Promise<Category[]> {
+    return this.apiRoot
+      ?.categories()
+      .get()
+      .execute()
+      .then((data: ClientResponse<CategoryPagedQueryResponse>) => data.body.results);
   }
 
   public getProductByKey(productKey: string) {
