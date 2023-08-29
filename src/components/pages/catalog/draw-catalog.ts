@@ -3,7 +3,7 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detailed/open-detail';
 import { AuthClientApi } from '../../shared/api/authClient-api';
-import { sortedValue } from './sort-catalog';
+import { searchValue, sortedValue } from './sort-catalog';
 import { isLogin } from '../../shared/api/is-login';
 
 const createSearch = (): HTMLElement => {
@@ -113,6 +113,7 @@ export const drawCatalog = async () => {
   const navigation = createNavigation();
   mainWrapper.append(searcher, panel, productWrapper, navigation);
   const sortField = document.querySelector('.panel__wrapper-show--default') as HTMLSelectElement;
+  const searchField = document.querySelector('.input-search') as HTMLInputElement;
   const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
   if (btnPagination?.textContent === '1') {
     btnPagination.setAttribute('disabled', '');
@@ -130,6 +131,9 @@ export const drawCatalog = async () => {
   }
   sortField?.addEventListener('change', (event) => {
     sortedValue(event);
+  });
+  searchField?.addEventListener('input', (event) => {
+    searchValue(event);
   });
   products.forEach((product) => {
     drawCard(product, productWrapper);
