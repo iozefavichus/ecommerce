@@ -1,15 +1,4 @@
-import {
-  Category,
-  CategoryPagedQueryResponse,
-  ClientResponse,
-  createApiBuilderFromCtpClient,
-  Product,
-  ProductDiscount,
-  ProductDiscountPagedQueryResponse,
-  ProductPagedQueryResponse,
-  ProductProjection,
-  ProductProjectionPagedQueryResponse,
-} from '@commercetools/platform-sdk';
+import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { createAuthPasswordClient } from './build-client';
 
 class AuthClientApi {
@@ -44,72 +33,6 @@ class AuthClientApi {
         },
       })
       .execute();
-  }
-
-  public getProducts(): Promise<Product[]> {
-    if (!this.apiRoot) {
-      throw new Error(`Authentication credentials are missing.`);
-    }
-    return this.apiRoot
-      .products()
-      .get()
-      .execute()
-      .then((data: ClientResponse<ProductPagedQueryResponse>) => data.body.results);
-  }
-
-  public getProductDiscounts(): Promise<ProductDiscount[]> {
-    if (!this.apiRoot) {
-      throw new Error(`Authentication credentials are missing.`);
-    }
-    return this.apiRoot
-      .productDiscounts()
-      .get()
-      .execute()
-      .then((data: ClientResponse<ProductDiscountPagedQueryResponse>) => data.body.results);
-  }
-
-  public getProductProjections(fieldSort?: string): Promise<ProductProjection[]> {
-    if (!this.apiRoot) {
-      throw new Error(`Authentication credentials are missing.`);
-    }
-    return this.apiRoot
-      .productProjections()
-      .search()
-      .get({
-        queryArgs: {
-          sort: fieldSort,
-        },
-      })
-      .execute()
-      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
-  }
-
-  public getProductSearchProjections(valueFilter?: string): Promise<ProductProjection[]> {
-    if (!this.apiRoot) {
-      throw new Error(`Authentication credentials are missing.`);
-    }
-    return this.apiRoot
-      .productProjections()
-      .search()
-      .get({
-        queryArgs: {
-          'text.en': valueFilter,
-          fuzzy: true,
-        },
-      })
-      .execute()
-      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
-  }
-
-  public getCategory(): Promise<Category[]> {
-    if (!this.apiRoot) {
-      throw new Error(`Authentication credentials are missing.`);
-    }
-    return this.apiRoot
-      .categories()
-      .get()
-      .execute()
-      .then((data: ClientResponse<CategoryPagedQueryResponse>) => data.body.results);
   }
 
   public getProductByKey(productKey: string) {
