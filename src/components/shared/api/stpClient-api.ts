@@ -2,7 +2,6 @@ import {
   ClientResponse,
   createApiBuilderFromCtpClient,
   CustomerSignInResult,
-  Product,
   ProductDiscount,
   ProductDiscountPagedQueryResponse,
   ProductPagedQueryResponse,
@@ -52,7 +51,7 @@ class StpClientApi {
       .execute();
   }
 
-  public getProducts(limitNum?: number): Promise<Product[]> {
+  public getProducts(limitNum?: number) {
     return this.apiRoot
       .products()
       .get({ queryArgs: { limit: limitNum } })
