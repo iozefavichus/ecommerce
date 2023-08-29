@@ -55,9 +55,8 @@
 
   @include display-flex(center, space-between);
 
-  margin: 0 auto;
   background: $color-panel-product;
-  padding-bottom: 46px;
+  margin: 0 auto 46px;
 
   &-filter {
     @include display-flex(center, space-between);
@@ -114,7 +113,6 @@
     &--sort {
       @include display-flex(center, space-between);
 
-      // width: calc(100% - 368px);
       column-gap: 20px;
     }
 
@@ -139,21 +137,94 @@
 
       @include display-flex(center, center);
     }
+
+    &--sorted_value {
+      background: $color-default;
+      color: $color-separator;
+    }
   }
 }
 
 .product__wrapper {
-  max-width: 1440px;
-  width: 100%;
-
-  @include display-flex(center, space-between);
-
-  gap: 40px 32px;
-  flex-wrap: wrap;
+  width: 90%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 }
 
 .product__card {
   width: 285px;
-  height: 446px;
-  border: 1px solid dodgerblue;
+  height: 500px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.5s;
+  }
+}
+
+.products__img-block {
+  width: 100%;
+}
+
+.product__img {
+  background-size: cover;
+  width: 285px;
+  height: 427px;
+  border-radius: 10px;
+}
+
+.product__info {
+  @include display-flex(flex-start, space-between);
+
+  flex-direction: column;
+}
+
+.product__name {
+  color: $font-color-title;
+  font-family: Poppins, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: rem(28.8);
+}
+
+.product__price {
+  color: $font-color-desc;
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: rem(24);
+}
+
+.navigation {
+  @include display-flex(center, center);
+
+  padding-top: 30px;
+  gap: 38px;
+
+  &__btn {
+    width: 60px;
+    height: 60px;
+    border: none;
+    background-color: transparent;
+    font-family: Poppins, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+
+    &-next {
+      width: 98px;
+      font-weight: 300;
+      color: $color-text-base;
+      border-radius: 10px;
+      background: $color-panel-product;
+    }
+
+    &-active {
+      border-radius: 10px;
+      background: $color-brand-dark;
+      color: $color-default;
+    }
+  }
 }

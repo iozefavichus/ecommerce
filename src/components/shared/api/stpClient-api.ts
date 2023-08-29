@@ -1,14 +1,15 @@
 import {
   ClientResponse,
-  CustomerSignInResult,
-  Project,
   createApiBuilderFromCtpClient,
+  CustomerSignInResult,
   Product,
-  ProductPagedQueryResponse,
   ProductDiscount,
   ProductDiscountPagedQueryResponse,
+  ProductPagedQueryResponse,
   ProductProjection,
   ProductProjectionPagedQueryResponse,
+  CustomerPagedQueryResponse,
+  Project,
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
 import { regCardObj } from '../../../types/shared';
@@ -16,23 +17,21 @@ import { regCardObj } from '../../../types/shared';
 class StpClientApi {
   private email;
 
-  private password;
-
   private apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey: 'ecommerce_furniture' });
 
-  constructor(email?: string, password?: string) {
+  constructor(email?: string) {
     this.email = email;
-    this.password = password;
   }
 
-  public loginCustomer(): Promise<ClientResponse<CustomerSignInResult>> {
+  public getCustomerByEmail(): Promise<ClientResponse<CustomerPagedQueryResponse>> {
+    if (!this.apiRoot) {
+      throw new Error('Authentication credentials are missing.');
+    }
     return this.apiRoot
-      .me()
-      .login()
-      .post({
-        body: {
-          email: this.email as string,
-          password: this.password as string,
+      .customers()
+      .get({
+        queryArgs: {
+          where: `email="${this.email}"`,
         },
       })
       .execute();
@@ -51,15 +50,12 @@ class StpClientApi {
       .execute();
   }
 
-  public getProducts(): Promise<Product[]> {
+  public getProducts(limitNum?: number): Promise<Product[]> {
     return this.apiRoot
       .products()
-      .get()
+      .get({ queryArgs: { limit: limitNum } })
       .execute()
-      .then((data: ClientResponse<ProductPagedQueryResponse>) => {
-        const products = data.body.results;
-        return products;
-      });
+      .then((data: ClientResponse<ProductPagedQueryResponse>) => data.body.results);
   }
 
   public getProductDiscounts(): Promise<ProductDiscount[]> {
@@ -67,25 +63,28 @@ class StpClientApi {
       .productDiscounts()
       .get()
       .execute()
-      .then((data: ClientResponse<ProductDiscountPagedQueryResponse>) => {
-        const productDiscounts = data.body.results;
-        return productDiscounts;
-      });
+      .then((data: ClientResponse<ProductDiscountPagedQueryResponse>) => data.body.results);
   }
 
-  public getProductProjections(): Promise<ProductProjection[]> {
+  public getProductProjections(fieldSort?: string): Promise<ProductProjection[]> {
     return this.apiRoot
       .productProjections()
-      .get()
+      .search()
+      .get({
+        queryArgs: {
+          sort: fieldSort,
+        },
+      })
       .execute()
-      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => {
-        const productProjections = data.body.results;
-        return productProjections;
-      });
+      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
   }
 
-  public getProductById(productId: string) {
-    return this.apiRoot.products().withId({ ID: productId }).get().execute();
+  public getProductByKey(productKey: string) {
+    return this.apiRoot.products().withKey({ key: productKey }).get().execute();
+  }
+
+  public getProductCategory(catId: string) {
+    return this.apiRoot.categories().withId({ ID: catId }).get().execute();
   }
 }
 
