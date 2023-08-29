@@ -117,12 +117,8 @@ export const drawCatalog = async () => {
   if (btnPagination?.textContent === '1') {
     btnPagination.setAttribute('disabled', '');
   }
-  let products;
-  if (!isLogin) {
-    products = await new AuthClientApi().getProducts();
-  } else {
-    products = await new StpClientApi().getProducts();
-  }
+  const client = !isLogin() ? await new AuthClientApi() : await new StpClientApi();
+  const products = await client.getProducts();
   const numberCards = document.querySelector('#numberCards');
   const numberProducts = document.querySelector('#numberProducts');
   const size = Object.keys(products).length;

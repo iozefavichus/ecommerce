@@ -5,23 +5,25 @@ export const sortedValue = async (event: Event) => {
   const value = sortedEl.options[sortedEl.selectedIndex].getAttribute('data-value');
 
   if (value === 'sortNameASC') {
-    const response = await new StpClientApi().getProductProjections('name.en asc');
-    const product = response;
+    const product = await new StpClientApi().getProductProjections('name.en asc');
     console.log(product);
   }
   if (value === 'sortNameDESC') {
-    const response = await new StpClientApi().getProductProjections('name.en desc');
-    const product = response;
+    const product = await new StpClientApi().getProductProjections('name.en desc');
     console.log(product);
   }
   if (value === 'sortPriceUp') {
-    const response = await new StpClientApi().getProductProjections('price asc');
-    const product = response;
+    const product = await new StpClientApi().getProductProjections('price asc');
     console.log(product);
   }
   if (value === 'sortPriceDown') {
-    const response = await new StpClientApi().getProductProjections('price asc');
-    const product = response;
+    const product = await new StpClientApi().getProductProjections('price asc');
     console.log(product);
   }
+};
+
+export const searchValue = async (event: Event) => {
+  const searchEl = (event.target as HTMLInputElement).value;
+  const product = await new StpClientApi().getProductSearchProjections(searchEl);
+  console.log(product);
 };
