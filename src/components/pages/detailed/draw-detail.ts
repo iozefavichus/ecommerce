@@ -12,22 +12,22 @@ const createInformBlock = (name: string, price: string, description: string): HT
   return informBlock;
 };
 
-const createImagesBlock = (product: Product, numberImg = 0) => {
+const createImagesBlock = (product: Product) => {
   const productImgs = product.masterData.current.masterVariant?.images;
   const ImgBlock = createCustomElement('div', ['detail__images-block']);
-  const smallImages = createCustomElement('div', ['detail__small-images']);
-  const bigImage = createCustomElement('div', ['detail__big-img']);
+  const imgWrapper = createCustomElement('div', ['detail__img-wrapper']);
+  const prevImg = createCustomElement('div', ['prev-img'], '&#8249;');
+  const nextImg = createCustomElement('div', ['next-img'], '&#8250;');
+
   if (productImgs) {
     productImgs.forEach((img, index) => {
-      const smallImg = createCustomElement('div', ['small-img']);
-      smallImg.setAttribute('data-img-num', `${index}`);
-      smallImg.style.backgroundImage = `url(${img.url})`;
-      smallImages.append(smallImg);
+      const image = createCustomElement('div', ['img']);
+      image.setAttribute('data-img-num', `${index}`);
+      image.style.backgroundImage = `url(${img.url})`;
+      imgWrapper.append(image);
     });
-    bigImage.style.backgroundImage = `url(${productImgs[numberImg].url})`;
   }
-
-  ImgBlock.append(smallImages, bigImage);
+  ImgBlock.append(imgWrapper, prevImg, nextImg);
   return ImgBlock;
 };
 

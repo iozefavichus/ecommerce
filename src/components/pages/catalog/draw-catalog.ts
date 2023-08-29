@@ -2,6 +2,8 @@ import { Product } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detailed/open-detail';
+// import { AuthClientApi } from '../../shared/api/authClient-api';
+// import { isLogin } from '../../shared/api/is-login';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -91,7 +93,7 @@ export const drawCatalog = async () => {
   const panel = createPanel();
   mainWrapper.append(searcher, panel, productWrapper);
   const products = await new StpClientApi().getProducts();
-  products.forEach((product) => {
+  products?.forEach((product) => {
     drawCard(product, productWrapper);
   });
 };
