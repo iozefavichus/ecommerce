@@ -1,11 +1,10 @@
-
 import { removeLocalStorageValue } from '../../app/localStorage/localStorage';
 
 const KEY_1 = 'isLoginCustomer.isLogin';
 const KEY_2 = 'refreshToken';
 const KEY_3 = 'token';
 const KEY_4 = 'expirationTime';
-
+const KEY_5 = 'email';
 
 export const logoutCustomer = (): void => {
   const logoutBtn = document.querySelector('.log-out');
@@ -15,6 +14,7 @@ export const logoutCustomer = (): void => {
     removeLocalStorageValue(KEY_2);
     removeLocalStorageValue(KEY_3);
     removeLocalStorageValue(KEY_4);
+    removeLocalStorageValue(KEY_5);
     location.reload();
   });
 };

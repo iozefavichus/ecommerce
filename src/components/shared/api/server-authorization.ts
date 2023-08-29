@@ -33,7 +33,9 @@ export const authorization = (): void => {
       if (hasCustomer) {
         try {
           await new AuthClientApi(email, password).loginCustomer();
+          // console.log(customer.body.customer.firstName);
           isLoginCustomer.isLogin = true;
+          setLocalStorageValue('email',email);
           const tokenData = Object.entries(pasTokenCache.get());
           for (const [key, value] of tokenData) {
             setLocalStorageValue(key, value.toString());

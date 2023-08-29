@@ -16,7 +16,7 @@ export const openDetail = () => {
         try {
           const response = await new StpClientApi().getProductById(id);
           const product = await response.body;
-          console.log(product);
+          // console.log(product);
           customRoute(productPath, product);
         } catch {
           throw Error('Product is not found');
