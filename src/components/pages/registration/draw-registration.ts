@@ -7,8 +7,8 @@ import { customRoute } from '../../app/router/router';
 import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { regCardObj } from '../../../types/shared';
 import { setError, setSuccess, CheckIt } from './validation-helpers';
-import { AuthClientApi } from '../../shared/api/authClient-api';
-import { pasTokenCache } from '../../shared/api/build-client';
+import { authTokenCache } from '../../shared/api/build-client';
+import { KEY_1, KEY_2 } from '../log-in/log-out';
 
 export const form = RegistrationForm();
 
@@ -162,10 +162,12 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
         if (data.statusCode === 201) {
           try {
             const { email, password } = registrationCard;
-            await new AuthClientApi(email, password).loginCustomer();
-            const tokenData = Object.entries(pasTokenCache.get());
+            await new StpClientApi(email, password).loginCustomer();
+            const tokenData = Object.entries(authTokenCache.get());
             for (const [key, value] of tokenData) {
-              setLocalStorageValue(key, value.toString());
+              if (key === KEY_1 || key === KEY_2) {
+                setLocalStorageValue(key, value.toString() ?? '');
+              }
             }
             customRoute('/success');
           } catch {

@@ -1,6 +1,7 @@
 import { Product } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createPageTitle } from '../../shared/utilities/title';
+import { nextImage, prevImage, updateImagePosition } from './slider';
 
 const createInformBlock = (name: string, price: string, description: string): HTMLElement => {
   const informBlock = createCustomElement('div', ['product-info']);
@@ -12,12 +13,20 @@ const createInformBlock = (name: string, price: string, description: string): HT
   return informBlock;
 };
 
-const createImagesBlock = (product: Product) => {
+const createImagesBlock = (product: Product): HTMLElement => {
   const productImgs = product.masterData.current.masterVariant?.images;
   const ImgBlock = createCustomElement('div', ['detail__images-block']);
   const imgWrapper = createCustomElement('div', ['detail__img-wrapper']);
   const prevImg = createCustomElement('div', ['prev-img'], '&#8249;');
+  prevImg.addEventListener('click', () => {
+    const currentIndex = prevImage();
+    updateImagePosition(currentIndex);
+  });
   const nextImg = createCustomElement('div', ['next-img'], '&#8250;');
+  nextImg.addEventListener('click', () => {
+    const currentIndex = nextImage();
+    updateImagePosition(currentIndex);
+  });
 
   if (productImgs) {
     productImgs.forEach((img, index) => {
@@ -26,12 +35,16 @@ const createImagesBlock = (product: Product) => {
       image.style.backgroundImage = `url(${img.url})`;
       imgWrapper.append(image);
     });
+    if (productImgs?.length > 1) {
+      ImgBlock.append(imgWrapper, prevImg, nextImg);
+    } else {
+      ImgBlock.append(imgWrapper);
+    }
   }
-  ImgBlock.append(imgWrapper, prevImg, nextImg);
   return ImgBlock;
 };
 
-export const drawDetail = async (product: Product | string) => {
+export const drawDetail = async (product: Product | string): Promise<void> => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   if (typeof product === 'string') {
     const textNotFound = createCustomElement('h1', ['not-found-product'], product);

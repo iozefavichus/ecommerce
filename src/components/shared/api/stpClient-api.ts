@@ -42,7 +42,7 @@ class StpClientApi {
 
   public loginCustomer() {
     return this.apiRoot
-      ?.me()
+      .me()
       .login()
       .post({
         body: {
