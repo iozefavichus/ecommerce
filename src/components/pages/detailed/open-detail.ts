@@ -1,8 +1,13 @@
 import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { customRoute } from '../../app/router/router';
+// import { AuthClientApi } from '../../shared/api/authClient-api';
 import { StpClientApi } from '../../shared/api/stpClient-api';
+// import { isLogin } from '../../shared/api/is-login';
 
 let productPath: string;
+export const PRODUCT_BODY = 'product.body';
+export const PRODUCT_KEY = 'productKey';
+
 
 export const openDetail = () => {
   const cards = document.querySelectorAll('.products__img');

@@ -1,8 +1,8 @@
 import {
   ClientResponse,
-  CustomerPagedQueryResponse,
-  CustomerSignInResult,
   createApiBuilderFromCtpClient,
+  Product,
+  ProductPagedQueryResponse,
 } from '@commercetools/platform-sdk';
 import { createAuthPasswordClient } from './build-client';
 
@@ -27,12 +27,9 @@ class AuthClientApi {
     }
   }
 
-  public loginCustomer(): Promise<ClientResponse<CustomerSignInResult>> {
-    if (!this.apiRoot) {
-      throw new Error('Authentication credentials are missing.');
-    }
+  public loginCustomer() {
     return this.apiRoot
-      .me()
+      ?.me()
       .login()
       .post({
         body: {
@@ -43,18 +40,23 @@ class AuthClientApi {
       .execute();
   }
 
-  public returnCustomerByEmail(): Promise<ClientResponse<CustomerPagedQueryResponse>> {
+  public getProducts(): Promise<Product[]> {
     if (!this.apiRoot) {
-      throw new Error('Authentication credentials are missing.');
+      throw new Error(`Authentication credentials are missing.`);
     }
     return this.apiRoot
-      .customers()
-      .get({
-        queryArgs: {
-          where: `email="${this.email}"`,
-        },
-      })
-      .execute();
+      .products()
+      .get()
+      .execute()
+      .then((data: ClientResponse<ProductPagedQueryResponse>) => data.body.results);
+  }
+
+  public getProductByKey(productKey: string) {
+    return this.apiRoot?.products().withKey({ key: productKey }).get().execute();
+  }
+
+  public getProductCategory(catId: string) {
+    return this.apiRoot?.categories().withId({ ID: catId }).get().execute();
   }
 }
 
