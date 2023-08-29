@@ -1,5 +1,4 @@
 import {
-  // Customer,
   ClientResponse,
   createApiBuilderFromCtpClient,
   CustomerSignInResult,
@@ -11,6 +10,7 @@ import {
   ProductProjectionPagedQueryResponse,
   CustomerPagedQueryResponse,
   Project,
+  Customer,
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
 import { regCardObj } from '../../../types/shared';
@@ -38,24 +38,21 @@ class StpClientApi {
       .execute();
   }
 
+  public getCustomerInfoByEmail(email:string): Promise<Customer[]>  {
+    return this.apiRoot
+      .customers()
+      .get({
+        queryArgs: {
+          where: `email="${email}"`,
+        },
+      })
+      .execute()
+      .then((data: ClientResponse<CustomerPagedQueryResponse>) => data.body.results);
+  }
+
   public getProject(): Promise<ClientResponse<Project>> {
     return this.apiRoot.get().execute();
   }
-
-  // public getCustomerByEmail(customerEmail: string): Promise<Customer[]> {
-  //   return this.apiRoot
-  //     .customers()
-  //     .get({
-  //       queryArgs: {
-  //         where: `email="${customerEmail}"`,
-  //       },
-  //     })
-  //     .execute()
-  //     .then((data: ClientResponse<CustomerPagedQueryResponse>) => {
-  //       const customer = data.body.results;
-  //       return customer;
-  //     });
-  // }
 
   public createCustomer(registrationCard: regCardObj): Promise<ClientResponse<CustomerSignInResult>> {
     return this.apiRoot

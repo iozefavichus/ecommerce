@@ -1,7 +1,9 @@
+import { BaseAddress } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 // import { createFormDiv } from '../registration/creationform-helpers';
 
-const addressField = (country: string, city: string, street: string, postcode: string, firstName: string, surname: string, isShipping?: boolean, isBilling?: boolean, defaultShipping?: boolean, defaultBilling?: boolean ) =>{
+
+const addressField = (country: string, city: string|undefined, street: string|undefined, postcode: string|undefined, firstName: string|undefined, surname: string|undefined, isShipping?: boolean, isBilling?: boolean, defaultShipping?: boolean, defaultBilling?: boolean ) =>{
     const container = createCustomElement('div', ['container-add']);
     const btnEdit = createCustomElement('button',['btn-edit'], 'Edit') as HTMLButtonElement;
     const firstRow = createCustomElement('div',[],`${country}, ${postcode}`);
@@ -29,14 +31,12 @@ const addressField = (country: string, city: string, street: string, postcode: s
     return container;
 }
 
-
-export const AddressesInfo = (): HTMLElement => {
+export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => {
     const container = createCustomElement('div', ['container-addresses']);
-    const firstAddress = addressField('US','Postcode','City','Street','Jane', 'Ivanova');
-
-    container.append(firstAddress);
-
-
+    for(let i=0; i<customerAddresses.length; i+=1){
+        const address = addressField(customerAddresses[i].country, customerAddresses[i].postalCode, customerAddresses[i].city,customerAddresses[i].streetName, customerAddresses[i].firstName, customerAddresses[i].lastName);
+        container.append(address);
+    }
 
   return container;
 }
