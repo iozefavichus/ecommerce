@@ -10,7 +10,7 @@ import {
   ProductProjectionPagedQueryResponse,
   CustomerPagedQueryResponse,
   Project,
-  Customer,
+  Customer
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
 import { regCardObj } from '../../../types/shared';
@@ -62,6 +62,24 @@ class StpClientApi {
       })
       .execute();
   }
+
+  // public updateCustomer(customer, personalInfo: personalInfoObj): Promise<ClientResponse<CustomerSignInResult>> {
+  //   return this.apiRoot
+  //     .customers()
+  //     .withKey({ key: customer.body.customer.id })
+  //     .post({
+  //       body: {
+  //         version: customer.body.customer.version,
+  //         actions: [
+  //           {
+  //             action: 'setFirstName',
+  //             key: personalInfo.firstName,
+  //           },
+  //         ],
+  //       },
+  //     })
+  //     .execute()
+  // }
 
   public getProducts(limitNum?: number): Promise<Product[]> {
     return this.apiRoot

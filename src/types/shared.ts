@@ -18,4 +18,12 @@ export interface regCardObj {
   defaultBillingAddress: number | undefined;
 }
 
+export interface personalInfoObj {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  dateOfBirth: string;
+}
+
 export type Constants = Record<string, string>;
