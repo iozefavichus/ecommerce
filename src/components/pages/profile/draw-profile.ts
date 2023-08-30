@@ -11,13 +11,14 @@ export const drawProfile = async () => {
   let name: string|undefined;
   let surname: string|undefined;
   let birth: string|undefined;
-  let customerAddresses: BaseAddress[];
+  let customerAddresses: Array<BaseAddress> = [];
 
   const email = localStorage.getItem('email');
 
   if(email){
         customer =  await new StpClientApi().getCustomerInfoByEmail(email);
     }
+
   if(customer){
         name = customer[0].firstName;
         surname = customer[0].lastName;
@@ -32,7 +33,9 @@ export const drawProfile = async () => {
   const pageTitle = createPageTitle('Personal account');
   wrapper.append(pageTitle);
   const person = PersonalInfo(name, surname, birth);
-  // const addresses = AddressesInfo(customerAddresses);
-  wrapper.append(person);
+  const addresses = AddressesInfo(customerAddresses);
+  wrapper.append(person, addresses);
+
 }
+
 

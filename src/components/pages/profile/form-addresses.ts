@@ -9,8 +9,8 @@ const addressField = (country: string, city: string|undefined, street: string|un
     const firstRow = createCustomElement('div',[],`${country}, ${postcode}`);
     const secondRow = createCustomElement('div',[],`${city}, ${street}`);
     const thirdRow = createCustomElement('div',[],`${firstName}, ${surname}`);
-    const shippingDefault = createCustomElement('div',[],'shipping default');
-    const billingDefault = createCustomElement('div',[],'billing default');
+    const shippingDefault = createCustomElement('div',['shippingdefault-label'],'shipping default');
+    const billingDefault = createCustomElement('div',['billingdefault-label'],'billing default');
     const shipping = createCustomElement('div',['shipping-label'],'shipping');
     const billing = createCustomElement('div',['billing-label'],'billing');
     const btnSave = createCustomElement('button',['btn-edit'],'Save') as HTMLButtonElement;
@@ -32,11 +32,17 @@ const addressField = (country: string, city: string|undefined, street: string|un
 }
 
 export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => {
+    // console.log(customerAddresses);
     const container = createCustomElement('div', ['container-addresses']);
     for(let i=0; i<customerAddresses.length; i+=1){
         const address = addressField(customerAddresses[i].country, customerAddresses[i].postalCode, customerAddresses[i].city,customerAddresses[i].streetName, customerAddresses[i].firstName, customerAddresses[i].lastName);
+        // console.log(address);
         container.append(address);
     }
+    const btnAddAddress = createCustomElement('button',['btn-add'],'Add address') as HTMLButtonElement;
+    container.append(btnAddAddress);
+
+    
 
   return container;
 }

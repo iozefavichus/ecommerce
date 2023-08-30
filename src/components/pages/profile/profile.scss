@@ -1,5 +1,7 @@
 .container-personal {
-    margin: 25px;
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-direction: column;
     font-family: Poppins, sans-serif;
@@ -10,14 +12,14 @@
 }
 
 .btn-edit {
-  padding: 5px 5px;
+  padding: 2px 2px;
   font-family: Poppins, sans-serif;
-  font-size: 16px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 700;
-  margin: 5px auto 5px;
+  margin: 5px 20px 5px;
   border-radius: 20px;
-  width: 30%;
+  width: 20%;
   background-color: $color-brand-dark;
   color: $font-color;
   border: none;
@@ -25,12 +27,15 @@
 }
 
 .input-info{
-    margin-bottom: 10px;
-    margin-top: 20px;
-    padding: 0px;
-    width: 90%;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding-left: 2px;
     outline:none;
     border: none;
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
 }
 
 .shipping-label {
@@ -43,6 +48,7 @@
     color: $font-color;
     width: 10%;
     padding: 2px 2px;
+    text-align: center;
 }
 
 .billing-label{
@@ -55,12 +61,42 @@
     color: $font-color;
     width: 10%;
     padding: 2px 2px;
+    text-align: center;
 }
 
-.container-info{
-    flex-direction: row;
+.shippingdefault-label{
+    background-color: rgb(144, 131, 65);
+    font-family: Poppins, sans-serif;
+    font-size: 10px;
+    border-radius: 20px;
+    border: none;
+    text-decoration: none;
+    color: $font-color;
+    width: 10%;
+    padding: 2px 2px;
+    text-align: center;
+}
+
+.billingdefault-label{
+    background-color: rgb(144, 65, 91);
+    font-family: Poppins, sans-serif;
+    font-size: 10px;
+    border-radius: 20px;
+    border: none;
+    text-decoration: none;
+    color: $font-color;
+    width: 10%;
+    padding: 2px 2px;
+    text-align: center;
 }
 
 .btn-invisible{
     display: none;
+}
+
+.title-personalinfo {
+    font-family: Poppins, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
 }

@@ -86,7 +86,7 @@
 .input {
   border: 1px solid grey;
   border-radius: 10px;
-  margin-top: 15px;
+  margin-top: 10px;
   margin-bottom: 5px;
   padding: 15px;
   width: 100%;
@@ -98,8 +98,8 @@
 }
 
 .label {
-  margin-bottom: 10px;
-  margin-top: 20px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .small-text {
@@ -199,5 +199,5 @@
 
 .loginlink-reg {
   text-decoration: none;
-  color: $color-brand-dark
+  color: $color-brand-dark;
 }
