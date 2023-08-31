@@ -14,7 +14,7 @@ import {
   Category,
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
-import { regCardObj } from '../../../types/shared';
+import { regCardObj, baseAdress } from '../../../types/shared';
 
 
 class StpClientApi {
@@ -74,7 +74,7 @@ class StpClientApi {
       .execute();
   }
 
-  public updateCustomer(id: string, version:string, NameValue: string, SurnameValue: string, BirthValue: string): Promise<ClientResponse<Customer>> {
+  public updateCustomer(id: string, version:string, NameValue: string, SurnameValue: string, BirthValue: string, EmailValue: string): Promise<ClientResponse<Customer>> {
     return this.apiRoot
       .customers()
       .withId({ ID: id })
@@ -94,11 +94,34 @@ class StpClientApi {
               action: 'setDateOfBirth',
               dateOfBirth: BirthValue,
             },
+            {
+              action: 'changeEmail',
+              email: EmailValue,
+            },
           ],
         },
       })
       .execute()
   }
+
+  public addAddress(id: string, version:string, newAddress:baseAdress): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: 'addAddress',
+              address: newAddress,
+            }
+          ],
+        },
+      })
+      .execute()
+  }
+
 
   public getProducts(limitNum?: number) {
     return this.apiRoot

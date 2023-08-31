@@ -4,6 +4,7 @@ import { CheckIt, setError, setSuccess } from '../registration/validation-helper
 import { checkName, checkSurname, checkBirth, checkEmail } from '../registration/validation';
 import { customRoute } from '../../app/router/router';
 import { StpClientApi } from '../../shared/api/stpClient-api';
+import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 // import { personalInfoObj } from '../../../types/shared';
 
 export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|undefined, dateOfbirthValue: string|undefined): HTMLElement => {
@@ -99,11 +100,12 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
     const valueforName = name.input.value.trim();
     const valueforSurName = surname.input.value.trim();
     const valueforBirth = dateOfbirth.input.value.trim();
-    return {valueforName, valueforSurName, valueforBirth};
+    const valueEmail = email.input.value.trim();
+    return {valueforName, valueforSurName, valueforBirth, valueEmail};
   }
 
   btnSave.addEventListener('click',()=>{
-    const {valueforName, valueforSurName, valueforBirth} = takeValue();
+    const {valueforName, valueforSurName, valueforBirth, valueEmail} = takeValue();
     const warningsArray = document.querySelectorAll('.small-visible');
     if (warningsArray.length === 0) {
       btnSave.classList.add('btn-invisible');
@@ -119,8 +121,9 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
       const emailVal = localStorage.getItem('email');
       const version =localStorage.getItem('version');
       if(emailVal&&version){
-        const updateCustomer = new StpClientApi().updateCustomer(localStorage.id, version, valueforName, valueforSurName, valueforBirth);
+        const updateCustomer = new StpClientApi().updateCustomer(localStorage.id, version, valueforName, valueforSurName, valueforBirth, valueEmail);
         // console.log(updateCustomer);
+        setLocalStorageValue('email',valueEmail);
         updateCustomer
       .then(async (data) => {
         if (data.statusCode === 201) {

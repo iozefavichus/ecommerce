@@ -3,6 +3,7 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createFormDiv, createFormWithOptions } from '../registration/creationform-helpers';
 import { CheckIt, setError, setSuccess } from '../registration/validation-helpers';
 import { checkCity, checkPost } from '../registration/validation';
+import { StpClientApi } from '../../shared/api/stpClient-api';
 
 export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => {
     const container = createCustomElement('div', ['container-addresses']);
@@ -125,11 +126,56 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
     }
     const btnAddAddress = createCustomElement('button',['btn-add'],'Add address') as HTMLButtonElement;
 
-    btnAddAddress.addEventListener('click',()=>{
+    const newAddress = createCustomElement('div',['container-newaddress']);
+    newAddress.classList.add('newaddress-invisible');
+    const countryNew =  createFormWithOptions('country', 'Country');
+    const postcodeNew =  createFormDiv('postcode', 'Postal code', 'postcode-personal', 'text');
+    const cityNew =  createFormDiv('city', 'City', 'city-personal', 'text');
+    const streetNew =  createFormDiv('street', 'Street', 'street-personal', 'text');
+    const btnSaveNew = createCustomElement('button',['btn-edit'],'Save') as HTMLButtonElement;
 
+    cityNew.input.addEventListener('input', (event) => {
+      const cityValue: string = (event.target as HTMLInputElement).value;
+      CheckIt(checkCity(cityValue), cityNew.input);
     });
-    
-    container.append(btnAddAddress);
+    postcodeNew.input.addEventListener('input', (event) => {
+      const postValue: string = (event.target as HTMLInputElement).value;
+      CheckIt(checkPost('USA', postValue), postcodeNew.input);
+    });
+    streetNew.input.addEventListener('input', (event) => {
+      const streetValue: string = (event.target as HTMLInputElement).value;
+      if (streetValue === '') {
+        setError(streetNew.input, 'Street cannot be blank');
+      } else {
+        setSuccess(streetNew.input);
+      }
+    });
+
+
+    btnSaveNew.addEventListener('click',()=>{
+      const id = localStorage.getItem('id');
+      const version = localStorage.getItem('version');
+      const newAdd ={
+        country: 'US',
+        city: cityNew.input.value.trim(),
+        streetName: streetNew.input.value.trim(),
+        postalCode: postcodeNew.input.value.trim(),
+      }
+      newAddress.classList.add('newaddress-invisible');
+
+      if(id&&version){
+        const newAdress = new StpClientApi().addAddress(id, version, newAdd);
+        console.log(newAddress);
+      }
+    })
+
+    newAddress.append(countryNew, postcodeNew.container, cityNew.container, streetNew.container, btnSaveNew);
+
+    btnAddAddress.addEventListener('click',()=>{
+     newAddress.classList.remove('newaddress-invisible');
+    });
+
+    container.append(btnAddAddress, newAddress);
 
 
 

@@ -17,6 +17,22 @@
       }
 }
 
+.container-newaddress{
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+    justify-content: center;
+    width: 100%;
+    border: 1px solid rgb(162, 160, 160);
+    border-radius: 20px;
+}
+
 .container-address {
     border: 1px solid rgb(162, 160, 160);
     border-radius: 20px;
@@ -94,11 +110,9 @@
     margin-right: 10px;
 }
 
-.btn-invisible, .country-invisible, .address-invisible{
+.btn-invisible, .country-invisible, .address-invisible, .newaddress-invisible{
     display: none;
 }
-
-// .label-invible,
 
 .title-personalinfo, .title-addresses {
     font-family: Poppins, sans-serif;

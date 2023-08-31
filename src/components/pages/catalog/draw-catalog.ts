@@ -2,7 +2,7 @@ import { Product, ProductProjection } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detailed/open-detail';
-import { searchValue, sortedValue } from './sort-catalog';
+// import { searchValue, sortedValue } from './sort-catalog';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -138,8 +138,8 @@ export const drawCatalog = async () => {
   const panel = createPanel();
   const navigation = createNavigation();
   mainWrapper.append(searcher, panel, productWrapper, navigation);
-  const sortField = document.querySelector('.panel__wrapper-show--default') as HTMLSelectElement;
-  const searchField = document.querySelector('.input-search') as HTMLInputElement;
+  // const sortField = document.querySelector('.panel__wrapper-show--default') as HTMLSelectElement;
+  // const searchField = document.querySelector('.input-search') as HTMLInputElement;
   const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
   if (btnPagination?.textContent === '1') {
     btnPagination.setAttribute('disabled', '');
@@ -154,20 +154,20 @@ export const drawCatalog = async () => {
   if (numberProducts !== undefined && numberProducts !== null) {
     numberProducts.textContent = `Showing 1–${String(size)} of ${String(size)} results`;
   }
-  sortField?.addEventListener('change', async (event) => {
-    const sortProducts = await sortedValue(event);
-    productWrapper.innerHTML = '';
-    sortProducts?.forEach((product) => {
-      drawSortCard(product, productWrapper);
-    });
-  });
-  searchField?.addEventListener('input', async (event) => {
-    const searchProducts = await searchValue(event);
-    productWrapper.innerHTML = '';
-    searchProducts.forEach((product) => {
-      drawSortCard(product, productWrapper);
-    });
-  });
+  // sortField?.addEventListener('change', async (event) => {
+    // const sortProducts = await sortedValue(event);
+    // productWrapper.innerHTML = '';
+    // sortProducts?.forEach((product) => {
+    //   drawSortCard(product, productWrapper);
+    // });
+  // });
+  // searchField?.addEventListener('input', async (event) => {
+  //   const searchProducts = await searchValue(event);
+  //   productWrapper.innerHTML = '';
+  //   searchProducts.forEach((product) => {
+  //     drawSortCard(product, productWrapper);
+  //   });
+  // });
   products.forEach((product) => {
     drawCard(product, productWrapper);
   });

@@ -3,7 +3,7 @@ import { createPageTitle } from '../../shared/utilities/title';
 import { createFormDiv } from '../registration/creationform-helpers';
 import { customRoute } from '../../app/router/router';
 import { checkPassword } from '../registration/validation';
-import { CheckIt } from '../registration/validation-helpers';
+import { CheckIt, setError } from '../registration/validation-helpers';
 
 
 const ChangePassword = ():HTMLElement  =>{
@@ -21,7 +21,12 @@ const ChangePassword = ():HTMLElement  =>{
 
     const btnSave = createCustomElement('button',['btn-save'],'Save') as HTMLButtonElement;;
     btnSave.addEventListener(('click'),()=>{
-        customRoute('/successchangedpass');
+        if(newPass.input.value.trim()===repeatPass.input.value.trim()){
+            customRoute('/successchangedpass');
+        } else {
+            setError(newPass.input,'Passwords are not similar');
+            setError(repeatPass.input,'Passwords are not similar')
+        }
     })
     container.append(oldPass.container, newPass.container, repeatPass.container, btnSave)
 
