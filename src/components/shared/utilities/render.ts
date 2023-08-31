@@ -15,6 +15,8 @@ import { PRODUCT_BODY, PRODUCT_KEY } from '../../pages/detailed/open-detail';
 import { drawDetail } from '../../pages/detailed/draw-detail';
 import { getLocalStorage } from '../../app/localStorage/localStorage';
 import { isLogin } from '../api/is-login';
+import { drawChangePassword } from '../../pages/profile/change-password';
+import { drawSuccessPassword } from '../../pages/profile/successpassword';
 
 
 export const render = (isLogin: boolean): void => {
@@ -23,7 +25,7 @@ export const render = (isLogin: boolean): void => {
   drawFooter();
 };
 
-const routes = ['/', '/catalog', '/about', '/contact', '/registration', '/cart', '/profile', '/login'];
+const routes = ['/', '/catalog', '/about', '/contact', '/registration', '/cart', '/profile', '/login', '/changepassword', '/successchangedpass'];
 
 export const renderChangeContent = (path: string, product?: Product | string): void => {
   const renderPage = path;
@@ -48,6 +50,9 @@ export const renderChangeContent = (path: string, product?: Product | string): v
   if (renderPage === '/contact') {
     drawNotFound();
   }
+  if (renderPage === '/changepassword') {
+    drawChangePassword();
+  }
   if (renderPage === '/registration') {
     if (isLogin()) {
       customRoute(links.HOME);
@@ -63,6 +68,12 @@ export const renderChangeContent = (path: string, product?: Product | string): v
   }
   if (renderPage === '/success') {
     drawSuccess();
+    setTimeout(() => {
+      customRoute(links.HOME);
+    }, 1500);
+  }
+  if (renderPage === '/successchangedpass') {
+    drawSuccessPassword();
     setTimeout(() => {
       customRoute(links.HOME);
     }, 1500);

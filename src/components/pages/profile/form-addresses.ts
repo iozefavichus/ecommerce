@@ -77,6 +77,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
             billing.classList.add('address-invisible');
             shippingDefault.classList.add('address-invisible');
             billingDefault.classList.add('address-invisible');
+
             postcode.input.removeAttribute('readonly');
             city.input.removeAttribute('readonly');
             street.input.removeAttribute('readonly');
@@ -114,13 +115,20 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
             street.input.classList.add('input-info');
             noEditCountry.container.classList.remove('country-invisible');
             country.classList.add('country-invisible');
+            shipping.classList.remove('address-invisible');
+            billing.classList.remove('address-invisible');
+            shippingDefault.classList.remove('address-invisible');
+            billingDefault.classList.remove('address-invisible');
           });
 
         container.append(address);
     }
     const btnAddAddress = createCustomElement('button',['btn-add'],'Add address') as HTMLButtonElement;
 
+    btnAddAddress.addEventListener('click',()=>{
 
+    });
+    
     container.append(btnAddAddress);
 
 
