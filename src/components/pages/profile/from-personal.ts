@@ -128,7 +128,16 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
     // checkInputs();
     const warningsArray = document.querySelectorAll('.small-visible');
     if (warningsArray.length === 0) {
-      const email = localStorage.getItem('email');
+      btnSave.classList.add('btn-invisible');
+      email.input.setAttribute('readonly', 'readonly');
+      name.input.setAttribute('readonly', 'readonly');
+      surname.input.setAttribute('readonly', 'readonly');
+      dateOfbirth.input.setAttribute('readonly', 'readonly');
+      email.input.classList.add('input-info');
+      name.input.classList.add('input-info');
+      surname.input.classList.add('input-info');
+      dateOfbirth.input.classList.add('input-info');
+      // const email = localStorage.getItem('email');
       if(email){
         // const customer =  new StpClientApi().getCustomerInfoByEmail(email);
         // const updateCustomer = new StpClientApi().updateCustomer(customer, personalInfo);

@@ -10,8 +10,10 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
     container.append(title);
 
     for(let i=0; i<customerAddresses.length; i+=1){
+        const divForBtn = createCustomElement('div',['div-btnedit']);
         const btnEdit = createCustomElement('button',['btn-edit'], 'Edit') as HTMLButtonElement;
-        
+        divForBtn.append(btnEdit);
+
         const noEditCountry = createFormDiv('country', 'Country', 'country-personal', 'text');
         noEditCountry.container.classList.add('container-info');
         noEditCountry.input.classList.add('input-info');
@@ -39,6 +41,8 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         street.input.setAttribute('readonly', 'readonly');
         street.input.value = `${customerAddresses[i].streetName}`;
 
+
+        const adressLabelDiv = createCustomElement('div',['addresses-label']);
         const shippingDefault = createCustomElement('div',['shippingdefault-label'],'shipping default');
         shippingDefault.classList.add('label-invible');
         const billingDefault = createCustomElement('div',['billingdefault-label'],'billing default');
@@ -47,12 +51,13 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         shipping.classList.add('label-invible');
         const billing = createCustomElement('div',['billing-label'],'billing');
         billing.classList.add('label-invible');
+        adressLabelDiv.append(shipping,billing,shippingDefault,billingDefault);
 
         const btnSave = createCustomElement('button',['btn-edit'],'Save') as HTMLButtonElement;
         btnSave.classList.add('btn-invisible');
 
         const address = createCustomElement('div', ['container-address']);
-        address.append(btnEdit, country, noEditCountry.container, postcode.container, city.container, street.container, btnSave, shipping, billing, shippingDefault, billingDefault)
+        address.append(divForBtn, country, noEditCountry.container, postcode.container, city.container, street.container, adressLabelDiv,btnSave)
 
         const formField = btnEdit.parentNode;
         const countryOption = formField?.querySelector('.country');
@@ -68,6 +73,10 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                 countryOption.removeAttribute('readonly');
                 countryOption.classList.remove('input-info');
             }
+            shipping.classList.add('address-invisible');
+            billing.classList.add('address-invisible');
+            shippingDefault.classList.add('address-invisible');
+            billingDefault.classList.add('address-invisible');
             postcode.input.removeAttribute('readonly');
             city.input.removeAttribute('readonly');
             street.input.removeAttribute('readonly');
@@ -95,6 +104,17 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
             }
           });
 
+          btnSave.addEventListener('click',()=>{
+            btnSave.classList.add('btn-invisible');
+            city.input.setAttribute('readonly', 'readonly');
+            postcode.input.setAttribute('readonly', 'readonly');
+            street.input.setAttribute('readonly', 'readonly');
+            city.input.classList.add('input-info');
+            postcode.input.classList.add('input-info');
+            street.input.classList.add('input-info');
+            noEditCountry.container.classList.remove('country-invisible');
+            country.classList.add('country-invisible');
+          });
 
         container.append(address);
     }

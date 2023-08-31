@@ -26,6 +26,9 @@
   font-size: 48px;
   font-style: normal;
   font-weight: 400;
+  @include media-netbook {
+    font-size: 36px;
+  }
 }
 
 .page__subtitle {
@@ -104,12 +107,12 @@
 
 .small-text {
   color: red;
-  visibility: hidden;
+  display: none;
   margin-left: 10px;
 }
 
 .small-visible {
-  visibility: visible;
+  display: block;
 }
 
 .form-success {
