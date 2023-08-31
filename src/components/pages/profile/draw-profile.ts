@@ -4,6 +4,7 @@ import { createPageTitle } from '../../shared/utilities/title';
 import { PersonalInfo } from './from-personal';
 import { AddressesInfo } from './form-addresses';
 import { StpClientApi } from '../../shared/api/stpClient-api';
+import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 
 
 export const drawProfile = async () => {
@@ -17,6 +18,8 @@ export const drawProfile = async () => {
 
   if(email){
         customer =  await new StpClientApi().getCustomerInfoByEmail(email);
+        setLocalStorageValue('id',customer[0].id);
+        setLocalStorageValue('version', String(customer[0].version))
     }
 
   if(customer){

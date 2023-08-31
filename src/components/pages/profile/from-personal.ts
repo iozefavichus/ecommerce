@@ -3,7 +3,7 @@ import { createFormDiv } from '../registration/creationform-helpers';
 import { CheckIt, setError, setSuccess } from '../registration/validation-helpers';
 import { checkName, checkSurname, checkBirth, checkEmail } from '../registration/validation';
 import { customRoute } from '../../app/router/router';
-// import { StpClientApi } from '../../shared/api/stpClient-api';
+import { StpClientApi } from '../../shared/api/stpClient-api';
 // import { personalInfoObj } from '../../../types/shared';
 
 export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|undefined, dateOfbirthValue: string|undefined): HTMLElement => {
@@ -52,32 +52,6 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
 
   container.append(personalDiv, email.container, name.container, surname.container, dateOfbirth.container, btnSave, btnChangePass);
 
-  // const checkInputs = () => {
-  //   const nameInput = name.input;
-  //   const nameValue = nameInput.value.trim();
-  //   const surnameInput = surname.input;
-  //   const surnameValue = surnameInput.value.trim();
-  //   const birthInput = dateOfbirth.input;
-  //   const birthValue = birthInput.value.trim();
-
-  //   const checkNameResult: Array<string> = checkName(nameValue);
-  //   const checkSurnameResult: Array<string> = checkSurname(surnameValue);
-  //   const checkBirthResult = checkBirth(birthValue);
-
-  //   CheckIt(checkNameResult, nameInput);
-  //   CheckIt(checkSurnameResult, surnameInput);
-
-  //   if (birthValue === '') {
-  //     setError(birthInput, 'Date of birth cannot be blank');
-  //   }
-
-  //   if (!checkBirthResult) {
-  //     setError(birthInput, 'Oops! You must be over 13 years old');
-  //   } else {
-  //     setSuccess(birthInput);
-  //   }
-  // }
-
   btnEdit.addEventListener('click',()=>{
     btnSave.classList.remove('btn-invisible');
     email.input.removeAttribute('readonly');
@@ -121,18 +95,15 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
     }
   });
 
-  // const personalInfo: personalInfoObj = {
-  //   email: email.input.value.trim(),
-  //   password:'aa',
-  //   firstName: name.input.value.trim(),
-  //   lastName: surname.input.value.trim(),
-  //   dateOfBirth: dateOfbirth.input.value.trim(),
-
-  // };
-
+  const takeValue =() =>{
+    const valueforName = name.input.value.trim();
+    const valueforSurName = surname.input.value.trim();
+    const valueforBirth = dateOfbirth.input.value.trim();
+    return {valueforName, valueforSurName, valueforBirth};
+  }
 
   btnSave.addEventListener('click',()=>{
-    // checkInputs();
+    const {valueforName, valueforSurName, valueforBirth} = takeValue();
     const warningsArray = document.querySelectorAll('.small-visible');
     if (warningsArray.length === 0) {
       btnSave.classList.add('btn-invisible');
@@ -144,26 +115,28 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
       name.input.classList.add('input-info');
       surname.input.classList.add('input-info');
       dateOfbirth.input.classList.add('input-info');
-      // const email = localStorage.getItem('email');
-      if(email){
-        // const customer =  new StpClientApi().getCustomerInfoByEmail(email);
-        // const updateCustomer = new StpClientApi().updateCustomer(customer, personalInfo);
-        // updateCustomer
-      // .then(async (data) => {
-        // if (data.statusCode === 201) {
-        //   try {
-        //     btnSave.classList.add('btn-invisible');
-        //     name.input.setAttribute('readonly', 'readonly');
-        //     surname.input.setAttribute('readonly', 'readonly');
-        //     dateOfbirth.input.setAttribute('readonly', 'readonly');
-        //     name.input.classList.add('input-info');
-        //     surname.input.classList.add('input-info');
-        //     dateOfbirth.input.classList.add('input-info');
-        //   } catch {
-        //     throw Error('Cannot update personal information');
-        //   }
-        // }
-      // })
+
+      const emailVal = localStorage.getItem('email');
+      const version =localStorage.getItem('version');
+      if(emailVal&&version){
+        const updateCustomer = new StpClientApi().updateCustomer(localStorage.id, version, valueforName, valueforSurName, valueforBirth);
+        console.log(updateCustomer);
+        updateCustomer
+      .then(async (data) => {
+        if (data.statusCode === 201) {
+          try {
+            btnSave.classList.add('btn-invisible');
+            name.input.setAttribute('readonly', 'readonly');
+            surname.input.setAttribute('readonly', 'readonly');
+            dateOfbirth.input.setAttribute('readonly', 'readonly');
+            name.input.classList.add('input-info');
+            surname.input.classList.add('input-info');
+            dateOfbirth.input.classList.add('input-info');
+          } catch {
+            throw Error('Cannot update personal information');
+          }
+        }
+      })
       }
     }
   })

@@ -2,6 +2,7 @@
     margin-top: 25px;
     margin-left: auto;
     margin-right: auto;
+    margin-bottom: 25px;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -115,4 +116,30 @@
 
 .addresses-label {
     display: flex;
+}
+
+.oldpass-control, .newpass-control, .repeatpass-control{
+    position: absolute;
+	top: 52px;
+	right: 8px;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+    background-image: url('../assets/icons/eye-off-svgrepo-com.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+	}
+
+.view-control{
+    position: absolute;
+	top: 52px;
+	right: 8px;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+    background-image: url('../assets/icons/eye-svgrepo-com.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
 }

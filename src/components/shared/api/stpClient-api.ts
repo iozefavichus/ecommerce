@@ -15,6 +15,7 @@ import {
 import { ctpClient } from './build-client';
 import { regCardObj } from '../../../types/shared';
 
+
 class StpClientApi {
   private email;
 
@@ -50,6 +51,15 @@ class StpClientApi {
       .then((data: ClientResponse<CustomerPagedQueryResponse>) => data.body.results);
   }
 
+  public getCustomerbyId(id: string):Promise<Customer> {
+    return this.apiRoot
+        .customers()
+        .withId({ ID: id })
+        .get()
+        .execute()
+        .then((data: ClientResponse<Customer>) => data.body);
+  }
+
   public getProject(): Promise<ClientResponse<Project>> {
     return this.apiRoot.get().execute();
   }
@@ -63,23 +73,31 @@ class StpClientApi {
       .execute();
   }
 
-  // public updateCustomer(customer, personalInfo: personalInfoObj): Promise<ClientResponse<CustomerSignInResult>> {
-  //   return this.apiRoot
-  //     .customers()
-  //     .withKey({ key: customer.body.customer.id })
-  //     .post({
-  //       body: {
-  //         version: customer.body.customer.version,
-  //         actions: [
-  //           {
-  //             action: 'setFirstName',
-  //             key: personalInfo.firstName,
-  //           },
-  //         ],
-  //       },
-  //     })
-  //     .execute()
-  // }
+  public updateCustomer(id: string, version:string, NameValue: string, SurnameValue: string, BirthValue: string): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: 'setFirstName',
+              firstName: NameValue,
+            },
+            {
+              action: 'setLastName',
+              lastName: SurnameValue,
+            },
+            {
+              action: 'setDateOfBirth',
+              dateOfBirth: BirthValue,
+            },
+          ],
+        },
+      })
+      .execute()
+  }
 
   public getProducts(limitNum?: number): Promise<Product[]> {
     return this.apiRoot

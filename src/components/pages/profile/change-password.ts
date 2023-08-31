@@ -10,8 +10,14 @@ const ChangePassword = ():HTMLElement  =>{
     const container = createCustomElement('div', ['container-changepass']);
 
     const oldPass = createFormDiv('oldpass', 'Old password', 'old-passsword', 'password');
+    const oldPasslink = createCustomElement('a',['oldpass-control']);
+    oldPass.container.append(oldPasslink);
     const newPass = createFormDiv('newpass', 'New password', 'new-password', 'password');
+    const newPasslink = createCustomElement('a',['newpass-control']);
+    newPass.container.append(newPasslink);
     const repeatPass = createFormDiv('repeatpass', 'Repeat password', 'repeat-password', 'password');
+    const repeatPasslink = createCustomElement('a',['repeatpass-control']);
+    repeatPass.container.append(repeatPasslink);
 
     const btnSave = createCustomElement('button',['btn-save'],'Save') as HTMLButtonElement;;
     btnSave.addEventListener(('click'),()=>{
@@ -32,7 +38,19 @@ const ChangePassword = ():HTMLElement  =>{
         CheckIt(checkPassword(password), repeatPass.input);
       });
 
-      
+    newPasslink.addEventListener('click',()=>{
+        if(newPasslink.classList.contains('newpass-control')){
+            newPasslink.classList.remove('newpass-control');
+            newPasslink.classList.add('view-control');
+            newPass.input.type = 'text';
+        } else {
+            newPasslink.classList.add('newpass-control');
+            newPasslink.classList.remove('view-control');
+            newPass.input.type = 'password';
+        }
+    })
+
+
     return container;
 }
 
