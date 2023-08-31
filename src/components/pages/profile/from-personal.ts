@@ -120,7 +120,7 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
       const version =localStorage.getItem('version');
       if(emailVal&&version){
         const updateCustomer = new StpClientApi().updateCustomer(localStorage.id, version, valueforName, valueforSurName, valueforBirth);
-        console.log(updateCustomer);
+        // console.log(updateCustomer);
         updateCustomer
       .then(async (data) => {
         if (data.statusCode === 201) {
