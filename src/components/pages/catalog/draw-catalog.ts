@@ -1,10 +1,8 @@
-import { Product } from '@commercetools/platform-sdk';
+import { Product, ProductProjection } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detailed/open-detail';
-import { AuthClientApi } from '../../shared/api/authClient-api';
-import { sortedValue } from './sort-catalog';
-import { isLogin } from '../../shared/api/is-login';
+import { searchValue, sortedValue } from './sort-catalog';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -104,6 +102,34 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
   el.append(card);
 };
 
+export const drawSortCard = (product: ProductProjection, el: HTMLElement): void => {
+  const cardSort = createCustomElement('div', ['product__card']);
+  const productKey = product.key;
+  const productImg = product.masterVariant.images;
+  const productName = product.name.en;
+  const productPrice = product.masterVariant.prices;
+  let price: string;
+  cardSort.setAttribute('data-key', productKey as string);
+  const imgBlock = createCustomElement('div', ['products__img-block']);
+  const img = createCustomElement('img', ['product__img']) as HTMLImageElement;
+  cardSort.append(imgBlock);
+  if (productImg && productImg?.length > 0) {
+    const srcImageProduct = productImg[0].url;
+    img.style.backgroundImage = `url(${srcImageProduct})`;
+  }
+  if (productPrice) {
+    const priceInCent = productPrice[0].value.centAmount;
+    price = (priceInCent / 100).toFixed(2);
+    const blockProperty = createBlockProperty(productName, price);
+    cardSort.append(blockProperty);
+  }
+  cardSort.addEventListener('click', (event) => {
+    openDetail(event);
+  });
+  imgBlock.append(img);
+  el.append(cardSort);
+};
+
 export const drawCatalog = async () => {
   const productWrapper = createCustomElement('div', ['product__wrapper']);
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
@@ -113,16 +139,12 @@ export const drawCatalog = async () => {
   const navigation = createNavigation();
   mainWrapper.append(searcher, panel, productWrapper, navigation);
   const sortField = document.querySelector('.panel__wrapper-show--default') as HTMLSelectElement;
+  const searchField = document.querySelector('.input-search') as HTMLInputElement;
   const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
   if (btnPagination?.textContent === '1') {
     btnPagination.setAttribute('disabled', '');
   }
-  let products;
-  if (!isLogin) {
-    products = await new AuthClientApi().getProducts();
-  } else {
-    products = await new StpClientApi().getProducts();
-  }
+  const products = await new StpClientApi().getProducts();
   const numberCards = document.querySelector('#numberCards');
   const numberProducts = document.querySelector('#numberProducts');
   const size = Object.keys(products).length;
@@ -132,8 +154,19 @@ export const drawCatalog = async () => {
   if (numberProducts !== undefined && numberProducts !== null) {
     numberProducts.textContent = `Showing 1–${String(size)} of ${String(size)} results`;
   }
-  sortField?.addEventListener('change', (event) => {
-    sortedValue(event);
+  sortField?.addEventListener('change', async (event) => {
+    const sortProducts = await sortedValue(event);
+    productWrapper.innerHTML = '';
+    sortProducts?.forEach((product) => {
+      drawSortCard(product, productWrapper);
+    });
+  });
+  searchField?.addEventListener('input', async (event) => {
+    const searchProducts = await searchValue(event);
+    productWrapper.innerHTML = '';
+    searchProducts.forEach((product) => {
+      drawSortCard(product, productWrapper);
+    });
   });
   products.forEach((product) => {
     drawCard(product, productWrapper);

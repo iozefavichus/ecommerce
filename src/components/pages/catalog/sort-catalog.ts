@@ -1,27 +1,25 @@
+import { ProductProjection } from '@commercetools/platform-sdk';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 
-export const sortedValue = async (event: Event) => {
+export const sortedValue = async (event: Event): Promise<ProductProjection[]> => {
   const sortedEl = event.target as HTMLSelectElement;
   const value = sortedEl.options[sortedEl.selectedIndex].getAttribute('data-value');
 
   if (value === 'sortNameASC') {
-    const response = await new StpClientApi().getProductProjections('name.en asc');
-    const product = response;
-    console.log(product);
+    return await new StpClientApi().getProductProjections('name.en asc');
   }
   if (value === 'sortNameDESC') {
-    const response = await new StpClientApi().getProductProjections('name.en desc');
-    const product = response;
-    console.log(product);
+    return await new StpClientApi().getProductProjections('name.en desc');
   }
   if (value === 'sortPriceUp') {
-    const response = await new StpClientApi().getProductProjections('price asc');
-    const product = response;
-    console.log(product);
+    return await new StpClientApi().getProductProjections('price asc');
   }
   if (value === 'sortPriceDown') {
-    const response = await new StpClientApi().getProductProjections('price asc');
-    const product = response;
-    console.log(product);
+    return await new StpClientApi().getProductProjections('price desc');
   }
+};
+
+export const searchValue = async (event: Event): Promise<ProductProjection[]> => {
+  const searchEl = (event.target as HTMLInputElement).value;
+  return await new StpClientApi().getProductSearchProjections(searchEl);
 };
