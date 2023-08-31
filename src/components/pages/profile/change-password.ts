@@ -2,14 +2,16 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createPageTitle } from '../../shared/utilities/title';
 import { createFormDiv } from '../registration/creationform-helpers';
 import { customRoute } from '../../app/router/router';
+import { checkPassword } from '../registration/validation';
+import { CheckIt } from '../registration/validation-helpers';
 
 
 const ChangePassword = ():HTMLElement  =>{
     const container = createCustomElement('div', ['container-changepass']);
 
-    const oldPass = createFormDiv('oldpass', 'Old password', 'old-passsword', 'text');
-    const newPass = createFormDiv('newpass', 'New password', 'new-password', 'text');
-    const repeatPass = createFormDiv('repeatpass', 'Repeat password', 'repeat-password', 'text');
+    const oldPass = createFormDiv('oldpass', 'Old password', 'old-passsword', 'password');
+    const newPass = createFormDiv('newpass', 'New password', 'new-password', 'password');
+    const repeatPass = createFormDiv('repeatpass', 'Repeat password', 'repeat-password', 'password');
 
     const btnSave = createCustomElement('button',['btn-save'],'Save') as HTMLButtonElement;;
     btnSave.addEventListener(('click'),()=>{
@@ -17,6 +19,20 @@ const ChangePassword = ():HTMLElement  =>{
     })
     container.append(oldPass.container, newPass.container, repeatPass.container, btnSave)
 
+    oldPass.input.addEventListener('input', (event) => {
+        const password: string = (event.target as HTMLInputElement).value;
+        CheckIt(checkPassword(password), oldPass.input);
+      });
+    newPass.input.addEventListener('input', (event) => {
+        const password: string = (event.target as HTMLInputElement).value;
+        CheckIt(checkPassword(password), newPass.input);
+      });
+    repeatPass.input.addEventListener('input', (event) => {
+        const password: string = (event.target as HTMLInputElement).value;
+        CheckIt(checkPassword(password), repeatPass.input);
+      });
+
+      
     return container;
 }
 
