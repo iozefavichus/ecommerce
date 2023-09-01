@@ -17,7 +17,6 @@ export const logoutCustomer = (): void => {
     removeLocalStorageValue(KEY_4);
     removeLocalStorageValue(KEY_5);
     removeLocalStorageValue(KEY_6);
-    // if()
     location.reload();
   });
 };

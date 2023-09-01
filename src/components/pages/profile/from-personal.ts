@@ -2,7 +2,6 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createFormDiv } from '../registration/creationform-helpers';
 import { CheckIt, setError, setSuccess } from '../registration/validation-helpers';
 import { checkName, checkSurname, checkBirth, checkEmail } from '../registration/validation';
-import { customRoute } from '../../app/router/router';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 
@@ -43,13 +42,8 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
   const btnSave = createCustomElement('button', ['btn-save'], 'Save changes') as HTMLButtonElement;
   btnSave.classList.add('btn-invisible');
 
-  const btnChangePass =createCustomElement('button', ['btn-cnahge'], 'Change password') as HTMLButtonElement;
-  btnChangePass.addEventListener(('click'),()=>{
-    customRoute('/changepassword');
 
-  })
-
-  container.append(personalDiv, email.container, name.container, surname.container, dateOfbirth.container, btnSave, btnChangePass);
+  container.append(personalDiv, email.container, name.container, surname.container, dateOfbirth.container, btnSave);
 
   btnEdit.addEventListener('click',()=>{
     btnSave.classList.remove('btn-invisible');

@@ -1,4 +1,4 @@
-.container-personal, .container-addresses, .container-changepass {
+.container-personal, .container-addresses, .container-changepass, .btnchange-container {
     margin-top: 25px;
     margin-left: auto;
     margin-right: auto;
@@ -65,6 +65,25 @@
   }
 }
 
+.btn-cnahge{
+    font-family: Poppins, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    border-radius: 20px;
+    width: 30%;
+    background-color: $color-brand-dark;
+    color: $font-color;
+    border: none;
+    text-decoration: none;
+    margin-left: auto;
+    margin-right: auto;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.5;
+      }
+}
+
 .btn-save, .btn-cancel{
     padding: 2px 2px;
   font-family: Poppins, sans-serif;
@@ -74,6 +93,7 @@
   margin-left:auto;
   margin-right: auto;
   margin-top: 10px;
+  margin-bottom: 10px;
   border-radius: 20px;
   width: 20%;
   background-color: $color-brand-dark;
@@ -115,7 +135,7 @@
     }
 }
 
-.btn-add, .btn-cnahge{
+.btn-add{
     font-family: Poppins, sans-serif;
     font-size: 20px;
     font-style: normal;

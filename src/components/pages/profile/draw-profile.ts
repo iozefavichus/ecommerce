@@ -5,6 +5,7 @@ import { PersonalInfo } from './from-personal';
 import { AddressesInfo } from './form-addresses';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { setLocalStorageValue } from '../../app/localStorage/localStorage';
+import { customRoute } from '../../app/router/router';
 
 
 export const drawProfile = async () => {
@@ -35,8 +36,15 @@ export const drawProfile = async () => {
   const pageTitle = createPageTitle('Personal account');
   wrapper.append(pageTitle);
   const person = PersonalInfo(name, surname, birth);
+  const passcontainer = createCustomElement('div',['btnchange-container']);
+  const btnChangePass =createCustomElement('button', ['btn-cnahge'], 'Change password') as HTMLButtonElement;
+  btnChangePass.addEventListener(('click'),()=>{
+    customRoute('/changepassword');
+
+  })
+  passcontainer.append(btnChangePass);
   const addresses = AddressesInfo(customerAddresses);
-  wrapper.append(person, addresses);
+  wrapper.append(person, passcontainer, addresses);
 
 }
 
