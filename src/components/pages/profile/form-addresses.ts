@@ -12,6 +12,10 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
 
     for(let i=0; i<customerAddresses.length; i+=1){
         const addressID = customerAddresses[i].id;
+        // const arrShippingAdd = 
+        // const shippingTrue = () =>{
+
+        // };
         const divForBtn = createCustomElement('div',['div-btnedit']);
         const btnEdit = createCustomElement('button',['btn-edit'], 'Edit') as HTMLButtonElement;
         divForBtn.append(btnEdit);
