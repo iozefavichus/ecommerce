@@ -114,21 +114,48 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
 
           btnSave.addEventListener('click',()=>{
             const warningsArray = document.querySelectorAll('.small-visible');
+            const UpdAddress = {
+              'country':'US',
+              'postalCode': postcode.input.value.trim(),
+              'city': city.input.value.trim(),
+              'streetName': street.input.value.trim(),
+            }
             if (warningsArray.length === 0) {
-              btnSave.classList.add('btn-invisible');
-              btnDelete.classList.add('btn-invisible');
-              city.input.setAttribute('readonly', 'readonly');
-              postcode.input.setAttribute('readonly', 'readonly');
-              street.input.setAttribute('readonly', 'readonly');
-              city.input.classList.add('input-info');
-              postcode.input.classList.add('input-info');
-              street.input.classList.add('input-info');
-              noEditCountry.container.classList.remove('country-invisible');
-              country.classList.add('country-invisible');
-              shipping.classList.remove('address-invisible');
-              billing.classList.remove('address-invisible');
-              shippingDefault.classList.remove('address-invisible');
-              billingDefault.classList.remove('address-invisible');
+              const id = localStorage.getItem('id');
+              let version: string;
+              const updateCus = async () => {
+                if(id){
+                  const customer = await new StpClientApi().getCustomerbyId(id);
+                  version = String(customer.version);
+                  if(id&&addressID){
+                    const updateAdd = new StpClientApi().changeAddress(id, version, addressID, UpdAddress);
+                    updateAdd
+                    .then(async (data) => {
+                      if (data.statusCode === 200) {
+                        try {
+                          btnSave.classList.add('btn-invisible');
+                          btnDelete.classList.add('btn-invisible');
+                          city.input.setAttribute('readonly', 'readonly');
+                          postcode.input.setAttribute('readonly', 'readonly');
+                          street.input.setAttribute('readonly', 'readonly');
+                          city.input.classList.add('input-info');
+                          postcode.input.classList.add('input-info');
+                          street.input.classList.add('input-info');
+                          noEditCountry.container.classList.remove('country-invisible');
+                          country.classList.add('country-invisible');
+                          shipping.classList.remove('address-invisible');
+                          billing.classList.remove('address-invisible');
+                          shippingDefault.classList.remove('address-invisible');
+                          billingDefault.classList.remove('address-invisible');
+                        } catch {
+                          throw Error('Cannot update address');
+                        }
+                      }
+                    })
+                   }
+                }
+              }
+              updateCus();
             }
           });
 
