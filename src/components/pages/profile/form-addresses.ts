@@ -11,6 +11,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
     container.append(title);
 
     for(let i=0; i<customerAddresses.length; i+=1){
+        const addressID = customerAddresses[i].id;
         const divForBtn = createCustomElement('div',['div-btnedit']);
         const btnEdit = createCustomElement('button',['btn-edit'], 'Edit') as HTMLButtonElement;
         divForBtn.append(btnEdit);
@@ -131,6 +132,37 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
             }
           });
 
+          btnDelete.addEventListener('click',()=>{
+            const emailVal = localStorage.getItem('email');
+            if(emailVal){
+              const id = localStorage.getItem('id');
+              let version: string;
+              const updateCus = async () => {
+                if(id){
+                  const customer = await new StpClientApi().getCustomerbyId(id);
+                  version = String(customer.version);
+                  if(id&&addressID){
+                    const deleteAdd = new StpClientApi().deleteAddress(id, version, addressID);
+                    deleteAdd
+                    .then(async (data) => {
+                      if (data.statusCode === 200) {
+                        try {
+                          address.classList.add('invisible');
+                          btnSave.classList.add('btn-invisible');
+                          btnDelete.classList.add('btn-invisible');
+                        } catch {
+                          throw Error('Cannot delete address');
+                        }
+                      }
+                    })
+                   }
+                }
+              }
+              updateCus();
+
+            }
+          })
+
         container.append(address);
     }
 
@@ -183,7 +215,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
             const newAddressInfo = new StpClientApi().addAddress(id, version, newAdd);
             newAddressInfo
               .then(async (data) => {
-                if (data.statusCode === 201) {
+                if (data.statusCode === 200) {
                   try {
                     newAddress.classList.add('newaddress-invisible');
                     btnAddAddress.classList.remove('btnAadd-invisible');
