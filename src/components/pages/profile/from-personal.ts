@@ -5,44 +5,42 @@ import { checkName, checkSurname, checkBirth, checkEmail } from '../registration
 import { customRoute } from '../../app/router/router';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { setLocalStorageValue } from '../../app/localStorage/localStorage';
-// import { personalInfoObj } from '../../../types/shared';
 
 export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|undefined, dateOfbirthValue: string|undefined): HTMLElement => {
 
   const emailValue = localStorage.getItem('email');
 
   const container = createCustomElement('div', ['container-personal']);
-
   const personalDiv = createCustomElement('div',['title-personalinfo'],'Personal Information');
 
   const btnEdit = createCustomElement('button', ['btn-edit'], 'Edit') as HTMLButtonElement;
   personalDiv.append(btnEdit);
 
-  const email = createFormDiv('email', 'Email', 'email-personal', 'text');
+  const email = createFormDiv('email', 'Email', 'text', 'email-personal');
   email.container.classList.add('container-info');
   email.input.classList.add('input-info');
   email.input.setAttribute('readonly', 'readonly');
   email.input.value = `${emailValue}`;
 
-  const name = createFormDiv('name', 'First name', 'name-personal', 'text');
+  const name = createFormDiv('name', 'First name', 'text', 'name-personal');
   name.container.classList.add('container-info');
   name.input.classList.add('input-info');
   name.input.setAttribute('readonly', 'readonly');
   name.input.value = `${nameValue}`;
 
-  const surname = createFormDiv('surname', 'Last name', 'surname-personal', 'text');
+  const surname = createFormDiv('surname', 'Last name', 'text', 'surname-personal');
   surname.container.classList.add('container-info');
   surname.input.classList.add('input-info');
   surname.input.setAttribute('readonly', 'readonly');
   surname.input.value = `${surnameValue}`;
 
-  const dateOfbirth = createFormDiv('dateOfbirth', 'Date of birth', 'date-personal', 'date');
+  const dateOfbirth = createFormDiv('dateOfbirth', 'Date of birth', 'date', 'date-personal');
   dateOfbirth.container.classList.add('container-info');
   dateOfbirth.input.classList.add('input-info');
   dateOfbirth.input.setAttribute('readonly', 'readonly');
   dateOfbirth.input.value = `${dateOfbirthValue}`;
 
-  const btnSave = createCustomElement('button', ['btn-edit'], 'Save') as HTMLButtonElement;
+  const btnSave = createCustomElement('button', ['btn-save'], 'Save changes') as HTMLButtonElement;
   btnSave.classList.add('btn-invisible');
 
   const btnChangePass =createCustomElement('button', ['btn-cnahge'], 'Change password') as HTMLButtonElement;
@@ -121,10 +119,16 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
       const emailVal = localStorage.getItem('email');
       const version =localStorage.getItem('version');
       if(emailVal&&version){
-        const updateCustomer = new StpClientApi().updateCustomer(localStorage.id, version, valueforName, valueforSurName, valueforBirth, valueEmail);
-        // console.log(updateCustomer);
-        setLocalStorageValue('email',valueEmail);
-        updateCustomer
+        const id = localStorage.getItem('id');
+        let version: string;
+        const updateCus = async () => {
+          if(id){
+            const customer = await new StpClientApi().getCustomerbyId(id);
+            version = String(customer.version);
+          }
+          const updateCustomer = new StpClientApi().updateCustomer(localStorage.id, version, valueforName, valueforSurName, valueforBirth, valueEmail);
+          setLocalStorageValue('email',valueEmail);
+          updateCustomer
       .then(async (data) => {
         if (data.statusCode === 201) {
           try {
@@ -140,6 +144,8 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
           }
         }
       })
+        }
+        updateCus();
       }
     }
   })

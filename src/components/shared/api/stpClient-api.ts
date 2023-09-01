@@ -12,6 +12,7 @@ import {
   Customer,
   CategoryPagedQueryResponse,
   Category,
+  AddressDraft,
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
 import { regCardObj, baseAdress } from '../../../types/shared';
@@ -115,6 +116,43 @@ class StpClientApi {
             {
               action: 'addAddress',
               address: newAddress,
+            }
+          ],
+        },
+      })
+      .execute()
+  }
+
+  public changeAddress(id: string, version:string, AddressID: string, AddressUpd: AddressDraft): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: 'changeAddress',
+              addressId: AddressID,
+              address: AddressUpd,
+            }
+          ],
+        },
+      })
+      .execute()
+  }
+
+  public deleteAddress(id: string, version:string, AddressID: string): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: 'removeAddress',
+              addressId: AddressID,
             }
           ],
         },

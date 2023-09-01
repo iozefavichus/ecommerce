@@ -9,13 +9,13 @@ import { CheckIt, setError } from '../registration/validation-helpers';
 const ChangePassword = ():HTMLElement  =>{
     const container = createCustomElement('div', ['container-changepass']);
 
-    const oldPass = createFormDiv('oldpass', 'Old password', 'old-passsword', 'password');
+    const oldPass = createFormDiv('oldpass', 'Old password', 'password', 'old-passsword');
     const oldPasslink = createCustomElement('a',['oldpass-control']);
     oldPass.container.append(oldPasslink);
-    const newPass = createFormDiv('newpass', 'New password', 'new-password', 'password');
+    const newPass = createFormDiv('newpass', 'New password', 'password', 'new-password');
     const newPasslink = createCustomElement('a',['newpass-control']);
     newPass.container.append(newPasslink);
-    const repeatPass = createFormDiv('repeatpass', 'Repeat password', 'repeat-password', 'password');
+    const repeatPass = createFormDiv('repeatpass', 'Repeat password', 'password', 'repeat-password');
     const repeatPasslink = createCustomElement('a',['repeatpass-control']);
     repeatPass.container.append(repeatPasslink);
 
@@ -28,7 +28,12 @@ const ChangePassword = ():HTMLElement  =>{
             setError(repeatPass.input,'Passwords are not similar')
         }
     })
-    container.append(oldPass.container, newPass.container, repeatPass.container, btnSave)
+
+    const btnCancel = createCustomElement('button',['btn-cancel'],'Cancel') as HTMLButtonElement;
+    btnCancel.addEventListener('click', () => {
+        customRoute('/profile');
+    })
+    container.append(oldPass.container, newPass.container, repeatPass.container, btnSave, btnCancel)
 
     oldPass.input.addEventListener('input', (event) => {
         const password: string = (event.target as HTMLInputElement).value;

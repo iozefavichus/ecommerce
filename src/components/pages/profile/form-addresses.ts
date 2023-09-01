@@ -15,7 +15,8 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         const btnEdit = createCustomElement('button',['btn-edit'], 'Edit') as HTMLButtonElement;
         divForBtn.append(btnEdit);
 
-        const noEditCountry = createFormDiv('country', 'Country', 'country-personal', 'text');
+        const noEditCountry = createFormDiv('country', 'Country', 'text');
+        noEditCountry.input.id = `country-personal-${i}`;
         noEditCountry.container.classList.add('container-info');
         noEditCountry.input.classList.add('input-info');
         noEditCountry.input.setAttribute('readonly', 'readonly');
@@ -24,19 +25,22 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         const country =  createFormWithOptions('country', 'Country');
         country.classList.add('country-invisible');
 
-        const postcode =  createFormDiv('postcode', 'Postal code', 'postcode-personal', 'text');
+        const postcode =  createFormDiv('postcode', 'Postal code', 'text');
+        postcode.input.id =`postcode-personal-${i}`
         postcode.container.classList.add('container-info');
         postcode.input.classList.add('input-info');
         postcode.input.setAttribute('readonly', 'readonly');
         postcode.input.value = `${customerAddresses[i].postalCode}`;
 
-        const city =  createFormDiv('city', 'City', 'city-personal', 'text');
+        const city =  createFormDiv('city', 'City', 'text');
+        city.input.id = `city-personal-${i}`
         city.container.classList.add('container-info');
         city.input.classList.add('input-info');
         city.input.setAttribute('readonly', 'readonly');
         city.input.value = `${customerAddresses[i].city}`;
 
-        const street =  createFormDiv('street', 'Street', 'street-personal', 'text');
+        const street =  createFormDiv('street', 'Street', 'text');
+        street.input.id = `street-personal-${i}`
         street.container.classList.add('container-info');
         street.input.classList.add('input-info');
         street.input.setAttribute('readonly', 'readonly');
@@ -54,11 +58,15 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         billing.classList.add('label-invible');
         adressLabelDiv.append(shipping,billing,shippingDefault,billingDefault);
 
-        const btnSave = createCustomElement('button',['btn-edit'],'Save') as HTMLButtonElement;
+        const btnDiv = createCustomElement('div',['div-btn']);
+        const btnSave = createCustomElement('button',['btn-saveadd'],'Save changes') as HTMLButtonElement;
         btnSave.classList.add('btn-invisible');
+        const btnDelete = createCustomElement('button',['btn-delete'],'Delete address') as HTMLButtonElement;
+        btnDelete.classList.add('btn-invisible');
+        btnDiv.append(btnSave, btnDelete);
 
         const address = createCustomElement('div', ['container-address']);
-        address.append(divForBtn, country, noEditCountry.container, postcode.container, city.container, street.container, adressLabelDiv,btnSave)
+        address.append(divForBtn, country, noEditCountry.container, postcode.container, city.container, street.container, adressLabelDiv,btnDiv)
 
         const formField = btnEdit.parentNode;
         const countryOption = formField?.querySelector('.country');
@@ -70,6 +78,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
 
         btnEdit.addEventListener('click',()=>{
             btnSave.classList.remove('btn-invisible');
+            btnDelete.classList.remove('btn-invisible');
             if(countryOption){
                 countryOption.removeAttribute('readonly');
                 countryOption.classList.remove('input-info');
@@ -107,32 +116,38 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
           });
 
           btnSave.addEventListener('click',()=>{
-            btnSave.classList.add('btn-invisible');
-            city.input.setAttribute('readonly', 'readonly');
-            postcode.input.setAttribute('readonly', 'readonly');
-            street.input.setAttribute('readonly', 'readonly');
-            city.input.classList.add('input-info');
-            postcode.input.classList.add('input-info');
-            street.input.classList.add('input-info');
-            noEditCountry.container.classList.remove('country-invisible');
-            country.classList.add('country-invisible');
-            shipping.classList.remove('address-invisible');
-            billing.classList.remove('address-invisible');
-            shippingDefault.classList.remove('address-invisible');
-            billingDefault.classList.remove('address-invisible');
+            const warningsArray = document.querySelectorAll('.small-visible');
+            if (warningsArray.length === 0) {
+              btnSave.classList.add('btn-invisible');
+              btnDelete.classList.add('btn-invisible');
+              city.input.setAttribute('readonly', 'readonly');
+              postcode.input.setAttribute('readonly', 'readonly');
+              street.input.setAttribute('readonly', 'readonly');
+              city.input.classList.add('input-info');
+              postcode.input.classList.add('input-info');
+              street.input.classList.add('input-info');
+              noEditCountry.container.classList.remove('country-invisible');
+              country.classList.add('country-invisible');
+              shipping.classList.remove('address-invisible');
+              billing.classList.remove('address-invisible');
+              shippingDefault.classList.remove('address-invisible');
+              billingDefault.classList.remove('address-invisible');
+            }
           });
 
         container.append(address);
     }
+
+
     const btnAddAddress = createCustomElement('button',['btn-add'],'Add address') as HTMLButtonElement;
 
     const newAddress = createCustomElement('div',['container-newaddress']);
     newAddress.classList.add('newaddress-invisible');
     const countryNew =  createFormWithOptions('country', 'Country');
-    const postcodeNew =  createFormDiv('postcode', 'Postal code', 'postcode-personal', 'text');
-    const cityNew =  createFormDiv('city', 'City', 'city-personal', 'text');
-    const streetNew =  createFormDiv('street', 'Street', 'street-personal', 'text');
-    const btnSaveNew = createCustomElement('button',['btn-edit'],'Save') as HTMLButtonElement;
+    const postcodeNew =  createFormDiv('newpostcode', 'Postal code', 'text','newpostcode');
+    const cityNew =  createFormDiv('newcity', 'City', 'text','newcity');
+    const streetNew =  createFormDiv('newstreet', 'Street', 'text', 'newstreet');
+    const btnSaveNew = createCustomElement('button',['btn-save'],'Save changes') as HTMLButtonElement;
 
     cityNew.input.addEventListener('input', (event) => {
       const cityValue: string = (event.target as HTMLInputElement).value;
@@ -151,28 +166,51 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
       }
     });
 
-
     btnSaveNew.addEventListener('click',()=>{
-      const id = localStorage.getItem('id');
-      const version = localStorage.getItem('version');
       const newAdd ={
         country: 'US',
         city: cityNew.input.value.trim(),
         streetName: streetNew.input.value.trim(),
         postalCode: postcodeNew.input.value.trim(),
       }
-      newAddress.classList.add('newaddress-invisible');
-
-      if(id&&version){
-        const newAdress = new StpClientApi().addAddress(id, version, newAdd);
-        console.log(newAddress);
+      const warningsArray = document.querySelectorAll('.small-visible');
+      let id: string|null;
+      let version: string;
+      if (warningsArray.length === 0) {
+        id = localStorage.getItem('id');
+        const addNew = async () => {
+          if(id){
+            const customer = await new StpClientApi().getCustomerbyId(id);
+            version = String(customer.version);
+          }
+          if(id&&version){
+            const newAddressInfo = new StpClientApi().addAddress(id, version, newAdd);
+            newAddressInfo
+              .then(async (data) => {
+                if (data.statusCode === 201) {
+                  try {
+                    newAddress.classList.add('newaddress-invisible');
+                    btnAddAddress.classList.remove('btnAadd-invisible');
+                    cityNew.input.value ='';
+                    streetNew.input.value='';
+                    postcodeNew.input.value='';
+                  } catch {
+                    throw Error('Cannot add new address');
+                  }
+              }
+          })
+          }
+        }
+      addNew();
       }
-    })
+      }
+  )
 
     newAddress.append(countryNew, postcodeNew.container, cityNew.container, streetNew.container, btnSaveNew);
 
     btnAddAddress.addEventListener('click',()=>{
-     newAddress.classList.remove('newaddress-invisible');
+      btnAddAddress.classList.add('btnAadd-invisible');
+      newAddress.classList.remove('newaddress-invisible');
     });
 
     container.append(btnAddAddress, newAddress);

@@ -19,7 +19,6 @@ export const drawProfile = async () => {
   if(email){
         customer =  await new StpClientApi().getCustomerInfoByEmail(email);
         setLocalStorageValue('id',customer[0].id);
-        setLocalStorageValue('version', String(customer[0].version))
     }
 
   if(customer){

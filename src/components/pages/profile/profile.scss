@@ -65,7 +65,57 @@
   }
 }
 
-.btn-add, .btn-cnahge, .btn-save{
+.btn-save, .btn-cancel{
+    padding: 2px 2px;
+  font-family: Poppins, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  margin-left:auto;
+  margin-right: auto;
+  margin-top: 10px;
+  border-radius: 20px;
+  width: 20%;
+  background-color: $color-brand-dark;
+  color: $font-color;
+  border: none;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  @include media-netbook {
+    width: 25%;
+  }
+}
+
+.btn-saveadd, .btn-delete {
+    padding: 2px 2px;
+    font-family: Poppins, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    margin-top: 10px;
+    border-radius: 20px;
+    width: 20%;
+    background-color: $color-brand-dark;
+    color: $font-color;
+    border: none;
+    text-decoration: none;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.5;
+    }
+
+    @include media-netbook {
+      width: 25%;
+    }
+}
+
+.btn-add, .btn-cnahge{
     font-family: Poppins, sans-serif;
     font-size: 20px;
     font-style: normal;
@@ -99,7 +149,7 @@
 .shipping-label, .billing-label, .shippingdefault-label, .billingdefault-label {
     background-color: $color-brand-dark;
     font-family: Poppins, sans-serif;
-    font-size: 10px;
+    font-size: 12px;
     border-radius: 20px;
     border: none;
     text-decoration: none;
@@ -108,9 +158,10 @@
     padding: 2px 2px;
     text-align: center;
     margin-right: 10px;
+    display: none;
 }
 
-.btn-invisible, .country-invisible, .address-invisible, .newaddress-invisible{
+.btn-invisible, .country-invisible, .address-invisible, .newaddress-invisible, .btnAadd-invisible{
     display: none;
 }
 
@@ -156,4 +207,9 @@
     background-repeat: no-repeat;
     background-size: contain;
     cursor: pointer;
+}
+
+.div-btn {
+    display: flex;
+    justify-content: space-between;
 }

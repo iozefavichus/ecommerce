@@ -47,8 +47,8 @@ export interface FromDivObject {
 export const createFormDiv = (
   labelName: string,
   labeltext: string,
-  inputId: string,
   inputType: string,
+  inputId?: string,
 ): FromDivObject => {
   const container = createCustomElement('div', ['form-control']);
   const label = createLabel(['label'], labelName, labeltext);
@@ -70,7 +70,8 @@ export const createFormWithOptions = (labelName: string, labeltext: string): HTM
   const label = createLabel(['label'], labelName, labeltext);
   container.append(label);
   const select = createCustomElement('select', ['select-country']);
-  select.setAttribute('name', 'labelName');
+  select.setAttribute('name', labelName);
+  select.id = labelName;
   const option = createCustomElement('option', ['country'], 'USA');
   option.setAttribute('value', 'USA');
   select.append(option);
