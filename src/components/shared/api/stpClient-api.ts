@@ -21,10 +21,13 @@ import { regCardObj, baseAdress } from '../../../types/shared';
 class StpClientApi {
   private email;
 
+  private password;
+
   private apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey: 'ecommerce_furniture' });
 
-  constructor(email?: string) {
+  constructor(email?: string, password?: string) {
     this.email = email;
+    this.password = password;
   }
 
   public getCustomerByEmail(): Promise<ClientResponse<CustomerPagedQueryResponse>> {
@@ -60,6 +63,19 @@ class StpClientApi {
         .get()
         .execute()
         .then((data: ClientResponse<Customer>) => data.body);
+  }
+
+  public loginCustomer() {
+    return this.apiRoot
+      .me()
+      .login()
+      .post({
+        body: {
+          email: this.email as string,
+          password: this.password as string,
+        },
+      })
+      .execute();
   }
 
   public getProject(): Promise<ClientResponse<Project>> {
