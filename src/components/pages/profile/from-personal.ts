@@ -15,25 +15,25 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
   const btnEdit = createCustomElement('button', ['btn-edit'], 'Edit') as HTMLButtonElement;
   personalDiv.append(btnEdit);
 
-  const email = createFormDiv('email', 'Email', 'text', 'email-personal');
+  const email = createFormDiv('email-personal', 'Email', 'text', 'email-personal');
   email.container.classList.add('container-info');
   email.input.classList.add('input-info');
   email.input.setAttribute('readonly', 'readonly');
   email.input.value = `${emailValue}`;
 
-  const name = createFormDiv('name', 'First name', 'text', 'name-personal');
+  const name = createFormDiv('name-personal', 'First name', 'text', 'name-personal');
   name.container.classList.add('container-info');
   name.input.classList.add('input-info');
   name.input.setAttribute('readonly', 'readonly');
   name.input.value = `${nameValue}`;
 
-  const surname = createFormDiv('surname', 'Last name', 'text', 'surname-personal');
+  const surname = createFormDiv('surname-personal', 'Last name', 'text', 'surname-personal');
   surname.container.classList.add('container-info');
   surname.input.classList.add('input-info');
   surname.input.setAttribute('readonly', 'readonly');
   surname.input.value = `${surnameValue}`;
 
-  const dateOfbirth = createFormDiv('dateOfbirth', 'Date of birth', 'date', 'date-personal');
+  const dateOfbirth = createFormDiv('date-personal', 'Date of birth', 'date', 'date-personal');
   dateOfbirth.container.classList.add('container-info');
   dateOfbirth.input.classList.add('input-info');
   dateOfbirth.input.setAttribute('readonly', 'readonly');

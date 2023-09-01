@@ -9,13 +9,13 @@ import { CheckIt, setError } from '../registration/validation-helpers';
 const ChangePassword = ():HTMLElement  =>{
     const container = createCustomElement('div', ['container-changepass']);
 
-    const oldPass = createFormDiv('oldpass', 'Old password', 'password', 'old-passsword');
+    const oldPass = createFormDiv('old-passsword', 'Old password', 'password', 'old-passsword');
     const oldPasslink = createCustomElement('a',['oldpass-control']);
     oldPass.container.append(oldPasslink);
-    const newPass = createFormDiv('newpass', 'New password', 'password', 'new-password');
+    const newPass = createFormDiv('new-password', 'New password', 'password', 'new-password');
     const newPasslink = createCustomElement('a',['newpass-control']);
     newPass.container.append(newPasslink);
-    const repeatPass = createFormDiv('repeatpass', 'Repeat password', 'password', 'repeat-password');
+    const repeatPass = createFormDiv('repeat-password', 'Repeat password', 'password', 'repeat-password');
     const repeatPasslink = createCustomElement('a',['repeatpass-control']);
     repeatPass.container.append(repeatPasslink);
 

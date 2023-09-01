@@ -67,17 +67,19 @@ export const createFormDiv = (
 
 export const createFormWithOptions = (labelName: string, labeltext: string): HTMLElement => {
   const container = createCustomElement('div', ['form-control']);
+
   const label = createLabel(['label'], labelName, labeltext);
-  container.append(label);
+
   const select = createCustomElement('select', ['select-country']);
   select.setAttribute('name', labelName);
   select.id = labelName;
+
   const option = createCustomElement('option', ['country'], 'USA');
   option.setAttribute('value', 'USA');
-  select.append(option);
-  container.append(select);
+
   const message = createCustomElement('div', ['small-text'], 'error message');
-  container.append(message);
+
+  container.append(label, option, select, message);
 
   return container;
 };

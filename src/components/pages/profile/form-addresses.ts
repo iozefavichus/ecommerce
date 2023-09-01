@@ -15,32 +15,28 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         const btnEdit = createCustomElement('button',['btn-edit'], 'Edit') as HTMLButtonElement;
         divForBtn.append(btnEdit);
 
-        const noEditCountry = createFormDiv('country', 'Country', 'text');
-        noEditCountry.input.id = `country-personal-${i}`;
+        const noEditCountry = createFormDiv(`country-personal-${i}`, 'Country', 'text', `country-personal-${i}`);
         noEditCountry.container.classList.add('container-info');
         noEditCountry.input.classList.add('input-info');
         noEditCountry.input.setAttribute('readonly', 'readonly');
         noEditCountry.input.value = `${customerAddresses[i].country}`;
 
-        const country =  createFormWithOptions('country', 'Country');
+        const country =  createFormWithOptions(`country${i}`, 'Country');
         country.classList.add('country-invisible');
 
-        const postcode =  createFormDiv('postcode', 'Postal code', 'text');
-        postcode.input.id =`postcode-personal-${i}`
+        const postcode =  createFormDiv(`postcode-personal-${i}`, 'Postal code', 'text', `postcode-personal-${i}`);
         postcode.container.classList.add('container-info');
         postcode.input.classList.add('input-info');
         postcode.input.setAttribute('readonly', 'readonly');
         postcode.input.value = `${customerAddresses[i].postalCode}`;
 
-        const city =  createFormDiv('city', 'City', 'text');
-        city.input.id = `city-personal-${i}`
+        const city =  createFormDiv(`city-personal-${i}`, 'City', 'text', `city-personal-${i}`);
         city.container.classList.add('container-info');
         city.input.classList.add('input-info');
         city.input.setAttribute('readonly', 'readonly');
         city.input.value = `${customerAddresses[i].city}`;
 
-        const street =  createFormDiv('street', 'Street', 'text');
-        street.input.id = `street-personal-${i}`
+        const street =  createFormDiv(`street-personal-${i}`, 'Street', 'text', `street-personal-${i}`);
         street.container.classList.add('container-info');
         street.input.classList.add('input-info');
         street.input.setAttribute('readonly', 'readonly');
