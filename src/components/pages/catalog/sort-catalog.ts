@@ -1,7 +1,7 @@
 import { ProductProjection } from '@commercetools/platform-sdk';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 
-export const sortedValue = async (event: Event): Promise<ProductProjection[]> => {
+export const sortedValue = async (event: Event) => {
   const sortedEl = event.target as HTMLSelectElement;
   const value = sortedEl.options[sortedEl.selectedIndex].getAttribute('data-value');
 
