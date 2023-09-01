@@ -2,6 +2,7 @@ import { Product } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createPageTitle } from '../../shared/utilities/title';
 import { nextImage, prevImage, updateImagePosition } from './slider';
+import { openPopup } from './popup';
 
 const createInformBlock = (name: string, price: string, description: string): HTMLElement => {
   const informBlock = createCustomElement('div', ['product-info']);
@@ -30,9 +31,10 @@ const createImagesBlock = (product: Product): HTMLElement => {
 
   if (productImgs) {
     productImgs.forEach((img, index) => {
-      const image = createCustomElement('div', ['img']);
+      const image = createCustomElement('img', ['img']) as HTMLImageElement;
+      image.addEventListener('click', openPopup);
       image.setAttribute('data-img-num', `${index}`);
-      image.style.backgroundImage = `url(${img.url})`;
+      image.src = img.url;
       imgWrapper.append(image);
     });
     if (productImgs?.length > 1) {
