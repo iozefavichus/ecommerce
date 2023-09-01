@@ -21,9 +21,7 @@ const createPanel = (): HTMLElement => {
   const wrapper = createCustomElement('div', ['panel__wrapper']);
   const filterBlock = createCustomElement('div', ['panel__wrapper-filter']);
   const filterRange = createCustomElement('img', ['panel__wrapper-img', 'panel__wrapper-range']);
-  const filterFour = createCustomElement('img', ['panel__wrapper-img', 'panel__wrapper-four']);
   const filterText = createCustomElement('p', ['panel__wrapper-text'], 'Filter');
-  const filterList = createCustomElement('img', ['panel__wrapper-img', 'panel__wrapper-list']);
   const separator = createCustomElement('span', ['panel__wrapper-separator']);
   const showBlock = createCustomElement('div', ['panel__wrapper-show']);
   const showText = createCustomElement('p', ['panel__wrapper-show__text'], `Showing 1–16 of 32 results`);
@@ -49,10 +47,33 @@ const createPanel = (): HTMLElement => {
   sortedValue3.setAttribute('data-value', 'sortPriceUp');
   sortedValue4.setAttribute('data-value', 'sortPriceDown');
   showSort.append(sortedValue, sortedValue1, sortedValue2, sortedValue3, sortedValue4);
-  filterBlock.append(filterRange, filterText, filterFour, filterList, separator);
+  filterBlock.append(filterRange, filterText, separator);
   showBlock.append(showText, sortBlock);
   sortBlock.append(showTextNumber, showNumber, showTextSort, showSort);
   wrapper.append(filterBlock, showBlock);
+  return wrapper;
+};
+
+const createCategory = (): HTMLElement => {
+  const wrapperCategory = createCustomElement('div', ['wrapper__category']);
+  const categoryTitle = createCustomElement('h1', ['wrapper__category-title'], 'Category');
+  const select = createCustomElement('select', ['wrapper__category-select']);
+  wrapperCategory.append(categoryTitle, select);
+  return wrapperCategory;
+};
+
+const createFilter = (): HTMLElement => {
+  const wrapper = createCustomElement('div', ['filter__wrapper']);
+  const filterItem = createCustomElement('div', ['filter_item_wrapper']);
+  const filterName = createCustomElement('div', ['filter_name']);
+  const filterPrice = createCustomElement('div', ['filter_price']);
+  const filterTitlesName = createCustomElement('div', ['filter_titles_name'], 'Name');
+  const filterTitlesPrice = createCustomElement('div', ['filter_titles_price'], 'Price');
+  const buttonFilter = createCustomElement('button', ['reset_button'], 'Reset filters');
+  filterName.append(filterTitlesName);
+  filterPrice.append(filterTitlesPrice);
+  filterItem.append(filterName, filterPrice, buttonFilter);
+  wrapper.append(filterItem);
   return wrapper;
 };
 
@@ -137,14 +158,24 @@ export const drawCatalog = async () => {
   const searcher = createSearch();
   const panel = createPanel();
   const navigation = createNavigation();
-  mainWrapper.append(searcher, panel, productWrapper, navigation);
+  const filter = createFilter();
+  const category = createCategory();
+  mainWrapper.append(searcher, panel, category, filter, productWrapper, navigation);
   const sortField = document.querySelector('.panel__wrapper-show--default') as HTMLSelectElement;
   const searchField = document.querySelector('.input-search') as HTMLInputElement;
   const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
+  const categoryList = document.querySelector('.wrapper__category-select') as HTMLSelectElement;
+
   if (btnPagination?.textContent === '1') {
     btnPagination.setAttribute('disabled', '');
   }
-  const products = await new StpClientApi().getProducts();
+  const products = await new StpClientApi().getProducts(30);
+  const categories = await new StpClientApi().getCategory();
+  for (let i = 0; i < categories.length; i++) {
+    const categoryItem = createCustomElement('option', ['wrapper__category-element']) as HTMLOptionElement;
+    categoryItem.innerHTML = categories[i].name.en;
+    categoryList.append(categoryItem);
+  }
   const numberCards = document.querySelector('#numberCards');
   const numberProducts = document.querySelector('#numberProducts');
   const size = Object.keys(products).length;
