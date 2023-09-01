@@ -1,0 +1,235 @@
+.container-personal, .container-addresses, .container-changepass, .btnchange-container {
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+    justify-content: center;
+    width: 35%;
+    border: 1px solid rgb(162, 160, 160);
+    border-radius: 20px;
+    @include media-netbook {
+        width: 70%;
+      }
+}
+
+.container-newaddress{
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+    justify-content: center;
+    width: 100%;
+    border: 1px solid rgb(162, 160, 160);
+    border-radius: 20px;
+}
+
+.container-address {
+    border: 1px solid rgb(162, 160, 160);
+    border-radius: 20px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.btn-edit {
+  padding: 2px 2px;
+  font-family: Poppins, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  margin: 5px 0px 5px;
+  border-radius: 20px;
+  width: 12%;
+  background-color: $color-brand-dark;
+  color: $font-color;
+  border: none;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  @include media-netbook {
+    width: 20%;
+  }
+}
+
+.btn-cnahge{
+    font-family: Poppins, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    border-radius: 20px;
+    width: 30%;
+    background-color: $color-brand-dark;
+    color: $font-color;
+    border: none;
+    text-decoration: none;
+    margin-left: auto;
+    margin-right: auto;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.5;
+      }
+}
+
+.btn-save, .btn-cancel{
+    padding: 2px 2px;
+  font-family: Poppins, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  margin-left:auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  width: 20%;
+  background-color: $color-brand-dark;
+  color: $font-color;
+  border: none;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  @include media-netbook {
+    width: 25%;
+  }
+}
+
+.btn-saveadd, .btn-delete {
+    padding: 2px 2px;
+    font-family: Poppins, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    margin-top: 10px;
+    border-radius: 20px;
+    width: 20%;
+    background-color: $color-brand-dark;
+    color: $font-color;
+    border: none;
+    text-decoration: none;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.5;
+    }
+
+    @include media-netbook {
+      width: 25%;
+    }
+}
+
+.btn-add{
+    font-family: Poppins, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    border-radius: 20px;
+    width: 30%;
+    background-color: $color-brand-dark;
+    color: $font-color;
+    border: none;
+    text-decoration: none;
+    margin-left: auto;
+    margin-right: auto;
+    &:hover {
+        cursor: pointer;
+        opacity: 0.5;
+      }
+}
+
+.input-info{
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding: 5px;
+    outline:none;
+    border: none;
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+}
+
+.shipping-label, .billing-label, .shippingdefault-label, .billingdefault-label {
+    background-color: $color-brand-dark;
+    font-family: Poppins, sans-serif;
+    font-size: 12px;
+    border-radius: 20px;
+    border: none;
+    text-decoration: none;
+    color: $font-color;
+    width: 15%;
+    padding: 2px 2px;
+    text-align: center;
+    margin-right: 10px;
+    display: none;
+}
+
+.btn-invisible, .country-invisible, .address-invisible, .newaddress-invisible, .btnAadd-invisible{
+    display: none;
+}
+
+.title-personalinfo, .title-addresses {
+    font-family: Poppins, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+}
+
+.div-btnedit {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.addresses-label {
+    display: flex;
+}
+
+.oldpass-control, .newpass-control, .repeatpass-control{
+    position: absolute;
+	top: 52px;
+	right: 8px;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+    background-image: url('../assets/icons/eye-off-svgrepo-com.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+	}
+
+.view-control{
+    position: absolute;
+	top: 52px;
+	right: 8px;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+    background-image: url('../assets/icons/eye-svgrepo-com.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
+
+.div-btn {
+    display: flex;
+    justify-content: space-between;
+}

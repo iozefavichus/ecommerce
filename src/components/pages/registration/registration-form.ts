@@ -1,6 +1,7 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { checkName, checkSurname, checkBirth, checkEmail, checkPassword, checkCity, checkPost } from './validation';
 import { setError, setSuccess, CheckIt } from './validation-helpers';
+import { createFormDiv, createFormWithOptions } from './creationform-helpers';
 
 const createFormElement = <T extends HTMLElement>(
   tag: string,
@@ -31,52 +32,12 @@ const createFormElement = <T extends HTMLElement>(
   return element;
 };
 
-const createLabel = (classNames: string[], labelfor: string, adjHTML?: string): HTMLElement => {
-  const element = document.createElement('label');
-  element.setAttribute('for', labelfor);
-  element.className = classNames.join(' ');
-  element.insertAdjacentHTML('beforeend', adjHTML ?? '');
-  return element;
-};
-
 interface FromDivObject {
   container: HTMLElement;
   label: HTMLElement;
   input: HTMLInputElement;
   message: HTMLElement;
 }
-
-const createFormDiv = (labelName: string, labeltext: string, inputId: string, inputType: string): FromDivObject => {
-  const container = createCustomElement('div', ['form-control']);
-  const label = createLabel(['label'], labelName, labeltext);
-  container.append(label);
-  const input = createFormElement<HTMLInputElement>('input', ['input'], inputId, container, inputType);
-  const message = createCustomElement('div', ['small-text'], 'error message');
-  container.append(message);
-
-  return {
-    container,
-    label,
-    input,
-    message,
-  };
-};
-
-const createFormWithOptions = (labelName: string, labeltext: string): HTMLElement => {
-  const container = createCustomElement('div', ['form-control']);
-  const label = createLabel(['label'], labelName, labeltext);
-  container.append(label);
-  const select = createCustomElement('select', ['select-country']);
-  select.setAttribute('name', 'labelName');
-  const option = createCustomElement('option', ['country'], 'USA');
-  option.setAttribute('value', 'USA');
-  select.append(option);
-  container.append(select);
-  const message = createCustomElement('div', ['small-text'], 'error message');
-  container.append(message);
-
-  return container;
-};
 
 interface RegistrationObject {
   form: HTMLFormElement;
@@ -111,27 +72,27 @@ export const RegistrationForm = (): RegistrationObject => {
   logIn.href = '/login';
   mayBeLogIn.append(logIn);
 
-  const nameDiv = createFormDiv('name', 'Name*', 'name', 'text');
-  const surnameDiv = createFormDiv('surname', 'Surname*', 'surname', 'text');
-  const birthDiv = createFormDiv('birth', 'Date of birth*', 'birth', 'date');
+  const nameDiv = createFormDiv('name', 'Name*', 'text', 'name');
+  const surnameDiv = createFormDiv('surname', 'Surname*', 'text', 'surname');
+  const birthDiv = createFormDiv('birth', 'Date of birth*', 'date', 'birth');
   const shippingDiv = createCustomElement('div', ['shipping'], 'Shipping adress');
   const checkDefaultShipping = createFormDiv(
     'defaultShipping',
     'Set as default shipping adress',
-    'default-shipping',
     'checkbox',
+    'defaultShipping',
   );
   checkDefaultShipping.input.setAttribute('name', 'defaultshipping');
   checkDefaultShipping.container.classList.remove('form-control');
   checkDefaultShipping.input.classList.remove('input');
   checkDefaultShipping.input.classList.add('checkbox');
-  const ShippingstreetDiv = createFormDiv('street', 'Street*', 'shippingstreet', 'text');
-  const ShippingcityDiv = createFormDiv('city', 'City*', 'shippingcity', 'text');
-  const ShippingpostDiv = createFormDiv('post', 'Post code*', 'shippingpost', 'text');
-  const ShippingcountryDiv = createFormWithOptions('country', 'Country*');
+  const ShippingstreetDiv = createFormDiv('shippingstreet', 'Street*', 'text', 'shippingstreet');
+  const ShippingcityDiv = createFormDiv('shippingcity', 'City*', 'text', 'shippingcity');
+  const ShippingpostDiv = createFormDiv('shippingpost', 'Post code*', 'text', 'shippingpost');
+  const ShippingcountryDiv = createFormWithOptions('shippingcountry', 'Country*');
   const question = createCustomElement('div', ['question'], 'Do you want to use the same for billing adress?');
   const radioButton = createFormDiv('radio', 'Yes, billing and shipping adresses are the same', 'btn-adress', 'radio');
-  const radioButton2 = createFormDiv('radio', 'No, I want to use another billing adress', 'btn-adress2', 'radio');
+  const radioButton2 = createFormDiv('radio2', 'No, I want to use another billing adress', 'btn-adress2', 'radio2');
   radioButton.container.classList.remove('form-control');
   radioButton2.container.classList.remove('form-control');
   radioButton.input.classList.remove('input');
@@ -147,18 +108,18 @@ export const RegistrationForm = (): RegistrationObject => {
   const checkDefaultBilling = createFormDiv(
     'defaultBilling',
     'Set as default billing adress',
-    'default-billing',
     'checkbox',
+    'defaultBilling',
   );
   checkDefaultBilling.input.setAttribute('name', 'defaultbilling');
   checkDefaultBilling.container.classList.remove('form-control');
   checkDefaultBilling.input.classList.remove('input');
   checkDefaultBilling.input.classList.add('checkbox');
-  const BillingstreetDiv = createFormDiv('street', 'Street*', 'billingstreet', 'text');
-  const BillingcityDiv = createFormDiv('city', 'City*', 'billingcity', 'text');
-  const BillingpostDiv = createFormDiv('post', 'Post code*', 'billingpost', 'text');
-  const BillingcountryDiv = createFormWithOptions('country', 'Country*');
-  const emailDiv = createFormDiv('email', 'Email*', 'email', 'text');
+  const BillingstreetDiv = createFormDiv('billingstreet', 'Street*', 'text', 'billingstreet');
+  const BillingcityDiv = createFormDiv('billingcity', 'City*', 'text', 'billingcity');
+  const BillingpostDiv = createFormDiv('billingpost', 'Post code*', 'text', 'billingpost');
+  const BillingcountryDiv = createFormWithOptions('billingcountry', 'Country*');
+  const emailDiv = createFormDiv('email', 'Email*', 'text', 'email');
   const passwordDiv = createFormDiv('password', 'Password*', 'password', 'password');
   const submitBtn = createFormElement<HTMLButtonElement>(
     'button',
