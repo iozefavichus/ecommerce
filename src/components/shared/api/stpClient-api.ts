@@ -121,62 +121,6 @@ class StpClientApi {
       .execute()
   }
 
-  public addAddress(id: string, version:string, newAddress:baseAdress): Promise<ClientResponse<Customer>> {
-    return this.apiRoot
-      .customers()
-      .withId({ ID: id })
-      .post({
-        body: {
-          version: Number(version),
-          actions: [
-            {
-              action: 'addAddress',
-              address: newAddress,
-            }
-          ],
-        },
-      })
-      .execute()
-  }
-
-  public changeAddress(id: string, version:string, AddressID: string, AddressUpd: AddressDraft): Promise<ClientResponse<Customer>> {
-    return this.apiRoot
-      .customers()
-      .withId({ ID: id })
-      .post({
-        body: {
-          version: Number(version),
-          actions: [
-            {
-              action: 'changeAddress',
-              addressId: AddressID,
-              address: AddressUpd,
-            }
-          ],
-        },
-      })
-      .execute()
-  }
-
-  public deleteAddress(id: string, version:string, AddressID: string): Promise<ClientResponse<Customer>> {
-    return this.apiRoot
-      .customers()
-      .withId({ ID: id })
-      .post({
-        body: {
-          version: Number(version),
-          actions: [
-            {
-              action: 'removeAddress',
-              addressId: AddressID,
-            }
-          ],
-        },
-      })
-      .execute()
-  }
-
-
   public getProducts(limitNum?: number) {
     return this.apiRoot
       .products()
@@ -235,6 +179,171 @@ class StpClientApi {
   public getProductCategory(catId: string) {
     return this.apiRoot.categories().withId({ ID: catId }).get().execute();
   }
+
+  public addAddress(id: string, version:string, newAddress:baseAdress): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: 'addAddress',
+              address: newAddress,
+            }
+          ],
+        },
+      })
+      .execute()
+  }
+
+  public changeAddress(id: string, version:string, AddressID: string, AddressUpd: AddressDraft): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: 'changeAddress',
+              addressId: AddressID,
+              address: AddressUpd,
+            }
+          ],
+        },
+      })
+      .execute()
+  }
+
+  public deleteAddress(id: string, version:string, AddressID: string): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: 'removeAddress',
+              addressId: AddressID,
+            }
+          ],
+        },
+      })
+      .execute()
+  }
+
+  public setDefaultShipping(id: string, version:string, AddressID: string): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: "setDefaultShippingAddress",
+              addressId: AddressID
+            }
+          ],
+        },
+      })
+      .execute()
+  }
+
+  public setDefaultBilling(id: string, version:string, AddressID: string): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: "setDefaultBillingAddress",
+              addressId: AddressID
+            }
+          ],
+        },
+      })
+      .execute()
+  }
+
+  public addShipping(id: string, version:string, AddressID: string): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: "addShippingAddressId",
+              addressId: AddressID
+            }
+          ],
+        },
+      })
+      .execute()
+  }
+
+  public addBilling(id: string, version:string, AddressID: string): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: "addBillingAddressId",
+              addressId: AddressID
+            }
+          ],
+        },
+      })
+      .execute()
+  }
+
+  public removeShipping(id: string, version:string, AddressID: string): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: "removeShippingAddressId",
+              addressId: AddressID
+            }
+          ],
+        },
+      })
+      .execute()
+  }
+
+  public removeBilling(id: string, version:string, AddressID: string): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: "removeBillingAddressId",
+              addressId: AddressID
+            }
+          ],
+        },
+      })
+      .execute()
+  }
+
+
 }
 
 export { StpClientApi };
