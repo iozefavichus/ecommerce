@@ -2,6 +2,7 @@ import { accountSVG } from '../../../assets/icons/accountSVG';
 import { Constants } from '../../../types/shared';
 import { customRoute } from '../../app/router/router';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { logoutCustomer } from '../log-in/log-out';
 import { openCloseMenuToBtn, closeMenuToNav } from './hamburger-menu';
 
 const headerClasses: Constants = {
@@ -56,6 +57,7 @@ const createIconBar = (isLogin: boolean): HTMLElement => {
   const logIn = createCustomElement('a', [headerClasses.LOGIN_LINK], 'Log in') as HTMLLinkElement;
   logIn.href = links.LOGIN;
   const logOut = createCustomElement('a', [headerClasses.LOGOUT], 'Log out') as HTMLLinkElement;
+  logOut.addEventListener('click', (event) => logoutCustomer(event));
   const registrationLink = createCustomElement('a', [headerClasses.REG_LINK], 'Registration') as HTMLLinkElement;
   registrationLink.href = links.REG;
   const linkProfile = createCustomElement('a', [headerClasses.PROFILE_LINK]) as HTMLLinkElement;
