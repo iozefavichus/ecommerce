@@ -96,7 +96,11 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
     card.append(blockProperty);
   }
   card.addEventListener('click', (event) => {
-    openDetail(event);
+    const targetElem = event?.currentTarget as HTMLElement;
+    const { key } = targetElem.dataset;
+    if (key) {
+      openDetail(key);
+    }
   });
   imgBlock.append(img);
   el.append(card);
@@ -124,7 +128,11 @@ export const drawSortCard = (product: ProductProjection, el: HTMLElement): void 
     cardSort.append(blockProperty);
   }
   cardSort.addEventListener('click', (event) => {
-    openDetail(event);
+    const targetElem = event?.currentTarget as HTMLElement;
+    const { key } = targetElem.dataset;
+    if (key) {
+      openDetail(key);
+    }
   });
   imgBlock.append(img);
   el.append(cardSort);
