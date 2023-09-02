@@ -10,13 +10,13 @@ const ChangePassword = ():HTMLElement  =>{
     const container = createCustomElement('div', ['container-changepass']);
 
     const oldPass = createFormDiv('old-passsword', 'Old password', 'password', 'old-passsword');
-    const oldPasslink = createCustomElement('a',['oldpass-control']);
+    const oldPasslink = createCustomElement('span',['oldpass-control']);
     oldPass.container.append(oldPasslink);
     const newPass = createFormDiv('new-password', 'New password', 'password', 'new-password');
-    const newPasslink = createCustomElement('a',['newpass-control']);
+    const newPasslink = createCustomElement('span',['newpass-control']);
     newPass.container.append(newPasslink);
     const repeatPass = createFormDiv('repeat-password', 'Repeat password', 'password', 'repeat-password');
-    const repeatPasslink = createCustomElement('a',['repeatpass-control']);
+    const repeatPasslink = createCustomElement('span',['repeatpass-control']);
     repeatPass.container.append(repeatPasslink);
 
     const btnSave = createCustomElement('button',['btn-save'],'Save') as HTMLButtonElement;;
@@ -96,6 +96,28 @@ const ChangePassword = ():HTMLElement  =>{
             newPasslink.classList.add('newpass-control');
             newPasslink.classList.remove('view-control');
             newPass.input.type = 'password';
+        }
+    })
+    oldPasslink.addEventListener('click',()=>{
+        if(oldPasslink.classList.contains('oldpass-control')){
+            oldPasslink.classList.remove('oldpass-control');
+            oldPasslink.classList.add('view-control');
+            oldPass.input.type = 'text';
+        } else {
+            oldPasslink.classList.add('oldpass-control');
+            oldPasslink.classList.remove('view-control');
+            oldPass.input.type = 'password';
+        }
+    })
+    repeatPasslink.addEventListener('click',()=>{
+        if(repeatPasslink.classList.contains('repeatpass-control')){
+            repeatPasslink.classList.remove('repeatpass-control');
+            repeatPasslink.classList.add('view-control');
+            repeatPass.input.type = 'text';
+        } else {
+            repeatPasslink.classList.add('repeatpass-control');
+            repeatPasslink.classList.remove('view-control');
+            repeatPass.input.type = 'password';
         }
     })
 

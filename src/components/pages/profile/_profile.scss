@@ -211,19 +211,6 @@
     cursor: pointer;
 	}
 
-.view-control{
-    position: absolute;
-	top: 52px;
-	right: 8px;
-	display: inline-block;
-	width: 20px;
-	height: 20px;
-    background-image: url('../assets/icons/eye-svgrepo-com.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    cursor: pointer;
-}
-
 .div-btn {
     display: flex;
     justify-content: space-between;
@@ -237,6 +224,19 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.view-control{
+position: absolute;
+top: 52px;
+right: 8px;
+display: inline-block;
+width: 20px;
+height: 20px;
+background-image: url('../assets/icons/eye-svgrepo-com.svg');
+background-repeat: no-repeat;
+background-size: contain;
+cursor: pointer;
 }
 
 .btn-invisible, .country-invisible, .address-invisible, .newaddress-invisible, .btnAadd-invisible, .label-invible, .invisible{
