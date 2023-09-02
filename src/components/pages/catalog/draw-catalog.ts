@@ -95,13 +95,23 @@ const createBlockProperty = (name: string, price: string): HTMLElement => {
   return propertyBlock;
 };
 
+const createPriceDiscountBlock = (price: string): HTMLElement => {
+  const discountBlock = createCustomElement('div', ['discount__info']);
+  const discountPrice = createCustomElement('p', ['discount__price'], `USD ${price}`);
+
+  discountBlock.append(discountPrice);
+  return discountBlock;
+};
+
 export const drawCard = (product: Product, el: HTMLElement): void => {
   const card = createCustomElement('div', ['product__card']);
   const productKey = product.key;
   const productImg = product.masterData.current.masterVariant?.images;
   const productName = product.masterData.current.name.en;
   const productPrice = product.masterData.current.masterVariant?.prices;
+  const discountedPrice = product.masterData.current.masterVariant?.prices;
   let price: string;
+  let priceDiscount: string;
   card.setAttribute('data-key', productKey as string);
   const imgBlock = createCustomElement('div', ['products__img-block']);
   const img = createCustomElement('img', ['product__img']) as HTMLImageElement;
@@ -114,6 +124,14 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
     const priceInCent = productPrice[0].value.centAmount;
     price = (priceInCent / 100).toFixed(2);
     const blockProperty = createBlockProperty(productName, price);
+    card.append(blockProperty);
+  }
+  if (discountedPrice) {
+    const discountedInCent: number = <number>discountedPrice[0].discounted?.value.centAmount;
+    priceDiscount = (discountedInCent / 100).toFixed(2);
+    const blockProperty = createPriceDiscountBlock(priceDiscount);
+    const priceEl = document.querySelectorAll('.product__price');
+    Array.from(priceEl).forEach((price) => price.classList.add('through'));
     card.append(blockProperty);
   }
   card.addEventListener('click', (event) => {
