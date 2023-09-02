@@ -26,6 +26,10 @@
   font-size: 48px;
   font-style: normal;
   font-weight: 400;
+
+  @include media-netbook {
+    font-size: 36px;
+  }
 }
 
 .page__subtitle {
@@ -56,6 +60,7 @@
 .form-control {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .registration__button {
@@ -86,7 +91,7 @@
 .input {
   border: 1px solid grey;
   border-radius: 10px;
-  margin-top: 15px;
+  margin-top: 10px;
   margin-bottom: 5px;
   padding: 15px;
   width: 100%;
@@ -98,18 +103,18 @@
 }
 
 .label {
-  margin-bottom: 10px;
-  margin-top: 20px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .small-text {
   color: red;
-  visibility: hidden;
+  display: none;
   margin-left: 10px;
 }
 
 .small-visible {
-  visibility: visible;
+  display: block;
 }
 
 .form-success {
@@ -199,5 +204,5 @@
 
 .loginlink-reg {
   text-decoration: none;
-  color: $color-brand-dark
+  color: $color-brand-dark;
 }

@@ -1,4 +1,4 @@
-interface baseAdress {
+export interface baseAdress {
   country: string;
   city: string;
   streetName: string;
@@ -16,6 +16,14 @@ export interface regCardObj {
   billingAddresses: Array<number>;
   defaultShippingAddress: number | undefined;
   defaultBillingAddress: number | undefined;
+}
+
+export interface personalInfoObj {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  dateOfBirth: string;
 }
 
 export type Constants = Record<string, string>;
