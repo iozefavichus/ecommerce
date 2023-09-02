@@ -48,6 +48,9 @@ const ChangePassword = ():HTMLElement  =>{
                             }
                           }
                         })
+                        .catch(() => {
+                            setError(oldPass.input, 'This is wrong password');
+                          });
                       }
                     }
                     updatePassword();
