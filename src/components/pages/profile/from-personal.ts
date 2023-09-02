@@ -113,6 +113,8 @@ export const PersonalInfo = (
 
       const emailVal = localStorage.getItem('email');
       if (emailVal) {
+      const version = localStorage.getItem('version');
+      if (emailVal && version) {
         const id = localStorage.getItem('id');
         let version: string;
         const updateCus = async () => {

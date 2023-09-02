@@ -7,7 +7,6 @@ import { authorization } from '../api/server-authorization';
 import { drawRegistration } from '../../pages/registration/draw-registration';
 import { drawSuccess } from '../../pages/registration/success';
 import { drawNotFound } from '../../pages/notfound/draw-not-found';
-import { logoutCustomer } from '../../pages/log-in/log-out';
 import { customRoute } from '../../app/router/router';
 import { drawProfile } from '../../pages/profile/draw-profile';
 import { drawCatalog } from '../../pages/catalog/draw-catalog';
@@ -49,7 +48,6 @@ export const renderChangeContent = (path: string, product?: Product | string): v
     const body = document.querySelector('body') as HTMLElement;
     body.innerHTML = '';
     render(isLogin());
-    logoutCustomer();
   }
   if (renderPage === '/catalog') {
     drawCatalog();

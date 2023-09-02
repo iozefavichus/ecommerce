@@ -127,6 +127,66 @@ class StpClientApi {
       .execute();
   }
 
+  public addAddress(id: string, version: string, newAddress: baseAdress): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: 'addAddress',
+              address: newAddress,
+            },
+          ],
+        },
+      })
+      .execute();
+  }
+
+  public changeAddress(
+    id: string,
+    version: string,
+    AddressID: string,
+    AddressUpd: AddressDraft,
+  ): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: 'changeAddress',
+              addressId: AddressID,
+              address: AddressUpd,
+            },
+          ],
+        },
+      })
+      .execute();
+  }
+
+  public deleteAddress(id: string, version: string, AddressID: string): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version: Number(version),
+          actions: [
+            {
+              action: 'removeAddress',
+              addressId: AddressID,
+            },
+          ],
+        },
+      })
+      .execute();
+  }
+
   public getProducts(limitNum?: number) {
     return this.apiRoot
       .products()
@@ -223,6 +283,7 @@ class StpClientApi {
     AddressID: string,
     AddressUpd: AddressDraft,
   ): Promise<ClientResponse<Customer>> {
+  public setDefaultShipping(id: string, version: string, AddressID: string): Promise<ClientResponse<Customer>> {
     return this.apiRoot
       .customers()
       .withId({ ID: id })
@@ -231,7 +292,7 @@ class StpClientApi {
           version: Number(version),
           actions: [
             {
-              action: 'changeAddress',
+              action: 'setDefaultShippingAddress',
               addressId: AddressID,
               address: AddressUpd,
             },
@@ -242,6 +303,7 @@ class StpClientApi {
   }
 
   public deleteAddress(id: string, version: string, AddressID: string): Promise<ClientResponse<Customer>> {
+  public setDefaultBilling(id: string, version: string, AddressID: string): Promise<ClientResponse<Customer>> {
     return this.apiRoot
       .customers()
       .withId({ ID: id })
@@ -250,7 +312,7 @@ class StpClientApi {
           version: Number(version),
           actions: [
             {
-              action: 'removeAddress',
+              action: 'setDefaultBillingAddress',
               addressId: AddressID,
             },
           ],

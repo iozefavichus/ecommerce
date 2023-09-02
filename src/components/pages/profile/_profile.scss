@@ -238,13 +238,60 @@
 .billing-switch,
 .shippingdef-switch,
 .billingdef-switch {
+}
+
+.input-info {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 5px;
+  outline: none;
+  border: none;
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.shipping-label,
+.billing-label,
+.shippingdefault-label,
+.billingdefault-label {
+  background-color: $color-brand-dark;
+  font-family: Poppins, sans-serif;
+  font-size: 12px;
+  border-radius: 20px;
+  border: none;
+  text-decoration: none;
+  color: $font-color;
+  width: 15%;
+  padding: 2px;
+  text-align: center;
+  margin-right: 10px;
+  display: none;
+}
+
+.btn-invisible,
+.country-invisible,
+.address-invisible,
+.newaddress-invisible,
+.btnAadd-invisible {
+  display: none;
+}
+
+.title-personalinfo,
+.title-addresses {
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
   display: flex;
+  justify-content: space-between;
 }
 
 .container-switch {
+.div-btnedit {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .btn-invisible,
@@ -255,4 +302,39 @@
 .label-invible,
 .invisible {
   display: none;
+.addresses-label {
+  display: flex;
+}
+
+.oldpass-control,
+.newpass-control,
+.repeatpass-control {
+  position: absolute;
+  top: 52px;
+  right: 8px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('../assets/icons/eye-off-svgrepo-com.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.view-control {
+  position: absolute;
+  top: 52px;
+  right: 8px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('../assets/icons/eye-svgrepo-com.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.div-btn {
+  display: flex;
+  justify-content: space-between;
 }
