@@ -323,6 +323,14 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
     const postcodeNew =  createFormDiv('newpostcode', 'Postal code', 'text','newpostcode');
     const cityNew =  createFormDiv('newcity', 'City', 'text','newcity');
     const streetNew =  createFormDiv('newstreet', 'Street', 'text', 'newstreet');
+
+    const divForSwitchNew = createCustomElement('div',['container-switch']);
+    const shipSwitch = createRoundSwitch('shipping-switch', 'shipping',`shippingswitch-new`);
+    const billSwitch = createRoundSwitch('billing-switch', 'billing',`billingswitch-new`);
+    const shipDefaultSwitch = createRoundSwitch('shippingdef-switch','shipping default',`shippingDefswitch-new`);
+    const billDefaultSwitch = createRoundSwitch('billingdef-switch','billing default',`billingDefswitch-new`);
+    divForSwitchNew.append(shipSwitch, shipDefaultSwitch, billSwitch, billDefaultSwitch);
+
     const btnSaveNew = createCustomElement('button',['btn-save'],'Save changes') as HTMLButtonElement;
 
     cityNew.input.addEventListener('input', (event) => {
@@ -352,39 +360,50 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
       const warningsArray = document.querySelectorAll('.small-visible');
       let id: string|null;
       let version: string;
-      if (warningsArray.length === 0) {
-        id = localStorage.getItem('id');
-        const addNew = async () => {
-          if(id){
-            const customer = await new StpClientApi().getCustomerbyId(id);
-            version = String(customer.version);
+      if(newAdd.city&&newAdd.streetName&&newAdd.postalCode){
+        if (warningsArray.length === 0) {
+          id = localStorage.getItem('id');
+          const addNew = async () => {
+            if(id){
+              const customer = await new StpClientApi().getCustomerbyId(id);
+              version = String(customer.version);
+            }
+            if(id&&version){
+              const newAddressInfo = new StpClientApi().addAddress(id, version, newAdd);
+              newAddressInfo
+                .then(async (data) => {
+                  if (data.statusCode === 200) {
+                    try {
+                      newAddress.classList.add('newaddress-invisible');
+                      btnAddAddress.classList.remove('btnAadd-invisible');
+                      cityNew.input.value ='';
+                      streetNew.input.value='';
+                      postcodeNew.input.value='';
+                    } catch {
+                      throw Error('Cannot add new address');
+                    }
+                }
+            })
+            }
           }
-          if(id&&version){
-            const newAddressInfo = new StpClientApi().addAddress(id, version, newAdd);
-            newAddressInfo
-              .then(async (data) => {
-                if (data.statusCode === 200) {
-                  try {
-                    newAddress.classList.add('newaddress-invisible');
-                    btnAddAddress.classList.remove('btnAadd-invisible');
-                    cityNew.input.value ='';
-                    streetNew.input.value='';
-                    postcodeNew.input.value='';
-                  } catch {
-                    throw Error('Cannot add new address');
-                  }
-              }
-          })
-          }
+        addNew();
         }
-      addNew();
+      }
+      if(!newAdd.city){
+        setError(cityNew.input, 'Cannot be blank')
+      }
+      if(!newAdd.streetName){
+        setError(streetNew.input, 'Cannot be blank')
+      }
+      if(!newAdd.postalCode){
+        setError(postcodeNew.input, 'Cannot be blank')
       }
       }
   )
 
-    newAddress.append(countryNew, postcodeNew.container, cityNew.container, streetNew.container, btnSaveNew);
+    newAddress.append(countryNew, postcodeNew.container, cityNew.container, streetNew.container,divForSwitchNew, btnSaveNew);
 
-    btnAddAddress.addEventListener('click',()=>{
+    btnAddAddress.addEventListener('click',() => {
       btnAddAddress.classList.add('btnAadd-invisible');
       newAddress.classList.remove('newaddress-invisible');
     });

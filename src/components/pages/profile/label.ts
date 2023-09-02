@@ -4,24 +4,28 @@ export const drawLabels = (shippingValue: boolean, billingValue: boolean, shippi
 
     const adressLabelDiv = createCustomElement('div',['addresses-label']);
     const shippingDefault = createCustomElement('div',['shippingdefault-label'],'shipping default');
+    const billingDefault = createCustomElement('div',['billingdefault-label'],'billing default');
+    const shipping = createCustomElement('div',['shipping-label'],'shipping');
+    const billing = createCustomElement('div',['billing-label'],'billing');
+
     if(!shippingDefaultValue){
         shippingDefault.classList.add('label-invible');
     }else{
         shippingDefault.classList.remove('label-invible');
     }
-    const billingDefault = createCustomElement('div',['billingdefault-label'],'billing default');
+
     if(!billingDefaultValue){
         billingDefault.classList.add('label-invible');
     }else{
         billingDefault.classList.remove('label-invible');
     }
-    const shipping = createCustomElement('div',['shipping-label'],'shipping');
+
     if(!shippingValue){
         shipping.classList.add('label-invible');
     } else {
         shipping.classList.remove('label-invible');
     }
-    const billing = createCustomElement('div',['billing-label'],'billing');
+
     if(!billingValue){
         billing.classList.add('label-invible');
     } else{
