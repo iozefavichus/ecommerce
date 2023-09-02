@@ -2,7 +2,7 @@ import { Product, ProductProjection } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detailed/open-detail';
-import { searchValue, sortedValue } from './sort-catalog';
+import { filterValue, searchValue, sortedValue } from './sort-catalog';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -173,9 +173,17 @@ export const drawCatalog = async () => {
   const categories = await new StpClientApi().getCategory();
   for (let i = 0; i < categories.length; i++) {
     const categoryItem = createCustomElement('option', ['wrapper__category-element']) as HTMLOptionElement;
+    categoryItem.setAttribute('data-value', `${categories[i].name.en}`);
     categoryItem.innerHTML = categories[i].name.en;
     categoryList.append(categoryItem);
   }
+  categoryList?.addEventListener('change', async (event) => {
+    const filterProducts = await filterValue(event);
+    productWrapper.innerHTML = '';
+    filterProducts?.forEach((product) => {
+      drawSortCard(product, productWrapper);
+    });
+  });
   const numberCards = document.querySelector('#numberCards');
   const numberProducts = document.querySelector('#numberProducts');
   const size = Object.keys(products).length;

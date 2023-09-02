@@ -110,6 +110,19 @@ class StpClientApi {
       .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
   }
 
+  public getProductFilterProjections(filterQuery?: string): Promise<ProductProjection[]> {
+    return this.apiRoot
+      ?.productProjections()
+      .search()
+      .get({
+        queryArgs: {
+          'filter.query': filterQuery,
+        },
+      })
+      .execute()
+      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
+  }
+
   public getCategory(): Promise<Category[]> {
     return this.apiRoot
       ?.categories()
