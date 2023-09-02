@@ -91,8 +91,13 @@ export const RegistrationForm = (): RegistrationObject => {
   const ShippingpostDiv = createFormDiv('shippingpost', 'Post code*', 'text', 'shippingpost');
   const ShippingcountryDiv = createFormWithOptions('shippingcountry', 'Country*');
   const question = createCustomElement('div', ['question'], 'Do you want to use the same for billing adress?');
-  const radioButton = createFormDiv('radio', 'Yes, billing and shipping adresses are the same', 'btn-adress', 'radio');
-  const radioButton2 = createFormDiv('radio2', 'No, I want to use another billing adress', 'btn-adress2', 'radio2');
+  const radioButton = createFormDiv(
+    'radio',
+    'Yes, billing and shipping adresses are the same',
+    'radio',
+    'default-shipping',
+  );
+  const radioButton2 = createFormDiv('radio2', 'No, I want to use another billing adress', 'radio', 'default-billing');
   radioButton.container.classList.remove('form-control');
   radioButton2.container.classList.remove('form-control');
   radioButton.input.classList.remove('input');

@@ -76,10 +76,11 @@ export const createFormWithOptions = (labelName: string, labeltext: string): HTM
 
   const option = createCustomElement('option', ['country'], 'USA');
   option.setAttribute('value', 'USA');
+  select.append(option);
 
   const message = createCustomElement('div', ['small-text'], 'error message');
 
-  container.append(label, option, select, message);
+  container.append(label, select, message);
 
   return container;
 };

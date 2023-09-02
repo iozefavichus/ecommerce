@@ -2,7 +2,7 @@ import * as header from '../src/components/pages/header/header';
 
 describe('Header module', () => {
   const NAV_ELEM = 4;
-  const HAMB_ELEM = 4;
+  const SPANS_COUNT = 4;
   const QUANTITY_ICON_BAR = 3;
   const IS_LOGIN = true;
   const LOGOUT = false;
@@ -17,7 +17,7 @@ describe('Header module', () => {
   test('It should create hamburger button with four span', () => {
     const hamburgerBtn = header.createHamburgerBtn();
     expect(hamburgerBtn).not.toBeNull();
-    expect(hamburgerBtn.children.length).toBe(HAMB_ELEM);
+    expect(hamburgerBtn.children.length).toBe(SPANS_COUNT);
   });
 
   describe('It create header', () => {
