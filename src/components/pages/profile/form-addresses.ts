@@ -4,6 +4,8 @@ import { createFormDiv, createFormWithOptions } from '../registration/creationfo
 import { CheckIt, setError, setSuccess } from '../registration/validation-helpers';
 import { checkCity, checkPost } from '../registration/validation';
 import { StpClientApi } from '../../shared/api/stpClient-api';
+import { createRoundSwitch } from '../../shared/utilities/round-switch';
+import { drawLabels } from './label';
 
 export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => {
     const container = createCustomElement('div', ['container-addresses']);
@@ -12,13 +14,44 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
 
     for(let i=0; i<customerAddresses.length; i+=1){
         const addressID = customerAddresses[i].id;
-        // const arrShippingAdd = 
-        // const shippingTrue = () =>{
-
-        // };
         const divForBtn = createCustomElement('div',['div-btnedit']);
         const btnEdit = createCustomElement('button',['btn-edit'], 'Edit') as HTMLButtonElement;
         divForBtn.append(btnEdit);
+
+
+        const Labels = createCustomElement('div',['container-labels']);
+
+        const LabelsBoolean = async () => {
+          const emailVal = localStorage.getItem('email');
+          if(emailVal){
+            let defaultShipping = false;
+            let defaultBilling = false;
+            let shipping = false;
+            let billing= false;
+            const customer =  await new StpClientApi().getCustomerInfoByEmail(emailVal);
+            // console.log(addressID);
+            // console.log(customer);
+            // console.log(customer[0].shippingAddressIds);
+            // console.log(customer[0].billingAddressIds);
+            // console.log(customer[0].defaultBillingAddressId);
+            // console.log(customer[0].defaultShippingAddressId);
+            const ArrayWithShipping = customer[0].shippingAddressIds;
+            const ArrayWithBilling = customer[0].billingAddressIds;
+            if(addressID === customer[0].defaultShippingAddressId){
+               defaultShipping = true;
+            }
+            if(addressID === customer[0].defaultBillingAddressId){
+              defaultBilling = true;
+           }
+           if(addressID&&customer[0].shippingAddressIds&& ArrayWithShipping?.includes(addressID)){
+              shipping = true;
+           }
+           if(addressID&&customer[0].billingAddressIds&&ArrayWithBilling?.includes(addressID)){
+              billing = true;
+           }
+           Labels.append(drawLabels(shipping, billing, defaultShipping, defaultBilling));
+        }}
+        LabelsBoolean();
 
         const noEditCountry = createFormDiv(`country-personal-${i}`, 'Country', 'text', `country-personal-${i}`);
         noEditCountry.container.classList.add('container-info');
@@ -47,17 +80,13 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         street.input.setAttribute('readonly', 'readonly');
         street.input.value = `${customerAddresses[i].streetName}`;
 
-
-        const adressLabelDiv = createCustomElement('div',['addresses-label']);
-        const shippingDefault = createCustomElement('div',['shippingdefault-label'],'shipping default');
-        shippingDefault.classList.add('label-invible');
-        const billingDefault = createCustomElement('div',['billingdefault-label'],'billing default');
-        billingDefault.classList.add('label-invible');
-        const shipping = createCustomElement('div',['shipping-label'],'shipping');
-        shipping.classList.add('label-invible');
-        const billing = createCustomElement('div',['billing-label'],'billing');
-        billing.classList.add('label-invible');
-        adressLabelDiv.append(shipping,billing,shippingDefault,billingDefault);
+        const divForSwitch = createCustomElement('div',['container-switch']);
+        const shipSwitch = createRoundSwitch('shipping-switch', 'shipping',`shippingswitch-input${i}`);
+        const billSwitch = createRoundSwitch('billing-switch', 'billing',`billingswitch-input${i}`);
+        const shipDefaultSwitch = createRoundSwitch('shippingdef-switch','shipping default',`shippingDefswitch-input${i}`);
+        const billDefaultSwitch = createRoundSwitch('billingdef-switch','billing default',`billingDefswitch-input${i}`);
+        divForSwitch.append(shipSwitch, shipDefaultSwitch, billSwitch, billDefaultSwitch);
+        divForSwitch.classList.add('invisible');
 
         const btnDiv = createCustomElement('div',['div-btn']);
         const btnSave = createCustomElement('button',['btn-saveadd'],'Save changes') as HTMLButtonElement;
@@ -67,7 +96,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         btnDiv.append(btnSave, btnDelete);
 
         const address = createCustomElement('div', ['container-address']);
-        address.append(divForBtn, country, noEditCountry.container, postcode.container, city.container, street.container, adressLabelDiv,btnDiv)
+        address.append(divForBtn, country, noEditCountry.container, postcode.container, city.container, street.container, Labels, divForSwitch ,btnDiv)
 
         const formField = btnEdit.parentNode;
         const countryOption = formField?.querySelector('.country');
@@ -84,10 +113,8 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                 countryOption.removeAttribute('readonly');
                 countryOption.classList.remove('input-info');
             }
-            shipping.classList.add('address-invisible');
-            billing.classList.add('address-invisible');
-            shippingDefault.classList.add('address-invisible');
-            billingDefault.classList.add('address-invisible');
+            Labels.classList.add('invisible');
+            divForSwitch.classList.remove('invisible');
 
             postcode.input.removeAttribute('readonly');
             city.input.removeAttribute('readonly');
@@ -147,10 +174,8 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                           street.input.classList.add('input-info');
                           noEditCountry.container.classList.remove('country-invisible');
                           country.classList.add('country-invisible');
-                          shipping.classList.remove('address-invisible');
-                          billing.classList.remove('address-invisible');
-                          shippingDefault.classList.remove('address-invisible');
-                          billingDefault.classList.remove('address-invisible');
+                          Labels.classList.remove('invisible');
+                          divForSwitch.classList.add('invisible');
                         } catch {
                           throw Error('Cannot update address');
                         }
