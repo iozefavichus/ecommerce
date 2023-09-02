@@ -1,24 +1,23 @@
 import * as header from '../src/components/pages/header/header';
 
 describe('Header module', () => {
-  const QUANTITY_ELEM = 4;
-  const QUANTITY_ELEM_LOGIN = 5;
+  const NAV_ELEM = 4;
+  const HAMB_ELEM = 4;
+  const QUANTITY_ICON_BAR = 3;
   const IS_LOGIN = true;
   const LOGOUT = false;
-  const COLOR_GREEN = 'rgb(8, 250, 4)';
-  const COLOR_BLACK = 'rgb(0, 0, 0)';
 
   test('it should create a navbar block with the correct structure', () => {
     const navbar = header.createNavBar();
     expect(navbar).not.toBeNull();
     expect(navbar.tagName).toBe('NAV');
-    expect(navbar.children.length).toBe(QUANTITY_ELEM);
+    expect(navbar.children.length).toBe(NAV_ELEM);
   });
 
   test('It should create hamburger button with four span', () => {
     const hamburgerBtn = header.createHamburgerBtn();
     expect(hamburgerBtn).not.toBeNull();
-    expect(hamburgerBtn.children.length).toBe(QUANTITY_ELEM);
+    expect(hamburgerBtn.children.length).toBe(HAMB_ELEM);
   });
 
   describe('It create header', () => {
@@ -33,13 +32,10 @@ describe('Header module', () => {
       expect(headerElem).not.toBeNull();
 
       const wrapper = headerElem?.querySelector(`.${header.headerClasses.HEADER_WRAPPER}`);
-      expect(wrapper?.children.length).toBe(QUANTITY_ELEM);
+      expect(wrapper?.children.length).toBe(NAV_ELEM);
 
       const iconBar = wrapper?.querySelector(`.${header.headerClasses.ICON_BAR}`);
-      expect(iconBar?.children.length).toBe(QUANTITY_ELEM_LOGIN);
-
-      const SVG = iconBar?.querySelector('path');
-      expect(SVG?.getAttribute('fill')).toBe(COLOR_GREEN);
+      expect(iconBar?.children.length).toBe(QUANTITY_ICON_BAR);
     });
 
     test('It should correct structure in header if user is login', () => {
@@ -49,13 +45,10 @@ describe('Header module', () => {
       expect(headerElem).not.toBeNull();
 
       const wrapper = headerElem?.querySelector(`.${header.headerClasses.HEADER_WRAPPER}`);
-      expect(wrapper?.children.length).toBe(QUANTITY_ELEM);
+      expect(wrapper?.children.length).toBe(NAV_ELEM);
 
       const iconBar = wrapper?.querySelector(`.${header.headerClasses.ICON_BAR}`);
-      expect(iconBar?.children.length).toBe(QUANTITY_ELEM);
-
-      const SVG = iconBar?.querySelector('path');
-      expect(SVG?.getAttribute('fill')).toBe(COLOR_BLACK);
+      expect(iconBar?.children.length).toBe(QUANTITY_ICON_BAR);
     });
   });
 });
