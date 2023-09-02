@@ -17,7 +17,6 @@ import {
 import { ctpClient } from './build-client';
 import { regCardObj, baseAdress } from '../../../types/shared';
 
-
 class StpClientApi {
   private email;
 
@@ -44,7 +43,7 @@ class StpClientApi {
       .execute();
   }
 
-  public getCustomerInfoByEmail(email:string): Promise<Customer[]>  {
+  public getCustomerInfoByEmail(email: string): Promise<Customer[]> {
     return this.apiRoot
       .customers()
       .get({
@@ -56,13 +55,13 @@ class StpClientApi {
       .then((data: ClientResponse<CustomerPagedQueryResponse>) => data.body.results);
   }
 
-  public getCustomerbyId(id: string):Promise<Customer> {
+  public getCustomerbyId(id: string): Promise<Customer> {
     return this.apiRoot
-        .customers()
-        .withId({ ID: id })
-        .get()
-        .execute()
-        .then((data: ClientResponse<Customer>) => data.body);
+      .customers()
+      .withId({ ID: id })
+      .get()
+      .execute()
+      .then((data: ClientResponse<Customer>) => data.body);
   }
 
   public loginCustomer() {
@@ -91,7 +90,14 @@ class StpClientApi {
       .execute();
   }
 
-  public updateCustomer(id: string, version:string, NameValue: string, SurnameValue: string, BirthValue: string, EmailValue: string): Promise<ClientResponse<Customer>> {
+  public updateCustomer(
+    id: string,
+    version: string,
+    NameValue: string,
+    SurnameValue: string,
+    BirthValue: string,
+    EmailValue: string,
+  ): Promise<ClientResponse<Customer>> {
     return this.apiRoot
       .customers()
       .withId({ ID: id })
@@ -118,10 +124,10 @@ class StpClientApi {
           ],
         },
       })
-      .execute()
+      .execute();
   }
 
-  public addAddress(id: string, version:string, newAddress:baseAdress): Promise<ClientResponse<Customer>> {
+  public addAddress(id: string, version: string, newAddress: baseAdress): Promise<ClientResponse<Customer>> {
     return this.apiRoot
       .customers()
       .withId({ ID: id })
@@ -132,14 +138,19 @@ class StpClientApi {
             {
               action: 'addAddress',
               address: newAddress,
-            }
+            },
           ],
         },
       })
-      .execute()
+      .execute();
   }
 
-  public changeAddress(id: string, version:string, AddressID: string, AddressUpd: AddressDraft): Promise<ClientResponse<Customer>> {
+  public changeAddress(
+    id: string,
+    version: string,
+    AddressID: string,
+    AddressUpd: AddressDraft,
+  ): Promise<ClientResponse<Customer>> {
     return this.apiRoot
       .customers()
       .withId({ ID: id })
@@ -151,14 +162,14 @@ class StpClientApi {
               action: 'changeAddress',
               addressId: AddressID,
               address: AddressUpd,
-            }
+            },
           ],
         },
       })
-      .execute()
+      .execute();
   }
 
-  public deleteAddress(id: string, version:string, AddressID: string): Promise<ClientResponse<Customer>> {
+  public deleteAddress(id: string, version: string, AddressID: string): Promise<ClientResponse<Customer>> {
     return this.apiRoot
       .customers()
       .withId({ ID: id })
@@ -169,13 +180,12 @@ class StpClientApi {
             {
               action: 'removeAddress',
               addressId: AddressID,
-            }
+            },
           ],
         },
       })
-      .execute()
+      .execute();
   }
-
 
   public getProducts(limitNum?: number) {
     return this.apiRoot
