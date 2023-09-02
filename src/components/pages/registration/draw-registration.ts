@@ -169,7 +169,7 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
                 setLocalStorageValue(key, value.toString() ?? '');
               }
             }
-            setLocalStorageValue('email',email);
+            setLocalStorageValue('email', email);
             customRoute('/success');
           } catch {
             throw Error('User is not login');

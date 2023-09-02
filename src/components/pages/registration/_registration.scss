@@ -26,6 +26,7 @@
   font-size: 48px;
   font-style: normal;
   font-weight: 400;
+
   @include media-netbook {
     font-size: 36px;
   }

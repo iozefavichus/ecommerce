@@ -33,7 +33,7 @@ export const authorization = (): void => {
             }
           }
           customRoute('/');
-          setLocalStorageValue('email',email);
+          setLocalStorageValue('email', email);
         } catch (err) {
           passwordInput.value = '';
           notFoundText.textContent = 'Incorrect password entered';
