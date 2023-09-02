@@ -18,41 +18,6 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         const btnEdit = createCustomElement('button',['btn-edit'], 'Edit') as HTMLButtonElement;
         divForBtn.append(btnEdit);
 
-
-        const Labels = createCustomElement('div',['container-labels']);
-
-        const LabelsBoolean = async () => {
-          const emailVal = localStorage.getItem('email');
-          if(emailVal){
-            let defaultShipping = false;
-            let defaultBilling = false;
-            let shipping = false;
-            let billing= false;
-            const customer =  await new StpClientApi().getCustomerInfoByEmail(emailVal);
-            // console.log(addressID);
-            // console.log(customer);
-            // console.log(customer[0].shippingAddressIds);
-            // console.log(customer[0].billingAddressIds);
-            // console.log(customer[0].defaultBillingAddressId);
-            // console.log(customer[0].defaultShippingAddressId);
-            const ArrayWithShipping = customer[0].shippingAddressIds;
-            const ArrayWithBilling = customer[0].billingAddressIds;
-            if(addressID === customer[0].defaultShippingAddressId){
-               defaultShipping = true;
-            }
-            if(addressID === customer[0].defaultBillingAddressId){
-              defaultBilling = true;
-           }
-           if(addressID&&customer[0].shippingAddressIds&& ArrayWithShipping?.includes(addressID)){
-              shipping = true;
-           }
-           if(addressID&&customer[0].billingAddressIds&&ArrayWithBilling?.includes(addressID)){
-              billing = true;
-           }
-           Labels.append(drawLabels(shipping, billing, defaultShipping, defaultBilling));
-        }}
-        LabelsBoolean();
-
         const noEditCountry = createFormDiv(`country-personal-${i}`, 'Country', 'text', `country-personal-${i}`);
         noEditCountry.container.classList.add('container-info');
         noEditCountry.input.classList.add('input-info');
@@ -87,6 +52,49 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         const billDefaultSwitch = createRoundSwitch('billingdef-switch','billing default',`billingDefswitch-input${i}`);
         divForSwitch.append(shipSwitch, shipDefaultSwitch, billSwitch, billDefaultSwitch);
         divForSwitch.classList.add('invisible');
+
+        const Labels = createCustomElement('div',['container-labels']);
+        const LabelsBoolean = async () => {
+          const emailVal = localStorage.getItem('email');
+          if(emailVal){
+            let defaultShipping = false;
+            let defaultBilling = false;
+            let shipping = false;
+            let billing= false;
+            const customer =  await new StpClientApi().getCustomerInfoByEmail(emailVal);
+            // console.log(addressID);
+            // console.log(customer);
+            // console.log(customer[0].shippingAddressIds);
+            // console.log(customer[0].billingAddressIds);
+            // console.log(customer[0].defaultBillingAddressId);
+            // console.log(customer[0].defaultShippingAddressId);
+            const ArrayWithShipping = customer[0].shippingAddressIds;
+            const ArrayWithBilling = customer[0].billingAddressIds;
+            if(addressID === customer[0].defaultShippingAddressId){
+               defaultShipping = true;
+               const shipDefInput = document.querySelector(`.shippingDefswitch-input${i}`);
+               shipDefInput?.setAttribute('checked','checked');
+            }
+            if(addressID === customer[0].defaultBillingAddressId){
+              defaultBilling = true;
+              const billDefInput = document.querySelector(`.billingDefswitch-input${i}`);
+              billDefInput?.setAttribute('checked','checked');
+           }
+           if(addressID&&customer[0].shippingAddressIds&& ArrayWithShipping?.includes(addressID)){
+              shipping = true;
+              const shipInput = document.querySelector(`.shippingswitch-input${i}`);
+              shipInput?.setAttribute('checked','checked');
+
+           }
+           if(addressID&&customer[0].billingAddressIds&&ArrayWithBilling?.includes(addressID)){
+              billing = true;
+              const billInput = document.querySelector(`.billingswitch-input${i}`);
+              billInput?.setAttribute('checked','checked');
+           }
+           Labels.append(drawLabels(shipping, billing, defaultShipping, defaultBilling));
+        }}
+        LabelsBoolean();
+
 
         const btnDiv = createCustomElement('div',['div-btn']);
         const btnSave = createCustomElement('button',['btn-saveadd'],'Save changes') as HTMLButtonElement;
@@ -182,6 +190,37 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                       }
                     })
                    }
+                   const shipDefInput = document.querySelector(`.shippingDefswitch-input${i}`);
+                   const shipDefInputBoolean = shipDefInput?.hasAttribute('checked');
+                   if(addressID&&shipDefInputBoolean){
+                    const setDefaultShipping = new StpClientApi().setDefaultShipping(id,version,addressID);
+                    setDefaultShipping
+                    .then(async (data) => {
+                      if (data.statusCode === 200) {
+                        try {
+                          divForSwitch.classList.add('invisible');
+                        } catch {
+                          throw Error('Cannot update address');
+                        }
+                      }
+                    })
+                   }
+                   const billDefInput = document.querySelector(`.billingDefswitch-input${i}`);
+                   const billDefInputBoolean = billDefInput?.hasAttribute('checked');
+                   if(addressID&&billDefInputBoolean){
+                    const setDefaultBilling = new StpClientApi().setDefaultBilling(id,version,addressID);
+                    setDefaultBilling
+                    .then(async (data) => {
+                      if (data.statusCode === 200) {
+                        try {
+                          divForSwitch.classList.add('invisible');
+                        } catch {
+                          throw Error('Cannot update address');
+                        }
+                      }
+                    })
+                   }
+
                 }
               }
               updateCus();
