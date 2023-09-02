@@ -1,4 +1,5 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { updateImagePosition, curIndex as sliderIndex } from './slider';
 
 const body = document.querySelector('body');
 const popupWrapper = createCustomElement('div', ['popup-wrapper']);
@@ -13,6 +14,7 @@ const closePopup = (event: MouseEvent) => {
     imgBlock?.classList.remove('popup');
     if (imgBlock) {
       detailPage?.prepend(imgBlock);
+      updateImagePosition(sliderIndex.index);
     }
     body?.removeChild(popupWrapper);
   }
@@ -26,6 +28,7 @@ export const openPopup = () => {
     popupWrapper.append(imgBlock, closePopupBtn);
   }
   body?.append(popupWrapper);
+  updateImagePosition(sliderIndex.index);
 };
 
 popupWrapper.addEventListener('click', (event) => {
