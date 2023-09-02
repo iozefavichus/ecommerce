@@ -35,6 +35,15 @@
   margin: 5px 0 40px;
 }
 
+.product-discount {
+  margin-top: -20px;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-weight: 600;
+  border-radius: 20px;
+  background-color: rgb(246 7 7);
+}
+
 .img {
   @include display-flex(center, center);
 
@@ -109,4 +118,3 @@
     opacity: 0.7;
   }
 }
-
