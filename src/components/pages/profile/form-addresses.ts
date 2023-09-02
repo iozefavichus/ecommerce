@@ -6,6 +6,7 @@ import { checkCity, checkPost } from '../registration/validation';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { createRoundSwitch } from '../../shared/utilities/round-switch';
 import { LabelsBoolean } from './label';
+import { AddNewAddress } from './add-address';
 
 export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => {
     const container = createCustomElement('div', ['container-addresses']);
@@ -61,9 +62,11 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         const btnDiv = createCustomElement('div',['div-btn']);
         const btnSave = createCustomElement('button',['btn-saveadd'],'Save changes') as HTMLButtonElement;
         btnSave.classList.add('btn-invisible');
+        const btnCancel = createCustomElement('button',['btn-cancelchange'],'Cancel') as HTMLButtonElement;
+        btnCancel.classList.add('btn-invisible');
         const btnDelete = createCustomElement('button',['btn-delete'],'Delete address') as HTMLButtonElement;
         btnDelete.classList.add('btn-invisible');
-        btnDiv.append(btnSave, btnDelete);
+        btnDiv.append(btnSave, btnCancel, btnDelete);
 
         const address = createCustomElement('div', ['container-address']);
         address.append(divForBtn, country, noEditCountry.container, postcode.container, city.container, street.container, Labels, divForSwitch ,btnDiv)
@@ -78,6 +81,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
 
         btnEdit.addEventListener('click',()=>{
             btnSave.classList.remove('btn-invisible');
+            btnCancel.classList.remove('btn-invisible');
             btnDelete.classList.remove('btn-invisible');
             if(countryOption){
                 countryOption.removeAttribute('readonly');
@@ -138,6 +142,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                           try {
                             btnSave.classList.add('btn-invisible');
                             btnDelete.classList.add('btn-invisible');
+                            btnCancel.classList.add('btn-invisible');
                             city.input.setAttribute('readonly', 'readonly');
                             postcode.input.setAttribute('readonly', 'readonly');
                             street.input.setAttribute('readonly', 'readonly');
@@ -254,6 +259,22 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
             }
     });
 
+          btnCancel.addEventListener('click',()=>{
+            btnSave.classList.add('btn-invisible');
+            btnCancel.classList.add('btn-invisible');
+            btnDelete.classList.add('btn-invisible');
+            postcode.input.setAttribute('readonly', 'readonly');
+            city.input.setAttribute('readonly', 'readonly');
+            city.input.classList.add('input-info');
+            street.input.setAttribute('readonly', 'readonly');
+            street.input.classList.add('input-info');
+            postcode.input.classList.add('input-info');
+            country.classList.add('country-invisible');
+            noEditCountry.container.classList.remove('country-invisible');
+            Labels.classList.remove('invisible');
+            divForSwitch.classList.add('invisible');
+          });
+
           btnDelete.addEventListener('click',()=>{
             const emailVal = localStorage.getItem('email');
             if(emailVal){
@@ -289,100 +310,101 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
     }
 
 
-    const btnAddAddress = createCustomElement('button',['btn-add'],'Add address') as HTMLButtonElement;
+  //   const btnAddAddress = createCustomElement('button',['btn-add'],'Add address') as HTMLButtonElement;
 
-    const newAddress = createCustomElement('div',['container-newaddress']);
-    newAddress.classList.add('newaddress-invisible');
-    const countryNew =  createFormWithOptions('country', 'Country');
-    const postcodeNew =  createFormDiv('newpostcode', 'Postal code', 'text','newpostcode');
-    const cityNew =  createFormDiv('newcity', 'City', 'text','newcity');
-    const streetNew =  createFormDiv('newstreet', 'Street', 'text', 'newstreet');
+  //   const newAddress = createCustomElement('div',['container-newaddress']);
+  //   newAddress.classList.add('newaddress-invisible');
+  //   const countryNew =  createFormWithOptions('country', 'Country');
+  //   const postcodeNew =  createFormDiv('newpostcode', 'Postal code', 'text','newpostcode');
+  //   const cityNew =  createFormDiv('newcity', 'City', 'text','newcity');
+  //   const streetNew =  createFormDiv('newstreet', 'Street', 'text', 'newstreet');
 
-    const divForSwitchNew = createCustomElement('div',['container-switch']);
-    const shipSwitch = createRoundSwitch('shipping-switch', 'shipping',`shippingswitch-new`);
-    const billSwitch = createRoundSwitch('billing-switch', 'billing',`billingswitch-new`);
-    const shipDefaultSwitch = createRoundSwitch('shippingdef-switch','shipping default',`shippingDefswitch-new`);
-    const billDefaultSwitch = createRoundSwitch('billingdef-switch','billing default',`billingDefswitch-new`);
-    divForSwitchNew.append(shipSwitch, shipDefaultSwitch, billSwitch, billDefaultSwitch);
+  //   const divForSwitchNew = createCustomElement('div',['container-switch']);
+  //   const shipSwitch = createRoundSwitch('shipping-switch', 'shipping',`shippingswitch-new`);
+  //   const billSwitch = createRoundSwitch('billing-switch', 'billing',`billingswitch-new`);
+  //   const shipDefaultSwitch = createRoundSwitch('shippingdef-switch','shipping default',`shippingDefswitch-new`);
+  //   const billDefaultSwitch = createRoundSwitch('billingdef-switch','billing default',`billingDefswitch-new`);
+  //   divForSwitchNew.append(shipSwitch, shipDefaultSwitch, billSwitch, billDefaultSwitch);
 
-    const btnSaveNew = createCustomElement('button',['btn-save'],'Save changes') as HTMLButtonElement;
+  //   const btnSaveNew = createCustomElement('button',['btn-save'],'Save changes') as HTMLButtonElement;
 
-    cityNew.input.addEventListener('input', (event) => {
-      const cityValue: string = (event.target as HTMLInputElement).value;
-      CheckIt(checkCity(cityValue), cityNew.input);
-    });
-    postcodeNew.input.addEventListener('input', (event) => {
-      const postValue: string = (event.target as HTMLInputElement).value;
-      CheckIt(checkPost('USA', postValue), postcodeNew.input);
-    });
-    streetNew.input.addEventListener('input', (event) => {
-      const streetValue: string = (event.target as HTMLInputElement).value;
-      if (streetValue === '') {
-        setError(streetNew.input, 'Street cannot be blank');
-      } else {
-        setSuccess(streetNew.input);
-      }
-    });
+  //   cityNew.input.addEventListener('input', (event) => {
+  //     const cityValue: string = (event.target as HTMLInputElement).value;
+  //     CheckIt(checkCity(cityValue), cityNew.input);
+  //   });
+  //   postcodeNew.input.addEventListener('input', (event) => {
+  //     const postValue: string = (event.target as HTMLInputElement).value;
+  //     CheckIt(checkPost('USA', postValue), postcodeNew.input);
+  //   });
+  //   streetNew.input.addEventListener('input', (event) => {
+  //     const streetValue: string = (event.target as HTMLInputElement).value;
+  //     if (streetValue === '') {
+  //       setError(streetNew.input, 'Street cannot be blank');
+  //     } else {
+  //       setSuccess(streetNew.input);
+  //     }
+  //   });
 
-    btnSaveNew.addEventListener('click',()=>{
-      const newAdd ={
-        country: 'US',
-        city: cityNew.input.value.trim(),
-        streetName: streetNew.input.value.trim(),
-        postalCode: postcodeNew.input.value.trim(),
-      }
-      const warningsArray = document.querySelectorAll('.small-visible');
-      let id: string|null;
-      let version: string;
-      if(newAdd.city&&newAdd.streetName&&newAdd.postalCode){
-        if (warningsArray.length === 0) {
-          id = localStorage.getItem('id');
-          const addNew = async () => {
-            if(id){
-              const customer = await new StpClientApi().getCustomerbyId(id);
-              version = String(customer.version);
-            }
-            if(id&&version){
-              const newAddressInfo = new StpClientApi().addAddress(id, version, newAdd);
-              newAddressInfo
-                .then(async (data) => {
-                  if (data.statusCode === 200) {
-                    try {
-                      newAddress.classList.add('newaddress-invisible');
-                      btnAddAddress.classList.remove('btnAadd-invisible');
-                      cityNew.input.value ='';
-                      streetNew.input.value='';
-                      postcodeNew.input.value='';
-                    } catch {
-                      throw Error('Cannot add new address');
-                    }
-                }
-            })
-            }
-          }
-        addNew();
-        }
-      }
-      if(!newAdd.city){
-        setError(cityNew.input, 'Cannot be blank')
-      }
-      if(!newAdd.streetName){
-        setError(streetNew.input, 'Cannot be blank')
-      }
-      if(!newAdd.postalCode){
-        setError(postcodeNew.input, 'Cannot be blank')
-      }
-      }
-  )
+  //   btnSaveNew.addEventListener('click',()=>{
+  //     const newAdd ={
+  //       country: 'US',
+  //       city: cityNew.input.value.trim(),
+  //       streetName: streetNew.input.value.trim(),
+  //       postalCode: postcodeNew.input.value.trim(),
+  //     }
+  //     const warningsArray = document.querySelectorAll('.small-visible');
+  //     let id: string|null;
+  //     let version: string;
+  //     if(newAdd.city&&newAdd.streetName&&newAdd.postalCode){
+  //       if (warningsArray.length === 0) {
+  //         id = localStorage.getItem('id');
+  //         const addNew = async () => {
+  //           if(id){
+  //             const customer = await new StpClientApi().getCustomerbyId(id);
+  //             version = String(customer.version);
+  //           }
+  //           if(id&&version){
+  //             const newAddressInfo = new StpClientApi().addAddress(id, version, newAdd);
+  //             newAddressInfo
+  //               .then(async (data) => {
+  //                 if (data.statusCode === 200) {
+  //                   try {
+  //                     newAddress.classList.add('newaddress-invisible');
+  //                     btnAddAddress.classList.remove('btnAadd-invisible');
+  //                     cityNew.input.value ='';
+  //                     streetNew.input.value='';
+  //                     postcodeNew.input.value='';
+  //                   } catch {
+  //                     throw Error('Cannot add new address');
+  //                   }
+  //               }
+  //           })
+  //           }
+  //         }
+  //       addNew();
+  //       }
+  //     }
+  //     if(!newAdd.city){
+  //       setError(cityNew.input, 'Cannot be blank')
+  //     }
+  //     if(!newAdd.streetName){
+  //       setError(streetNew.input, 'Cannot be blank')
+  //     }
+  //     if(!newAdd.postalCode){
+  //       setError(postcodeNew.input, 'Cannot be blank')
+  //     }
+  //     }
+  // )
 
-    newAddress.append(countryNew, postcodeNew.container, cityNew.container, streetNew.container,divForSwitchNew, btnSaveNew);
+  //   newAddress.append(countryNew, postcodeNew.container, cityNew.container, streetNew.container,divForSwitchNew, btnSaveNew);
 
-    btnAddAddress.addEventListener('click',() => {
-      btnAddAddress.classList.add('btnAadd-invisible');
-      newAddress.classList.remove('newaddress-invisible');
-    });
-
-    container.append(btnAddAddress, newAddress);
+  //   btnAddAddress.addEventListener('click',() => {
+  //     btnAddAddress.classList.add('btnAadd-invisible');
+  //     newAddress.classList.remove('newaddress-invisible');
+  //   });
+  
+  const newAddress = AddNewAddress();
+  container.append(newAddress);
 
 
 
