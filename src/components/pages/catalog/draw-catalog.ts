@@ -2,7 +2,7 @@ import { Product, ProductProjection } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detailed/open-detail';
-import { searchValue, sortedValue } from './sort-catalog';
+import { filterValue, searchValue, sortedValue } from './sort-catalog';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -21,9 +21,7 @@ const createPanel = (): HTMLElement => {
   const wrapper = createCustomElement('div', ['panel__wrapper']);
   const filterBlock = createCustomElement('div', ['panel__wrapper-filter']);
   const filterRange = createCustomElement('img', ['panel__wrapper-img', 'panel__wrapper-range']);
-  const filterFour = createCustomElement('img', ['panel__wrapper-img', 'panel__wrapper-four']);
   const filterText = createCustomElement('p', ['panel__wrapper-text'], 'Filter');
-  const filterList = createCustomElement('img', ['panel__wrapper-img', 'panel__wrapper-list']);
   const separator = createCustomElement('span', ['panel__wrapper-separator']);
   const showBlock = createCustomElement('div', ['panel__wrapper-show']);
   const showText = createCustomElement('p', ['panel__wrapper-show__text'], `Showing 1–16 of 32 results`);
@@ -49,10 +47,33 @@ const createPanel = (): HTMLElement => {
   sortedValue3.setAttribute('data-value', 'sortPriceUp');
   sortedValue4.setAttribute('data-value', 'sortPriceDown');
   showSort.append(sortedValue, sortedValue1, sortedValue2, sortedValue3, sortedValue4);
-  filterBlock.append(filterRange, filterText, filterFour, filterList, separator);
+  filterBlock.append(filterRange, filterText, separator);
   showBlock.append(showText, sortBlock);
   sortBlock.append(showTextNumber, showNumber, showTextSort, showSort);
   wrapper.append(filterBlock, showBlock);
+  return wrapper;
+};
+
+const createCategory = (): HTMLElement => {
+  const wrapperCategory = createCustomElement('div', ['wrapper__category']);
+  const categoryTitle = createCustomElement('h1', ['wrapper__category-title'], 'Category');
+  const select = createCustomElement('select', ['wrapper__category-select']);
+  wrapperCategory.append(categoryTitle, select);
+  return wrapperCategory;
+};
+
+const createFilter = (): HTMLElement => {
+  const wrapper = createCustomElement('div', ['filter__wrapper']);
+  const filterItem = createCustomElement('div', ['filter_item_wrapper']);
+  const filterName = createCustomElement('div', ['filter_name']);
+  const filterPrice = createCustomElement('div', ['filter_price']);
+  const filterTitlesName = createCustomElement('div', ['filter_titles_name'], 'Name');
+  const filterTitlesPrice = createCustomElement('div', ['filter_titles_price'], 'Price');
+  const buttonFilter = createCustomElement('button', ['reset_button'], 'Reset filters');
+  filterName.append(filterTitlesName);
+  filterPrice.append(filterTitlesPrice);
+  filterItem.append(filterName, filterPrice, buttonFilter);
+  wrapper.append(filterItem);
   return wrapper;
 };
 
@@ -74,13 +95,23 @@ const createBlockProperty = (name: string, price: string): HTMLElement => {
   return propertyBlock;
 };
 
+const createPriceDiscountBlock = (price: string): HTMLElement => {
+  const discountBlock = createCustomElement('div', ['discount__info']);
+  const discountPrice = createCustomElement('p', ['discount__price'], `USD ${price}`);
+
+  discountBlock.append(discountPrice);
+  return discountBlock;
+};
+
 export const drawCard = (product: Product, el: HTMLElement): void => {
   const card = createCustomElement('div', ['product__card']);
   const productKey = product.key;
   const productImg = product.masterData.current.masterVariant?.images;
   const productName = product.masterData.current.name.en;
   const productPrice = product.masterData.current.masterVariant?.prices;
+  const discountedPrice = product.masterData.current.masterVariant?.prices;
   let price: string;
+  let priceDiscount: string;
   card.setAttribute('data-key', productKey as string);
   const imgBlock = createCustomElement('div', ['products__img-block']);
   const img = createCustomElement('img', ['product__img']) as HTMLImageElement;
@@ -93,6 +124,14 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
     const priceInCent = productPrice[0].value.centAmount;
     price = (priceInCent / 100).toFixed(2);
     const blockProperty = createBlockProperty(productName, price);
+    card.append(blockProperty);
+  }
+  if (discountedPrice) {
+    const discountedInCent: number = <number>discountedPrice[0].discounted?.value.centAmount;
+    priceDiscount = (discountedInCent / 100).toFixed(2);
+    const blockProperty = createPriceDiscountBlock(priceDiscount);
+    const priceEl = document.querySelectorAll('.product__price');
+    Array.from(priceEl).forEach((price) => price.classList.add('through'));
     card.append(blockProperty);
   }
   card.addEventListener('click', (event) => {
@@ -137,14 +176,32 @@ export const drawCatalog = async () => {
   const searcher = createSearch();
   const panel = createPanel();
   const navigation = createNavigation();
-  mainWrapper.append(searcher, panel, productWrapper, navigation);
+  const filter = createFilter();
+  const category = createCategory();
+  mainWrapper.append(searcher, panel, category, filter, productWrapper, navigation);
   const sortField = document.querySelector('.panel__wrapper-show--default') as HTMLSelectElement;
   const searchField = document.querySelector('.input-search') as HTMLInputElement;
   const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
+  const categoryList = document.querySelector('.wrapper__category-select') as HTMLSelectElement;
+
   if (btnPagination?.textContent === '1') {
     btnPagination.setAttribute('disabled', '');
   }
-  const products = await new StpClientApi().getProducts();
+  const products = await new StpClientApi().getProducts(30);
+  const categories = await new StpClientApi().getCategory();
+  for (let i = 0; i < categories.length; i++) {
+    const categoryItem = createCustomElement('option', ['wrapper__category-element']) as HTMLOptionElement;
+    categoryItem.setAttribute('data-value', `${categories[i].name.en}`);
+    categoryItem.innerHTML = categories[i].name.en;
+    categoryList.append(categoryItem);
+  }
+  categoryList?.addEventListener('change', async (event) => {
+    const filterProducts = await filterValue(event);
+    productWrapper.innerHTML = '';
+    filterProducts?.forEach((product) => {
+      drawSortCard(product, productWrapper);
+    });
+  });
   const numberCards = document.querySelector('#numberCards');
   const numberProducts = document.querySelector('#numberProducts');
   const size = Object.keys(products).length;
