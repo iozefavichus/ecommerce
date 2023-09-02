@@ -15,6 +15,14 @@ export const createRoundSwitch = (classNameContainer: string, text: string, clas
     label.append(input,span);
     divForswitch.append(label);
 
+    input.addEventListener('click',()=>{
+        if(!input.hasAttribute('checked')){
+            input.setAttribute('checked','checked');
+        } else {
+            input.removeAttribute('checked');
+        }
+    })
+
     container.append(textMes, divForswitch);
 
     return container;

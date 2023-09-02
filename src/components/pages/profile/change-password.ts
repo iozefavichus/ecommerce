@@ -4,7 +4,7 @@ import { createFormDiv } from '../registration/creationform-helpers';
 import { customRoute } from '../../app/router/router';
 import { checkPassword } from '../registration/validation';
 import { CheckIt, setError } from '../registration/validation-helpers';
-
+import { StpClientApi } from '../../shared/api/stpClient-api';
 
 const ChangePassword = ():HTMLElement  =>{
     const container = createCustomElement('div', ['container-changepass']);
@@ -20,13 +20,41 @@ const ChangePassword = ():HTMLElement  =>{
     repeatPass.container.append(repeatPasslink);
 
     const btnSave = createCustomElement('button',['btn-save'],'Save') as HTMLButtonElement;;
-    btnSave.addEventListener(('click'),()=>{
-        if(newPass.input.value.trim()===repeatPass.input.value.trim()){
-            customRoute('/successchangedpass');
-        } else {
-            setError(newPass.input,'Passwords are not similar');
-            setError(repeatPass.input,'Passwords are not similar')
-        }
+
+    btnSave.addEventListener('click',()=>{
+      const emailVal = localStorage.getItem('email');
+      const oldPassValue = oldPass.input.value.trim();
+      const newPassValue = newPass.input.value.trim();
+      const repeatPassValue = repeatPass.input.value.trim();
+      if(newPassValue===repeatPassValue){
+        if(emailVal){
+            const id = localStorage.getItem('id');
+            let version: string;
+            const updatePassword = async () => {
+              if(id){
+                const customer = await new StpClientApi().getCustomerbyId(id);
+                version = String(customer.version);
+                const updatePass = new StpClientApi().updatePassword(id,version,oldPassValue,newPassValue);
+                updatePass
+                .then(async (data) => {
+                  if (data.statusCode === 200) {
+                    try{
+                      customRoute('/successchangedpass');
+                    } catch {
+                      throw Error('Cannot update password');
+                    }
+                  }
+                })
+              }
+            }
+            updatePassword();
+          }
+      } else {
+        const message = 'Passwords are not the same';
+        setError(newPass.input,message);
+        setError(repeatPass.input,message)
+      }
+
     })
 
     const btnCancel = createCustomElement('button',['btn-cancel'],'Cancel') as HTMLButtonElement;

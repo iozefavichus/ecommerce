@@ -166,6 +166,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                 if(id){
                   const customer = await new StpClientApi().getCustomerbyId(id);
                   version = String(customer.version);
+                  console.log(version);
                   if(id&&addressID){
                     const updateAdd = new StpClientApi().changeAddress(id, version, addressID, UpdAddress);
                     updateAdd
@@ -220,12 +221,65 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                       }
                     })
                    }
-
-                }
+                   const shipInput = document.querySelector(`.shippingswitch-input${i}`);
+                   const shipInputBoolean = shipInput?.hasAttribute('checked');
+                   if(addressID&&shipInputBoolean){
+                    const setShipping = new StpClientApi().addShipping(id,version,addressID);
+                    setShipping
+                    .then(async (data) => {
+                      if (data.statusCode === 200) {
+                        try {
+                          divForSwitch.classList.add('invisible');
+                        } catch {
+                          throw Error('Cannot update address');
+                        }
+                      } else {
+                        const removeShipping = new StpClientApi().removeShipping(id, version, addressID);
+                        removeShipping
+                        .then(async (data) => {
+                          if (data.statusCode === 200) {
+                            try {
+                              divForSwitch.classList.add('invisible');
+                            } catch {
+                              throw Error('Cannot update address');
+                            }
+                      }
+                    })
+                   }
+                })
               }
-              updateCus();
+              const billInput = document.querySelector(`.billingswitch-input${i}`);
+                   const billInputBoolean = billInput?.hasAttribute('checked');
+                   if(addressID&&billInputBoolean){
+                    const setBilling = new StpClientApi().addBilling(id,version,addressID);
+                    setBilling
+                    .then(async (data) => {
+                      if (data.statusCode === 200) {
+                        try {
+                          divForSwitch.classList.add('invisible');
+                        } catch {
+                          throw Error('Cannot update address');
+                        }
+                      } else {
+                        const removeBilling = new StpClientApi().removeBilling(id, version, addressID);
+                        removeBilling
+                        .then(async (data) => {
+                          if (data.statusCode === 200) {
+                            try {
+                              divForSwitch.classList.add('invisible');
+                            } catch {
+                              throw Error('Cannot update address');
+                            }
+                      }
+                    })
+                   }
+                })
+              }
             }
-          });
+          }
+          updateCus();
+        }
+    });
 
           btnDelete.addEventListener('click',()=>{
             const emailVal = localStorage.getItem('email');

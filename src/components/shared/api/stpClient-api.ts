@@ -343,6 +343,21 @@ class StpClientApi {
       .execute()
   }
 
+  public updatePassword(id: string, version:string, oldPass: string, NewPass: string): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .password()
+      .post({
+        body: {
+          "id":id,
+          "version": Number(version),
+          "currentPassword": oldPass,
+          "newPassword": NewPass,
+        },
+      })
+      .execute()
+  }
+
 
 }
 
