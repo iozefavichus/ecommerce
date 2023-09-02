@@ -5,7 +5,7 @@ import { CheckIt, setError, setSuccess } from '../registration/validation-helper
 import { checkCity, checkPost } from '../registration/validation';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { createRoundSwitch } from '../../shared/utilities/round-switch';
-import { drawLabels } from './label';
+import { LabelsBoolean } from './label';
 
 export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => {
     const container = createCustomElement('div', ['container-addresses']);
@@ -54,47 +54,9 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         divForSwitch.classList.add('invisible');
 
         const Labels = createCustomElement('div',['container-labels']);
-        const LabelsBoolean = async () => {
-          const emailVal = localStorage.getItem('email');
-          if(emailVal){
-            let defaultShipping = false;
-            let defaultBilling = false;
-            let shipping = false;
-            let billing= false;
-            const customer =  await new StpClientApi().getCustomerInfoByEmail(emailVal);
-            // console.log(addressID);
-            // console.log(customer);
-            // console.log(customer[0].shippingAddressIds);
-            // console.log(customer[0].billingAddressIds);
-            // console.log(customer[0].defaultBillingAddressId);
-            // console.log(customer[0].defaultShippingAddressId);
-            const ArrayWithShipping = customer[0].shippingAddressIds;
-            const ArrayWithBilling = customer[0].billingAddressIds;
-            if(addressID === customer[0].defaultShippingAddressId){
-               defaultShipping = true;
-               const shipDefInput = document.querySelector(`.shippingDefswitch-input${i}`);
-               shipDefInput?.setAttribute('checked','checked');
-            }
-            if(addressID === customer[0].defaultBillingAddressId){
-              defaultBilling = true;
-              const billDefInput = document.querySelector(`.billingDefswitch-input${i}`);
-              billDefInput?.setAttribute('checked','checked');
-           }
-           if(addressID&&customer[0].shippingAddressIds&& ArrayWithShipping?.includes(addressID)){
-              shipping = true;
-              const shipInput = document.querySelector(`.shippingswitch-input${i}`);
-              shipInput?.setAttribute('checked','checked');
-
-           }
-           if(addressID&&customer[0].billingAddressIds&&ArrayWithBilling?.includes(addressID)){
-              billing = true;
-              const billInput = document.querySelector(`.billingswitch-input${i}`);
-              billInput?.setAttribute('checked','checked');
-           }
-           Labels.append(drawLabels(shipping, billing, defaultShipping, defaultBilling));
-        }}
-        LabelsBoolean();
-
+        if(addressID){
+          LabelsBoolean(addressID,i,Labels);
+        }
 
         const btnDiv = createCustomElement('div',['div-btn']);
         const btnSave = createCustomElement('button',['btn-saveadd'],'Save changes') as HTMLButtonElement;
@@ -159,6 +121,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
               'city': city.input.value.trim(),
               'streetName': street.input.value.trim(),
             }
+
             if(UpdAddress.city&&UpdAddress.postalCode&&UpdAddress.streetName){
               if (warningsArray.length === 0) {
                 const id = localStorage.getItem('id');
