@@ -151,11 +151,6 @@
   }
 }
 
-.profile-link {
-  @extend %hover-transition;
-  @extend %icon-param;
-}
-
 .basket-link {
   margin-left: 10px;
   background-image: url('../assets/icons/shopping-cart.svg');
@@ -164,6 +159,7 @@
   @extend %hover-transition;
 }
 
+.profile-link,
 .login-link,
 .log-out,
 .registration-link {

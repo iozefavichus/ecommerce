@@ -1,4 +1,3 @@
-import { ProductProjection } from '@commercetools/platform-sdk';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 
 export const sortedValue = async (event: Event) => {
@@ -19,7 +18,16 @@ export const sortedValue = async (event: Event) => {
   }
 };
 
-export const searchValue = async (event: Event): Promise<ProductProjection[]> => {
+export const searchValue = async (event: Event) => {
   const searchEl = (event.target as HTMLInputElement).value;
   return await new StpClientApi().getProductSearchProjections(searchEl);
+};
+
+export const filterValue = async (event: Event) => {
+  const filterEl = event.target as HTMLSelectElement;
+  const value = filterEl.options[filterEl.selectedIndex].getAttribute('data-value');
+
+  if (value === 'light') {
+    return await new StpClientApi().getProductFilterProjections('categories:exists light');
+  }
 };

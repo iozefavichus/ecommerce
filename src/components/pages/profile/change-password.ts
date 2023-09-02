@@ -70,24 +70,24 @@ const ChangePassword = ():HTMLElement  =>{
       }
     })
 
-    const btnCancel = createCustomElement('button',['btn-cancel'],'Cancel') as HTMLButtonElement;
-    btnCancel.addEventListener('click', () => {
-        customRoute('/profile');
-    })
-    container.append(oldPass.container, newPass.container, repeatPass.container, btnSave, btnCancel)
+  const btnCancel = createCustomElement('button', ['btn-cancel'], 'Cancel') as HTMLButtonElement;
+  btnCancel.addEventListener('click', () => {
+    customRoute('/profile');
+  });
+  container.append(oldPass.container, newPass.container, repeatPass.container, btnSave, btnCancel);
 
-    oldPass.input.addEventListener('input', (event) => {
-        const password: string = (event.target as HTMLInputElement).value;
-        CheckIt(checkPassword(password), oldPass.input);
-      });
-    newPass.input.addEventListener('input', (event) => {
-        const password: string = (event.target as HTMLInputElement).value;
-        CheckIt(checkPassword(password), newPass.input);
-      });
-    repeatPass.input.addEventListener('input', (event) => {
-        const password: string = (event.target as HTMLInputElement).value;
-        CheckIt(checkPassword(password), repeatPass.input);
-      });
+  oldPass.input.addEventListener('input', (event) => {
+    const password: string = (event.target as HTMLInputElement).value;
+    CheckIt(checkPassword(password), oldPass.input);
+  });
+  newPass.input.addEventListener('input', (event) => {
+    const password: string = (event.target as HTMLInputElement).value;
+    CheckIt(checkPassword(password), newPass.input);
+  });
+  repeatPass.input.addEventListener('input', (event) => {
+    const password: string = (event.target as HTMLInputElement).value;
+    CheckIt(checkPassword(password), repeatPass.input);
+  });
 
     newPasslink.addEventListener('click',()=>{
         if(newPasslink.classList.contains('newpass-control')){
@@ -124,16 +124,16 @@ const ChangePassword = ():HTMLElement  =>{
     })
 
 
-    return container;
-}
+  return container;
+};
 
 export const drawChangePassword = async () => {
-    const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
-    mainWrapper.innerHTML = '';
-    const wrapper = createCustomElement('div', ['wrapper']);
-    mainWrapper?.append(wrapper);
-    const pageTitle = createPageTitle('Change password');
-    wrapper.append(pageTitle);
-    const changePass = ChangePassword();
-    wrapper.append(changePass);
-}
+  const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
+  mainWrapper.innerHTML = '';
+  const wrapper = createCustomElement('div', ['wrapper']);
+  mainWrapper?.append(wrapper);
+  const pageTitle = createPageTitle('Change password');
+  wrapper.append(pageTitle);
+  const changePass = ChangePassword();
+  wrapper.append(changePass);
+};
