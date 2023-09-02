@@ -166,7 +166,6 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                 if(id){
                   const customer = await new StpClientApi().getCustomerbyId(id);
                   version = String(customer.version);
-                  console.log(version);
                   if(id&&addressID){
                     const updateAdd = new StpClientApi().changeAddress(id, version, addressID, UpdAddress);
                     updateAdd
