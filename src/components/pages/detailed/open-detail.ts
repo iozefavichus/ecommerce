@@ -12,6 +12,7 @@ export const openDetail = async (key: string) => {
   try {
     const client = new StpClientApi();
     const product = (await client.getProductByKey(key))?.body;
+    console.log(product);
     const productBody = JSON.stringify(product);
     setLocalStorageValue(PRODUCT_BODY, productBody);
     customRoute(productPath, product);

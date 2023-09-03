@@ -14,6 +14,7 @@ const detailClasses = {
   NEXT_BTN: 'next-img',
   INFO: 'product-info',
   NAME: 'product-name',
+  PRICES: 'price-container',
   BASE_PRICE: 'product-price',
   DISCOUNT: 'product-discount',
   DESCRIPTION: 'product-description',
@@ -24,13 +25,16 @@ const createInformBlock = (name: string, price: string, description: string, dis
   const productName = createCustomElement('h2', [detailClasses.NAME], `${name}`);
   const productPrice = createCustomElement('p', [detailClasses.BASE_PRICE], `USD ${price}`);
   const productDescription = createCustomElement('p', [detailClasses.DESCRIPTION], `${description}`);
+  const priceContainer = createCustomElement('div', [detailClasses.PRICES]);
 
   if (discountPrice) {
     productPrice.style.textDecoration = 'line-through';
     const discount = createCustomElement('p', [detailClasses.DISCOUNT], `USD ${discountPrice}`);
-    informBlock.append(productName, productPrice, discount, productDescription);
+    priceContainer.append(discount, productPrice);
+    informBlock.append(productName, priceContainer, productDescription);
   } else {
-    informBlock.append(productName, productPrice, productDescription);
+    priceContainer.append(productPrice);
+    informBlock.append(productName, priceContainer, productDescription);
   }
 
   return informBlock;
@@ -76,11 +80,11 @@ export const drawDetail = async (product: Product | string): Promise<void> => {
   } else {
     const productName = product.masterData.current.name.en;
     const productPrice = product.masterData.current.masterVariant?.prices;
-    const productDescription = product.masterData.current.description?.en ?? '';
+    const productDescription = product.masterData.current.metaDescription?.en ?? '';
     let price: string;
 
     mailWrapper.innerHTML = '';
-    const title = createPageTitle('Detail');
+    const title = createPageTitle('About the product');
     const detail = createCustomElement('div', [detailClasses.DETAIL]);
     const imgBlock = createImagesBlock(product);
     detail.append(imgBlock);
