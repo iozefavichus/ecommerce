@@ -9,6 +9,7 @@ export const createRoundSwitch = (classNameContainer: string, text: string, clas
   const label = createCustomElement('label', ['switch']);
   const input = createCustomElement('input', [classNameInput]);
   input.setAttribute('type', 'checkbox');
+  input.setAttribute('disabled','true');
   input.id = classNameInput;
   const span = createCustomElement('span', ['slider-round']);
 

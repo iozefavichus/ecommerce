@@ -16,6 +16,7 @@ import { getLocalStorage } from '../../app/localStorage/localStorage';
 import { isLogin } from '../api/is-login';
 import { drawChangePassword } from '../../pages/profile/change-password';
 import { drawSuccessPassword } from '../../pages/profile/successpassword';
+import { drawSuccessUpdate } from '../../pages/profile/successupdate';
 
 export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
@@ -34,6 +35,7 @@ const routes = [
   '/login',
   '/changepassword',
   '/successchangedpass',
+  '/successupdate'
 ];
 
 export const renderChangeContent = (path: string, product?: Product | string): void => {
@@ -84,6 +86,12 @@ export const renderChangeContent = (path: string, product?: Product | string): v
     drawSuccessPassword();
     setTimeout(() => {
       customRoute(links.HOME);
+    }, 1500);
+  }
+  if (renderPage === '/successupdate') {
+    drawSuccessUpdate();
+    setTimeout(() => {
+      customRoute('/profile');
     }, 1500);
   }
   if (renderPage === '/login') {

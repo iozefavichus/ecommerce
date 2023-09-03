@@ -4,6 +4,7 @@
     import { CheckIt, setError, setSuccess } from "../registration/validation-helpers";
     import { StpClientApi } from "../../shared/api/stpClient-api";
     import { checkCity,checkPost } from "../registration/validation";
+import { customRoute } from "../../app/router/router";
 
 export const AddNewAddress =(): HTMLElement=>{
     const divForAddress =createCustomElement('div',['container-newaddress']);
@@ -79,6 +80,7 @@ export const AddNewAddress =(): HTMLElement=>{
                       cityNew.input.value ='';
                       streetNew.input.value='';
                       postcodeNew.input.value='';
+                      customRoute('/successupdate');
                     } catch {
                       throw Error('Cannot add new address');
                     }
@@ -98,6 +100,7 @@ export const AddNewAddress =(): HTMLElement=>{
       if(!newAdd.postalCode){
         setError(postcodeNew.input, 'Cannot be blank')
       }
+      
       }
   )
 
@@ -108,6 +111,6 @@ export const AddNewAddress =(): HTMLElement=>{
             newAddress.classList.remove('newaddress-invisible');
           });
 
-    divForAddress.append(btnAddAddress,newAddress);      
+    divForAddress.append(btnAddAddress,newAddress);
     return divForAddress;
 }

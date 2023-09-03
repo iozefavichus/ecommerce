@@ -37,42 +37,42 @@ export const drawLabels = (shippingValue: boolean, billingValue: boolean, shippi
 }
 
 
-export const LabelsBoolean = async (addressID: string, i: number, container: HTMLElement) => {
+export const LabelsBoolean = async (addressID: string, i: number) => {
     const emailVal = localStorage.getItem('email');
     if(emailVal){
-      let defaultShipping = false;
-      let defaultBilling = false;
-      let shipping = false;
-      let billing= false;
+    //   let defaultShipping = false;
+    //   let defaultBilling = false;
+    //   let shipping = false;
+    //   let billing= false;
       const customer =  await new StpClientApi().getCustomerInfoByEmail(emailVal);
       // console.log(addressID);
       // console.log(customer);
-      console.log(customer[0].shippingAddressIds);
+    //   console.log(customer[0].shippingAddressIds);
       // console.log(customer[0].billingAddressIds);
       // console.log(customer[0].defaultBillingAddressId);
       // console.log(customer[0].defaultShippingAddressId);
       const ArrayWithShipping = customer[0].shippingAddressIds;
       const ArrayWithBilling = customer[0].billingAddressIds;
       if(addressID === customer[0].defaultShippingAddressId){
-         defaultShipping = true;
+        //  defaultShipping = true;
          const shipDefInput = document.querySelector(`.shippingDefswitch-input${i}`);
          shipDefInput?.setAttribute('checked','checked');
       }
       if(addressID === customer[0].defaultBillingAddressId){
-        defaultBilling = true;
+        // defaultBilling = true;
         const billDefInput = document.querySelector(`.billingDefswitch-input${i}`);
         billDefInput?.setAttribute('checked','checked');
      }
      if(addressID&&customer[0].shippingAddressIds&& ArrayWithShipping?.includes(addressID)){
-        shipping = true;
+        // shipping = true;
         const shipInput = document.querySelector(`.shippingswitch-input${i}`);
         shipInput?.setAttribute('checked','checked');
 
      }
      if(addressID&&customer[0].billingAddressIds&&ArrayWithBilling?.includes(addressID)){
-        billing = true;
+        // billing = true;
         const billInput = document.querySelector(`.billingswitch-input${i}`);
         billInput?.setAttribute('checked','checked');
      }
-     container.append(drawLabels(shipping, billing, defaultShipping, defaultBilling));
+    //  container.append(drawLabels(shipping, billing, defaultShipping, defaultBilling));
   }}
