@@ -193,7 +193,6 @@ class StpClientApi {
               action: 'addAddress',
               address: newAddress,
             },
-            
           ],
         },
       })

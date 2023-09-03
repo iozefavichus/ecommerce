@@ -190,7 +190,6 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                      if((shippingDefaultValue===addressID)&&addressID&&!shipDefInputBoolean&&(ShippingArray?.includes(addressID))){
                       const customer = await new StpClientApi().getCustomerbyId(id);
                       version = String(customer.version);
-                      console.log( version);
                       const removeShipping = new StpClientApi().removeShipping(id, version, addressID);
                         removeShipping
                         .then(async (data) => {
@@ -206,7 +205,6 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                       });
                       const customernew = await new StpClientApi().getCustomerbyId(id);
                       version = String(customernew.version);
-                      console.log( version);
                       const setShipping = new StpClientApi().addShipping(id,version,addressID);
                       setShipping
                       .then(async (data) => {
@@ -241,7 +239,6 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                      if((billingDefaultValue===addressID)&&addressID&&!billDefInputBoolean&&(BillingArray?.includes(addressID))){
                       const customer = await new StpClientApi().getCustomerbyId(id);
                       version = String(customer.version);
-                      console.log( version);
                       const removeBilling = new StpClientApi().removeBilling(id, version, addressID);
                       removeBilling
                       .then(async (data) => {
@@ -255,7 +252,6 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
               })
                       const customernew = await new StpClientApi().getCustomerbyId(id);
                       version = String(customernew.version);
-                      console.log( version);
                       const setBilling = new StpClientApi().addBilling(id,version,addressID);
                       setBilling
                       .then(async (data) => {

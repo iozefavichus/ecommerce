@@ -70,19 +70,133 @@ export const AddNewAddress =(): HTMLElement=>{
       const warningsArray = document.querySelectorAll('.small-visible');
       let version: string;
       const id = localStorage.getItem('id');
-
       if(newAdd.city&&newAdd.streetName&&newAdd.postalCode){
         if (warningsArray.length === 0) {
-
           const addNew = async () => {
-            if(id&&version){
+            if(id){
               const customer = await new StpClientApi().getCustomerbyId(id);
               version = String(customer.version);
+            }
+            if(id&&version){
               const newAddressInfo = new StpClientApi().addAddress(id, version, newAdd);
               newAddressInfo
                 .then(async (data) => {
                   if (data.statusCode === 200) {
                     try {
+                      const addShipping = async () => {
+                        let addressID;
+                        if(id){
+                          const customer = await new StpClientApi().getCustomerbyId(id);
+                          version = String(customer.version);
+                          const len = customer.addresses.length;
+                          addressID = customer.addresses[len-1].id;
+                        }
+                        if(addressID&&id&&version){
+                          const shipInput = shipSwitch.querySelector(`.shippingswitch-new`);
+                          const shipInputBoolean = shipInput?.hasAttribute('checked');
+
+                          if(shipInputBoolean){
+                            const customer = await new StpClientApi().getCustomerbyId(id);
+                            version = String(customer.version);
+                            const setShipping =  new StpClientApi().addShipping(id,version,String(addressID));
+                            setShipping
+                            .then(async (data) => {
+                                  if (data.statusCode === 200) {
+                                    try {
+                                        const addBilliing = async () => {
+                                        let addressID;
+                                        if(id){
+                                          const customer = await new StpClientApi().getCustomerbyId(id);
+                                          version = String(customer.version);
+                                          const len = customer.addresses.length;
+                                          addressID = customer.addresses[len-1].id;
+                                        }
+                                  if(addressID&&id&&version){
+                                  const billInput = billSwitch.querySelector(`.billingswitch-new`);
+                                  const billInputBoolean = billInput?.hasAttribute('checked');
+                                  if(billInputBoolean){
+                                    const customer = await new StpClientApi().getCustomerbyId(id);
+                                    version = String(customer.version);
+                                    const setBilling= new StpClientApi().addBilling(id,version,String(addressID));
+                                    setBilling
+                                    .then(async (data) => {
+                                      if (data.statusCode === 200) {
+                                        try {
+                                                  const addDefaultShipping = async () => {
+                                                    let addressID;
+                                                    if(id){
+                                                      const customer = await new StpClientApi().getCustomerbyId(id);
+                                                      version = String(customer.version);
+                                                      const len = customer.addresses.length;
+                                                      addressID = customer.addresses[len-1].id;
+                                                    }
+                                                    if(addressID&&id&&version){
+                                                      const shipDefInput = shipDefaultSwitch.querySelector(`.shippingDefswitch-new`);
+                                                      const shipDefInputBoolean = shipDefInput?.hasAttribute('checked');
+                                                      if(shipDefInputBoolean){
+                                                        const customer = await new StpClientApi().getCustomerbyId(id);
+                                                        version = String(customer.version);
+                                                        const setDefaultShipping = new StpClientApi().setDefaultShipping(id, version, addressID);
+                                                        setDefaultShipping
+                                                        .then(async (data) => {
+                                                          if (data.statusCode === 200) {
+                                                            try {
+                                                                const addDefualtBilliing = async () => {
+                                                                  let addressID;
+                                                                  if(id){
+                                                                    const customer = await new StpClientApi().getCustomerbyId(id);
+                                                                    version = String(customer.version);
+                                                                    const len = customer.addresses.length;
+                                                                    addressID = customer.addresses[len-1].id;
+                                                                  }
+                                                                  if(addressID&&id&&version){
+                                                                    const billDefaultInput = billDefaultSwitch.querySelector(`.billingDefswitch-new`);
+                                                                    const billDefaultInputBoolean = billDefaultInput?.hasAttribute('checked');
+                                                                    if(billDefaultInputBoolean){
+                                                                      const customer = await new StpClientApi().getCustomerbyId(id);
+                                                                      version = String(customer.version);
+                                                                      const setDefaultBilling= new StpClientApi().setDefaultBilling(id,version,String(addressID));
+                                                                      setDefaultBilling
+                                                                      .then(async (data) => {
+                                                                        if (data.statusCode === 200) {
+                                                                          try {
+                                  // divForSwitch.classList.add('invisible');
+                                } catch {
+                                  throw Error('Cannot update address');
+                                  }
+                                  }
+                                })
+                               }
+                              }
+                            }
+                                                                addDefualtBilliing();
+                                                              } catch {
+                                                                throw Error('Cannot update address');
+                                                              }
+                                                            }
+                                                          })
+                                                        }
+                                                      }
+                                                    }
+                                                    addDefaultShipping();
+                                  } catch {
+                                    throw Error('Cannot update address');
+                                  }
+                                }
+                              })
+                            }
+                          }
+                        }
+                                      addBilliing();
+                                    } catch {
+                                      throw Error('Cannot update address');
+                                    }
+                                  }
+                            })
+                              }
+                        }
+                      }
+                      addShipping();
                       newAddress.classList.add('newaddress-invisible');
                       btnAddAddress.classList.remove('btnAadd-invisible');
                       cityNew.input.value ='';
@@ -97,124 +211,6 @@ export const AddNewAddress =(): HTMLElement=>{
             }
           }
         addNew();
-
-        const addShipping = async () => {
-          let addressID;
-          if(id){
-            const customer = await new StpClientApi().getCustomerbyId(id);
-            version = String(customer.version);
-            const len = customer.addresses.length;
-            addressID = customer.addresses[len-1].id;
-          }
-          if(addressID&&id&&version){
-            const shipInput = shipSwitch.querySelector(`.shippingswitch-new`);
-            const shipInputBoolean = shipInput?.hasAttribute('checked');
-            if(shipInputBoolean){
-              const customer = await new StpClientApi().getCustomerbyId(id);
-              version = String(customer.version);
-              const setShipping = new StpClientApi().addShipping(id,version,String(addressID));
-              setShipping
-              .then(async (data) => {
-                    if (data.statusCode === 200) {
-                      try {
-                        // divForSwitch.classList.add('invisible');
-                      } catch {
-                        throw Error('Cannot update address');
-                      }
-                    }
-              })
-                }
-          }
-        }
-        const addBilliing = async () => {
-          let addressID;
-          if(id){
-            const customer = await new StpClientApi().getCustomerbyId(id);
-            version = String(customer.version);
-            const len = customer.addresses.length;
-            addressID = customer.addresses[len-1].id;
-          }
-          if(addressID&&id&&version){
-            const billInput = billSwitch.querySelector(`.billingswitch-new`);
-            const billInputBoolean = billInput?.hasAttribute('checked');
-            if(billInputBoolean){
-              const customer = await new StpClientApi().getCustomerbyId(id);
-              version = String(customer.version);
-              const setBilling= new StpClientApi().addBilling(id,version,String(addressID));
-              setBilling
-              .then(async (data) => {
-                    if (data.statusCode === 200) {
-                      try {
-                        // divForSwitch.classList.add('invisible');
-                      } catch {
-                        throw Error('Cannot update address');
-                      }
-                    }
-              })
-                }
-          }
-        }
-        const addDefaultShipping = async () => {
-          let addressID;
-          if(id){
-            const customer = await new StpClientApi().getCustomerbyId(id);
-            version = String(customer.version);
-            const len = customer.addresses.length;
-            addressID = customer.addresses[len-1].id;
-          }
-          if(addressID&&id&&version){
-            const shipDefInput = shipDefaultSwitch.querySelector(`.shippingDefswitch-new`);
-            const shipDefInputBoolean = shipDefInput?.hasAttribute('checked');
-            if(shipDefInputBoolean){
-              const customer = await new StpClientApi().getCustomerbyId(id);
-              version = String(customer.version);
-              const setDefaultShipping = new StpClientApi().setDefaultShipping(id, version, addressID);
-              setDefaultShipping
-              .then(async (data) => {
-                    if (data.statusCode === 200) {
-                      try {
-                        // divForSwitch.classList.add('invisible');
-                      } catch {
-                        throw Error('Cannot update address');
-                      }
-                    }
-              })
-                }
-          }
-        }
-        const addDefualtBilliing = async () => {
-          let addressID;
-          if(id){
-            const customer = await new StpClientApi().getCustomerbyId(id);
-            version = String(customer.version);
-            const len = customer.addresses.length;
-            addressID = customer.addresses[len-1].id;
-          }
-          if(addressID&&id&&version){
-            const billDefaultInput = billDefaultSwitch.querySelector(`.billingDefswitch-new`);
-            const billDefaultInputBoolean = billDefaultInput?.hasAttribute('checked');
-            // console.log(billDefaultInputBoolean );
-            if(billDefaultInputBoolean){
-              const customer = await new StpClientApi().getCustomerbyId(id);
-              version = String(customer.version);
-              const setDefaultBilling= new StpClientApi().setDefaultBilling(id,version,String(addressID));
-              setDefaultBilling
-              .then(async (data) => {
-                    if (data.statusCode === 200) {
-                      try {
-                        // divForSwitch.classList.add('invisible');
-                      } catch {
-                        throw Error('Cannot update address');
-                      }
-                    }
-              })
-                }
-          }
-        }
-        addShipping();
-        addBilliing();
-        addDefaultShipping();
-        addDefualtBilliing();
         customRoute('/successupdate');
       }
       }
