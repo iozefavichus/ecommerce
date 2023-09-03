@@ -127,7 +127,9 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
     card.append(blockProperty);
   }
   if (discountedPrice) {
-    const discountedInCent: number = <number>discountedPrice[0].discounted?.value.centAmount;
+    const discountedInCent: number = <number>(
+      (discountedPrice[0].discounted ? discountedPrice[0].discounted.value.centAmount : undefined)
+    );
     priceDiscount = (discountedInCent / 100).toFixed(2);
     const blockProperty = createPriceDiscountBlock(priceDiscount);
     const priceEl = document.querySelectorAll('.product__price');
