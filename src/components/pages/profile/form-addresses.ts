@@ -165,9 +165,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                       })
                      }
                      const shipDefInput = shipDefaultSwitch.querySelector(`.shippingDefswitch-input${i}`);
-                     console.log(shipDefInput);
                      const shipDefInputBoolean = shipDefInput?.hasAttribute('checked');
-                     console.log(shipDefInputBoolean );
                      if(addressID&&shipDefInputBoolean){
                       const setDefaultShipping = new StpClientApi().setDefaultShipping(id,version,addressID);
                       setDefaultShipping

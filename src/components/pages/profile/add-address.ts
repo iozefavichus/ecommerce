@@ -62,6 +62,7 @@ export const AddNewAddress =(): HTMLElement=>{
 
     btnSaveNew.addEventListener('click',()=>{
       const newAdd ={
+        id: String((Math.random()*10000+Math.random()*10000)),
         country: 'US',
         city: cityNew.input.value.trim(),
         streetName: streetNew.input.value.trim(),
@@ -70,13 +71,16 @@ export const AddNewAddress =(): HTMLElement=>{
       const warningsArray = document.querySelectorAll('.small-visible');
       let id: string|null;
       let version: string;
+
       if(newAdd.city&&newAdd.streetName&&newAdd.postalCode){
         if (warningsArray.length === 0) {
           id = localStorage.getItem('id');
+          // let addressID: string|undefined;
           const addNew = async () => {
             if(id){
               const customer = await new StpClientApi().getCustomerbyId(id);
               version = String(customer.version);
+
             }
             if(id&&version){
               const newAddressInfo = new StpClientApi().addAddress(id, version, newAdd);
@@ -95,6 +99,71 @@ export const AddNewAddress =(): HTMLElement=>{
                     }
                 }
             })
+            }
+
+            if(id){
+              const shipDefInput = shipDefaultSwitch.querySelector(`.shippingDefswitch-new`);
+              const shipDefInputBoolean = shipDefInput?.hasAttribute('checked');
+              if(newAdd.id&&shipDefInputBoolean){
+               const setDefaultShipping = new StpClientApi().setDefaultShipping(id,version,newAdd.id);
+               setDefaultShipping
+               .then(async (data) => {
+                 if (data.statusCode === 200) {
+                   try {
+                     // divForSwitch.classList.add('invisible');
+                   } catch {
+                     throw Error('Cannot update address');
+                   }
+                 }
+               })
+              }
+              const billDefInput = billDefaultSwitch.querySelector(`.billingDefswitch-new`);
+                     const billDefInputBoolean = billDefInput?.hasAttribute('checked');
+                     if(newAdd.id&&billDefInputBoolean){
+                      const setDefaultBilling = new StpClientApi().setDefaultBilling(id,version,newAdd.id);
+                      setDefaultBilling
+                      .then(async (data) => {
+                        if (data.statusCode === 200) {
+                          try {
+                            // divForSwitch.classList.add('invisible');
+                          } catch {
+                            throw Error('Cannot update address');
+                          }
+                        }
+                      })
+                     }
+                const shipInput = shipSwitch.querySelector(`.shippingswitch-new`);
+                const shipInputBoolean = shipInput?.hasAttribute('checked');
+                if(newAdd.id&&shipInputBoolean){
+                  console.log('hello!!!')
+                  const setShipping = new StpClientApi().addShipping(id,version,newAdd.id);
+                  setShipping
+                  .then(async (data) => {
+                        if (data.statusCode === 200) {
+                          try {
+                            // divForSwitch.classList.add('invisible');
+                          } catch {
+                            throw Error('Cannot update address');
+                          }
+                        }
+                  })
+                    }
+                    const billInput = billSwitch.querySelector(`.billingswitch-new`);
+                    const billInputBoolean = billInput?.hasAttribute('checked');
+
+                    if(newAdd.id&&billInputBoolean){
+                     const setBilling = new StpClientApi().addBilling(id,version,newAdd.id);
+                     setBilling
+                     .then(async (data) => {
+                       if (data.statusCode === 200) {
+                         try {
+                           // divForSwitch.classList.add('invisible');
+                         } catch {
+                           throw Error('Cannot update address');
+                         }
+                       }
+                 })
+                   }
             }
           }
         addNew();
