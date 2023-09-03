@@ -113,44 +113,44 @@ export const PersonalInfo = (
 
       const emailVal = localStorage.getItem('email');
       if (emailVal) {
-      const version = localStorage.getItem('version');
-      if (emailVal && version) {
-        const id = localStorage.getItem('id');
-        let version: string;
-        const updateCus = async () => {
-          if (id) {
-            const customer = await new StpClientApi().getCustomerbyId(id);
-            version = String(customer.version);
-          }
-          const updateCustomer = new StpClientApi().updateCustomer(
-            localStorage.id,
-            version,
-            valueforName,
-            valueforSurName,
-            valueforBirth,
-            valueEmail,
-          );
-          setLocalStorageValue('email', valueEmail);
-          updateCustomer.then(async (data) => {
-            if (data.statusCode === 201) {
-              try {
-                btnSave.classList.add('btn-invisible');
-                name.input.setAttribute('readonly', 'readonly');
-                surname.input.setAttribute('readonly', 'readonly');
-                dateOfbirth.input.setAttribute('readonly', 'readonly');
-                name.input.classList.add('input-info');
-                surname.input.classList.add('input-info');
-                dateOfbirth.input.classList.add('input-info');
-              } catch {
-                throw Error('Cannot update personal information');
-              }
+        const version = localStorage.getItem('version');
+        if (emailVal && version) {
+          const id = localStorage.getItem('id');
+          let version: string;
+          const updateCus = async () => {
+            if (id) {
+              const customer = await new StpClientApi().getCustomerbyId(id);
+              version = String(customer.version);
             }
-          });
-        };
-        updateCus();
+            const updateCustomer = new StpClientApi().updateCustomer(
+              localStorage.id,
+              version,
+              valueforName,
+              valueforSurName,
+              valueforBirth,
+              valueEmail,
+            );
+            setLocalStorageValue('email', valueEmail);
+            updateCustomer.then(async (data) => {
+              if (data.statusCode === 201) {
+                try {
+                  btnSave.classList.add('btn-invisible');
+                  name.input.setAttribute('readonly', 'readonly');
+                  surname.input.setAttribute('readonly', 'readonly');
+                  dateOfbirth.input.setAttribute('readonly', 'readonly');
+                  name.input.classList.add('input-info');
+                  surname.input.classList.add('input-info');
+                  dateOfbirth.input.classList.add('input-info');
+                } catch {
+                  throw Error('Cannot update personal information');
+                }
+              }
+            });
+          };
+          updateCus();
+        }
       }
     }
   });
-
   return container;
 };
