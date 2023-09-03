@@ -147,11 +147,8 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                     if(id&&addressID){
                       const customer = await new StpClientApi().getCustomerbyId(id);
                       version = String(customer.version);
-                      const updateAdd = new StpClientApi().changeAddress(id, version, addressID, UpdAddress);
-                      updateAdd
-                      .then(async (data) => {
-                        if (data.statusCode === 200) {
-                          try {
+                      const updateAdd = await new StpClientApi().changeAddress(id, version, addressID, UpdAddress);
+                            console.log(updateAdd.body);
                             btnSave.classList.add('btn-invisible');
                             btnDelete.classList.add('btn-invisible');
                             btnCancel.classList.add('btn-invisible');
@@ -163,11 +160,26 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                             street.input.classList.add('input-info');
                             noEditCountry.container.classList.remove('country-invisible');
                             country.classList.add('country-invisible');
-                          } catch {
-                            throw Error('Cannot update address');
-                          }
-                        }
-                      })
+                      // updateAdd
+                      // .then(async (data) => {
+                      //   if (data.statusCode === 200) {
+                      //     try {
+                      //       btnSave.classList.add('btn-invisible');
+                      //       btnDelete.classList.add('btn-invisible');
+                      //       btnCancel.classList.add('btn-invisible');
+                      //       city.input.setAttribute('readonly', 'readonly');
+                      //       postcode.input.setAttribute('readonly', 'readonly');
+                      //       street.input.setAttribute('readonly', 'readonly');
+                      //       city.input.classList.add('input-info');
+                      //       postcode.input.classList.add('input-info');
+                      //       street.input.classList.add('input-info');
+                      //       noEditCountry.container.classList.remove('country-invisible');
+                      //       country.classList.add('country-invisible');
+                      //     } catch {
+                      //       throw Error('Cannot update address');
+                      //     }
+                      //   }
+                      // })
                      }
 
                      const shipDefInput = shipDefaultSwitch.querySelector(`.shippingDefswitch-input${i}`);
@@ -197,25 +209,22 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                           try {
                             const customernew = await new StpClientApi().getCustomerbyId(id);
                             version = String(customernew.version);
-                          // divForSwitch.classList.add('invisible');
+                            const setShipping = new StpClientApi().addShipping(id,version,addressID);
+                            setShipping
+                            .then(async (data) => {
+                              if (data.statusCode === 200) {
+                                try {
+                                  // divForSwitch.classList.add('invisible');
+                                } catch {
+                                  throw Error('Cannot update address');
+                                }
+                              }
+                        })
                           } catch {
                             throw Error('Cannot update address');
                           }
                         }
                       });
-                      const customernew = await new StpClientApi().getCustomerbyId(id);
-                      version = String(customernew.version);
-                      const setShipping = new StpClientApi().addShipping(id,version,addressID);
-                      setShipping
-                      .then(async (data) => {
-                        if (data.statusCode === 200) {
-                          try {
-                            // divForSwitch.classList.add('invisible');
-                          } catch {
-                            throw Error('Cannot update address');
-                          }
-                        }
-                  })
                      }
 
                      const billDefInput = billDefaultSwitch.querySelector(`.billingDefswitch-input${i}`);
@@ -244,25 +253,24 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                       .then(async (data) => {
                       if (data.statusCode === 200) {
                         try {
-                        // divForSwitch.classList.add('invisible');
+                          const customernew = await new StpClientApi().getCustomerbyId(id);
+                          version = String(customernew.version);
+                          const setBilling = new StpClientApi().addBilling(id,version,addressID);
+                          setBilling
+                          .then(async (data) => {
+                            if (data.statusCode === 200) {
+                              try {
+                                // divForSwitch.classList.add('invisible');
+                              } catch {
+                                throw Error('Cannot update address');
+                              }
+                            }
+                      })
                       } catch {
                         throw Error('Cannot update address');
                       }
                 }
               })
-                      const customernew = await new StpClientApi().getCustomerbyId(id);
-                      version = String(customernew.version);
-                      const setBilling = new StpClientApi().addBilling(id,version,addressID);
-                      setBilling
-                      .then(async (data) => {
-                        if (data.statusCode === 200) {
-                          try {
-                            // divForSwitch.classList.add('invisible');
-                          } catch {
-                            throw Error('Cannot update address');
-                          }
-                        }
-                  })
 
                      };
 
