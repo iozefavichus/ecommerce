@@ -23,6 +23,15 @@ export const AddNewAddress =(): HTMLElement=>{
     const billDefaultSwitch = createRoundSwitch('billingdef-switch','billing default',`billingDefswitch-new`);
     divForSwitchNew.append(shipSwitch, shipDefaultSwitch, billSwitch, billDefaultSwitch);
 
+    const shippingSwitch = shipSwitch.querySelector(`.shippingswitch-new`);
+    shippingSwitch?.removeAttribute('disabled');
+    const billingSwitch = billSwitch.querySelector(`.billingswitch-new`);
+    billingSwitch?.removeAttribute('disabled');
+    const shippingDefaultSwitch = shipDefaultSwitch.querySelector(`.shippingDefswitch-new`);
+    shippingDefaultSwitch?.removeAttribute('disabled');
+    const billingDefaultSwitch = billDefaultSwitch.querySelector(`.billingDefswitch-new`);
+    billingDefaultSwitch?.removeAttribute('disabled');
+
     const btnSaveNew = createCustomElement('button',['btn-save'],'Save changes') as HTMLButtonElement;
     const btnCancel = createCustomElement('button',['btn-cancel'],'Cancel') as HTMLButtonElement;
 
@@ -100,7 +109,6 @@ export const AddNewAddress =(): HTMLElement=>{
       if(!newAdd.postalCode){
         setError(postcodeNew.input, 'Cannot be blank')
       }
-      
       }
   )
 

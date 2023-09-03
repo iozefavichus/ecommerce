@@ -164,22 +164,24 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                         }
                       })
                      }
-                     const shipDefInput = document.querySelector(`.shippingDefswitch-input${i}`);
+                     const shipDefInput = shipDefaultSwitch.querySelector(`.shippingDefswitch-input${i}`);
+                     console.log(shipDefInput);
                      const shipDefInputBoolean = shipDefInput?.hasAttribute('checked');
+                     console.log(shipDefInputBoolean );
                      if(addressID&&shipDefInputBoolean){
                       const setDefaultShipping = new StpClientApi().setDefaultShipping(id,version,addressID);
                       setDefaultShipping
                       .then(async (data) => {
                         if (data.statusCode === 200) {
                           try {
-                            divForSwitch.classList.add('invisible');
+                            // divForSwitch.classList.add('invisible');
                           } catch {
                             throw Error('Cannot update address');
                           }
                         }
                       })
                      }
-                     const billDefInput = document.querySelector(`.billingDefswitch-input${i}`);
+                     const billDefInput = billDefaultSwitch.querySelector(`.billingDefswitch-input${i}`);
                      const billDefInputBoolean = billDefInput?.hasAttribute('checked');
                      if(addressID&&billDefInputBoolean){
                       const setDefaultBilling = new StpClientApi().setDefaultBilling(id,version,addressID);
@@ -187,7 +189,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                       .then(async (data) => {
                         if (data.statusCode === 200) {
                           try {
-                            divForSwitch.classList.add('invisible');
+                            // divForSwitch.classList.add('invisible');
                           } catch {
                             throw Error('Cannot update address');
                           }
