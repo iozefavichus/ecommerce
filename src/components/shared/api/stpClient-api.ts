@@ -127,6 +127,65 @@ class StpClientApi {
       .execute();
   }
 
+  public getProducts(limitNum?: number) {
+    return this.apiRoot
+      .products()
+      .get({ queryArgs: { limit: limitNum } })
+      .execute()
+      .then((data: ClientResponse<ProductPagedQueryResponse>) => data.body.results);
+  }
+
+  public getProductDiscounts(): Promise<ProductDiscount[]> {
+    return this.apiRoot
+      .productDiscounts()
+      .get()
+      .execute()
+      .then((data: ClientResponse<ProductDiscountPagedQueryResponse>) => data.body.results);
+  }
+
+  public getProductProjections(fieldSort?: string): Promise<ProductProjection[]> {
+    return this.apiRoot
+      .productProjections()
+      .search()
+      .get({
+        queryArgs: {
+          sort: fieldSort,
+        },
+      })
+      .execute()
+      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
+  }
+
+  public getProductSearchProjections(valueFilter?: string): Promise<ProductProjection[]> {
+    return this.apiRoot
+      ?.productProjections()
+      .search()
+      .get({
+        queryArgs: {
+          'text.en': valueFilter,
+          fuzzy: true,
+        },
+      })
+      .execute()
+      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
+  }
+
+  public getCategory(): Promise<Category[]> {
+    return this.apiRoot
+      ?.categories()
+      .get()
+      .execute()
+      .then((data: ClientResponse<CategoryPagedQueryResponse>) => data.body.results);
+  }
+
+  public getProductByKey(productKey: string) {
+    return this.apiRoot.products().withKey({ key: productKey }).get().execute();
+  }
+
+  public getProductCategory(catId: string) {
+    return this.apiRoot.categories().withId({ ID: catId }).get().execute();
+  }
+
   public addAddress(id: string, version: string, newAddress: baseAdress): Promise<ClientResponse<Customer>> {
     return this.apiRoot
       .customers()
@@ -185,78 +244,6 @@ class StpClientApi {
         },
       })
       .execute();
-  }
-
-  public getProducts(limitNum?: number) {
-    return this.apiRoot
-      .products()
-      .get({ queryArgs: { limit: limitNum } })
-      .execute()
-      .then((data: ClientResponse<ProductPagedQueryResponse>) => data.body.results);
-  }
-
-  public getProductDiscounts(): Promise<ProductDiscount[]> {
-    return this.apiRoot
-      .productDiscounts()
-      .get()
-      .execute()
-      .then((data: ClientResponse<ProductDiscountPagedQueryResponse>) => data.body.results);
-  }
-
-  public getProductProjections(fieldSort?: string): Promise<ProductProjection[]> {
-    return this.apiRoot
-      .productProjections()
-      .search()
-      .get({
-        queryArgs: {
-          sort: fieldSort,
-        },
-      })
-      .execute()
-      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
-  }
-
-  public getProductSearchProjections(valueFilter?: string): Promise<ProductProjection[]> {
-    return this.apiRoot
-      ?.productProjections()
-      .search()
-      .get({
-        queryArgs: {
-          'text.en': valueFilter,
-          fuzzy: true,
-        },
-      })
-      .execute()
-      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
-  }
-
-  public getProductFilterProjections(filterQuery?: string): Promise<ProductProjection[]> {
-    return this.apiRoot
-      ?.productProjections()
-      .search()
-      .get({
-        queryArgs: {
-          'filter.query': filterQuery,
-        },
-      })
-      .execute()
-      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
-  }
-
-  public getCategory(): Promise<Category[]> {
-    return this.apiRoot
-      ?.categories()
-      .get()
-      .execute()
-      .then((data: ClientResponse<CategoryPagedQueryResponse>) => data.body.results);
-  }
-
-  public getProductByKey(productKey: string) {
-    return this.apiRoot.products().withKey({ key: productKey }).get().execute();
-  }
-
-  public getProductCategory(catId: string) {
-    return this.apiRoot.categories().withId({ ID: catId }).get().execute();
   }
 
   public setDefaultShipping(id: string, version: string, AddressID: string): Promise<ClientResponse<Customer>> {
@@ -365,6 +352,39 @@ class StpClientApi {
         },
       })
       .execute();
+  }
+
+  public updatePassword(
+    id: string,
+    version: string,
+    oldPass: string,
+    NewPass: string,
+  ): Promise<ClientResponse<Customer>> {
+    return this.apiRoot
+      .customers()
+      .password()
+      .post({
+        body: {
+          id,
+          version: Number(version),
+          currentPassword: oldPass,
+          newPassword: NewPass,
+        },
+      })
+      .execute();
+  }
+
+  public getProductFilterProjections(filterQuery?: string): Promise<ProductProjection[]> {
+    return this.apiRoot
+      ?.productProjections()
+      .search()
+      .get({
+        queryArgs: {
+          'filter.query': filterQuery,
+        },
+      })
+      .execute()
+      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
   }
 }
 

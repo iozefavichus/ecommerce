@@ -112,8 +112,7 @@ export const PersonalInfo = (
       dateOfbirth.input.classList.add('input-info');
 
       const emailVal = localStorage.getItem('email');
-      const version = localStorage.getItem('version');
-      if (emailVal && version) {
+      if (emailVal) {
         const id = localStorage.getItem('id');
         let version: string;
         const updateCus = async () => {

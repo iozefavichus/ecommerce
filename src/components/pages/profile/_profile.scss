@@ -109,7 +109,8 @@
 }
 
 .btn-saveadd,
-.btn-delete {
+.btn-delete,
+.btn-cancelchange {
   padding: 2px;
   font-family: Poppins, sans-serif;
   font-size: 12px;
@@ -180,15 +181,6 @@
   padding: 2px;
   text-align: center;
   margin-right: 10px;
-  display: none;
-}
-
-.btn-invisible,
-.country-invisible,
-.address-invisible,
-.newaddress-invisible,
-.btnAadd-invisible {
-  display: none;
 }
 
 .title-personalinfo,
@@ -225,6 +217,24 @@
   cursor: pointer;
 }
 
+.div-btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.shipping-switch,
+.billing-switch,
+.shippingdef-switch,
+.billingdef-switch {
+  display: flex;
+}
+
+.container-switch {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .view-control {
   position: absolute;
   top: 52px;
@@ -238,7 +248,12 @@
   cursor: pointer;
 }
 
-.div-btn {
-  display: flex;
-  justify-content: space-between;
+.btn-invisible,
+.country-invisible,
+.address-invisible,
+.newaddress-invisible,
+.btnAadd-invisible,
+.label-invible,
+.invisible {
+  display: none;
 }
