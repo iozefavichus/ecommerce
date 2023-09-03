@@ -15,9 +15,10 @@ import { drawDetail } from '../../pages/detailed/draw-detail';
 import { getLocalStorage, setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { isLogin } from '../api/is-login';
 import { drawChangePassword } from '../../pages/profile/change-password';
-import { drawSuccessPassword } from '../../pages/profile/successpassword';
 import { PRODUCTS_PATH } from '../../app/path-products/save-paths';
 import { StpClientApi } from '../api/stpClient-api';
+import { drawSuccessUpdate } from '../../pages/profile/successupdate';
+import { drawSuccessPassword } from '../../pages/profile/successpassword';
 
 export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
@@ -36,6 +37,7 @@ const routes = [
   '/login',
   '/changepassword',
   '/successchangedpass',
+  '/successupdate',
 ];
 
 export const renderChangeContent = async (path: string, product?: Product | string): Promise<void> => {
@@ -97,6 +99,12 @@ export const renderChangeContent = async (path: string, product?: Product | stri
     drawSuccessPassword();
     setTimeout(() => {
       customRoute(links.HOME);
+    }, 1500);
+  }
+  if (renderPage === '/successupdate') {
+    drawSuccessUpdate();
+    setTimeout(() => {
+      customRoute('/profile');
     }, 1500);
   }
   if (renderPage === '/login') {
