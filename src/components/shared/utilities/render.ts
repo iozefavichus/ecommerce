@@ -35,7 +35,7 @@ const routes = [
   '/login',
   '/changepassword',
   '/successchangedpass',
-  '/successupdate'
+  '/successupdate',
 ];
 
 export const renderChangeContent = (path: string, product?: Product | string): void => {
