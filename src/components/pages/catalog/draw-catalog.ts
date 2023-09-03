@@ -193,7 +193,7 @@ export const drawCatalog = async () => {
   const categories = await new StpClientApi().getCategory();
   for (let i = 0; i < categories.length; i++) {
     const categoryItem = createCustomElement('option', ['wrapper__category-element']) as HTMLOptionElement;
-    categoryItem.setAttribute('data-value', `${categories[i].name.en}`);
+    categoryItem.setAttribute('data-id', `${categories[i].id}`);
     categoryItem.innerHTML = categories[i].name.en;
     categoryList.append(categoryItem);
   }

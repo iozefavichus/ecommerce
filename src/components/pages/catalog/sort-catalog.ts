@@ -25,9 +25,7 @@ export const searchValue = async (event: Event) => {
 
 export const filterValue = async (event: Event) => {
   const filterEl = event.target as HTMLSelectElement;
-  const value = filterEl.options[filterEl.selectedIndex].getAttribute('data-value');
+  const value = filterEl.options[filterEl.selectedIndex].getAttribute('data-id');
 
-  if (value === 'light') {
-    return await new StpClientApi().getProductFilterProjections('categories:exists light');
-  }
+  return await new StpClientApi().getProductFilterProjections(`categories.id: subtree("${value}")`);
 };
