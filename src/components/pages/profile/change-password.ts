@@ -29,7 +29,6 @@ const ChangePassword = ():HTMLElement  =>{
       const warningsArray = document.querySelectorAll('.small-visible');
       if (warningsArray.length === 0) {
         if(newPassValue&&repeatPassValue&&oldPassValue){
-            if(newPassValue===repeatPassValue){
                 if(emailVal){
                     const id = localStorage.getItem('id');
                     let version: string;
@@ -55,11 +54,6 @@ const ChangePassword = ():HTMLElement  =>{
                     }
                     updatePassword();
                   }
-              } else {
-                const message = 'Passwords are not the same';
-                setError(newPass.input,message);
-                setError(repeatPass.input,message);
-              }
         } else {
             const message = 'This field cannot be blank';
             setError(newPass.input,message);
@@ -87,6 +81,9 @@ const ChangePassword = ():HTMLElement  =>{
   repeatPass.input.addEventListener('input', (event) => {
     const password: string = (event.target as HTMLInputElement).value;
     CheckIt(checkPassword(password), repeatPass.input);
+    if(!(password===newPass.input.value)){
+      setError(repeatPass.input,'Passwords are not the same');
+    }
   });
 
     newPasslink.addEventListener('click',()=>{

@@ -180,6 +180,7 @@ class StpClientApi {
     return this.apiRoot.categories().withId({ ID: catId }).get().execute();
   }
 
+
   public addAddress(id: string, version:string, newAddress:baseAdress): Promise<ClientResponse<Customer>> {
     return this.apiRoot
       .customers()
@@ -191,7 +192,8 @@ class StpClientApi {
             {
               action: 'addAddress',
               address: newAddress,
-            }
+            },
+            
           ],
         },
       })

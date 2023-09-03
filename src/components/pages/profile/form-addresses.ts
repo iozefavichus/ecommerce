@@ -141,7 +141,12 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                     version = String(customer.version);
                     const ShippingArray = customer.shippingAddressIds;
                     const BillingArray = customer.billingAddressIds;
+                    const shippingDefaultValue = customer.defaultShippingAddressId;
+                    const billingDefaultValue = customer.defaultBillingAddressId;
+
                     if(id&&addressID){
+                      const customer = await new StpClientApi().getCustomerbyId(id);
+                      version = String(customer.version);
                       const updateAdd = new StpClientApi().changeAddress(id, version, addressID, UpdAddress);
                       updateAdd
                       .then(async (data) => {
@@ -164,9 +169,12 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                         }
                       })
                      }
+
                      const shipDefInput = shipDefaultSwitch.querySelector(`.shippingDefswitch-input${i}`);
                      const shipDefInputBoolean = shipDefInput?.hasAttribute('checked');
-                     if(addressID&&shipDefInputBoolean){
+                     if(!(shippingDefaultValue===addressID)&&addressID&&shipDefInputBoolean){
+                      const customer = await new StpClientApi().getCustomerbyId(id);
+                      version = String(customer.version);
                       const setDefaultShipping = new StpClientApi().setDefaultShipping(id,version,addressID);
                       setDefaultShipping
                       .then(async (data) => {
@@ -179,25 +187,26 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                         }
                       })
                      }
-                     const billDefInput = billDefaultSwitch.querySelector(`.billingDefswitch-input${i}`);
-                     const billDefInputBoolean = billDefInput?.hasAttribute('checked');
-                     if(addressID&&billDefInputBoolean){
-                      const setDefaultBilling = new StpClientApi().setDefaultBilling(id,version,addressID);
-                      setDefaultBilling
-                      .then(async (data) => {
-                        if (data.statusCode === 200) {
+                     if((shippingDefaultValue===addressID)&&addressID&&!shipDefInputBoolean&&(ShippingArray?.includes(addressID))){
+                      const customer = await new StpClientApi().getCustomerbyId(id);
+                      version = String(customer.version);
+                      console.log( version);
+                      const removeShipping = new StpClientApi().removeShipping(id, version, addressID);
+                        removeShipping
+                        .then(async (data) => {
+                          if (data.statusCode === 200) {
                           try {
-                            // divForSwitch.classList.add('invisible');
+                            const customernew = await new StpClientApi().getCustomerbyId(id);
+                            version = String(customernew.version);
+                          // divForSwitch.classList.add('invisible');
                           } catch {
                             throw Error('Cannot update address');
                           }
                         }
-                      })
-                     }
-                     const shipInput = shipSwitch.querySelector(`.shippingswitch-input${i}`);
-                     const shipInputBoolean = shipInput?.hasAttribute('checked');
-                     let ShipIncludes;
-                     if(addressID&&shipInputBoolean){
+                      });
+                      const customernew = await new StpClientApi().getCustomerbyId(id);
+                      version = String(customernew.version);
+                      console.log( version);
                       const setShipping = new StpClientApi().addShipping(id,version,addressID);
                       setShipping
                       .then(async (data) => {
@@ -209,12 +218,83 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                           }
                         }
                   })
-                    }
-                     if(addressID){
-                       ShipIncludes = ShippingArray?.includes(addressID);
                      }
 
+                     const billDefInput = billDefaultSwitch.querySelector(`.billingDefswitch-input${i}`);
+                     const billDefInputBoolean = billDefInput?.hasAttribute('checked');
+                     if(!(billingDefaultValue===addressID)&&addressID&&billDefInputBoolean){
+                      const customer = await new StpClientApi().getCustomerbyId(id);
+                      version = String(customer.version);
+                      const setDefaultBilling = new StpClientApi().setDefaultBilling(id,version,addressID);
+                      setDefaultBilling
+                      .then(async (data) => {
+                        if (data.statusCode === 200) {
+                          try {
+                            // divForSwitch.classList.add('invisible');
+                          } catch {
+                            throw Error('Cannot update address');
+                          }
+                        }
+                      })
+                     };
+
+                     if((billingDefaultValue===addressID)&&addressID&&!billDefInputBoolean&&(BillingArray?.includes(addressID))){
+                      const customer = await new StpClientApi().getCustomerbyId(id);
+                      version = String(customer.version);
+                      console.log( version);
+                      const removeBilling = new StpClientApi().removeBilling(id, version, addressID);
+                      removeBilling
+                      .then(async (data) => {
+                      if (data.statusCode === 200) {
+                        try {
+                        // divForSwitch.classList.add('invisible');
+                      } catch {
+                        throw Error('Cannot update address');
+                      }
+                }
+              })
+                      const customernew = await new StpClientApi().getCustomerbyId(id);
+                      version = String(customernew.version);
+                      console.log( version);
+                      const setBilling = new StpClientApi().addBilling(id,version,addressID);
+                      setBilling
+                      .then(async (data) => {
+                        if (data.statusCode === 200) {
+                          try {
+                            // divForSwitch.classList.add('invisible');
+                          } catch {
+                            throw Error('Cannot update address');
+                          }
+                        }
+                  })
+
+                     };
+
+
+                     const shipInput = shipSwitch.querySelector(`.shippingswitch-input${i}`);
+                     const shipInputBoolean = shipInput?.hasAttribute('checked');
+                     let ShipIncludes;
+                     if(addressID){
+                      ShipIncludes = ShippingArray?.includes(addressID);
+                    }
+                     if(!ShipIncludes&&addressID&&shipInputBoolean){
+                      const setShipping = new StpClientApi().addShipping(id,version,addressID);
+                      const customer = await new StpClientApi().getCustomerbyId(id);
+                      version = String(customer.version);
+                      setShipping
+                      .then(async (data) => {
+                        if (data.statusCode === 200) {
+                          try {
+                            // divForSwitch.classList.add('invisible');
+                          } catch {
+                            throw Error('Cannot update address');
+                          }
+                        }
+                  })
+                }
                      if(ShipIncludes&&addressID&&(!shipInputBoolean)) {
+                      const customer = await new StpClientApi().getCustomerbyId(id);
+                        version = String(customer.version);
                         const removeShipping = new StpClientApi().removeShipping(id, version, addressID);
                         removeShipping
                         .then(async (data) => {
@@ -233,7 +313,9 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                      if(addressID){
                       billIncludes = BillingArray?.includes(addressID);
                     }
-                     if(addressID&&billInputBoolean){
+                     if(!billIncludes&&addressID&&billInputBoolean){
+                      const customer = await new StpClientApi().getCustomerbyId(id);
+                      version = String(customer.version);
                       const setBilling = new StpClientApi().addBilling(id,version,addressID);
                       setBilling
                       .then(async (data) => {
@@ -247,6 +329,8 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                   })
                     }
                      if(billIncludes&&addressID&&(!billInputBoolean)) {
+                  const customer = await new StpClientApi().getCustomerbyId(id);
+                  version = String(customer.version);
                   const removeBilling = new StpClientApi().removeBilling(id, version, addressID);
                   removeBilling
                   .then(async (data) => {
@@ -300,6 +384,8 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                   const customer = await new StpClientApi().getCustomerbyId(id);
                   version = String(customer.version);
                   if(id&&addressID){
+                    const customer = await new StpClientApi().getCustomerbyId(id);
+                    version = String(customer.version);
                     const deleteAdd = new StpClientApi().deleteAddress(id, version, addressID);
                     deleteAdd
                     .then(async (data) => {
@@ -317,17 +403,13 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                 }
               }
               updateCus();
-
             }
           })
-
         container.append(address);
     }
 
   const newAddress = AddNewAddress();
   container.append(newAddress);
-
-
 
   return container;
 }
