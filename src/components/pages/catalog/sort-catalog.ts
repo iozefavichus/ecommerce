@@ -50,3 +50,13 @@ export const filterPriceProducts = async (minPriceDollar: string, maxPriceDollar
     drawSortCard(product, productWrapper);
   });
 };
+
+export const filterByColor = async (color: string) => {
+  const productWrapper = document.querySelector('.product__wrapper') as HTMLElement;
+  productWrapper.innerHTML = '';
+  const response = await new StpClientApi().getProductByColor(`variants.attributes.color.key:"${color}"`);
+  const products = response.body.results;
+  products.forEach((product) => {
+    drawSortCard(product, productWrapper);
+  });
+};

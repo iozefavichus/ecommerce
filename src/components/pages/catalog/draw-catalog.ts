@@ -2,7 +2,14 @@ import { Product, ProductProjection } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detailed/open-detail';
-import { filterPriceProducts, filterProducts, filterValue, searchValue, sortedValue } from './sort-catalog';
+import {
+  filterByColor,
+  filterPriceProducts,
+  filterProducts,
+  filterValue,
+  searchValue,
+  sortedValue,
+} from './sort-catalog';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -12,24 +19,17 @@ const createSearch = (): HTMLElement => {
   input.setAttribute('autocomplete', 'off');
   input.setAttribute('autofocus', '');
   input.setAttribute('placeholder', 'Search');
-  headingImg.append(input, heading);
+  headingImg.append(heading, input);
   container.append(headingImg);
   return container;
 };
 
 const createPanel = (): HTMLElement => {
   const wrapper = createCustomElement('div', ['panel__wrapper']);
-  const filterBlock = createCustomElement('div', ['panel__wrapper-filter']);
-  const filterRange = createCustomElement('img', ['panel__wrapper-img', 'panel__wrapper-range']);
-  const filterText = createCustomElement('p', ['panel__wrapper-text'], 'Filter');
-  const separator = createCustomElement('span', ['panel__wrapper-separator']);
   const showBlock = createCustomElement('div', ['panel__wrapper-show']);
   const showText = createCustomElement('p', ['panel__wrapper-show__text'], `Showing 1–16 of 32 results`);
   showText.setAttribute('id', 'numberProducts');
   const sortBlock = createCustomElement('div', ['panel__wrapper-show--sort']);
-  const showTextNumber = createCustomElement('p', ['panel__wrapper-show__text', 'panel__wrapper-show__text2'], 'Show');
-  const showNumber = createCustomElement('div', ['panel__wrapper-show--number', 'panel__wrapper-show__text2'], '16');
-  showNumber.setAttribute('id', 'numberCards');
   const showTextSort = createCustomElement(
     'p',
     ['panel__wrapper-show__text', 'panel__wrapper-show__text2'],
@@ -47,10 +47,9 @@ const createPanel = (): HTMLElement => {
   sortedValue3.setAttribute('data-value', 'sortPriceUp');
   sortedValue4.setAttribute('data-value', 'sortPriceDown');
   showSort.append(sortedValue, sortedValue1, sortedValue2, sortedValue3, sortedValue4);
-  filterBlock.append(filterRange, filterText, separator);
   showBlock.append(showText, sortBlock);
-  sortBlock.append(showTextNumber, showNumber, showTextSort, showSort);
-  wrapper.append(filterBlock, showBlock);
+  sortBlock.append(showTextSort, showSort);
+  wrapper.append(showBlock);
   return wrapper;
 };
 
@@ -67,12 +66,31 @@ const createFilter = (): HTMLElement => {
   const filterItem = createCustomElement('div', ['filter_item_wrapper']);
   const filterName = createCustomElement('div', ['filter_name']);
   const filterPrice = createCustomElement('div', ['filter_price']);
+  const filterColor = createCustomElement('div', ['filter_color']);
   const filterTitlesName = createCustomElement('div', ['filter_titles_name'], 'Name');
   const filterTitlesPrice = createCustomElement('div', ['filter_titles_price'], 'Price');
   const selectName = createCustomElement('select', ['filter_select_name']);
   const rangeSlider = createCustomElement('div', ['range-slider']);
   const inputPrice1 = createCustomElement('input', ['min-price']) as HTMLInputElement;
   const inputPrice2 = createCustomElement('input', ['max-price']) as HTMLInputElement;
+  const multicolored = createCustomElement('input', ['multicolored']) as HTMLInputElement;
+  multicolored.setAttribute('data-color', 'multicolored');
+  const white = createCustomElement('input', ['white']) as HTMLInputElement;
+  white.setAttribute('data-color', 'white');
+  const green = createCustomElement('input', ['green']) as HTMLInputElement;
+  green.setAttribute('data-color', 'green');
+  const grey = createCustomElement('input', ['grey']) as HTMLInputElement;
+  grey.setAttribute('data-color', 'grey');
+  const red = createCustomElement('input', ['red']) as HTMLInputElement;
+  red.setAttribute('data-color', 'red');
+  filterColor.append(multicolored, red, green, white, grey);
+  filterColor.addEventListener('click', (event) => {
+    const targetElem = event.target as HTMLElement;
+    const { color } = targetElem.dataset;
+    if (color) {
+      filterByColor(color);
+    }
+  });
   inputPrice1.addEventListener('blur', async () => {
     const minPrice = inputPrice1.value;
     const maxPrice = +inputPrice2.value > 0 ? inputPrice2.value : inputPrice2.getAttribute('placeholder');
@@ -93,7 +111,7 @@ const createFilter = (): HTMLElement => {
   filterName.append(filterTitlesName, selectName);
   rangeSlider.append(inputPrice1, inputPrice2);
   filterPrice.append(filterTitlesPrice, rangeSlider);
-  filterItem.append(filterName, filterPrice);
+  filterItem.append(filterName, filterPrice, filterColor);
   wrapper.append(filterItem);
   return wrapper;
 };
@@ -211,7 +229,7 @@ export const drawSortCard = (product: ProductProjection, el: HTMLElement): void 
   el.append(cardSort);
 };
 
-export const drawCatalog = async () => {
+export const drawCatalog = () => {
   const productWrapper = createCustomElement('div', ['product__wrapper']);
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   mainWrapper.innerHTML = '';
@@ -230,14 +248,14 @@ export const drawCatalog = async () => {
   if (btnPagination?.textContent === '1') {
     btnPagination.setAttribute('disabled', '');
   }
-  const products = await new StpClientApi().getProducts(12);
-  const categories = await new StpClientApi().getCategory();
-  for (let i = 0; i < categories.length; i++) {
-    const categoryItem = createCustomElement('option', ['wrapper__category-element']) as HTMLOptionElement;
-    categoryItem.setAttribute('data-id', `${categories[i].id}`);
-    categoryItem.innerHTML = categories[i].name.en;
-    categoryList.append(categoryItem);
-  }
+  const products = new StpClientApi().getProducts(12);
+  // const categories = await new StpClientApi().getCategory();
+  // for (let i = 0; i < categories.length; i++) {
+  //   const categoryItem = createCustomElement('option', ['wrapper__category-element']) as HTMLOptionElement;
+  //   categoryItem.setAttribute('data-id', `${categories[i].id}`);
+  //   categoryItem.innerHTML = categories[i].name.en;
+  //   categoryList.append(categoryItem);
+  // }
   categoryList?.addEventListener('change', async (event) => {
     const filterProducts = await filterValue(event);
     productWrapper.innerHTML = '';
@@ -245,12 +263,14 @@ export const drawCatalog = async () => {
       drawSortCard(product, productWrapper);
     });
   });
-  for (const product of products) {
-    const optionName = createCustomElement('option', ['filter_options_name']) as HTMLOptionElement;
-    optionName.setAttribute('data-key', `${product.key}`);
-    optionName.innerHTML = product.masterData.current.name.en;
-    filterName.append(optionName);
-  }
+  products.then((products) => {
+    products.forEach((product) => {
+      const optionName = createCustomElement('option', ['filter_options_name']) as HTMLOptionElement;
+      optionName.setAttribute('data-key', `${product.key}`);
+      optionName.innerHTML = product.masterData.current.name.en;
+      filterName.append(optionName);
+    });
+  });
   filterName?.addEventListener('change', async (event) => {
     const filterNameProducts = await filterProducts(event);
     productWrapper.innerHTML = '';
@@ -281,7 +301,9 @@ export const drawCatalog = async () => {
       drawSortCard(product, productWrapper);
     });
   });
-  products.forEach((product) => {
-    drawCard(product, productWrapper);
+  products.then((products) => {
+    products.forEach((product) => {
+      drawCard(product, productWrapper);
+    });
   });
 };

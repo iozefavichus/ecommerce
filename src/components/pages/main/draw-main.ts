@@ -43,7 +43,7 @@ const createBrowse = (): HTMLElement => {
   return sectionBrowse;
 };
 
-export const drawMain = async () => {
+export const drawMain = () => {
   const body = document.querySelector('body');
   const main = createCustomElement('main', ['main']);
   body?.append(main);
@@ -56,8 +56,10 @@ export const drawMain = async () => {
   const productsTitle = createCustomElement('p', ['products__title'], 'Our Products');
   sectionProducts.append(productsTitle);
   wrapper.append(discover, browse, sectionProducts, productWrapper);
-  const products = await new StpClientApi().getProducts(4);
-  products.forEach((product) => {
-    drawCard(product, productWrapper);
+  const products = new StpClientApi().getProducts(4);
+  products.then((products) => {
+    products.forEach((product) => {
+      drawCard(product, productWrapper);
+    });
   });
 };

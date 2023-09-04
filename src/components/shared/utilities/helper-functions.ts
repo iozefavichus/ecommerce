@@ -1,7 +1,7 @@
 import { customRoute } from '../../app/router/router';
 import { StpClientApi } from '../api/stpClient-api';
 
-export const createCustomElement = (tag: string, classNames?: string[], adjHTML?: string): HTMLElement => {
+const createCustomElement = (tag: string, classNames?: string[], adjHTML?: string): HTMLElement => {
   const element = document.createElement(tag);
   if (classNames) {
     element.className = classNames?.join(' ');
@@ -10,7 +10,7 @@ export const createCustomElement = (tag: string, classNames?: string[], adjHTML?
   return element;
 };
 
-export const isProduct = async (key: string) => {
+const isProduct = async (key: string) => {
   try {
     const response = await new StpClientApi().getProductByKey(key);
     const product = await response.body;
@@ -19,3 +19,5 @@ export const isProduct = async (key: string) => {
     customRoute(key, 'Sorry but, product is finished');
   }
 };
+
+export { createCustomElement, isProduct };
