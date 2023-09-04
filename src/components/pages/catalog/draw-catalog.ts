@@ -67,6 +67,7 @@ const createFilter = (): HTMLElement => {
   const filterName = createCustomElement('div', ['filter_name']);
   const filterPrice = createCustomElement('div', ['filter_price']);
   const filterColor = createCustomElement('div', ['filter_color']);
+  const resetBtn = createCustomElement('div', ['reset', 'button'], 'Reset');
   const filterTitlesName = createCustomElement('div', ['filter_titles_name'], 'Name');
   const filterTitlesPrice = createCustomElement('div', ['filter_titles_price'], 'Price');
   const selectName = createCustomElement('select', ['filter_select_name']);
@@ -111,7 +112,7 @@ const createFilter = (): HTMLElement => {
   filterName.append(filterTitlesName, selectName);
   rangeSlider.append(inputPrice1, inputPrice2);
   filterPrice.append(filterTitlesPrice, rangeSlider);
-  filterItem.append(filterName, filterPrice, filterColor);
+  filterItem.append(filterName, filterPrice, filterColor, resetBtn);
   wrapper.append(filterItem);
   return wrapper;
 };
@@ -229,7 +230,7 @@ export const drawSortCard = (product: ProductProjection, el: HTMLElement): void 
   el.append(cardSort);
 };
 
-export const drawCatalog = () => {
+export const drawCatalog = async () => {
   const productWrapper = createCustomElement('div', ['product__wrapper']);
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   mainWrapper.innerHTML = '';
@@ -244,18 +245,22 @@ export const drawCatalog = () => {
   const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
   const categoryList = document.querySelector('.wrapper__category-select') as HTMLSelectElement;
   const filterName = document.querySelector('.filter_select_name') as HTMLSelectElement;
+  const resetBtn = document.querySelector('.reset');
 
   if (btnPagination?.textContent === '1') {
     btnPagination.setAttribute('disabled', '');
   }
   const products = new StpClientApi().getProducts(12);
-  // const categories = await new StpClientApi().getCategory();
-  // for (let i = 0; i < categories.length; i++) {
-  //   const categoryItem = createCustomElement('option', ['wrapper__category-element']) as HTMLOptionElement;
-  //   categoryItem.setAttribute('data-id', `${categories[i].id}`);
-  //   categoryItem.innerHTML = categories[i].name.en;
-  //   categoryList.append(categoryItem);
-  // }
+  resetBtn?.addEventListener('click', () => {
+    drawCatalog();
+  });
+  const categories = await new StpClientApi().getCategory();
+  for (let i = 0; i < categories.length; i++) {
+    const categoryItem = createCustomElement('option', ['wrapper__category-element']) as HTMLOptionElement;
+    categoryItem.setAttribute('data-id', `${categories[i].id}`);
+    categoryItem.innerHTML = categories[i].name.en;
+    categoryList.append(categoryItem);
+  }
   categoryList?.addEventListener('change', async (event) => {
     const filterProducts = await filterValue(event);
     productWrapper.innerHTML = '';

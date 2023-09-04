@@ -81,10 +81,12 @@
     cursor: pointer;
     opacity: 0.5;
   }
+
   @include media-netbook {
     font-size: 14px;
     width: 40%;
   }
+
   @include media-table {
     font-size: 12px;
     width: 50%;
@@ -160,10 +162,12 @@
     cursor: pointer;
     opacity: 0.5;
   }
+
   @include media-netbook {
     font-size: 14px;
     width: 40%;
   }
+
   @include media-table {
     font-size: 12px;
     width: 50%;
