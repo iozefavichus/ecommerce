@@ -306,15 +306,15 @@
   justify-content: center;
   align-items: center;
   color: $color-default;
-  padding-left: 10px;
   font-family: Poppins, sans-serif;
   text-align: center;
   font-size: 1.2rem;
-  width: 4.5rem;
+  width: 9rem;
   height: 2rem;
   border-radius: 30px;
   margin: 0.2rem 0;
   background: radial-gradient(118.88% 606.86% at 0% 0%, rgb(0 0 0 / 20%) 0%, rgb(0 0 0 / 20%) 100%);
+  outline: none;
 }
 
 .range-slider {
@@ -323,19 +323,6 @@
   margin: 1rem 0 3rem;
   flex-wrap: wrap;
   align-items: center;
-}
-
-.reset_button {
-  color: $color-default;
-  font-size: 1rem;
-  line-height: 1.7rem;
-  padding: 0.2rem 1rem;
-  margin: 1rem;
-  background: radial-gradient(118.88% 606.86% at 0% 0%, rgb(0 0 0 / 20%) 0%, rgb(0 0 0 / 20%) 100%);
-  backdrop-filter: blur(31px);
-  border-radius: 30px;
-  border: $color-panel-product 2px solid;
-  transition: 0.3s;
 }
 
 @include media-netbook {
