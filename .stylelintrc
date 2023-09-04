@@ -5,6 +5,7 @@
     "selector-type-no-unknown": null,
     "no-descending-specificity": null,
     "scss/at-mixin-pattern": null,
-    "scss/dollar-variable-pattern": null
+    "scss/dollar-variable-pattern": null,
+    "no-duplicate-selectors": null
   }
 }

@@ -25,9 +25,20 @@ export const searchValue = async (event: Event) => {
 
 export const filterValue = async (event: Event) => {
   const filterEl = event.target as HTMLSelectElement;
-  const value = filterEl.options[filterEl.selectedIndex].getAttribute('data-value');
+  const value = filterEl.options[filterEl.selectedIndex].getAttribute('data-id');
 
-  if (value === 'light') {
-    return await new StpClientApi().getProductFilterProjections('categories:exists light');
-  }
+  return await new StpClientApi().getProductFilterProjections(`categories.id: subtree("${value}")`);
+};
+
+export const filterProducts = async (event: Event) => {
+  const filterName = event.target as HTMLSelectElement;
+  const value = filterName.options[filterName.selectedIndex].getAttribute('data-key');
+
+  return await new StpClientApi().getProductFilterProjections(`key:"${value}"`);
+};
+
+export const filterPriceProducts = async (event: Event) => {
+  const filterPrice = event.target as HTMLInputElement;
+  const { value } = filterPrice;
+  return await new StpClientApi().getProductFilterProjections(`variants.price.centAmount:range ${value} to *`);
 };
