@@ -71,8 +71,21 @@ const createFilter = (): HTMLElement => {
   const filterTitlesPrice = createCustomElement('div', ['filter_titles_price'], 'Price');
   const selectName = createCustomElement('select', ['filter_select_name']);
   const rangeSlider = createCustomElement('div', ['range-slider']);
-  const inputPrice1 = createCustomElement('input', ['min-price']);
-  const inputPrice2 = createCustomElement('input', ['max-price']);
+  const inputPrice1 = createCustomElement('input', ['min-price']) as HTMLInputElement;
+  const inputPrice2 = createCustomElement('input', ['max-price']) as HTMLInputElement;
+  inputPrice1.addEventListener('blur', async () => {
+    const minPrice = inputPrice1.value;
+    const maxPrice = +inputPrice2.value > 0 ? inputPrice2.value : inputPrice2.getAttribute('placeholder');
+    filterPriceProducts(minPrice, maxPrice!);
+  });
+  inputPrice2.addEventListener('blur', async () => {
+    const minPrice =
+      +inputPrice1.value > +inputPrice1.getAttribute('placeholder')!
+        ? inputPrice1.value
+        : inputPrice1.getAttribute('placeholder');
+    const maxPrice = inputPrice2.value;
+    filterPriceProducts(minPrice!, maxPrice!);
+  });
   inputPrice1.setAttribute('type', 'text');
   inputPrice2.setAttribute('type', 'text');
   inputPrice1.setAttribute('placeholder', '350');
@@ -161,7 +174,9 @@ export const drawSortCard = (product: ProductProjection, el: HTMLElement): void 
   const productImg = product.masterVariant.images;
   const productName = product.name.en;
   const productPrice = product.masterVariant.prices;
+  const discountedPrice = product.masterVariant.prices;
   let price: string;
+  let priceDiscount: string;
   cardSort.setAttribute('data-key', productKey as string);
   const imgBlock = createCustomElement('div', ['products__img-block']);
   const img = createCustomElement('img', ['product__img']) as HTMLImageElement;
@@ -175,6 +190,14 @@ export const drawSortCard = (product: ProductProjection, el: HTMLElement): void 
     const priceInCent = productPrice[0].value.centAmount;
     price = (priceInCent / 100).toFixed(2);
     const blockProperty = createBlockProperty(productName, price);
+    cardSort.append(blockProperty);
+  }
+  if (discountedPrice) {
+    const discountCents = discountedPrice[0].discounted?.value.centAmount as number;
+    priceDiscount = (discountCents / 100).toFixed(2);
+    const blockProperty = createPriceDiscountBlock(priceDiscount);
+    const priceEl = document.querySelectorAll('.product__price');
+    Array.from(priceEl).forEach((price) => price.classList.add('through'));
     cardSort.append(blockProperty);
   }
   cardSort.addEventListener('click', (event) => {
@@ -204,8 +227,6 @@ export const drawCatalog = async () => {
   const categoryList = document.querySelector('.wrapper__category-select') as HTMLSelectElement;
   const filterName = document.querySelector('.filter_select_name') as HTMLSelectElement;
 
-  const minPrice = document.querySelector('.min-price') as HTMLInputElement;
-
   if (btnPagination?.textContent === '1') {
     btnPagination.setAttribute('disabled', '');
   }
@@ -234,13 +255,6 @@ export const drawCatalog = async () => {
     const filterNameProducts = await filterProducts(event);
     productWrapper.innerHTML = '';
     filterNameProducts?.forEach((product) => {
-      drawSortCard(product, productWrapper);
-    });
-  });
-  minPrice?.addEventListener('change', async (event) => {
-    const filterPrice = await filterPriceProducts(event);
-    productWrapper.innerHTML = '';
-    filterPrice?.forEach((product) => {
       drawSortCard(product, productWrapper);
     });
   });

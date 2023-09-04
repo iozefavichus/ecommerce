@@ -1,4 +1,5 @@
 import { StpClientApi } from '../../shared/api/stpClient-api';
+import { drawSortCard } from './draw-catalog';
 
 export const sortedValue = async (event: Event) => {
   const sortedEl = event.target as HTMLSelectElement;
@@ -37,8 +38,15 @@ export const filterProducts = async (event: Event) => {
   return await new StpClientApi().getProductFilterProjections(`key:"${value}"`);
 };
 
-export const filterPriceProducts = async (event: Event) => {
-  const filterPrice = event.target as HTMLInputElement;
-  const price = +filterPrice.value * 100;
-  return await new StpClientApi().getProductFilterProjections(`variants.price.centAmount:range (${price} to *)`);
+export const filterPriceProducts = async (minPriceDollar: string, maxPriceDollar: string) => {
+  const productWrapper = document.querySelector('.product__wrapper') as HTMLElement;
+  productWrapper.innerHTML = '';
+  const minPriceCent = +minPriceDollar * 100;
+  const maxPriceCent = +maxPriceDollar * 100;
+  const products = await new StpClientApi().getProductFilterProjections(
+    `variants.price.centAmount:range (${minPriceCent} to ${maxPriceCent})`,
+  );
+  products.forEach((product) => {
+    drawSortCard(product, productWrapper);
+  });
 };
