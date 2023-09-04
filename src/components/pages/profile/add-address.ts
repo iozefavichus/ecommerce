@@ -82,24 +82,28 @@ export const AddNewAddress =(): HTMLElement=>{
               version = String(newAddressInfo.body.version);
               const len  = newAddressInfo.body.addresses.length;
               const addressID = newAddressInfo.body.addresses[len-1].id;
+
               const shipInput = shipSwitch.querySelector(`.shippingswitch-new`);
               const shipInputBoolean = shipInput?.hasAttribute('checked');
               if(shipInputBoolean){
                   const setShipping =  await new StpClientApi().addShipping(id,version,String(addressID));
                   version = String(setShipping.body.version);
               }
+
               const billInput = billSwitch.querySelector(`.billingswitch-new`);
               const billInputBoolean = billInput?.hasAttribute('checked');
               if(billInputBoolean){
                 const setBilling= await new StpClientApi().addBilling(id,version,String(addressID));
                 version = String(setBilling.body.version);
               }
+
               const shipDefInput = shipDefaultSwitch.querySelector(`.shippingDefswitch-new`);
               const shipDefInputBoolean = shipDefInput?.hasAttribute('checked');
               if(shipDefInputBoolean){
                 const setDefaultShipping = await new StpClientApi().setDefaultShipping(id, version, String(addressID));
                 version = String(setDefaultShipping.body.version);
               }
+
               const billDefaultInput = billDefaultSwitch.querySelector(`.billingDefswitch-new`);
               const billDefaultInputBoolean = billDefaultInput?.hasAttribute('checked');
               if(billDefaultInputBoolean){
@@ -115,10 +119,8 @@ export const AddNewAddress =(): HTMLElement=>{
             }
           }
         addNew();
-        customRoute('/successupdate');
       }
       }
-
 
       if(!newAdd.city){
         setError(cityNew.input, 'Cannot be blank')
