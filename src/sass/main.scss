@@ -1,0 +1,16 @@
+@import 'normalize.css';
+@import 'abstract/constants';
+@import 'abstract/mixins';
+@import 'fonts';
+@import 'base/global';
+@import 'components/buttons';
+@import '../components/pages/header/header';
+@import '../components/pages/main/main';
+@import '../components/pages/registration/registration';
+@import '../components/pages/footer/footer';
+@import '../components/pages/log-in/log-in';
+@import '../components/pages/notfound/not-found';
+@import '../components/pages/catalog/catalog';
+@import '../components/pages/detailed/detail';
+@import '../components/pages/profile/profile';
+@import '../sass/components/round-switch';

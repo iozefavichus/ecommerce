@@ -1,0 +1,402 @@
+.main__wrapper {
+  margin: auto;
+}
+
+.main-img {
+  background:
+    url('../assets/images/scandinavian.png'),
+    lightgray 50% / cover no-repeat;
+  width: 100%;
+  height: rem(716);
+  max-height: 100%;
+  position: relative;
+
+  @include media-netbook {
+    height: rem(500);
+    width: percent(1194, 1200);
+    object-fit: cover;
+    object-position: top;
+  }
+
+  @include media-table {
+    height: rem(356);
+    width: percent(768, 768);
+    object-fit: cover;
+    object-position: top;
+  }
+}
+
+.discover-block {
+  width: 45%;
+  height: rem(443);
+  border-radius: 10px;
+  background: $color-brand;
+  position: absolute;
+  top: rem(153);
+  right: rem(58);
+
+  @include media-netbook {
+    height: rem(380);
+    top: rem(10);
+    background: none;
+  }
+
+  @include media-table {
+    top: rem(32);
+    height: rem(300);
+    background: none;
+  }
+
+  @include media-mobile {
+    @include display-flex(center, center);
+
+    flex-flow: column nowrap;
+    left: rem(64);
+    width: auto;
+    background: none;
+  }
+}
+
+.discover-inner-block {
+  @include media-netbook {
+    @include display-flex(flex-start, center);
+
+    flex-flow: column wrap;
+  }
+
+  @include media-table {
+    @include display-flex(flex-start, center);
+
+    flex-flow: column wrap;
+  }
+
+  @include media-mobile {
+    @include display-flex(center, center);
+
+    flex-flow: column nowrap;
+    width: auto;
+  }
+}
+
+.discover {
+  &__appointment {
+    color: $font-color;
+    font-family: Poppins, sans-serif;
+    font-size: em(16);
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 3px;
+    padding-top: rem(62);
+    padding-left: rem(41);
+
+    @include media-mobile {
+      text-align: center;
+      padding-left: 0;
+    }
+  }
+
+  &__title {
+    color: $color-brand-dark;
+    font-family: Poppins, sans-serif;
+    font-size: em(52);
+    font-style: normal;
+    font-weight: 700;
+    line-height: rem(65);
+    padding: 4px 42px 17px;
+
+    @include media-netbook {
+      font-size: em(30);
+      line-height: rem(43);
+    }
+
+    @include media-table {
+      font-size: em(25);
+      line-height: rem(38);
+      padding: 0;
+    }
+  }
+
+  &__subtitle {
+    color: $font-color;
+    font-family: Poppins, sans-serif;
+    font-size: em(18);
+    font-style: normal;
+    font-weight: 500;
+    line-height: rem(24);
+    padding: 0 56px 46px 41px;
+
+    @include media-netbook {
+      font-size: em(15);
+      line-height: rem(21);
+    }
+
+    @include media-table {
+      font-size: em(14);
+      line-height: rem(20);
+      padding: 0;
+    }
+
+    @include media-mobile {
+      padding-bottom: rem(10);
+    }
+  }
+
+  &__button {
+    background: $color-brand-dark;
+    padding: rem(25) rem(72);
+    color: #fff;
+    font-family: Poppins, sans-serif;
+    font-size: em(16);
+    font-style: normal;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-left: rem(39);
+    margin-bottom: rem(37);
+
+    @include media-netbook {
+      font-size: em(14);
+      padding-top: rem(20);
+      padding-bottom: rem(20);
+      margin-top: rem(-10);
+    }
+
+    @include media-table {
+      font-size: em(14);
+      padding: rem(13) rem(40);
+      margin-top: rem(10);
+    }
+
+    @include media-mobile {
+      font-size: em(14);
+      padding: rem(10) rem(30);
+      margin-top: rem(6);
+    }
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.5;
+    }
+  }
+}
+
+.browse {
+  padding-top: rem(30);
+
+  &__title {
+    color: $font-color;
+    text-align: center;
+    font-family: Poppins, sans-serif;
+    font-size: em(32);
+    font-weight: 700;
+  }
+
+  &__subtitle {
+    color: $font-color;
+    text-align: center;
+    font-family: Poppins, sans-serif;
+    font-size: em(20);
+    font-weight: 400;
+    padding-top: rem(10);
+    padding-bottom: rem(50);
+  }
+
+  &__card {
+    @include display-flex(center, center);
+
+    flex-wrap: wrap;
+  }
+
+  &__img {
+    margin: 0 auto;
+  }
+
+  &__img1 {
+    background:
+      url('../assets/images/dining.png'),
+      lightgray 50% / cover no-repeat;
+    width: rem(381);
+    height: rem(480);
+    border-radius: 10px;
+
+    @include media-mobile {
+      background-size: contain;
+      width: rem(320);
+    }
+  }
+
+  &__img2 {
+    background:
+      url('../assets/images/living.png'),
+      lightgray 50% / cover no-repeat;
+    width: rem(381);
+    height: rem(480);
+    border-radius: 10px;
+
+    @include media-mobile {
+      background-size: contain;
+      width: rem(320);
+    }
+  }
+
+  &__img3 {
+    background:
+      url('../assets/images/bedroom.png'),
+      lightgray 50% / cover no-repeat;
+    width: rem(381);
+    height: rem(480);
+    border-radius: 10px;
+
+    @include media-mobile {
+      background-size: contain;
+      width: rem(320);
+    }
+  }
+
+  &__img-text {
+    color: $font-color;
+    text-align: center;
+    font-family: Poppins, sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+  }
+}
+
+.products {
+  padding-top: rem(56);
+
+  &__title {
+    color: $font-color-title;
+    text-align: center;
+    font-family: Poppins, sans-serif;
+    font-size: em(40);
+    font-weight: 700;
+    line-height: rem(48);
+    padding-top: rem(32);
+    padding-bottom: rem(32);
+  }
+
+  &__card {
+    @include display-flex(center, center);
+
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 90%;
+    margin: auto;
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.5s;
+    }
+  }
+
+  &__img {
+    margin: 0 auto;
+  }
+
+  &__img1 {
+    background: url('../assets/images/catalog/armchair_1.jpg') no-repeat;
+    background-size: cover;
+    width: rem(285);
+    height: rem(427);
+    border-radius: 10px;
+  }
+
+  &__img2 {
+    background: url('../assets/images/catalog/bed_1.jpg') no-repeat;
+    background-size: cover;
+    width: rem(285);
+    height: rem(427);
+    border-radius: 10px;
+  }
+
+  &__img3 {
+    background: url('../assets/images/catalog/sofa_1.jpg') no-repeat;
+    background-size: cover;
+    width: rem(285);
+    height: rem(427);
+    border-radius: 10px;
+  }
+
+  &__img4 {
+    background: url('../assets/images/catalog/storage_1.jpg') no-repeat;
+    background-size: cover;
+    width: rem(285);
+    height: rem(427);
+    border-radius: 10px;
+  }
+
+  &__img5 {
+    background: url('../assets/images/catalog/armchair_2.jpg') no-repeat;
+    background-size: cover;
+    width: rem(285);
+    height: rem(427);
+    border-radius: 10px;
+  }
+
+  &__img6 {
+    background: url('../assets/images/catalog/bed_2.jpg') no-repeat;
+    background-size: cover;
+    width: rem(285);
+    height: rem(427);
+    border-radius: 10px;
+  }
+
+  &__img7 {
+    background: url('../assets/images/catalog/sofa_2.jpg') no-repeat;
+    background-size: cover;
+    width: rem(285);
+    height: rem(427);
+    border-radius: 10px;
+  }
+
+  &__img8 {
+    background: url('../assets/images/catalog/storage_2.jpg') no-repeat;
+    background-size: cover;
+    width: rem(285);
+    height: rem(427);
+    border-radius: 10px;
+  }
+
+  &__img-text {
+    color: $font-color-title;
+    font-family: Poppins, sans-serif;
+    font-size: em(24);
+    font-weight: 600;
+    line-height: rem(28.8);
+  }
+
+  &__img-desc {
+    color: $font-color-desc;
+    font-family: Poppins, sans-serif;
+    font-size: em(16);
+    font-weight: 500;
+    line-height: rem(24);
+  }
+
+  &__img-price {
+    color: $font-color-title;
+    font-family: Poppins, sans-serif;
+    font-size: em(20);
+    font-weight: 600;
+    line-height: rem(30);
+  }
+
+  &__btn {
+    display: flex;
+    color: $color-brand-dark;
+    font-family: Poppins, sans-serif;
+    font-size: em(16);
+    font-weight: 600;
+    line-height: rem(24);
+    padding: rem(12) rem(74) rem(12) rem(82);
+    margin: rem(32) auto;
+
+    &:hover,
+    &:active {
+      border: 1px solid $color-brand-dark;
+      cursor: pointer;
+      transition: all 0.5s;
+    }
+  }
+}
