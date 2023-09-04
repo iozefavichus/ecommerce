@@ -90,14 +90,7 @@ class StpClientApi {
       .execute();
   }
 
-  public updateCustomer(
-    id: string,
-    version: string,
-    NameValue: string,
-    SurnameValue: string,
-    BirthValue: string,
-    EmailValue: string,
-  ): Promise<ClientResponse<Customer>> {
+  public updateCustomer(id: string, version:string, NameValue: string, SurnameValue: string, BirthValue: string, EmailValue: string): Promise<ClientResponse<Customer>> {
     return this.apiRoot
       .customers()
       .withId({ ID: id })
@@ -185,6 +178,7 @@ class StpClientApi {
   public getProductCategory(catId: string) {
     return this.apiRoot.categories().withId({ ID: catId }).get().execute();
   }
+
 
   public addAddress(id: string, version: string, newAddress: baseAdress): Promise<ClientResponse<Customer>> {
     return this.apiRoot

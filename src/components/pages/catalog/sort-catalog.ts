@@ -39,6 +39,6 @@ export const filterProducts = async (event: Event) => {
 
 export const filterPriceProducts = async (event: Event) => {
   const filterPrice = event.target as HTMLInputElement;
-  const { value } = filterPrice;
-  return await new StpClientApi().getProductFilterProjections(`variants.price.centAmount:range ${value} to *`);
+  const price = +filterPrice.value * 100;
+  return await new StpClientApi().getProductFilterProjections(`variants.price.centAmount:range (${price} to *)`);
 };
