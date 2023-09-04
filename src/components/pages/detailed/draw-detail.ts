@@ -87,6 +87,7 @@ export const drawDetail = async (product: Product | string): Promise<void> => {
     const title = createPageTitle('About the product');
     const detail = createCustomElement('div', [detailClasses.DETAIL]);
     const imgBlock = createImagesBlock(product);
+
     detail.append(imgBlock);
     if (productPrice) {
       const basePrice = productPrice[0].value.centAmount;
