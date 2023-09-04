@@ -1,5 +1,4 @@
 import { Product, ProductProjection } from '@commercetools/platform-sdk';
-import noUiSlider, { target } from 'nouislider';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detailed/open-detail';
@@ -72,20 +71,29 @@ const createFilter = (): HTMLElement => {
   const filterTitlesPrice = createCustomElement('div', ['filter_titles_price'], 'Price');
   const selectName = createCustomElement('select', ['filter_select_name']);
   const rangeSlider = createCustomElement('div', ['range-slider']);
-  const inputPrice1 = createCustomElement('input', ['min-price']);
-  const priceSlider = createCustomElement('div', ['slider-price']);
-  const inputPrice2 = createCustomElement('input', ['max-price']);
-  inputPrice1.setAttribute('type', 'number');
-  inputPrice2.setAttribute('type', 'number');
-  inputPrice1.setAttribute('value', '1');
-  inputPrice2.setAttribute('value', '9999');
-  inputPrice1.setAttribute('readonly', '');
-  inputPrice2.setAttribute('readonly', '');
-  const buttonFilter = createCustomElement('button', ['reset_button'], 'Reset filters');
+  const inputPrice1 = createCustomElement('input', ['min-price']) as HTMLInputElement;
+  const inputPrice2 = createCustomElement('input', ['max-price']) as HTMLInputElement;
+  inputPrice1.addEventListener('blur', async () => {
+    const minPrice = inputPrice1.value;
+    const maxPrice = +inputPrice2.value > 0 ? inputPrice2.value : inputPrice2.getAttribute('placeholder');
+    filterPriceProducts(minPrice, maxPrice!);
+  });
+  inputPrice2.addEventListener('blur', async () => {
+    const minPrice =
+      +inputPrice1.value > +inputPrice1.getAttribute('placeholder')!
+        ? inputPrice1.value
+        : inputPrice1.getAttribute('placeholder');
+    const maxPrice = inputPrice2.value;
+    filterPriceProducts(minPrice!, maxPrice!);
+  });
+  inputPrice1.setAttribute('type', 'text');
+  inputPrice2.setAttribute('type', 'text');
+  inputPrice1.setAttribute('placeholder', '350');
+  inputPrice2.setAttribute('placeholder', '3250');
   filterName.append(filterTitlesName, selectName);
-  rangeSlider.append(inputPrice1, priceSlider, inputPrice2);
+  rangeSlider.append(inputPrice1, inputPrice2);
   filterPrice.append(filterTitlesPrice, rangeSlider);
-  filterItem.append(filterName, filterPrice, buttonFilter);
+  filterItem.append(filterName, filterPrice);
   wrapper.append(filterItem);
   return wrapper;
 };
@@ -166,7 +174,9 @@ export const drawSortCard = (product: ProductProjection, el: HTMLElement): void 
   const productImg = product.masterVariant.images;
   const productName = product.name.en;
   const productPrice = product.masterVariant.prices;
+  const discountedPrice = product.masterVariant.prices;
   let price: string;
+  let priceDiscount: string;
   cardSort.setAttribute('data-key', productKey as string);
   const imgBlock = createCustomElement('div', ['products__img-block']);
   const img = createCustomElement('img', ['product__img']) as HTMLImageElement;
@@ -180,6 +190,14 @@ export const drawSortCard = (product: ProductProjection, el: HTMLElement): void 
     const priceInCent = productPrice[0].value.centAmount;
     price = (priceInCent / 100).toFixed(2);
     const blockProperty = createBlockProperty(productName, price);
+    cardSort.append(blockProperty);
+  }
+  if (discountedPrice) {
+    const discountCents = discountedPrice[0].discounted?.value.centAmount as number;
+    priceDiscount = (discountCents / 100).toFixed(2);
+    const blockProperty = createPriceDiscountBlock(priceDiscount);
+    const priceEl = document.querySelectorAll('.product__price');
+    Array.from(priceEl).forEach((price) => price.classList.add('through'));
     cardSort.append(blockProperty);
   }
   cardSort.addEventListener('click', (event) => {
@@ -208,38 +226,11 @@ export const drawCatalog = async () => {
   const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
   const categoryList = document.querySelector('.wrapper__category-select') as HTMLSelectElement;
   const filterName = document.querySelector('.filter_select_name') as HTMLSelectElement;
-  const resetButton = document.querySelector('.reset_button') as HTMLButtonElement;
-  const minPrice = document.querySelector('.min-price') as HTMLInputElement;
-  const sliderQuantity = <target>document.querySelector('.slider-price');
-
-  const slider = noUiSlider.create(sliderQuantity, {
-    start: [350, 3250],
-    connect: true,
-    step: 1,
-    range: {
-      min: [350],
-      max: [3250],
-    },
-  });
-
-  const inputPrice0 = document.querySelector('.min-price') as HTMLInputElement;
-  const inputPrice1 = document.querySelector('.max-price') as HTMLInputElement;
-  const inputsPrice = [inputPrice0, inputPrice1];
-
-  slider.on('update', (values: (string | number)[], handle: number) => {
-    inputsPrice[handle].value = String(Math.round(Number(values[handle])));
-    const change = new Event('change');
-    inputsPrice[handle].dispatchEvent(change);
-  });
-
-  resetButton.addEventListener('click', () => {
-    slider.set([350, 3250]);
-  });
 
   if (btnPagination?.textContent === '1') {
     btnPagination.setAttribute('disabled', '');
   }
-  const products = await new StpClientApi().getProducts(30);
+  const products = await new StpClientApi().getProducts(12);
   const categories = await new StpClientApi().getCategory();
   for (let i = 0; i < categories.length; i++) {
     const categoryItem = createCustomElement('option', ['wrapper__category-element']) as HTMLOptionElement;
@@ -264,13 +255,6 @@ export const drawCatalog = async () => {
     const filterNameProducts = await filterProducts(event);
     productWrapper.innerHTML = '';
     filterNameProducts?.forEach((product) => {
-      drawSortCard(product, productWrapper);
-    });
-  });
-  minPrice?.addEventListener('change', async (event) => {
-    const filterPrice = await filterPriceProducts(event);
-    productWrapper.innerHTML = '';
-    filterPrice?.forEach((product) => {
       drawSortCard(product, productWrapper);
     });
   });
