@@ -1,0 +1,52 @@
+.noUi-target {
+  background: white;
+  box-shadow: none;
+  border: none;
+}
+
+.noUi-horizontal {
+  height: 6px;
+}
+
+.noUi-handle::before,
+.noUi-handle::after {
+  display: none;
+}
+
+.noUi-handle {
+  box-shadow: none;
+  border-radius: 100%;
+}
+
+.noUi-horizontal .noUi-handle {
+  width: 20px;
+  height: 20px;
+  top: -7px;
+  right: -8px;
+}
+
+.range__block input[type='number']::-webkit-inner-spin-button,
+.range__block input[type='number']::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.slider-price {
+  width: 50%;
+  margin: 0 1.5rem;
+  background: $color-panel-product;
+}
+
+@media (width <= 1100px) {
+  .slider-price {
+    width: 40%;
+    margin: 0 1.5rem;
+  }
+}
+
+@media (width <= 840px) {
+  .slider-price {
+    width: 35%;
+    margin: 0 1rem;
+  }
+}
