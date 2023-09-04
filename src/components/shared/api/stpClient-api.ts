@@ -365,7 +365,7 @@ class StpClientApi {
       .password()
       .post({
         body: {
-          id: id,
+          id,
           version: Number(version),
           currentPassword: oldPass,
           newPassword: NewPass,
