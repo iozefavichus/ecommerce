@@ -264,7 +264,7 @@
 .filter__wrapper {
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 40%;
 }
 
 .filter_item_wrapper {
@@ -285,6 +285,41 @@
   color: $color-text-base;
   margin: 0.2rem;
   text-transform: uppercase;
+}
+
+.filter_select_name {
+  height: 55px;
+  width: 188px;
+  background: $color-panel-product;
+  color: $color-separator;
+
+  @include display-flex(center, center);
+}
+
+.min-price,
+.max-price {
+  box-sizing: border-box;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  color: $color-default;
+  padding-left: 10px;
+  font-family: Poppins, sans-serif;
+  text-align: center;
+  font-size: 1.2rem;
+  width: 4.5rem;
+  height: 2rem;
+  border-radius: 30px;
+  margin: 0.2rem 0;
+  background: radial-gradient(118.88% 606.86% at 0% 0%, rgb(0 0 0 / 20%) 0%, rgb(0 0 0 / 20%) 100%);
+}
+
+.range-slider {
+  width: 100%;
+  display: flex;
+  margin: 1rem 0 3rem;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .reset_button {

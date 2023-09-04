@@ -1,8 +1,9 @@
 import { Product, ProductProjection } from '@commercetools/platform-sdk';
+import noUiSlider, { target } from 'nouislider';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detailed/open-detail';
-import { filterValue, searchValue, sortedValue } from './sort-catalog';
+import { filterProducts, filterValue, searchValue, sortedValue } from './sort-catalog';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -69,9 +70,21 @@ const createFilter = (): HTMLElement => {
   const filterPrice = createCustomElement('div', ['filter_price']);
   const filterTitlesName = createCustomElement('div', ['filter_titles_name'], 'Name');
   const filterTitlesPrice = createCustomElement('div', ['filter_titles_price'], 'Price');
+  const selectName = createCustomElement('select', ['filter_select_name']);
+  const rangeSlider = createCustomElement('div', ['range-slider']);
+  const inputPrice1 = createCustomElement('input', ['min-price']);
+  const priceSlider = createCustomElement('div', ['slider-price']);
+  const inputPrice2 = createCustomElement('input', ['max-price']);
+  inputPrice1.setAttribute('type', 'number');
+  inputPrice2.setAttribute('type', 'number');
+  inputPrice1.setAttribute('value', '1');
+  inputPrice2.setAttribute('value', '9999');
+  inputPrice1.setAttribute('readonly', '');
+  inputPrice2.setAttribute('readonly', '');
   const buttonFilter = createCustomElement('button', ['reset_button'], 'Reset filters');
-  filterName.append(filterTitlesName);
-  filterPrice.append(filterTitlesPrice);
+  filterName.append(filterTitlesName, selectName);
+  rangeSlider.append(inputPrice1, priceSlider, inputPrice2);
+  filterPrice.append(filterTitlesPrice, rangeSlider);
   filterItem.append(filterName, filterPrice, buttonFilter);
   wrapper.append(filterItem);
   return wrapper;
@@ -157,6 +170,7 @@ export const drawSortCard = (product: ProductProjection, el: HTMLElement): void 
   if (productImg && productImg?.length > 0) {
     const srcImageProduct = productImg[0].url;
     img.style.backgroundImage = `url(${srcImageProduct})`;
+    img.style.width = '285px';
   }
   if (productPrice) {
     const priceInCent = productPrice[0].value.centAmount;
@@ -185,6 +199,33 @@ export const drawCatalog = async () => {
   const searchField = document.querySelector('.input-search') as HTMLInputElement;
   const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
   const categoryList = document.querySelector('.wrapper__category-select') as HTMLSelectElement;
+  const filterName = document.querySelector('.filter_select_name') as HTMLSelectElement;
+  const resetButton = document.querySelector('.reset_button') as HTMLButtonElement;
+  const sliderQuantity = <target>document.querySelector('.slider-price');
+
+  const slider = noUiSlider.create(sliderQuantity, {
+    start: [350, 3250],
+    connect: true,
+    step: 1,
+    range: {
+      min: [350],
+      max: [3250],
+    },
+  });
+
+  const inputQuantity0 = document.querySelector('.min-price') as HTMLInputElement;
+  const inputQuantity1 = document.querySelector('.max-price') as HTMLInputElement;
+  const inputsQuantity = [inputQuantity0, inputQuantity1];
+
+  slider.on('update', (values: (string | number)[], handle: number) => {
+    inputsQuantity[handle].value = String(Math.round(Number(values[handle])));
+    const change = new Event('change');
+    inputsQuantity[handle].dispatchEvent(change);
+  });
+
+  resetButton.addEventListener('click', () => {
+    slider.set([350, 3250]);
+  });
 
   if (btnPagination?.textContent === '1') {
     btnPagination.setAttribute('disabled', '');
@@ -201,6 +242,19 @@ export const drawCatalog = async () => {
     const filterProducts = await filterValue(event);
     productWrapper.innerHTML = '';
     filterProducts?.forEach((product) => {
+      drawSortCard(product, productWrapper);
+    });
+  });
+  for (const product of products) {
+    const optionName = createCustomElement('option', ['filter_options_name']) as HTMLOptionElement;
+    optionName.setAttribute('data-key', `${product.key}`);
+    optionName.innerHTML = product.masterData.current.name.en;
+    filterName.append(optionName);
+  }
+  filterName?.addEventListener('change', async (event) => {
+    const filterNameProducts = await filterProducts(event);
+    productWrapper.innerHTML = '';
+    filterNameProducts?.forEach((product) => {
       drawSortCard(product, productWrapper);
     });
   });

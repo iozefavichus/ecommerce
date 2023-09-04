@@ -29,3 +29,10 @@ export const filterValue = async (event: Event) => {
 
   return await new StpClientApi().getProductFilterProjections(`categories.id: subtree("${value}")`);
 };
+
+export const filterProducts = async (event: Event) => {
+  const filterName = event.target as HTMLSelectElement;
+  const value = filterName.options[filterName.selectedIndex].getAttribute('data-key');
+
+  return await new StpClientApi().getProductFilterProjections(`key:"${value}"`);
+};
