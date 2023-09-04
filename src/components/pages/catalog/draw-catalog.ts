@@ -3,7 +3,7 @@ import noUiSlider, { target } from 'nouislider';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detailed/open-detail';
-import { filterProducts, filterValue, searchValue, sortedValue } from './sort-catalog';
+import { filterPriceProducts, filterProducts, filterValue, searchValue, sortedValue } from './sort-catalog';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -201,6 +201,7 @@ export const drawCatalog = async () => {
   const categoryList = document.querySelector('.wrapper__category-select') as HTMLSelectElement;
   const filterName = document.querySelector('.filter_select_name') as HTMLSelectElement;
   const resetButton = document.querySelector('.reset_button') as HTMLButtonElement;
+  const minPrice = document.querySelector('.min-price') as HTMLInputElement;
   const sliderQuantity = <target>document.querySelector('.slider-price');
 
   const slider = noUiSlider.create(sliderQuantity, {
@@ -213,14 +214,14 @@ export const drawCatalog = async () => {
     },
   });
 
-  const inputQuantity0 = document.querySelector('.min-price') as HTMLInputElement;
-  const inputQuantity1 = document.querySelector('.max-price') as HTMLInputElement;
-  const inputsQuantity = [inputQuantity0, inputQuantity1];
+  const inputPrice0 = document.querySelector('.min-price') as HTMLInputElement;
+  const inputPrice1 = document.querySelector('.max-price') as HTMLInputElement;
+  const inputsPrice = [inputPrice0, inputPrice1];
 
   slider.on('update', (values: (string | number)[], handle: number) => {
-    inputsQuantity[handle].value = String(Math.round(Number(values[handle])));
+    inputsPrice[handle].value = String(Math.round(Number(values[handle])));
     const change = new Event('change');
-    inputsQuantity[handle].dispatchEvent(change);
+    inputsPrice[handle].dispatchEvent(change);
   });
 
   resetButton.addEventListener('click', () => {
@@ -255,6 +256,13 @@ export const drawCatalog = async () => {
     const filterNameProducts = await filterProducts(event);
     productWrapper.innerHTML = '';
     filterNameProducts?.forEach((product) => {
+      drawSortCard(product, productWrapper);
+    });
+  });
+  minPrice?.addEventListener('change', async (event) => {
+    const filterPrice = await filterPriceProducts(event);
+    productWrapper.innerHTML = '';
+    filterPrice?.forEach((product) => {
       drawSortCard(product, productWrapper);
     });
   });
