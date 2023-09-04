@@ -230,7 +230,7 @@ export const drawSortCard = (product: ProductProjection, el: HTMLElement): void 
   el.append(cardSort);
 };
 
-export const drawCatalog = () => {
+export const drawCatalog = async () => {
   const productWrapper = createCustomElement('div', ['product__wrapper']);
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   mainWrapper.innerHTML = '';
@@ -254,13 +254,13 @@ export const drawCatalog = () => {
   resetBtn?.addEventListener('click', () => {
     drawCatalog();
   });
-  // const categories = await new StpClientApi().getCategory();
-  // for (let i = 0; i < categories.length; i++) {
-  //   const categoryItem = createCustomElement('option', ['wrapper__category-element']) as HTMLOptionElement;
-  //   categoryItem.setAttribute('data-id', `${categories[i].id}`);
-  //   categoryItem.innerHTML = categories[i].name.en;
-  //   categoryList.append(categoryItem);
-  // }
+  const categories = await new StpClientApi().getCategory();
+  for (let i = 0; i < categories.length; i++) {
+    const categoryItem = createCustomElement('option', ['wrapper__category-element']) as HTMLOptionElement;
+    categoryItem.setAttribute('data-id', `${categories[i].id}`);
+    categoryItem.innerHTML = categories[i].name.en;
+    categoryList.append(categoryItem);
+  }
   categoryList?.addEventListener('change', async (event) => {
     const filterProducts = await filterValue(event);
     productWrapper.innerHTML = '';
