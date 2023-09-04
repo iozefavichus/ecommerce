@@ -1,4 +1,5 @@
 @import 'normalize.css';
+@import 'nouislider/dist/nouislider.css';
 @import 'abstract/constants';
 @import 'abstract/mixins';
 @import 'fonts';
@@ -11,7 +12,6 @@
 @import '../components/pages/log-in/log-in';
 @import '../components/pages/notfound/not-found';
 @import '../components/pages/catalog/catalog';
-@import '../components/pages/catalog/slider';
 @import '../components/pages/catalog/sliderCustom';
 @import '../components/pages/detailed/detail';
 @import '../components/pages/profile/profile';
