@@ -89,10 +89,10 @@
   }
 
   &-show {
-    width: calc(100% - 200px);
-    padding-right: 15px;
-
     @include display-flex(center, space-between);
+
+    width: 80%;
+    margin: auto;
 
     &__text {
       color: $color-text-base;
@@ -137,6 +137,48 @@
       color: $color-separator;
     }
   }
+}
+
+.filter_color {
+  @include display-flex(center, space-between);
+
+  width: 30%;
+}
+
+.multicolored,
+.red,
+.green,
+.white,
+.grey {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  border: 2px solid black;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
+}
+
+.multicolored {
+  background-color: rgb(255 0 0);
+}
+
+.red {
+  background-color: rgb(150 3 3);
+}
+
+.green {
+  background-color: rgb(17 136 1);
+}
+
+.white {
+  background-color: rgb(255 255 255);
+}
+
+.grey {
+  background-color: rgb(87 87 87);
 }
 
 .product__wrapper {
