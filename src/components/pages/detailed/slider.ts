@@ -1,4 +1,6 @@
-let curIndex = 0;
+export const curIndex = {
+  index: 0,
+};
 
 export const updateImagePosition = (currentIndex: number): void => {
   const imgWrapper = document.querySelector('.detail__img-wrapper') as HTMLElement;
@@ -13,13 +15,13 @@ export const updateImagePosition = (currentIndex: number): void => {
 export const prevImage = (): number => {
   const images = document.querySelectorAll('.img');
   const imagesCount = images.length;
-  curIndex = (curIndex - 1 + imagesCount) % imagesCount;
-  return curIndex;
+  curIndex.index = (curIndex.index - 1 + imagesCount) % imagesCount;
+  return curIndex.index;
 };
 
 export const nextImage = (): number => {
   const images = document.querySelectorAll('.img');
   const imagesCount = images.length;
-  curIndex = (curIndex + 1) % imagesCount;
-  return curIndex;
+  curIndex.index = (curIndex.index + 1) % imagesCount;
+  return curIndex.index;
 };

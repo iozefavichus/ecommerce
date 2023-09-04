@@ -6,59 +6,59 @@ import { StpClientApi } from "../../shared/api/stpClient-api";
 import { checkCity,checkPost } from "../registration/validation";
 import { customRoute } from "../../app/router/router";
 
-export const AddNewAddress =(): HTMLElement=>{
-    const divForAddress =createCustomElement('div',['container-newaddress']);
-    const btnAddAddress = createCustomElement('button',['btn-add'],'Add address') as HTMLButtonElement;
-    const newAddress = createCustomElement('div',['container-newaddress']);
+export const AddNewAddress = (): HTMLElement => {
+  const divForAddress = createCustomElement('div', ['container-newaddress']);
+  const btnAddAddress = createCustomElement('button', ['btn-add'], 'Add address') as HTMLButtonElement;
+  const newAddress = createCustomElement('div', ['container-newaddress']);
+  newAddress.classList.add('newaddress-invisible');
+  const countryNew = createFormWithOptions('country', 'Country');
+  const postcodeNew = createFormDiv('newpostcode', 'Postal code', 'text', 'newpostcode');
+  const cityNew = createFormDiv('newcity', 'City', 'text', 'newcity');
+  const streetNew = createFormDiv('newstreet', 'Street', 'text', 'newstreet');
+
+  const divForSwitchNew = createCustomElement('div', ['container-switch']);
+  const shipSwitch = createRoundSwitch('shipping-switch', 'shipping', `shippingswitch-new`);
+  const billSwitch = createRoundSwitch('billing-switch', 'billing', `billingswitch-new`);
+  const shipDefaultSwitch = createRoundSwitch('shippingdef-switch', 'shipping default', `shippingDefswitch-new`);
+  const billDefaultSwitch = createRoundSwitch('billingdef-switch', 'billing default', `billingDefswitch-new`);
+  divForSwitchNew.append(shipSwitch, shipDefaultSwitch, billSwitch, billDefaultSwitch);
+
+  const shippingSwitch = shipSwitch.querySelector(`.shippingswitch-new`);
+  shippingSwitch?.removeAttribute('disabled');
+  const billingSwitch = billSwitch.querySelector(`.billingswitch-new`);
+  billingSwitch?.removeAttribute('disabled');
+  const shippingDefaultSwitch = shipDefaultSwitch.querySelector(`.shippingDefswitch-new`);
+  shippingDefaultSwitch?.removeAttribute('disabled');
+  const billingDefaultSwitch = billDefaultSwitch.querySelector(`.billingDefswitch-new`);
+  billingDefaultSwitch?.removeAttribute('disabled');
+
+  const btnSaveNew = createCustomElement('button', ['btn-save'], 'Save changes') as HTMLButtonElement;
+  const btnCancel = createCustomElement('button', ['btn-cancel'], 'Cancel') as HTMLButtonElement;
+
+  cityNew.input.addEventListener('input', (event) => {
+    const cityValue: string = (event.target as HTMLInputElement).value;
+    CheckIt(checkCity(cityValue), cityNew.input);
+  });
+  postcodeNew.input.addEventListener('input', (event) => {
+    const postValue: string = (event.target as HTMLInputElement).value;
+    CheckIt(checkPost('USA', postValue), postcodeNew.input);
+  });
+  streetNew.input.addEventListener('input', (event) => {
+    const streetValue: string = (event.target as HTMLInputElement).value;
+    if (streetValue === '') {
+      setError(streetNew.input, 'Street cannot be blank');
+    } else {
+      setSuccess(streetNew.input);
+    }
+  });
+
+  btnCancel.addEventListener('click', () => {
     newAddress.classList.add('newaddress-invisible');
-    const countryNew =  createFormWithOptions('country', 'Country');
-    const postcodeNew =  createFormDiv('newpostcode', 'Postal code', 'text','newpostcode');
-    const cityNew =  createFormDiv('newcity', 'City', 'text','newcity');
-    const streetNew =  createFormDiv('newstreet', 'Street', 'text', 'newstreet');
-
-    const divForSwitchNew = createCustomElement('div',['container-switch']);
-    const shipSwitch = createRoundSwitch('shipping-switch', 'shipping',`shippingswitch-new`);
-    const billSwitch = createRoundSwitch('billing-switch', 'billing',`billingswitch-new`);
-    const shipDefaultSwitch = createRoundSwitch('shippingdef-switch','shipping default',`shippingDefswitch-new`);
-    const billDefaultSwitch = createRoundSwitch('billingdef-switch','billing default',`billingDefswitch-new`);
-    divForSwitchNew.append(shipSwitch, shipDefaultSwitch, billSwitch, billDefaultSwitch);
-
-    const shippingSwitch = shipSwitch.querySelector(`.shippingswitch-new`);
-    shippingSwitch?.removeAttribute('disabled');
-    const billingSwitch = billSwitch.querySelector(`.billingswitch-new`);
-    billingSwitch?.removeAttribute('disabled');
-    const shippingDefaultSwitch = shipDefaultSwitch.querySelector(`.shippingDefswitch-new`);
-    shippingDefaultSwitch?.removeAttribute('disabled');
-    const billingDefaultSwitch = billDefaultSwitch.querySelector(`.billingDefswitch-new`);
-    billingDefaultSwitch?.removeAttribute('disabled');
-
-    const btnSaveNew = createCustomElement('button',['btn-save'],'Save changes') as HTMLButtonElement;
-    const btnCancel = createCustomElement('button',['btn-cancel'],'Cancel') as HTMLButtonElement;
-
-    cityNew.input.addEventListener('input', (event) => {
-      const cityValue: string = (event.target as HTMLInputElement).value;
-      CheckIt(checkCity(cityValue), cityNew.input);
-    });
-    postcodeNew.input.addEventListener('input', (event) => {
-      const postValue: string = (event.target as HTMLInputElement).value;
-      CheckIt(checkPost('USA', postValue), postcodeNew.input);
-    });
-    streetNew.input.addEventListener('input', (event) => {
-      const streetValue: string = (event.target as HTMLInputElement).value;
-      if (streetValue === '') {
-        setError(streetNew.input, 'Street cannot be blank');
-      } else {
-        setSuccess(streetNew.input);
-      }
-    });
-
-    btnCancel.addEventListener('click',()=>{
-        newAddress.classList.add('newaddress-invisible');
-        btnAddAddress.classList.remove('btnAadd-invisible');
-        cityNew.input.value ='';
-        streetNew.input.value='';
-        postcodeNew.input.value='';
-    })
+    btnAddAddress.classList.remove('btnAadd-invisible');
+    cityNew.input.value = '';
+    streetNew.input.value = '';
+    postcodeNew.input.value = '';
+  });
 
     btnSaveNew.addEventListener('click',()=>{
       const newAdd ={
@@ -118,6 +118,7 @@ export const AddNewAddress =(): HTMLElement=>{
               customRoute('/successupdate');
             }
           }
+        };
         addNew();
       }
       }
@@ -134,13 +135,21 @@ export const AddNewAddress =(): HTMLElement=>{
       }
   )
 
-    newAddress.append(countryNew, postcodeNew.container, cityNew.container, streetNew.container,divForSwitchNew, btnSaveNew, btnCancel);
+  newAddress.append(
+    countryNew,
+    postcodeNew.container,
+    cityNew.container,
+    streetNew.container,
+    divForSwitchNew,
+    btnSaveNew,
+    btnCancel,
+  );
 
-        btnAddAddress.addEventListener('click',() => {
-            btnAddAddress.classList.add('btnAadd-invisible');
-            newAddress.classList.remove('newaddress-invisible');
-          });
+  btnAddAddress.addEventListener('click', () => {
+    btnAddAddress.classList.add('btnAadd-invisible');
+    newAddress.classList.remove('newaddress-invisible');
+  });
 
-    divForAddress.append(btnAddAddress,newAddress);
-    return divForAddress;
-}
+  divForAddress.append(btnAddAddress, newAddress);
+  return divForAddress;
+};

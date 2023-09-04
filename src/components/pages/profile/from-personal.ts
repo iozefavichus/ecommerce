@@ -11,7 +11,7 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
   const emailValue = localStorage.getItem('email');
 
   const container = createCustomElement('div', ['container-personal']);
-  const personalDiv = createCustomElement('div',['title-personalinfo'],'Personal Information');
+  const personalDiv = createCustomElement('div', ['title-personalinfo'], 'Personal Information');
 
   const btnEdit = createCustomElement('button', ['btn-edit'], 'Edit') as HTMLButtonElement;
   personalDiv.append(btnEdit);
@@ -43,15 +43,10 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
   const btnSave = createCustomElement('button', ['btn-save'], 'Save changes') as HTMLButtonElement;
   btnSave.classList.add('btn-invisible');
 
-  const btnCancel = createCustomElement('button', ['btn-cancel'], 'Cancel') as HTMLButtonElement;
-  btnCancel.classList.add('btn-invisible');
-  btnCancel.addEventListener('click', () => {
-    customRoute('/profile');
-  });
 
   container.append(personalDiv, email.container, name.container, surname.container, dateOfbirth.container, btnSave, btnCancel );
 
-  btnEdit.addEventListener('click',()=>{
+  btnEdit.addEventListener('click', () => {
     btnSave.classList.remove('btn-invisible');
     btnCancel.classList.remove('btn-invisible');
     email.input.removeAttribute('readonly');
@@ -63,7 +58,6 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
     surname.input.classList.remove('input-info');
     dateOfbirth.input.classList.remove('input-info');
   })
-  
 
 
   email.input.addEventListener('input', (event) => {
@@ -96,16 +90,16 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
     }
   });
 
-  const takeValue =() =>{
+  const takeValue = () => {
     const valueforName = name.input.value.trim();
     const valueforSurName = surname.input.value.trim();
     const valueforBirth = dateOfbirth.input.value.trim();
     const valueEmail = email.input.value.trim();
-    return {valueforName, valueforSurName, valueforBirth, valueEmail};
-  }
+    return { valueforName, valueforSurName, valueforBirth, valueEmail };
+  };
 
-  btnSave.addEventListener('click',()=>{
-    const {valueforName, valueforSurName, valueforBirth, valueEmail} = takeValue();
+  btnSave.addEventListener('click', () => {
+    const { valueforName, valueforSurName, valueforBirth, valueEmail } = takeValue();
     const warningsArray = document.querySelectorAll('.small-visible');
     if (warningsArray.length === 0) {
       btnSave.classList.add('btn-invisible');
@@ -119,11 +113,12 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
       dateOfbirth.input.classList.add('input-info');
 
       const emailVal = localStorage.getItem('email');
-      if(emailVal){
+
+      if (emailVal) {
         const id = localStorage.getItem('id');
         let version: string;
         const updateCus = async () => {
-          if(id){
+          if (id) {
             const customer = await new StpClientApi().getCustomerbyId(id);
             version = String(customer.version);
           }
@@ -134,7 +129,6 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
         if (data.statusCode === 201) {
           try {
             btnSave.classList.add('btn-invisible');
-            btnCancel.classList.add('btn-invisible');
             name.input.setAttribute('readonly', 'readonly');
             surname.input.setAttribute('readonly', 'readonly');
             dateOfbirth.input.setAttribute('readonly', 'readonly');
@@ -151,7 +145,6 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
         customRoute('/successupdate');
       }
     }
-  })
-
+  });
   return container;
 };

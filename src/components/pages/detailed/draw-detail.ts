@@ -4,41 +4,67 @@ import { createPageTitle } from '../../shared/utilities/title';
 import { nextImage, prevImage, updateImagePosition } from './slider';
 import { openPopup } from './popup';
 
-const createInformBlock = (name: string, price: string, description: string): HTMLElement => {
-  const informBlock = createCustomElement('div', ['product-info']);
-  const productName = createCustomElement('h2', ['product-name'], `${name}`);
-  const productPrice = createCustomElement('p', ['product-price'], `USD ${price}`);
-  const productDescription = createCustomElement('p', ['product-description'], `${description}`);
+const detailClasses = {
+  DETAIL: 'detail',
+  IMG_BLOCK: 'detail__images-block',
+  IMG_WRAPPER: 'detail__img-wrapper',
+  NOT_PRODUCT: 'not-found-product',
+  IMG: 'img',
+  PREV_BTN: 'prev-img',
+  NEXT_BTN: 'next-img',
+  INFO: 'product-info',
+  NAME: 'product-name',
+  PRICES: 'price-container',
+  BASE_PRICE: 'product-price',
+  DISCOUNT: 'product-discount',
+  DESCRIPTION: 'product-description',
+};
 
-  informBlock.append(productName, productPrice, productDescription);
+const createInformBlock = (name: string, price: string, description: string, discountPrice?: string): HTMLElement => {
+  const informBlock = createCustomElement('div', [detailClasses.INFO]);
+  const productName = createCustomElement('h2', [detailClasses.NAME], `${name}`);
+  const productPrice = createCustomElement('p', [detailClasses.BASE_PRICE], `USD ${price}`);
+  const productDescription = createCustomElement('p', [detailClasses.DESCRIPTION], `${description}`);
+  const priceContainer = createCustomElement('div', [detailClasses.PRICES]);
+
+  if (discountPrice) {
+    productPrice.style.textDecoration = 'line-through';
+    const discount = createCustomElement('p', [detailClasses.DISCOUNT], `USD ${discountPrice}`);
+    priceContainer.append(discount, productPrice);
+    informBlock.append(productName, priceContainer, productDescription);
+  } else {
+    priceContainer.append(productPrice);
+    informBlock.append(productName, priceContainer, productDescription);
+  }
+
   return informBlock;
 };
 
 const createImagesBlock = (product: Product): HTMLElement => {
   const productImgs = product.masterData.current.masterVariant?.images;
-  const ImgBlock = createCustomElement('div', ['detail__images-block']);
-  const imgWrapper = createCustomElement('div', ['detail__img-wrapper']);
-  const prevImg = createCustomElement('div', ['prev-img'], '&#8249;');
-  prevImg.addEventListener('click', () => {
+  const ImgBlock = createCustomElement('div', [detailClasses.IMG_BLOCK]);
+  const imgWrapper = createCustomElement('div', [detailClasses.IMG_WRAPPER]);
+  const prevBtn = createCustomElement('div', [detailClasses.PREV_BTN], '&#8249;');
+  prevBtn.addEventListener('click', () => {
     const currentIndex = prevImage();
     updateImagePosition(currentIndex);
   });
-  const nextImg = createCustomElement('div', ['next-img'], '&#8250;');
-  nextImg.addEventListener('click', () => {
+  const nextBtn = createCustomElement('div', [detailClasses.NEXT_BTN], '&#8250;');
+  nextBtn.addEventListener('click', () => {
     const currentIndex = nextImage();
     updateImagePosition(currentIndex);
   });
 
   if (productImgs) {
     productImgs.forEach((img, index) => {
-      const image = createCustomElement('img', ['img']) as HTMLImageElement;
+      const image = createCustomElement('img', [detailClasses.IMG]) as HTMLImageElement;
       image.addEventListener('click', openPopup);
       image.setAttribute('data-img-num', `${index}`);
       image.src = img.url;
       imgWrapper.append(image);
     });
     if (productImgs?.length > 1) {
-      ImgBlock.append(imgWrapper, prevImg, nextImg);
+      ImgBlock.append(imgWrapper, prevBtn, nextBtn);
     } else {
       ImgBlock.append(imgWrapper);
     }
@@ -49,24 +75,31 @@ const createImagesBlock = (product: Product): HTMLElement => {
 export const drawDetail = async (product: Product | string): Promise<void> => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   if (typeof product === 'string') {
-    const textNotFound = createCustomElement('h1', ['not-found-product'], product);
+    const textNotFound = createCustomElement('h1', [detailClasses.NOT_PRODUCT], product);
     mailWrapper.append(textNotFound);
   } else {
     const productName = product.masterData.current.name.en;
     const productPrice = product.masterData.current.masterVariant?.prices;
-    const productDescription = product.masterData.current.description?.en ?? '';
+    const productDescription = product.masterData.current.metaDescription?.en ?? '';
     let price: string;
 
     mailWrapper.innerHTML = '';
-    const title = createPageTitle('Detail');
-    const detail = createCustomElement('div', ['detail']);
+    const title = createPageTitle('About the product');
+    const detail = createCustomElement('div', [detailClasses.DETAIL]);
     const imgBlock = createImagesBlock(product);
     detail.append(imgBlock);
     if (productPrice) {
-      const priceInCent = productPrice[0].value.centAmount;
-      price = (priceInCent / 100).toFixed(2);
-      const informBlock = createInformBlock(productName, price, productDescription);
-      detail.append(informBlock);
+      const basePrice = productPrice[0].value.centAmount;
+      const discountPrice = productPrice[0].discounted?.value.centAmount;
+      price = (basePrice / 100).toFixed(2);
+      if (discountPrice) {
+        const discount = (discountPrice / 100).toFixed(2);
+        const informBlock = createInformBlock(productName, price, productDescription, discount);
+        detail.append(informBlock);
+      } else {
+        const informBlock = createInformBlock(productName, price, productDescription);
+        detail.append(informBlock);
+      }
     }
     mailWrapper.append(title, detail);
   }

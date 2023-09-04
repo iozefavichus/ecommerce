@@ -12,11 +12,13 @@ import { drawProfile } from '../../pages/profile/draw-profile';
 import { drawCatalog } from '../../pages/catalog/draw-catalog';
 import { PRODUCT_BODY, PRODUCT_KEY } from '../../pages/detailed/open-detail';
 import { drawDetail } from '../../pages/detailed/draw-detail';
-import { getLocalStorage } from '../../app/localStorage/localStorage';
+import { getLocalStorage, setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { isLogin } from '../api/is-login';
 import { drawChangePassword } from '../../pages/profile/change-password';
-import { drawSuccessPassword } from '../../pages/profile/successpassword';
+import { PRODUCTS_PATH } from '../../app/path-products/save-paths';
+import { StpClientApi } from '../api/stpClient-api';
 import { drawSuccessUpdate } from '../../pages/profile/successupdate';
+import { drawSuccessPassword } from '../../pages/profile/successpassword';
 
 export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
@@ -35,15 +37,26 @@ const routes = [
   '/login',
   '/changepassword',
   '/successchangedpass',
-  '/successupdate'
+  '/successupdate',
 ];
 
-export const renderChangeContent = (path: string, product?: Product | string): void => {
-  const renderPage = path;
-  const isRouteLink = routes.find((link) => link === renderPage);
+export const renderChangeContent = async (path: string, product?: Product | string): Promise<void> => {
+  const renderPage: string = path;
+  const isRouteLink: string | undefined = routes.find((link) => link === renderPage);
+  const key = renderPage.replace('/', '');
+  const productsPath: string[] | undefined = getLocalStorage(PRODUCTS_PATH)?.split(',');
+  const isProductPath: string | undefined = productsPath?.find((path) => path === key);
 
-  if (!isRouteLink && !product) {
+  if (!isRouteLink && !product && !isProductPath) {
     drawNotFound();
+  }
+
+  if (isProductPath) {
+    setLocalStorageValue(PRODUCT_KEY, `${key}`);
+    const product = (await new StpClientApi().getProductByKey(key))?.body;
+    const productBody = JSON.stringify(product);
+    setLocalStorageValue(PRODUCT_BODY, productBody);
+    drawDetail(product);
   }
 
   if (renderPage === links.HOME) {
@@ -120,7 +133,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-window.addEventListener('popstate', (event) => {
+window.addEventListener('popstate', async (event) => {
   const windowOdj = event.target as Window;
   const path = windowOdj.location.pathname;
   const clearPath = path.replace(/\//, '');
@@ -128,7 +141,8 @@ window.addEventListener('popstate', (event) => {
   const productInLocalStorage = getLocalStorage(PRODUCT_BODY);
 
   if (clearPath === productPath && productInLocalStorage) {
-    customRoute(path, JSON.parse(productInLocalStorage));
+    const productData = JSON.parse(productInLocalStorage);
+    customRoute(path, productData);
   } else {
     renderChangeContent(path);
   }
