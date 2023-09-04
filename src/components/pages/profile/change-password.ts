@@ -6,20 +6,20 @@ import { checkPassword } from '../registration/validation';
 import { CheckIt, setError } from '../registration/validation-helpers';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 
-const ChangePassword = (): HTMLElement => {
-  const container = createCustomElement('div', ['container-changepass']);
+const ChangePassword = ():HTMLElement  =>{
+    const container = createCustomElement('div', ['container-changepass']);
 
-  const oldPass = createFormDiv('old-passsword', 'Old password', 'password', 'old-passsword');
-  const oldPasslink = createCustomElement('span', ['oldpass-control']);
-  oldPass.container.append(oldPasslink);
-  const newPass = createFormDiv('new-password', 'New password', 'password', 'new-password');
-  const newPasslink = createCustomElement('span', ['newpass-control']);
-  newPass.container.append(newPasslink);
-  const repeatPass = createFormDiv('repeat-password', 'Repeat password', 'password', 'repeat-password');
-  const repeatPasslink = createCustomElement('span', ['repeatpass-control']);
-  repeatPass.container.append(repeatPasslink);
+    const oldPass = createFormDiv('old-passsword', 'Old password', 'password', 'old-passsword');
+    const oldPasslink = createCustomElement('span',['oldpass-control']);
+    oldPass.container.append(oldPasslink);
+    const newPass = createFormDiv('new-password', 'New password', 'password', 'new-password');
+    const newPasslink = createCustomElement('span',['newpass-control']);
+    newPass.container.append(newPasslink);
+    const repeatPass = createFormDiv('repeat-password', 'Repeat password', 'password', 'repeat-password');
+    const repeatPasslink = createCustomElement('span',['repeatpass-control']);
+    repeatPass.container.append(repeatPasslink);
 
-  const btnSave = createCustomElement('button', ['btn-save'], 'Save') as HTMLButtonElement;
+    const btnSave = createCustomElement('button',['btn-save'],'Save') as HTMLButtonElement;;
 
     btnSave.addEventListener('click',()=>{
       const emailVal = localStorage.getItem('email');
@@ -62,8 +62,7 @@ const ChangePassword = (): HTMLElement => {
 
         }
       }
-    }
-  });
+    })
 
   const btnCancel = createCustomElement('button', ['btn-cancel'], 'Cancel') as HTMLButtonElement;
   btnCancel.addEventListener('click', () => {
@@ -87,39 +86,40 @@ const ChangePassword = (): HTMLElement => {
     }
   });
 
-  newPasslink.addEventListener('click', () => {
-    if (newPasslink.classList.contains('newpass-control')) {
-      newPasslink.classList.remove('newpass-control');
-      newPasslink.classList.add('view-control');
-      newPass.input.type = 'text';
-    } else {
-      newPasslink.classList.add('newpass-control');
-      newPasslink.classList.remove('view-control');
-      newPass.input.type = 'password';
-    }
-  });
-  oldPasslink.addEventListener('click', () => {
-    if (oldPasslink.classList.contains('oldpass-control')) {
-      oldPasslink.classList.remove('oldpass-control');
-      oldPasslink.classList.add('view-control');
-      oldPass.input.type = 'text';
-    } else {
-      oldPasslink.classList.add('oldpass-control');
-      oldPasslink.classList.remove('view-control');
-      oldPass.input.type = 'password';
-    }
-  });
-  repeatPasslink.addEventListener('click', () => {
-    if (repeatPasslink.classList.contains('repeatpass-control')) {
-      repeatPasslink.classList.remove('repeatpass-control');
-      repeatPasslink.classList.add('view-control');
-      repeatPass.input.type = 'text';
-    } else {
-      repeatPasslink.classList.add('repeatpass-control');
-      repeatPasslink.classList.remove('view-control');
-      repeatPass.input.type = 'password';
-    }
-  });
+    newPasslink.addEventListener('click',()=>{
+        if(newPasslink.classList.contains('newpass-control')){
+            newPasslink.classList.remove('newpass-control');
+            newPasslink.classList.add('view-control');
+            newPass.input.type = 'text';
+        } else {
+            newPasslink.classList.add('newpass-control');
+            newPasslink.classList.remove('view-control');
+            newPass.input.type = 'password';
+        }
+    })
+    oldPasslink.addEventListener('click',()=>{
+        if(oldPasslink.classList.contains('oldpass-control')){
+            oldPasslink.classList.remove('oldpass-control');
+            oldPasslink.classList.add('view-control');
+            oldPass.input.type = 'text';
+        } else {
+            oldPasslink.classList.add('oldpass-control');
+            oldPasslink.classList.remove('view-control');
+            oldPass.input.type = 'password';
+        }
+    })
+    repeatPasslink.addEventListener('click',()=>{
+        if(repeatPasslink.classList.contains('repeatpass-control')){
+            repeatPasslink.classList.remove('repeatpass-control');
+            repeatPasslink.classList.add('view-control');
+            repeatPass.input.type = 'text';
+        } else {
+            repeatPasslink.classList.add('repeatpass-control');
+            repeatPasslink.classList.remove('view-control');
+            repeatPass.input.type = 'password';
+        }
+    })
+
 
   return container;
 };
