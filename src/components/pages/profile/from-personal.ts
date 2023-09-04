@@ -4,6 +4,7 @@ import { CheckIt, setError, setSuccess } from '../registration/validation-helper
 import { checkName, checkSurname, checkBirth, checkEmail } from '../registration/validation';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { setLocalStorageValue } from '../../app/localStorage/localStorage';
+import { customRoute } from '../../app/router/router';
 
 export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|undefined, dateOfbirthValue: string|undefined): HTMLElement => {
 
@@ -42,11 +43,17 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
   const btnSave = createCustomElement('button', ['btn-save'], 'Save changes') as HTMLButtonElement;
   btnSave.classList.add('btn-invisible');
 
+  const btnCancel = createCustomElement('button', ['btn-cancel'], 'Cancel') as HTMLButtonElement;
+  btnCancel.classList.add('btn-invisible');
+  btnCancel.addEventListener('click', () => {
+    customRoute('/profile');
+  });
 
-  container.append(personalDiv, email.container, name.container, surname.container, dateOfbirth.container, btnSave);
+  container.append(personalDiv, email.container, name.container, surname.container, dateOfbirth.container, btnSave, btnCancel );
 
   btnEdit.addEventListener('click',()=>{
     btnSave.classList.remove('btn-invisible');
+    btnCancel.classList.remove('btn-invisible');
     email.input.removeAttribute('readonly');
     name.input.removeAttribute('readonly');
     surname.input.removeAttribute('readonly');
@@ -56,6 +63,7 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
     surname.input.classList.remove('input-info');
     dateOfbirth.input.classList.remove('input-info');
   })
+  
 
 
   email.input.addEventListener('input', (event) => {
@@ -126,6 +134,7 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
         if (data.statusCode === 201) {
           try {
             btnSave.classList.add('btn-invisible');
+            btnCancel.classList.add('btn-invisible');
             name.input.setAttribute('readonly', 'readonly');
             surname.input.setAttribute('readonly', 'readonly');
             dateOfbirth.input.setAttribute('readonly', 'readonly');
@@ -139,6 +148,7 @@ export const PersonalInfo = (nameValue: string|undefined, surnameValue: string|u
       })
         }
         updateCus();
+        customRoute('/successupdate');
       }
     }
   })
