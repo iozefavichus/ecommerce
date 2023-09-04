@@ -20,6 +20,7 @@ const ChangePassword = (): HTMLElement => {
   repeatPass.container.append(repeatPasslink);
 
   const btnSave = createCustomElement('button', ['btn-save'], 'Save') as HTMLButtonElement;
+
   btnSave.addEventListener('click', () => {
     const emailVal = localStorage.getItem('email');
     const oldPassValue = oldPass.input.value.trim();

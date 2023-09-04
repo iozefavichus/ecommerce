@@ -90,6 +90,7 @@
 
   &-show {
     width: calc(100% - 200px);
+    padding-right: 15px;
 
     @include display-flex(center, space-between);
 
@@ -238,15 +239,17 @@
   background: $color-panel-product;
   margin: 0 auto 20px;
   flex-direction: column;
+  padding: 0 0 10px;
 
   &-title {
     font-size: 40px;
     line-height: 48px;
     font-weight: 400;
+    margin: 10px 0;
   }
 
   &-select {
-    height: 55px;
+    height: 40px;
     width: 188px;
     background: rgb(255 255 255);
     color: rgb(159 159 159);

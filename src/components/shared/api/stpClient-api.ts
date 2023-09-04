@@ -172,14 +172,14 @@ class StpClientApi {
 
   public getCategory(): Promise<Category[]> {
     return this.apiRoot
-      ?.categories()
+      .categories()
       .get()
       .execute()
       .then((data: ClientResponse<CategoryPagedQueryResponse>) => data.body.results);
   }
 
-  public getProductByKey(productKey: string) {
-    return this.apiRoot.products().withKey({ key: productKey }).get().execute();
+  public getProductByKey(key: string) {
+    return this.apiRoot.products().withKey({ key }).get().execute();
   }
 
   public getProductCategory(catId: string) {
