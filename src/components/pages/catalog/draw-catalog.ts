@@ -1,7 +1,7 @@
 import { Product, ProductProjection } from '@commercetools/platform-sdk';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
-import { openDetail } from '../detailed/open-detail';
+import { openDetail } from '../detail/open-detail';
 import {
   filterByColor,
   filterPriceProducts,
