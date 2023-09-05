@@ -23,6 +23,7 @@ const createAboutPage = (): HTMLElement => {
   a1.setAttribute('target', '_blank');
   const imgGithub1 = createCustomElement('img', ['social-media-icon']) as HTMLImageElement;
   imgGithub1.src = './assets/images/about/github.png';
+
   const cellBlock2 = createCustomElement('div', [
     'responsive-cell-block',
     'desk-4',
@@ -40,11 +41,31 @@ const createAboutPage = (): HTMLElement => {
   a2.setAttribute('target', '_blank');
   const imgGithub2 = createCustomElement('img', ['social-media-icon']) as HTMLImageElement;
   imgGithub2.src = './assets/images/about/github.png';
+
+  const cellBlock3 = createCustomElement('div', [
+    'responsive-cell-block',
+    'desk-4',
+    'ipadp-4',
+    'mobile-12',
+    'tab-12',
+    'card-container',
+  ]);
+  const name3 = createCustomElement('p', ['text', 'name'], 'Eugenia Iozefavichus');
+  const position3 = createCustomElement('p', ['text', 'position'], 'Team-Lead');
+  const img3 = createCustomElement('img', ['team-member-image']) as HTMLImageElement;
+  img3.src = './assets/images/about/evgeniya.jpg';
+  const a3 = createCustomElement('a', ['']) as HTMLLinkElement;
+  a3.href = 'https://github.com/iozefavichus';
+  a3.setAttribute('target', '_blank');
+  const imgGithub3 = createCustomElement('img', ['social-media-icon']) as HTMLImageElement;
+  imgGithub3.src = './assets/images/about/github.png';
   a1.append(imgGithub1);
   a2.append(imgGithub2);
+  a3.append(imgGithub3);
   cellBlock1.append(name1, position1, img1, a1);
   cellBlock2.append(name2, position2, img2, a2);
-  cardContainer.append(cellBlock1, cellBlock2);
+  cellBlock3.append(name3, position3, img3, a3);
+  cardContainer.append(cellBlock1, cellBlock2, cellBlock3);
   inner.append(heading, subheading, cardContainer);
   wrapper.append(inner);
   return wrapper;
