@@ -19,6 +19,7 @@ import { PRODUCTS_PATH } from '../../app/path-products/save-paths';
 import { StpClientApi } from '../api/stpClient-api';
 import { drawSuccessUpdate } from '../../pages/profile/successupdate';
 import { drawSuccessPassword } from '../../pages/profile/successpassword';
+import { drawAbout } from '../../pages/about/draw-about';
 
 export const render = (isLogin: boolean): void => {
   drawHeader(isLogin);
@@ -68,7 +69,7 @@ export const renderChangeContent = async (path: string, product?: Product | stri
     drawCatalog();
   }
   if (renderPage === '/about') {
-    drawNotFound();
+    drawAbout();
   }
   if (renderPage === '/contact') {
     drawNotFound();
