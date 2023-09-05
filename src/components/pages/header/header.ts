@@ -1,7 +1,7 @@
-import { accountSVG } from '../../../assets/icons/accountSVG';
 import { Constants } from '../../../types/shared';
 import { customRoute } from '../../app/router/router';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { logoutCustomer } from '../log-in/log-out';
 import { openCloseMenuToBtn, closeMenuToNav } from './hamburger-menu';
 
 const headerClasses: Constants = {
@@ -25,47 +25,46 @@ const headerClasses: Constants = {
 
 const links: Constants = {
   HOME: '/',
-  SHOP: '/shop',
+  CATALOG: '/catalog',
   ABOUT: '/about',
   CONTACT: '/contact',
   LOGIN: '/login',
   REG: '/registration',
   PROFILE: '/profile',
-  BASKET: '/basket',
+  BASKET: '/cart',
 };
 
 const createNavBar = (): HTMLElement => {
   const navBar = createCustomElement('nav', [headerClasses.NAV]);
   const linkHome = createCustomElement('a', [headerClasses.NAV_LINK], 'Home') as HTMLLinkElement;
   linkHome.href = links.HOME;
-  const linkShop = createCustomElement('a', [headerClasses.NAV_LINK], 'Shop') as HTMLLinkElement;
-  linkShop.href = links.SHOP;
+  const linkCatalog = createCustomElement('a', [headerClasses.NAV_LINK], 'Catalog') as HTMLLinkElement;
+  linkCatalog.href = links.CATALOG;
   const linkAbout = createCustomElement('a', [headerClasses.NAV_LINK], 'About') as HTMLLinkElement;
   linkAbout.href = links.ABOUT;
   const linkContact = createCustomElement('a', [headerClasses.NAV_LINK], 'Contact') as HTMLLinkElement;
   linkContact.href = links.CONTACT;
-  navBar.append(linkHome, linkShop, linkAbout, linkContact);
+  navBar.append(linkHome, linkCatalog, linkAbout, linkContact);
 
   return navBar;
 };
 
 const createIconBar = (isLogin: boolean): HTMLElement => {
-  const colorProfile = isLogin ? 'rgb(8, 250, 4)' : 'rgb(0, 0, 0)';
-  const iconProfile = accountSVG(colorProfile);
   const iconBar = createCustomElement('div', [headerClasses.ICON_BAR]);
   const logIn = createCustomElement('a', [headerClasses.LOGIN_LINK], 'Log in') as HTMLLinkElement;
   logIn.href = links.LOGIN;
   const logOut = createCustomElement('a', [headerClasses.LOGOUT], 'Log out') as HTMLLinkElement;
+  logOut.addEventListener('click', (event) => logoutCustomer(event));
   const registrationLink = createCustomElement('a', [headerClasses.REG_LINK], 'Registration') as HTMLLinkElement;
   registrationLink.href = links.REG;
-  const linkProfile = createCustomElement('a', [headerClasses.PROFILE_LINK]) as HTMLLinkElement;
-  linkProfile.innerHTML = iconProfile;
+  const linkProfile = createCustomElement('a', [headerClasses.PROFILE_LINK], 'Profile') as HTMLLinkElement;
   linkProfile.href = links.PROFILE;
   const linkBasket = createCustomElement('a', [headerClasses.BASKET_LINK]) as HTMLLinkElement;
-  linkBasket.href = links.PROFILE;
-  const logBtn = isLogin ? logOut : '';
-  // const regBtn = isLogin ? '' : registrationLink;
-  iconBar.append(linkProfile, linkBasket, logIn, registrationLink, logBtn);
+  linkBasket.href = links.BASKET;
+  const profileBtn = isLogin ? linkProfile : '';
+  const logBtn = isLogin ? logOut : logIn;
+  const regBtn = isLogin ? '' : registrationLink;
+  iconBar.append(linkBasket, profileBtn, logBtn, regBtn);
   return iconBar;
 };
 

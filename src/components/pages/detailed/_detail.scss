@@ -1,0 +1,167 @@
+.detail {
+  @include display-flex(flex-start, center);
+
+  gap: 50px;
+  width: 90%;
+  margin: 40px auto;
+
+  &__images-block {
+    position: relative;
+    width: 30%;
+    overflow: hidden;
+    font-size: 100px;
+    color: $color-brand-dark;
+    border-radius: 20px;
+
+    &.popup {
+      width: 40%;
+
+      @include media-table {
+        width: 50%;
+      }
+
+      @include media-mobile {
+        width: 80%;
+      }
+    }
+
+    @include media-table {
+      width: 40%;
+    }
+
+    @include media-mobile {
+      width: 60%;
+    }
+  }
+
+  &__img-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    transform: translateX(0);
+  }
+
+  @include media-table {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.product-info {
+  @include display-flex(flex-start, space-between);
+
+  flex-direction: column;
+  width: 30%;
+  border: 2px solid $color-brand-dark;
+  border-radius: 20px;
+  padding: 10px;
+
+  @include media-table {
+    width: 80%;
+  }
+
+  @include media-mobile {
+    width: 100%;
+  }
+}
+
+.product-name {
+  width: 100%;
+  border-bottom: 1px solid $color-brand-dark;
+  padding-bottom: 10px;
+}
+
+.price-container {
+  @include display-flex(center, space-between);
+
+  width: 100%;
+  padding: 10px 0;
+}
+
+.product-discount {
+  padding: 5px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: $color-brand;
+  background-color: $color-brand-dark;
+}
+
+.product-description {
+  padding-top: 10px;
+  border-top: 1px solid $color-brand-dark;
+  letter-spacing: 1px;
+}
+
+.img {
+  @include display-flex(center, center);
+
+  flex: 0 0 100%;
+  width: 70%;
+}
+
+.prev-img {
+  @include display-flex(center, center);
+
+  top: 0;
+  position: absolute;
+  height: 100%;
+  transition: all 0.5s;
+
+  &:hover {
+    cursor: pointer;
+    color: $color-brand;
+  }
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.next-img {
+  @include display-flex(center, center);
+
+  top: 0;
+  right: 0;
+  position: absolute;
+  height: 100%;
+  transition: all 0.5s;
+
+  &:hover {
+    cursor: pointer;
+    color: $color-brand;
+  }
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.popup-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  @include display-flex(center, center);
+
+  width: 100%;
+  height: 100%;
+  background-color: $color-popup;
+}
+
+.close-popup {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  font-size: 50px;
+  color: $color-brand-dark;
+
+  @extend %hover-transition;
+
+  &:hover {
+    cursor: pointer;
+    color: $color-brand;
+  }
+
+  &:active {
+    opacity: 0.7;
+  }
+}

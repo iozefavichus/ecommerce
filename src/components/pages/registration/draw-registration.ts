@@ -4,10 +4,11 @@ import { checkPassword, checkName, checkSurname, checkBirth, checkCity, checkPos
 import { createPageTitle } from '../../shared/utilities/title';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { customRoute } from '../../app/router/router';
-import { setLocalStorageLogin } from '../../app/localStorage/localStorage';
-import { isLoginCustomer } from '../../shared/api/server-authorization';
+import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { regCardObj } from '../../../types/shared';
 import { setError, setSuccess, CheckIt } from './validation-helpers';
+import { authTokenCache } from '../../shared/api/build-client';
+import { KEY_1, KEY_2 } from '../log-in/log-out';
 
 export const form = RegistrationForm();
 
@@ -157,11 +158,22 @@ form.form.addEventListener('submit', (e: SubmitEvent) => {
   if (warningsArray.length === 0) {
     const createCustomer = new StpClientApi().createCustomer(registrationCard);
     createCustomer
-      .then((data) => {
+      .then(async (data) => {
         if (data.statusCode === 201) {
-          isLoginCustomer.isLogin = true;
-          setLocalStorageLogin('isLoginCustomer.isLogin', true);
-          customRoute('/success');
+          try {
+            const { email, password } = registrationCard;
+            await new StpClientApi(email, password).loginCustomer();
+            const tokenData = Object.entries(authTokenCache.get());
+            for (const [key, value] of tokenData) {
+              if (key === KEY_1 || key === KEY_2) {
+                setLocalStorageValue(key, value.toString() ?? '');
+              }
+            }
+            setLocalStorageValue('email', email);
+            customRoute('/success');
+          } catch {
+            throw Error('User is not login');
+          }
         }
       })
       .catch((error) => {

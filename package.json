@@ -64,7 +64,9 @@
     "jest-environment-jsdom": "^29.6.2",
     "node-fetch": "^2.6.12",
     "node-polyfill-webpack-plugin": "^2.0.1",
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "nouislider": "^15.7.1",
+    "swiper": "^10.2.0"
   },
   "husky": {
     "hooks": {

@@ -1,6 +1,6 @@
 import { validationMail, validationPassword } from '../src/components/app/validation/login-valid';
 import { render } from '../src/components/shared/utilities/render';
-import { drawLogInPage } from '../src/components/pages/log-in/login';
+import { drawLogInPage } from '../src/components/pages/log-in/draw-login';
 
 describe('Login valid module', () => {
   describe('validationMail function', () => {

@@ -8,8 +8,13 @@ import {
   checkPassword,
   checkBirth,
   writeErrors,
-} from './validation';
-import { createLabel, createFormElement, createFormDiv, createFormWithOptions } from './creationform-helpers';
+} from '../src/components/pages/registration/validation';
+import {
+  createLabel,
+  createFormElement,
+  createFormDiv,
+  createFormWithOptions,
+} from '../src/components/pages/registration/creationform-helpers';
 
 test('Check email', () => {
   expect(checkEmail('mama@gmail.com')).toEqual(true);

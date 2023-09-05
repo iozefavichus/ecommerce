@@ -1,15 +1,10 @@
-import { getLocalStorageLogin, setLocalStorageLogin } from '../../app/localStorage/localStorage';
+import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { customRoute } from '../../app/router/router';
 import { applyStyle } from '../../app/validation/login-valid';
+import { KEY_1, KEY_2 } from '../../pages/log-in/log-out';
 import { createCustomElement } from '../utilities/helper-functions';
+import { authTokenCache } from './build-client';
 import { StpClientApi } from './stpClient-api';
-
-export const isLoginCustomer: Record<string, boolean> = {
-  isLogin: getLocalStorageLogin('isLoginCustomer.isLogin'),
-};
-
-// Lala@test.com
-// password: aA1!aaaa
 
 export const authorization = (): void => {
   const isValid = false;
@@ -25,15 +20,21 @@ export const authorization = (): void => {
     const password: string = passwordInput.value;
 
     if (email !== null && password !== null) {
-      const hasCustomer: boolean = (await new StpClientApi().returnCustomerByEmail(email)).body.results.length > 0;
+      const customer = await new StpClientApi(email).getCustomerByEmail();
+      const hasCustomer: boolean = customer.body.results.length > 0;
 
       if (hasCustomer) {
         try {
-          await new StpClientApi().loginCustomer(email, password);
-          isLoginCustomer.isLogin = true;
-          setLocalStorageLogin('isLoginCustomer.isLogin', true);
+          await new StpClientApi(email, password).loginCustomer();
+          const tokenData = Object.entries(authTokenCache.get());
+          for (const [key, value] of tokenData) {
+            if (key === KEY_1 || key === KEY_2) {
+              setLocalStorageValue(key, value.toString() ?? '');
+            }
+          }
           customRoute('/');
-        } catch {
+          setLocalStorageValue('email', email);
+        } catch (err) {
           passwordInput.value = '';
           notFoundText.textContent = 'Incorrect password entered';
         }
