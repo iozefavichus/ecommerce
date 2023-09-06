@@ -1,6 +1,16 @@
 import { customRoute } from '../../app/router/router';
 import { StpClientApi } from '../api/stpClient-api';
 
+const disableBtn = (btn: HTMLButtonElement) => {
+  btn.classList.add('disable');
+  btn.disabled = true;
+};
+
+const activeBtn = (btn: HTMLButtonElement) => {
+  btn.classList.remove('disable');
+  btn.disabled = false;
+};
+
 const createCustomElement = (tag: string, classNames?: string[], adjHTML?: string): HTMLElement => {
   const element = document.createElement(tag);
   if (classNames) {
@@ -20,4 +30,4 @@ const isProduct = async (key: string) => {
   }
 };
 
-export { createCustomElement, isProduct };
+export { createCustomElement, isProduct, disableBtn, activeBtn };

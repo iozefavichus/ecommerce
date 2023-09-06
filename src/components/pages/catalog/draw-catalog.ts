@@ -1,5 +1,5 @@
 import { Product, ProductProjection } from '@commercetools/platform-sdk';
-import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { createCustomElement, disableBtn } from '../../shared/utilities/helper-functions';
 import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detail/open-detail';
 import {
@@ -145,6 +145,13 @@ const createPriceDiscountBlock = (price: string): HTMLElement => {
 
 export const drawCard = (product: Product, el: HTMLElement): void => {
   const card = createCustomElement('div', ['product__card']);
+  const cartBtn = createCustomElement('div', ['cart-btn']);
+  cartBtn.title = 'add to cart';
+  cartBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    const btn = event.currentTarget as HTMLButtonElement;
+    disableBtn(btn);
+  });
   const productKey = product.key;
   const productImg = product.masterData.current.masterVariant?.images;
   const productName = product.masterData.current.name.en;
@@ -154,6 +161,14 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
   let priceDiscount: string;
   card.setAttribute('data-key', productKey as string);
   const imgBlock = createCustomElement('div', ['products__img-block']);
+  imgBlock.addEventListener('click', (event) => {
+    const targetElem = event?.currentTarget as HTMLElement;
+    const parentElem = targetElem.parentElement;
+    const { key } = parentElem!.dataset;
+    if (key) {
+      openDetail(key);
+    }
+  });
   const img = createCustomElement('img', ['product__img']) as HTMLImageElement;
   card.append(imgBlock);
   if (productImg && productImg?.length > 0) {
@@ -164,7 +179,7 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
     const priceInCent = productPrice[0].value.centAmount;
     price = (priceInCent / 100).toFixed(2);
     const blockProperty = createBlockProperty(productName, price);
-    card.append(blockProperty);
+    card.append(blockProperty, cartBtn);
   }
   if (discountedPrice) {
     const discountedInCent: number = <number>(
@@ -174,21 +189,21 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
     const blockProperty = createPriceDiscountBlock(priceDiscount);
     const priceEl = document.querySelectorAll('.product__price');
     Array.from(priceEl).forEach((price) => price.classList.add('through'));
-    card.append(blockProperty);
+    card.append(blockProperty, cartBtn);
   }
-  card.addEventListener('click', (event) => {
-    const targetElem = event?.currentTarget as HTMLElement;
-    const { key } = targetElem.dataset;
-    if (key) {
-      openDetail(key);
-    }
-  });
   imgBlock.append(img);
   el.append(card);
 };
 
 export const drawSortCard = (product: ProductProjection, el: HTMLElement): void => {
   const cardSort = createCustomElement('div', ['product__card']);
+  const cartBtn = createCustomElement('div', ['cart-btn']);
+  cartBtn.title = 'add to cart';
+  cartBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    const btn = event.currentTarget as HTMLButtonElement;
+    disableBtn(btn);
+  });
   const productKey = product.key;
   const productImg = product.masterVariant.images;
   const productName = product.name.en;
@@ -198,6 +213,14 @@ export const drawSortCard = (product: ProductProjection, el: HTMLElement): void 
   let priceDiscount: string;
   cardSort.setAttribute('data-key', productKey as string);
   const imgBlock = createCustomElement('div', ['products__img-block']);
+  imgBlock.addEventListener('click', (event) => {
+    const targetElem = event?.currentTarget as HTMLElement;
+    const parentElem = targetElem.parentElement;
+    const { key } = parentElem!.dataset;
+    if (key) {
+      openDetail(key);
+    }
+  });
   const img = createCustomElement('img', ['product__img']) as HTMLImageElement;
   cardSort.append(imgBlock);
   if (productImg && productImg?.length > 0) {
@@ -209,7 +232,7 @@ export const drawSortCard = (product: ProductProjection, el: HTMLElement): void 
     const priceInCent = productPrice[0].value.centAmount;
     price = (priceInCent / 100).toFixed(2);
     const blockProperty = createBlockProperty(productName, price);
-    cardSort.append(blockProperty);
+    cardSort.append(blockProperty, cartBtn);
   }
   if (discountedPrice) {
     const discountCents = discountedPrice[0].discounted?.value.centAmount as number;
@@ -217,15 +240,8 @@ export const drawSortCard = (product: ProductProjection, el: HTMLElement): void 
     const blockProperty = createPriceDiscountBlock(priceDiscount);
     const priceEl = document.querySelectorAll('.product__price');
     Array.from(priceEl).forEach((price) => price.classList.add('through'));
-    cardSort.append(blockProperty);
+    cardSort.append(blockProperty, cartBtn);
   }
-  cardSort.addEventListener('click', (event) => {
-    const targetElem = event?.currentTarget as HTMLElement;
-    const { key } = targetElem.dataset;
-    if (key) {
-      openDetail(key);
-    }
-  });
   imgBlock.append(img);
   el.append(cardSort);
 };
