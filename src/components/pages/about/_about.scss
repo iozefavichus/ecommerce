@@ -1,1 +1,340 @@
-// styles
+.responsive-cell-block {
+  min-height: 75px;
+}
+
+* {
+  font-family: Poppins, sans-serif;
+  box-sizing: border-box;
+}
+
+.text {
+  margin: 0;
+  line-height: 25px;
+  padding: 0;
+}
+
+.responsive-container-block {
+  min-height: 75px;
+  height: fit-content;
+  width: 100%;
+  padding: 10px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.outer-container {
+  padding: 10px 30px;
+  background-color: rgb(255 235 234);
+}
+
+.heading-text {
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 35px;
+  color: rgb(51 51 51);
+  margin: 0 0 32px;
+  text-align: center;
+}
+
+.sub-heading-text {
+  max-width: 470px;
+  font-size: 25px;
+  line-height: 35px;
+  text-align: center;
+  font-weight: 700;
+  color: rgb(102 102 102);
+  margin: 0 0 70px;
+}
+
+.inner-container {
+  flex-direction: column;
+  align-items: center;
+  margin: 80px 0 50px;
+}
+
+.cards-container {
+  max-width: 1320px;
+}
+
+.name {
+  font-size: 22px;
+  line-height: 35px;
+  font-weight: 700;
+  color: rgb(102 102 102);
+  margin: 0 0 5px;
+}
+
+.position {
+  color: rgb(244 152 146);
+  font-size: 22px;
+  line-height: 35px;
+  font-weight: 700;
+  margin: 0 0 20px;
+}
+
+.team-member-image {
+  width: 100%;
+  height: 450px;
+  margin: 0 0 40px;
+}
+
+.social-media-icon {
+  cursor: pointer;
+  width: 22px;
+  margin: 0 25px 10px 0;
+}
+
+.card-container {
+  padding: 0 25px;
+  margin: 0 0 30px;
+}
+
+@media (width <= 1024px) {
+  .social-media-icon {
+    margin: 0 20px 10px 0;
+  }
+}
+
+@media (width <= 768px) {
+  .card-container {
+    margin: 0 0 60px;
+    width: 80%;
+  }
+
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (width <= 500px) {
+  .inner-container {
+    padding: 10px 0;
+    margin: 50px 0;
+  }
+
+  .cards-container {
+    padding: 10px 0;
+  }
+
+  .card-container {
+    width: 100%;
+    padding: 0 15px;
+  }
+
+  .outer-container {
+    padding: 10px 20px;
+  }
+
+  .sub-heading-text {
+    font-size: 20px;
+    line-height: 25px;
+    margin: 0 0 30px;
+  }
+
+  .heading-text {
+    font-size: 22px;
+    line-height: 28px;
+  }
+}
+
+.desk-1 {
+  width: 8.333333%;
+}
+
+.desk-2 {
+  width: 16.666667%;
+}
+
+.desk-3 {
+  width: 25%;
+}
+
+.desk-4 {
+  width: 33.333333%;
+}
+
+.desk-5 {
+  width: 41.666667%;
+}
+
+.desk-6 {
+  width: 50%;
+}
+
+.desk-7 {
+  width: 58.333333%;
+}
+
+.desk-8 {
+  width: 66.666667%;
+}
+
+.desk-9 {
+  width: 75%;
+}
+
+.desk-10 {
+  width: 83.333333%;
+}
+
+.desk-11 {
+  width: 91.666667%;
+}
+
+.desk-12 {
+  width: 100%;
+}
+
+@media (width <= 1024px) {
+  .ipadp-1 {
+    width: 8.333333%;
+  }
+
+  .ipadp-2 {
+    width: 16.666667%;
+  }
+
+  .ipadp-3 {
+    width: 25%;
+  }
+
+  .ipadp-4 {
+    width: 33.333333%;
+  }
+
+  .ipadp-5 {
+    width: 41.666667%;
+  }
+
+  .ipadp-6 {
+    width: 50%;
+  }
+
+  .ipadp-7 {
+    width: 58.333333%;
+  }
+
+  .ipadp-8 {
+    width: 66.666667%;
+  }
+
+  .ipadp-9 {
+    width: 75%;
+  }
+
+  .ipadp-10 {
+    width: 83.333333%;
+  }
+
+  .ipadp-11 {
+    width: 91.666667%;
+  }
+
+  .ipadp-12 {
+    width: 100%;
+  }
+}
+
+@media (width <= 768px) {
+  .tab-1 {
+    width: 8.333333%;
+  }
+
+  .tab-2 {
+    width: 16.666667%;
+  }
+
+  .tab-3 {
+    width: 25%;
+  }
+
+  .tab-4 {
+    width: 33.333333%;
+  }
+
+  .tab-5 {
+    width: 41.666667%;
+  }
+
+  .tab-6 {
+    width: 50%;
+  }
+
+  .tab-7 {
+    width: 58.333333%;
+  }
+
+  .tab-8 {
+    width: 66.666667%;
+  }
+
+  .tab-9 {
+    width: 75%;
+  }
+
+  .tab-10 {
+    width: 83.333333%;
+  }
+
+  .tab-11 {
+    width: 91.666667%;
+  }
+
+  .tab-12 {
+    width: 100%;
+  }
+}
+
+@media (width <= 500px) {
+  .mobile-1 {
+    width: 8.333333%;
+  }
+
+  .mobile-2 {
+    width: 16.666667%;
+  }
+
+  .mobile-3 {
+    width: 25%;
+  }
+
+  .mobile-4 {
+    width: 33.333333%;
+  }
+
+  .mobile-5 {
+    width: 41.666667%;
+  }
+
+  .mobile-6 {
+    width: 50%;
+  }
+
+  .mobile-7 {
+    width: 58.333333%;
+  }
+
+  .mobile-8 {
+    width: 66.666667%;
+  }
+
+  .mobile-9 {
+    width: 75%;
+  }
+
+  .mobile-10 {
+    width: 83.333333%;
+  }
+
+  .mobile-11 {
+    width: 91.666667%;
+  }
+
+  .mobile-12 {
+    width: 100%;
+  }
+}
