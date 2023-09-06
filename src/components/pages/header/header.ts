@@ -42,9 +42,7 @@ const createNavBar = (): HTMLElement => {
   linkCatalog.href = links.CATALOG;
   const linkAbout = createCustomElement('a', [headerClasses.NAV_LINK], 'About') as HTMLLinkElement;
   linkAbout.href = links.ABOUT;
-  const linkContact = createCustomElement('a', [headerClasses.NAV_LINK], 'Contact') as HTMLLinkElement;
-  linkContact.href = links.CONTACT;
-  navBar.append(linkHome, linkCatalog, linkAbout, linkContact);
+  navBar.append(linkHome, linkCatalog, linkAbout);
 
   return navBar;
 };

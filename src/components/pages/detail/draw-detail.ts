@@ -7,6 +7,7 @@ import { openPopup } from './popup';
 const detailClasses = {
   DETAIL: 'detail',
   IMG_BLOCK: 'detail__images-block',
+  INFO_BLOCK: 'detail__info-block',
   IMG_WRAPPER: 'detail__img-wrapper',
   NOT_PRODUCT: 'not-found-product',
   IMG: 'img',
@@ -18,10 +19,13 @@ const detailClasses = {
   BASE_PRICE: 'product-price',
   DISCOUNT: 'product-discount',
   DESCRIPTION: 'product-description',
+  ADD_PRODUCT: 'add-product-btn',
+  REMOVE_PRODUCT: 'remove-product-btn',
+  BTNS_CONTAINER: 'detail__btns',
 };
 
 const createInformBlock = (name: string, price: string, description: string, discountPrice?: string): HTMLElement => {
-  const informBlock = createCustomElement('div', [detailClasses.INFO]);
+  const productInfo = createCustomElement('div', [detailClasses.INFO]);
   const productName = createCustomElement('h2', [detailClasses.NAME], `${name}`);
   const productPrice = createCustomElement('p', [detailClasses.BASE_PRICE], `USD ${price}`);
   const productDescription = createCustomElement('p', [detailClasses.DESCRIPTION], `${description}`);
@@ -31,13 +35,13 @@ const createInformBlock = (name: string, price: string, description: string, dis
     productPrice.style.textDecoration = 'line-through';
     const discount = createCustomElement('p', [detailClasses.DISCOUNT], `USD ${discountPrice}`);
     priceContainer.append(discount, productPrice);
-    informBlock.append(productName, priceContainer, productDescription);
+    productInfo.append(productName, priceContainer, productDescription);
   } else {
     priceContainer.append(productPrice);
-    informBlock.append(productName, priceContainer, productDescription);
+    productInfo.append(productName, priceContainer, productDescription);
   }
 
-  return informBlock;
+  return productInfo;
 };
 
 const createImagesBlock = (product: Product): HTMLElement => {
@@ -87,19 +91,28 @@ export const drawDetail = async (product: Product | string): Promise<void> => {
     const title = createPageTitle('About the product');
     const detail = createCustomElement('div', [detailClasses.DETAIL]);
     const imgBlock = createImagesBlock(product);
+    const InfoBlock = createCustomElement('div', [detailClasses.INFO_BLOCK]);
+    const btnsContainer = createCustomElement('div', [detailClasses.BTNS_CONTAINER]);
+    const addBtn = createCustomElement('button', [detailClasses.ADD_PRODUCT, 'button'], 'Add product');
+    const removeBtn = createCustomElement(
+      'button',
+      [detailClasses.REMOVE_PRODUCT, 'button', 'disable'],
+      'Remove product',
+    );
 
-    detail.append(imgBlock);
+    btnsContainer.append(addBtn, removeBtn);
+    detail.append(imgBlock, InfoBlock);
     if (productPrice) {
       const basePrice = productPrice[0].value.centAmount;
       const discountPrice = productPrice[0].discounted?.value.centAmount;
       price = (basePrice / 100).toFixed(2);
       if (discountPrice) {
         const discount = (discountPrice / 100).toFixed(2);
-        const informBlock = createInformBlock(productName, price, productDescription, discount);
-        detail.append(informBlock);
+        const productInfo = createInformBlock(productName, price, productDescription, discount);
+        InfoBlock.append(productInfo, btnsContainer);
       } else {
-        const informBlock = createInformBlock(productName, price, productDescription);
-        detail.append(informBlock);
+        const productInfo = createInformBlock(productName, price, productDescription);
+        InfoBlock.append(productInfo, btnsContainer);
       }
     }
     mailWrapper.append(title, detail);

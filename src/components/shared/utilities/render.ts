@@ -10,8 +10,8 @@ import { drawNotFound } from '../../pages/notfound/draw-not-found';
 import { customRoute } from '../../app/router/router';
 import { drawProfile } from '../../pages/profile/draw-profile';
 import { drawCatalog } from '../../pages/catalog/draw-catalog';
-import { PRODUCT_BODY, PRODUCT_KEY } from '../../pages/detailed/open-detail';
-import { drawDetail } from '../../pages/detailed/draw-detail';
+import { PRODUCT_BODY, PRODUCT_KEY } from '../../pages/detail/open-detail';
+import { drawDetail } from '../../pages/detail/draw-detail';
 import { getLocalStorage, setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { isLogin } from '../api/is-login';
 import { drawChangePassword } from '../../pages/profile/change-password';
@@ -19,6 +19,7 @@ import { PRODUCTS_PATH } from '../../app/path-products/save-paths';
 import { StpClientApi } from '../api/stpClient-api';
 import { drawSuccessUpdate } from '../../pages/profile/successupdate';
 import { drawSuccessPassword } from '../../pages/profile/successpassword';
+import { drawCartPage } from '../../pages/cart/draw-cart';
 import { drawAbout } from '../../pages/about/draw-about';
 
 export const render = (isLogin: boolean): void => {
@@ -85,7 +86,7 @@ export const renderChangeContent = async (path: string, product?: Product | stri
     }
   }
   if (renderPage === '/cart') {
-    drawNotFound();
+    drawCartPage();
   }
   if (renderPage === '/profile') {
     drawProfile();
