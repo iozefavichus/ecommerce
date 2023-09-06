@@ -1,6 +1,3 @@
-import { customRoute } from '../../app/router/router';
-import { StpClientApi } from '../api/stpClient-api';
-
 const disableBtn = (btn: HTMLButtonElement) => {
   btn.classList.add('disable');
   btn.disabled = true;
@@ -20,14 +17,4 @@ const createCustomElement = (tag: string, classNames?: string[], adjHTML?: strin
   return element;
 };
 
-const isProduct = async (key: string) => {
-  try {
-    const response = await new StpClientApi().getProductByKey(key);
-    const product = await response.body;
-    customRoute(key, product);
-  } catch {
-    customRoute(key, 'Sorry but, product is finished');
-  }
-};
-
-export { createCustomElement, isProduct, disableBtn, activeBtn };
+export { createCustomElement, disableBtn, activeBtn };
