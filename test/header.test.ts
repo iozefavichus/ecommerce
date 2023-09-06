@@ -1,7 +1,8 @@
 import * as header from '../src/components/pages/header/header';
 
 describe('Header module', () => {
-  const NAV_ELEM = 4;
+  const NAV_ELEM = 3;
+  const WRAP_ELEM = 4;
   const SPANS_COUNT = 4;
   const QUANTITY_ICON_BAR = 3;
   const IS_LOGIN = true;
@@ -32,7 +33,7 @@ describe('Header module', () => {
       expect(headerElem).not.toBeNull();
 
       const wrapper = headerElem?.querySelector(`.${header.headerClasses.HEADER_WRAPPER}`);
-      expect(wrapper?.children.length).toBe(NAV_ELEM);
+      expect(wrapper?.children.length).toBe(WRAP_ELEM);
 
       const iconBar = wrapper?.querySelector(`.${header.headerClasses.ICON_BAR}`);
       expect(iconBar?.children.length).toBe(QUANTITY_ICON_BAR);
@@ -45,7 +46,7 @@ describe('Header module', () => {
       expect(headerElem).not.toBeNull();
 
       const wrapper = headerElem?.querySelector(`.${header.headerClasses.HEADER_WRAPPER}`);
-      expect(wrapper?.children.length).toBe(NAV_ELEM);
+      expect(wrapper?.children.length).toBe(WRAP_ELEM);
 
       const iconBar = wrapper?.querySelector(`.${header.headerClasses.ICON_BAR}`);
       expect(iconBar?.children.length).toBe(QUANTITY_ICON_BAR);
