@@ -2,6 +2,7 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { checkName, checkSurname, checkBirth, checkEmail, checkPassword, checkCity, checkPost } from './validation';
 import { setError, setSuccess, CheckIt } from './validation-helpers';
 import { createFormDiv, createFormWithOptions } from './creationform-helpers';
+import { handlerRegistration } from './draw-registration';
 
 const createFormElement = <T extends HTMLElement>(
   tag: string,
@@ -39,7 +40,7 @@ interface FromDivObject {
   message: HTMLElement;
 }
 
-interface RegistrationObject {
+export interface RegistrationObject {
   form: HTMLFormElement;
   wrapper: HTMLElement;
   nameDiv: FromDivObject;
@@ -90,6 +91,7 @@ export const RegistrationForm = (): RegistrationObject => {
   const ShippingcityDiv = createFormDiv('shippingcity', 'City*', 'text', 'shippingcity');
   const ShippingpostDiv = createFormDiv('shippingpost', 'Post code*', 'text', 'shippingpost');
   const ShippingcountryDiv = createFormWithOptions('shippingcountry', 'Country*');
+  const billingDiv = createCustomElement('div', ['billing'], '');
   const question = createCustomElement('div', ['question'], 'Do you want to use the same for billing adress?');
   const radioButton = createFormDiv(
     'radio',
@@ -97,7 +99,13 @@ export const RegistrationForm = (): RegistrationObject => {
     'radio',
     'default-shipping',
   );
+  radioButton.input.addEventListener('click', () => {
+    billingDiv.classList.remove('billing-visible');
+  });
   const radioButton2 = createFormDiv('radio2', 'No, I want to use another billing adress', 'radio', 'default-billing');
+  radioButton2.input.addEventListener('click', () => {
+    billingDiv.classList.add('billing-visible');
+  });
   radioButton.container.classList.remove('form-control');
   radioButton2.container.classList.remove('form-control');
   radioButton.input.classList.remove('input');
@@ -108,7 +116,6 @@ export const RegistrationForm = (): RegistrationObject => {
   radioButton2.input.classList.add('radio-btn');
   radioButton2.input.setAttribute('name', 'adress');
 
-  const billingDiv = createCustomElement('div', ['billing'], '');
   const billingTitle = createCustomElement('div', ['billing-title'], 'Billing adress');
   const checkDefaultBilling = createFormDiv(
     'defaultBilling',
@@ -230,7 +237,7 @@ export const RegistrationForm = (): RegistrationObject => {
     }
   });
 
-  return {
+  const formObj = {
     form,
     wrapper,
     nameDiv,
@@ -252,4 +259,9 @@ export const RegistrationForm = (): RegistrationObject => {
     radioButton2,
     billingDiv,
   };
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    handlerRegistration(formObj);
+  });
+  return formObj;
 };
