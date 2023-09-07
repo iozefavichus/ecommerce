@@ -13,9 +13,10 @@ import {
   CategoryPagedQueryResponse,
   Category,
   AddressDraft,
+  // Cart,
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
-import { regCardObj, baseAdress } from '../../../types/shared';
+import { regCardObj, baseAdress, IUpdateCart } from '../../../types/shared';
 
 class StpClientApi {
   private email;
@@ -398,6 +399,75 @@ class StpClientApi {
       })
       .execute();
   }
+
+  public addProductToCartAnonymousCustomer() {
+    return this.apiRoot
+      .carts()
+      .post({
+        body: {
+          currency: 'USD',
+        },
+      })
+      .execute()
+      .then((cart) => cart.body);
+  }
+
+  public updateCart(options: IUpdateCart) {
+    const { id, version, centAmount, productId } = options;
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'addLineItem',
+              productId,
+              quantity: 1,
+              externalPrice: {
+                centAmount,
+                currencyCode: 'USD',
+              },
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
+
+  public getCarts() {
+    return this.apiRoot
+      .carts()
+      .get({
+        queryArgs: {
+          limit: 100,
+        },
+      })
+      .execute()
+      .then((data) => data.body.results);
+  }
+
+  public getCartById(id: string) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .get()
+      .execute()
+      .then((data) => data.body);
+  }
+
+  // public deleteCart(id: string) {
+  //   return this.apiRoot
+  //     .carts()
+  //     .withId({ ID: id })
+  //     .delete({
+  //       queryArgs: {
+  //         version: 1
+  //       }
+  //      }).execute()
+  // }
 }
 
 export { StpClientApi };
