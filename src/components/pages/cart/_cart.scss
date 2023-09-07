@@ -1,1 +1,26 @@
-// styles
+.btn-catalog {
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  border-radius: 20px;
+  width: 15%;
+  background-color: $color-brand-dark;
+  color: $font-color;
+  border: none;
+  text-decoration: none;
+  margin: 10px auto;
+}
+
+.empty__text{
+    font-family: Poppins, sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.wrapper {
+    display: flex;
+}

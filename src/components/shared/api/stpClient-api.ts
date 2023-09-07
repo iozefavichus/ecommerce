@@ -12,7 +12,7 @@ import {
   Customer,
   CategoryPagedQueryResponse,
   Category,
-  AddressDraft,
+  AddressDraft
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
 import { regCardObj, baseAdress } from '../../../types/shared';
@@ -398,6 +398,26 @@ class StpClientApi {
       })
       .execute();
   }
+
+
+  public getCart(id: string) {
+    return this.apiRoot
+    .carts()
+    .withId({ ID: id })
+    .get()
+    .execute()
+  }
+
+  public deleteCart(id:string, vers: number){
+    return this.apiRoot
+    .carts()
+    .withId({ ID: id })
+    .delete({
+      queryArgs: { version: vers },
+    })
+    .execute()
+  }
+
 }
 
 export { StpClientApi };
