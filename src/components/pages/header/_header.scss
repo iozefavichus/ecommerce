@@ -152,11 +152,29 @@
 }
 
 .basket-link {
+  position: relative;
   margin-left: 10px;
   background-image: url('../assets/icons/shopping-cart.svg');
 
   @extend %icon-param;
   @extend %hover-transition;
+}
+
+.quantity-item {
+  display: none;
+  position: absolute;
+  top: -15px;
+  right: -5px;
+  width: min-content;
+  padding: 5px;
+  border-radius: 50%;
+  font-weight: 600;
+  color: $color-brand;
+  background-color: rgb(246 6 6);
+
+  &.active {
+    display: inline-block;
+  }
 }
 
 .profile-link,

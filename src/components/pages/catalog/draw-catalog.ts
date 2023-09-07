@@ -10,6 +10,9 @@ import {
   searchValue,
   sortedValue,
 } from './sort-catalog';
+import { KEY_CART, hasCart } from '../cart/has-cart';
+import { getLocalStorage } from '../../app/localStorage/localStorage';
+import { createCart, updateCart } from '../cart/cart';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -147,16 +150,34 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
   const card = createCustomElement('div', ['product__card']);
   const cartBtn = createCustomElement('div', ['cart-btn']);
   cartBtn.title = 'add to cart';
-  cartBtn.addEventListener('click', (event) => {
-    event.preventDefault();
-    const btn = event.currentTarget as HTMLButtonElement;
-    disableBtn(btn);
-  });
   const productKey = product.key;
   const productImg = product.masterData.current.masterVariant?.images;
   const productName = product.masterData.current.name.en;
   const productPrice = product.masterData.current.masterVariant?.prices;
   const discountedPrice = product.masterData.current.masterVariant?.prices;
+  cartBtn.addEventListener('click', async (event) => {
+    const btn = event.currentTarget as HTMLButtonElement;
+    disableBtn(btn);
+    if (hasCart()) {
+      const id = getLocalStorage(KEY_CART) as string;
+      const { version } = await new StpClientApi().getCartById(id);
+      updateCart({
+        id,
+        version,
+        centAmount: productPrice![0].value.centAmount,
+        productId: product.id,
+      }).then((data) => console.log(data));
+    } else {
+      const cart = await createCart();
+      const { id, version } = cart;
+      updateCart({
+        id,
+        version,
+        centAmount: productPrice![0].value.centAmount,
+        productId: product.id,
+      });
+    }
+  });
   let price: string;
   let priceDiscount: string;
   card.setAttribute('data-key', productKey as string);

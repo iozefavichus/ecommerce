@@ -21,6 +21,7 @@ const headerClasses: Constants = {
   LOGIN_LINK: 'login-link',
   LOGOUT: 'log-out',
   REG_LINK: 'registration-link',
+  QUANTITY_ITEM: 'quantity-item',
 };
 
 const links: Constants = {
@@ -58,6 +59,8 @@ const createIconBar = (isLogin: boolean): HTMLElement => {
   const linkProfile = createCustomElement('a', [headerClasses.PROFILE_LINK], 'Profile') as HTMLLinkElement;
   linkProfile.href = links.PROFILE;
   const linkBasket = createCustomElement('a', [headerClasses.BASKET_LINK]) as HTMLLinkElement;
+  const quantityItem = createCustomElement('div', [headerClasses.QUANTITY_ITEM]);
+  linkBasket.append(quantityItem);
   linkBasket.href = links.BASKET;
   const profileBtn = isLogin ? linkProfile : '';
   const logBtn = isLogin ? logOut : logIn;
