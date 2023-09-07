@@ -3,6 +3,10 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createPageTitle } from '../../shared/utilities/title';
 import { nextImage, prevImage, updateImagePosition } from './slider';
 import { openPopup } from './popup';
+import { StpClientApi } from '../../shared/api/stpClient-api';
+import { KEY_CART, hasCart } from '../cart/has-cart';
+import { getLocalStorage } from '../../app/localStorage/localStorage';
+import { createCart, updateCart } from '../cart/cart';
 
 const detailClasses = {
   DETAIL: 'detail',
@@ -93,11 +97,32 @@ export const drawDetail = async (product: Product | string): Promise<void> => {
     const imgBlock = createImagesBlock(product);
     const InfoBlock = createCustomElement('div', [detailClasses.INFO_BLOCK]);
     const btnsContainer = createCustomElement('div', [detailClasses.BTNS_CONTAINER]);
-    const addBtn = createCustomElement('button', [detailClasses.ADD_PRODUCT, 'button'], 'Add product');
+    const addBtn = createCustomElement('button', [detailClasses.ADD_PRODUCT, 'button'], 'Add to cart');
+    addBtn.addEventListener('click', async () => {
+      if (hasCart()) {
+        const id = getLocalStorage(KEY_CART) as string;
+        const { version } = await new StpClientApi().getCartById(id);
+        updateCart({
+          id,
+          version,
+          centAmount: productPrice![0].value.centAmount,
+          productId: product.id,
+        }).then((data) => console.log(data));
+      } else {
+        const cart = await createCart();
+        const { id, version } = cart;
+        updateCart({
+          id,
+          version,
+          centAmount: productPrice![0].value.centAmount,
+          productId: product.id,
+        });
+      }
+    });
     const removeBtn = createCustomElement(
       'button',
       [detailClasses.REMOVE_PRODUCT, 'button', 'disable'],
-      'Remove product',
+      'Remove from cart',
     );
 
     btnsContainer.append(addBtn, removeBtn);
