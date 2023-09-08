@@ -182,6 +182,10 @@ class StpClientApi {
     return this.apiRoot.products().withKey({ key: productKey }).get().execute();
   }
 
+  public getProductByID(productID: string) {
+    return this.apiRoot.products().withId({ ID: productID }).get().execute();
+  }
+
   public getProductCategory(catId: string) {
     return this.apiRoot.categories().withId({ ID: catId }).get().execute();
   }
@@ -469,23 +473,23 @@ class StpClientApi {
   // }
 
 
-  public getCart(id: string) {
-    return this.apiRoot
-    .carts()
-    .withId({ ID: id })
-    .get()
-    .execute()
-  }
+  // public getCart(id: string) {
+  //   return this.apiRoot
+  //   .carts()
+  //   .withId({ ID: id })
+  //   .get()
+  //   .execute()
+  // }
 
-  public deleteCart(id:string, vers: number){
-    return this.apiRoot
-    .carts()
-    .withId({ ID: id })
-    .delete({
-      queryArgs: { version: vers },
-    })
-    .execute()
-  }
+  // public deleteCart(id:string, vers: number){
+  //   return this.apiRoot
+  //   .carts()
+  //   .withId({ ID: id })
+  //   .delete({
+  //     queryArgs: { version: vers },
+  //   })
+  //   .execute()
+  // }
 
 }
 
