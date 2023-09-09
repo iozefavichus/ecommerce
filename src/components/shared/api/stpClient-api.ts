@@ -13,7 +13,6 @@ import {
   CategoryPagedQueryResponse,
   Category,
   AddressDraft,
-  // Cart,
 } from '@commercetools/platform-sdk';
 import { ctpClient } from './build-client';
 import { regCardObj, baseAdress, IUpdateCart } from '../../../types/shared';
@@ -181,6 +180,10 @@ class StpClientApi {
 
   public getProductByKey(productKey: string) {
     return this.apiRoot.products().withKey({ key: productKey }).get().execute();
+  }
+
+  public getProductByID(productID: string) {
+    return this.apiRoot.products().withId({ ID: productID }).get().execute();
   }
 
   public getProductCategory(catId: string) {
@@ -437,6 +440,27 @@ class StpClientApi {
       .then((data) => data.body);
   }
 
+  // public deleteItemFromCart(options: IUpdateCart) {
+  //   const { id, version, productId } = options;
+  //   return this.apiRoot
+  //     .carts()
+  //     .withId({ ID: id })
+  //     .post({
+  //       body: {
+  //         version,
+  //         actions: [
+  //           {
+  //             action: 'removeCustomLineItem',
+  //             id: productId,
+  //           },
+  //         ],
+  //       },
+  //     })
+  //     .execute()
+  //     .then((data) => data.body);
+  // }
+
+
   public getCarts() {
     return this.apiRoot
       .carts()
@@ -468,6 +492,26 @@ class StpClientApi {
   //       }
   //      }).execute()
   // }
+
+
+  // public getCart(id: string) {
+  //   return this.apiRoot
+  //   .carts()
+  //   .withId({ ID: id })
+  //   .get()
+  //   .execute()
+  // }
+
+  public deleteCart(id:string, vers: number){
+    return this.apiRoot
+    .carts()
+    .withId({ ID: id })
+    .delete({
+      queryArgs: { version: vers },
+    })
+    .execute()
+  }
+
 }
 
 export { StpClientApi };

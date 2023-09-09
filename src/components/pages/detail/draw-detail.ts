@@ -110,6 +110,7 @@ export const drawDetail = async (product: Product | string): Promise<void> => {
         }).then((data) => console.log(data));
       } else {
         const cart = await createCart();
+        console.log('Hello');
         const { id, version } = cart;
         updateCart({
           id,
