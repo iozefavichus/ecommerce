@@ -169,6 +169,7 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
       }).then((data) => console.log(data));
     } else {
       const cart = await createCart();
+      // console.log(`cart id ${cart.id}`)
       const { id, version } = cart;
       updateCart({
         id,
