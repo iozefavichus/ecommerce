@@ -440,7 +440,7 @@ class StpClientApi {
       .then((data) => data.body);
   }
 
-  // public deleteItemFromCart(options: IUpdateCart) {
+  // public updateQuantity(options: IUpdateCart, n: number) {
   //   const { id, version, productId } = options;
   //   return this.apiRoot
   //     .carts()
@@ -450,8 +450,9 @@ class StpClientApi {
   //         version,
   //         actions: [
   //           {
-  //             action: 'removeCustomLineItem',
-  //             id: productId,
+  //             action: 'changeCustomLineItemQuantity',
+  //             productId,
+  //             quantity: n,
   //           },
   //         ],
   //       },
@@ -459,6 +460,44 @@ class StpClientApi {
   //     .execute()
   //     .then((data) => data.body);
   // }
+
+  public deleteItemFromCart(id: string, version: number, lineId: string) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'removeCustomLineItem',
+              "customLineItemId": lineId
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
+
+  public addDiscountCode(id:string, version: number, discountCode: string) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              "action": "addDiscountCode",
+              "code": discountCode
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
 
 
   public getCarts() {
