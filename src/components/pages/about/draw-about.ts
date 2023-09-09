@@ -23,6 +23,10 @@ const createAboutPage = (): HTMLElement => {
   a1.setAttribute('target', '_blank');
   const imgGithub1 = createCustomElement('img', ['social-media-icon']) as HTMLImageElement;
   imgGithub1.src = './assets/images/about/github.png';
+  const githubLink = createCustomElement('a', ['rss_link']) as HTMLLinkElement;
+  githubLink.href = 'https://rs.school/';
+  githubLink.setAttribute('target', '_blank');
+  const githubLogo = createCustomElement('div', ['rss_logo']);
 
   const cellBlock2 = createCustomElement('div', [
     'responsive-cell-block',
@@ -59,6 +63,7 @@ const createAboutPage = (): HTMLElement => {
   a3.setAttribute('target', '_blank');
   const imgGithub3 = createCustomElement('img', ['social-media-icon']) as HTMLImageElement;
   imgGithub3.src = './assets/images/about/github.png';
+  githubLink.append(githubLogo);
   a1.append(imgGithub1);
   a2.append(imgGithub2);
   a3.append(imgGithub3);
@@ -66,7 +71,7 @@ const createAboutPage = (): HTMLElement => {
   cellBlock2.append(name2, position2, img2, a2);
   cellBlock3.append(name3, position3, img3, a3);
   cardContainer.append(cellBlock1, cellBlock2, cellBlock3);
-  inner.append(heading, subheading, cardContainer);
+  inner.append(githubLink, heading, subheading, cardContainer);
   wrapper.append(inner);
   return wrapper;
 };
