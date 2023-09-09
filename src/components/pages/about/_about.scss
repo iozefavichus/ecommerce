@@ -11,6 +11,10 @@
   margin: 0;
   line-height: 25px;
   padding: 0;
+
+  &__custom {
+    text-align: justify;
+  }
 }
 
 .responsive-container-block {
