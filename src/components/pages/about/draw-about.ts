@@ -23,6 +23,19 @@ const createAboutPage = (): HTMLElement => {
   a1.setAttribute('target', '_blank');
   const imgGithub1 = createCustomElement('img', ['social-media-icon']) as HTMLImageElement;
   imgGithub1.src = './assets/images/about/github.png';
+  const text1 = createCustomElement(
+    'p',
+    ['text', 'text__custom'],
+    'I started learning JavaScript in JS / Front-end and ReactJS (with TypeScript) courses' +
+      ' at The Rolling Scopes School, while at university I studied more .NET and Angular.' +
+      ' Now I am developing my own projects, and I am ready to further develop my knowledge and ' +
+      'skills in web development.',
+  );
+
+  const githubLink = createCustomElement('a', ['rss_link']) as HTMLLinkElement;
+  githubLink.href = 'https://rs.school/';
+  githubLink.setAttribute('target', '_blank');
+  const githubLogo = createCustomElement('div', ['rss_logo']);
 
   const cellBlock2 = createCustomElement('div', [
     'responsive-cell-block',
@@ -41,6 +54,14 @@ const createAboutPage = (): HTMLElement => {
   a2.setAttribute('target', '_blank');
   const imgGithub2 = createCustomElement('img', ['social-media-icon']) as HTMLImageElement;
   imgGithub2.src = './assets/images/about/github.png';
+  const text2 = createCustomElement(
+    'p',
+    ['text', 'text__custom'],
+    'Hello! I am 30 years old. Graduated from college in 2008, university in 2012. ' +
+      'My specialty is an engineer electrician. In 2022, I started learn of Software Engineer.' +
+      ' I chose this profession because I like to see the result of my work. This job gives me a ' +
+      'chance work from anywhere and always learn something new.',
+  );
 
   const cellBlock3 = createCustomElement('div', [
     'responsive-cell-block',
@@ -59,14 +80,22 @@ const createAboutPage = (): HTMLElement => {
   a3.setAttribute('target', '_blank');
   const imgGithub3 = createCustomElement('img', ['social-media-icon']) as HTMLImageElement;
   imgGithub3.src = './assets/images/about/github.png';
+  const text3 = createCustomElement(
+    'p',
+    ['text', 'text__custom'],
+    'I like to study all new and I like to communicate with other people.' +
+      ' For a long time I work as photographer. So I have a lot of time to know something new.',
+  );
+
+  githubLink.append(githubLogo);
   a1.append(imgGithub1);
   a2.append(imgGithub2);
   a3.append(imgGithub3);
-  cellBlock1.append(name1, position1, img1, a1);
-  cellBlock2.append(name2, position2, img2, a2);
-  cellBlock3.append(name3, position3, img3, a3);
+  cellBlock1.append(name1, position1, img1, a1, text1);
+  cellBlock2.append(name2, position2, img2, a2, text2);
+  cellBlock3.append(name3, position3, img3, a3, text3);
   cardContainer.append(cellBlock1, cellBlock2, cellBlock3);
-  inner.append(heading, subheading, cardContainer);
+  inner.append(githubLink, heading, subheading, cardContainer);
   wrapper.append(inner);
   return wrapper;
 };
