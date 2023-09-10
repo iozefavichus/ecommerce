@@ -346,34 +346,53 @@ const fetchAndDisplayProducts = async (event: MouseEvent) => {
   const btnPaginationNext = document.querySelector('.navigation__btn-next') as HTMLButtonElement;
 
   try {
-    let value;
+    let value = parseInt(btnPagination.textContent || '0', 10);
+
     const target = event.target as HTMLElement;
-    const { textContent } = btnPagination;
-    if (textContent !== null) {
-      value = parseInt(textContent, 10);
-    }
-    // TODO
-    if (value! >= 1 && value !== 0) {
-      btnPaginationPrev.removeAttribute('disabled');
-    }
-    // TODO
-    if (target.dataset.value === 'next') {
-      const products = await new StpClientApi().getProducts(12, 12 * value! ?? '');
+    const isNext = target.dataset.value === 'next';
+    const step = isNext ? 1 : -1;
+
+    if (isNext) {
+      const products = await new StpClientApi().getProducts(12, 12 * value);
+
       productWrapper.innerHTML = '';
-      if (value !== undefined) {
-        value += 1;
+      value += step;
+      btnPagination.textContent = value.toString();
+
+      if (value === 1) {
+        btnPaginationPrev.setAttribute('disabled', '');
+      } else {
+        btnPaginationPrev.removeAttribute('disabled');
       }
-      btnPagination.textContent = value?.toString() || '';
+
+      if (value === 3) {
+        btnPaginationNext.setAttribute('disabled', '');
+      } else {
+        btnPaginationNext.removeAttribute('disabled');
+      }
+
       products.forEach((product) => {
         drawCard(product, productWrapper);
       });
     } else {
-      const products = await new StpClientApi().getProducts(12, 12 / value! ?? '');
+      const products = await new StpClientApi().getProducts(12, 12 / value);
+
       productWrapper.innerHTML = '';
-      if (value !== undefined) {
-        value -= 1;
+      value += step;
+      btnPagination.textContent = value.toString();
+
+      if (value === 1) {
+        btnPaginationPrev.setAttribute('disabled', '');
+      } else {
+        btnPaginationPrev.removeAttribute('disabled');
       }
-      btnPagination.textContent = value?.toString() || '';
+
+      if (value === 3) {
+        btnPaginationNext.setAttribute('disabled', '');
+      } else {
+        btnPaginationNext.removeAttribute('disabled');
+      }
+
       products.forEach((product) => {
         drawCard(product, productWrapper);
       });
