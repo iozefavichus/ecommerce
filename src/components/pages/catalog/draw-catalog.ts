@@ -115,10 +115,10 @@ const createFilter = (): HTMLElement => {
 
 const createNavigation = (): HTMLElement => {
   const navBlock = createCustomElement('div', ['navigation']);
+  const btnNavPrev = createCustomElement('button', ['navigation__btn', 'navigation__btn-prev'], 'Prev');
   const btnNav1 = createCustomElement('button', ['navigation__btn', 'navigation__btn-active'], '1');
-  const btnNav2 = createCustomElement('button', ['navigation__btn'], '2');
   const btnNavNext = createCustomElement('button', ['navigation__btn', 'navigation__btn-next'], 'Next');
-  navBlock.append(btnNav1, btnNav2, btnNavNext);
+  navBlock.append(btnNavPrev, btnNav1, btnNavNext);
   return navBlock;
 };
 
@@ -273,18 +273,14 @@ export const drawCatalog = async () => {
   mainWrapper.append(searcher, category, filter, productWrapper, navigation);
   const sortField = document.querySelector('.panel__wrapper-show--default') as HTMLSelectElement;
   const searchField = document.querySelector('.input-search') as HTMLInputElement;
-  const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
+  const btnPaginationPrev = document.querySelector('.navigation__btn-prev') as HTMLButtonElement;
   const btnPaginationNext = document.querySelector('.navigation__btn-next') as HTMLButtonElement;
   const categoryList = document.querySelector('.wrapper__category-select') as HTMLSelectElement;
   const filterName = document.querySelector('.filter_select_name') as HTMLSelectElement;
   const resetBtn = document.querySelector('.reset');
 
-  if (btnPagination?.textContent === '1') {
-    btnPagination.setAttribute('disabled', '');
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   btnPaginationNext?.addEventListener('click', fetchAndDisplayProducts);
+  btnPaginationPrev?.addEventListener('click', fetchAndDisplayProducts);
 
   const products = new StpClientApi().getProducts(12, 0);
   resetBtn?.addEventListener('click', () => {
@@ -319,15 +315,7 @@ export const drawCatalog = async () => {
       drawSortCard(product, productWrapper);
     });
   });
-  const numberCards = document.querySelector('#numberCards');
-  const numberProducts = document.querySelector('#numberProducts');
-  const size = Object.keys(products).length;
-  if (numberCards !== undefined && numberCards !== null) {
-    numberCards.textContent = String(size);
-  }
-  if (numberProducts !== undefined && numberProducts !== null) {
-    numberProducts.textContent = `Showing 1–${String(size)} of ${String(size)} results`;
-  }
+
   sortField?.addEventListener('change', async (event) => {
     const sortProducts = await sortedValue(event);
     productWrapper.innerHTML = '';
@@ -348,12 +336,24 @@ export const drawCatalog = async () => {
     });
   });
 };
-
 const fetchAndDisplayProducts = async () => {
   const productWrapper = document.querySelector('.product__wrapper') as HTMLElement;
+  const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
+  const btnPaginationPrev = document.querySelector('.navigation__btn-prev') as HTMLButtonElement;
+  const btnPaginationNext = document.querySelector('.navigation__btn-next') as HTMLButtonElement;
+
   try {
     const products = await new StpClientApi().getProducts(12, 12);
+    let value;
     productWrapper.innerHTML = '';
+    const { textContent } = btnPagination;
+    if (textContent !== null) {
+      value = parseInt(textContent, 10);
+    }
+    if (value !== undefined) {
+      value += 1;
+    }
+    btnPagination.textContent = value?.toString() || '';
     products.forEach((product) => {
       drawCard(product, productWrapper);
     });

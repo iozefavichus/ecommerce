@@ -270,12 +270,21 @@
     font-style: normal;
     font-weight: 400;
 
-    &-next {
+    &-next,
+    &-prev {
       width: 98px;
       font-weight: 300;
       color: $color-text-base;
       border-radius: 10px;
       background: $color-panel-product;
+
+      &:hover {
+        cursor: pointer;
+        background: $color-brand-dark;
+        color: $color-default;
+        opacity: 0.5;
+        transition: all 0.5s;
+      }
     }
 
     &-active {
