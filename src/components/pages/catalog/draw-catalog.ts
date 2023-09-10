@@ -343,13 +343,13 @@ const fetchAndDisplayProducts = async () => {
   const btnPaginationNext = document.querySelector('.navigation__btn-next') as HTMLButtonElement;
 
   try {
-    const products = await new StpClientApi().getProducts(12, 12);
     let value;
-    productWrapper.innerHTML = '';
     const { textContent } = btnPagination;
     if (textContent !== null) {
       value = parseInt(textContent, 10);
     }
+    const products = await new StpClientApi().getProducts(12, 12 * value! ?? '');
+    productWrapper.innerHTML = '';
     if (value !== undefined) {
       value += 1;
     }
