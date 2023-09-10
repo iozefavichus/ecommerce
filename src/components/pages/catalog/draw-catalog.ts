@@ -166,6 +166,7 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
         version,
         centAmount: productPrice![0].value.centAmount,
         productId: product.id,
+        // eslint-disable-next-line no-console
       }).then((data) => console.log(data));
     } else {
       const cart = await createCart();
@@ -281,6 +282,7 @@ export const drawCatalog = async () => {
   const sortField = document.querySelector('.panel__wrapper-show--default') as HTMLSelectElement;
   const searchField = document.querySelector('.input-search') as HTMLInputElement;
   const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
+  const btnPaginationNext = document.querySelector('.navigation__btn-next') as HTMLButtonElement;
   const categoryList = document.querySelector('.wrapper__category-select') as HTMLSelectElement;
   const filterName = document.querySelector('.filter_select_name') as HTMLSelectElement;
   const resetBtn = document.querySelector('.reset');
@@ -288,7 +290,11 @@ export const drawCatalog = async () => {
   if (btnPagination?.textContent === '1') {
     btnPagination.setAttribute('disabled', '');
   }
-  const products = new StpClientApi().getProducts(12);
+
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  btnPaginationNext?.addEventListener('click', fetchAndDisplayProducts);
+
+  const products = new StpClientApi().getProducts(12, 0);
   resetBtn?.addEventListener('click', () => {
     drawCatalog();
   });
@@ -349,4 +355,18 @@ export const drawCatalog = async () => {
       drawCard(product, productWrapper);
     });
   });
+};
+
+const fetchAndDisplayProducts = async () => {
+  const productWrapper = document.querySelector('.product__wrapper') as HTMLElement;
+  try {
+    const products = await new StpClientApi().getProducts(12, 12);
+    productWrapper.innerHTML = '';
+    products.forEach((product) => {
+      drawCard(product, productWrapper);
+    });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('An error occurred while receiving products:', error);
+  }
 };
