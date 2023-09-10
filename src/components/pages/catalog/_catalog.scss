@@ -30,6 +30,7 @@
   background: $color-brand url('../assets/icons/search.svg') no-repeat 9px center;
   width: 28px;
   height: 28px;
+  margin-left: 15px;
   color: transparent;
   cursor: pointer;
 
@@ -123,7 +124,7 @@
     }
 
     &--default {
-      height: 55px;
+      height: 40px;
       width: 188px;
       background: $color-default;
       color: $color-separator;
@@ -290,14 +291,14 @@
 
   background: $color-panel-product;
   margin: 0 auto 20px;
-  flex-direction: column;
-  padding: 0 0 10px;
+  padding: 20px 10px;
 
   &-title {
-    font-size: 40px;
-    line-height: 48px;
+    font-size: 20px;
     font-weight: 400;
-    margin: 10px 0;
+    font-style: normal;
+    margin: 10px;
+    color: $color-text-base;
   }
 
   &-select {
@@ -309,6 +310,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 10px;
+    margin: 10px;
   }
 
   &-item {

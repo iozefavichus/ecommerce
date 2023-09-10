@@ -18,20 +18,16 @@ const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
   const headingImg = createCustomElement('div', ['heading-img']);
   const heading = createCustomElement('h2', ['heading-login'], 'Catalog');
-  const input = createCustomElement('input', ['input-search']);
-  input.setAttribute('autocomplete', 'off');
-  input.setAttribute('autofocus', '');
-  input.setAttribute('placeholder', 'Search');
-  headingImg.append(heading, input);
+  headingImg.append(heading);
   container.append(headingImg);
   return container;
 };
 
-const createPanel = (): HTMLElement => {
-  const wrapper = createCustomElement('div', ['panel__wrapper']);
-  const showBlock = createCustomElement('div', ['panel__wrapper-show']);
-  const showText = createCustomElement('p', ['panel__wrapper-show__text'], `Showing 1–16 of 32 results`);
-  showText.setAttribute('id', 'numberProducts');
+const createCategory = (): HTMLElement => {
+  const wrapperCategory = createCustomElement('div', ['wrapper__category']);
+  const categoryTitle = createCustomElement('h1', ['wrapper__category-title'], 'Category');
+  const select = createCustomElement('select', ['wrapper__category-select']);
+
   const sortBlock = createCustomElement('div', ['panel__wrapper-show--sort']);
   const showTextSort = createCustomElement(
     'p',
@@ -50,17 +46,14 @@ const createPanel = (): HTMLElement => {
   sortedValue3.setAttribute('data-value', 'sortPriceUp');
   sortedValue4.setAttribute('data-value', 'sortPriceDown');
   showSort.append(sortedValue, sortedValue1, sortedValue2, sortedValue3, sortedValue4);
-  showBlock.append(showText, sortBlock);
   sortBlock.append(showTextSort, showSort);
-  wrapper.append(showBlock);
-  return wrapper;
-};
 
-const createCategory = (): HTMLElement => {
-  const wrapperCategory = createCustomElement('div', ['wrapper__category']);
-  const categoryTitle = createCustomElement('h1', ['wrapper__category-title'], 'Category');
-  const select = createCustomElement('select', ['wrapper__category-select']);
-  wrapperCategory.append(categoryTitle, select);
+  const input = createCustomElement('input', ['input-search']);
+  input.setAttribute('autocomplete', 'off');
+  input.setAttribute('autofocus', '');
+  input.setAttribute('placeholder', 'Search');
+
+  wrapperCategory.append(categoryTitle, select, sortBlock, input);
   return wrapperCategory;
 };
 
@@ -274,11 +267,10 @@ export const drawCatalog = async () => {
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   mainWrapper.innerHTML = '';
   const searcher = createSearch();
-  const panel = createPanel();
   const navigation = createNavigation();
   const filter = createFilter();
   const category = createCategory();
-  mainWrapper.append(searcher, panel, category, filter, productWrapper, navigation);
+  mainWrapper.append(searcher, category, filter, productWrapper, navigation);
   const sortField = document.querySelector('.panel__wrapper-show--default') as HTMLSelectElement;
   const searchField = document.querySelector('.input-search') as HTMLInputElement;
   const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
