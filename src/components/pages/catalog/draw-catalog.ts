@@ -118,6 +118,9 @@ const createNavigation = (): HTMLElement => {
   const btnNavPrev = createCustomElement('button', ['navigation__btn', 'navigation__btn-prev'], 'Prev');
   const btnNav1 = createCustomElement('button', ['navigation__btn', 'navigation__btn-active'], '1');
   const btnNavNext = createCustomElement('button', ['navigation__btn', 'navigation__btn-next'], 'Next');
+  btnNavPrev.setAttribute('data-value', 'prev');
+  btnNavNext.setAttribute('data-value', 'next');
+  btnNavPrev.setAttribute('disabled', '');
   navBlock.append(btnNavPrev, btnNav1, btnNavNext);
   return navBlock;
 };
@@ -336,7 +339,7 @@ export const drawCatalog = async () => {
     });
   });
 };
-const fetchAndDisplayProducts = async () => {
+const fetchAndDisplayProducts = async (event: MouseEvent) => {
   const productWrapper = document.querySelector('.product__wrapper') as HTMLElement;
   const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
   const btnPaginationPrev = document.querySelector('.navigation__btn-prev') as HTMLButtonElement;
@@ -344,19 +347,37 @@ const fetchAndDisplayProducts = async () => {
 
   try {
     let value;
+    const target = event.target as HTMLElement;
     const { textContent } = btnPagination;
     if (textContent !== null) {
       value = parseInt(textContent, 10);
     }
-    const products = await new StpClientApi().getProducts(12, 12 * value! ?? '');
-    productWrapper.innerHTML = '';
-    if (value !== undefined) {
-      value += 1;
+    // TODO
+    if (value! >= 1 && value !== 0) {
+      btnPaginationPrev.removeAttribute('disabled');
     }
-    btnPagination.textContent = value?.toString() || '';
-    products.forEach((product) => {
-      drawCard(product, productWrapper);
-    });
+    // TODO
+    if (target.dataset.value === 'next') {
+      const products = await new StpClientApi().getProducts(12, 12 * value! ?? '');
+      productWrapper.innerHTML = '';
+      if (value !== undefined) {
+        value += 1;
+      }
+      btnPagination.textContent = value?.toString() || '';
+      products.forEach((product) => {
+        drawCard(product, productWrapper);
+      });
+    } else {
+      const products = await new StpClientApi().getProducts(12, 12 / value! ?? '');
+      productWrapper.innerHTML = '';
+      if (value !== undefined) {
+        value -= 1;
+      }
+      btnPagination.textContent = value?.toString() || '';
+      products.forEach((product) => {
+        drawCard(product, productWrapper);
+      });
+    }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('An error occurred while receiving products:', error);
