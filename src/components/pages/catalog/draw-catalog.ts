@@ -352,51 +352,28 @@ const fetchAndDisplayProducts = async (event: MouseEvent) => {
     const isNext = target.dataset.value === 'next';
     const step = isNext ? 1 : -1;
 
-    if (isNext) {
-      const products = await new StpClientApi().getProducts(12, 12 * value);
+    value += step;
+    btnPagination.textContent = value.toString();
 
-      productWrapper.innerHTML = '';
-      value += step;
-      btnPagination.textContent = value.toString();
+    const products = await new StpClientApi().getProducts(12, 12 * (value - 1));
 
-      if (value === 1) {
-        btnPaginationPrev.setAttribute('disabled', '');
-      } else {
-        btnPaginationPrev.removeAttribute('disabled');
-      }
+    productWrapper.innerHTML = '';
 
-      if (value === 3) {
-        btnPaginationNext.setAttribute('disabled', '');
-      } else {
-        btnPaginationNext.removeAttribute('disabled');
-      }
-
-      products.forEach((product) => {
-        drawCard(product, productWrapper);
-      });
+    if (value === 1) {
+      btnPaginationPrev.setAttribute('disabled', '');
     } else {
-      const products = await new StpClientApi().getProducts(12, 12 / value);
-
-      productWrapper.innerHTML = '';
-      value += step;
-      btnPagination.textContent = value.toString();
-
-      if (value === 1) {
-        btnPaginationPrev.setAttribute('disabled', '');
-      } else {
-        btnPaginationPrev.removeAttribute('disabled');
-      }
-
-      if (value === 3) {
-        btnPaginationNext.setAttribute('disabled', '');
-      } else {
-        btnPaginationNext.removeAttribute('disabled');
-      }
-
-      products.forEach((product) => {
-        drawCard(product, productWrapper);
-      });
+      btnPaginationPrev.removeAttribute('disabled');
     }
+
+    if (value === 3) {
+      btnPaginationNext.setAttribute('disabled', '');
+    } else {
+      btnPaginationNext.removeAttribute('disabled');
+    }
+
+    products.forEach((product) => {
+      drawCard(product, productWrapper);
+    });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('An error occurred while receiving products:', error);
