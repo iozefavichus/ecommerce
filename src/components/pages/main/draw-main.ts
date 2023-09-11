@@ -46,7 +46,6 @@ const createBrowse = (): HTMLElement => {
 export const drawMain = () => {
   const body = document.querySelector('body');
   const main = createCustomElement('main', ['main']);
-  body?.append(main);
   const wrapper = createCustomElement('div', ['main__wrapper']);
   main.append(wrapper);
   const productWrapper = createCustomElement('div', ['product__wrapper']);
@@ -62,4 +61,5 @@ export const drawMain = () => {
       drawCard(product, productWrapper);
     });
   });
+  body?.append(main);
 };

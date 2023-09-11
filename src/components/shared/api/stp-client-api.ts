@@ -401,12 +401,19 @@ class ApiClient {
       .execute();
   }
 
-  public addProductToCartAnonymousCustomer() {
+  public addProductToCartAnonymousCustomer(productId: string) {
     return this.apiRoot
+      .me()
       .carts()
       .post({
         body: {
           currency: 'USD',
+          lineItems: [
+            {
+              productId,
+              quantity: 1,
+            },
+          ],
         },
       })
       .execute()
@@ -414,27 +421,26 @@ class ApiClient {
   }
 
   public updateCart(options: IUpdateCart) {
-    const { id, version, centAmount, productId } = options;
-    return this.apiRoot
-      .carts()
-      .withId({ ID: id })
-      .post({
-        body: {
-          version,
-          actions: [
-            {
-              action: 'addLineItem',
-              productId,
-              externalPrice: {
-                centAmount,
-                currencyCode: 'USD',
+    const { id, version, productId } = options;
+    return (
+      this.apiRoot
+        // .me()
+        .carts()
+        .withId({ ID: id })
+        .post({
+          body: {
+            version,
+            actions: [
+              {
+                action: 'addLineItem',
+                productId,
               },
-            },
-          ],
-        },
-      })
-      .execute()
-      .then((data) => data.body);
+            ],
+          },
+        })
+        .execute()
+        .then((data) => data.body)
+    );
   }
 
   // public deleteItemFromCart(options: IUpdateCart) {
@@ -458,24 +464,30 @@ class ApiClient {
   // }
 
   public getCarts() {
-    return this.apiRoot
-      .carts()
-      .get({
-        queryArgs: {
-          limit: 100,
-        },
-      })
-      .execute()
-      .then((data) => data.body.results);
+    return (
+      this.apiRoot
+        // .me()
+        .carts()
+        .get({
+          queryArgs: {
+            limit: 100,
+          },
+        })
+        .execute()
+        .then((data) => data.body.results)
+    );
   }
 
   public getCartById(id: string) {
-    return this.apiRoot
-      .carts()
-      .withId({ ID: id })
-      .get()
-      .execute()
-      .then((data) => data.body);
+    return (
+      this.apiRoot
+        // .me()
+        .carts()
+        .withId({ ID: id })
+        .get()
+        .execute()
+        .then((data) => data.body)
+    );
   }
 
   // public deleteCart(id: string) {
@@ -499,6 +511,7 @@ class ApiClient {
 
   public deleteCart(id: string, vers: number) {
     return this.apiRoot
+      .me()
       .carts()
       .withId({ ID: id })
       .delete({

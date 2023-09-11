@@ -1,4 +1,4 @@
-import { removeLocalStorageValue } from '../../app/localStorage/localStorage';
+import { removeLocalStorageValue } from '../../app/local-storage/local-storage';
 
 const KEY_1 = 'token';
 const KEY_2 = 'expirationTime';

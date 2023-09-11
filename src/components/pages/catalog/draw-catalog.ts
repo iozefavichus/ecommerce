@@ -10,9 +10,10 @@ import {
   sortedValue,
 } from './sort-catalog';
 import { KEY_CART, hasCart } from '../cart/has-cart';
-import { getLocalStorage } from '../../app/localStorage/localStorage';
+import { getLocalStorage } from '../../app/local-storage/local-storage';
 import { createCart, updateCart } from '../cart/cart';
 import { ApiClient } from '../../shared/api/stp-client-api';
+import { disableCartBtnToProductCard } from '../../app/product-in-cart/has-product-in-cart';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -144,34 +145,31 @@ const createPriceDiscountBlock = (price: string): HTMLElement => {
 
 export const drawCard = (product: Product, el: HTMLElement): void => {
   const card = createCustomElement('div', ['product__card']);
-  const cartBtn = createCustomElement('div', ['cart-btn']);
+  const cartBtn = createCustomElement('button', ['cart-btn']) as HTMLButtonElement;
   cartBtn.title = 'add to cart';
   const productKey = product.key;
+
+  disableCartBtnToProductCard(productKey as string, cartBtn);
   const productImg = product.masterData.current.masterVariant?.images;
   const productName = product.masterData.current.name.en;
   const productPrice = product.masterData.current.masterVariant?.prices;
   const discountedPrice = product.masterData.current.masterVariant?.prices;
   cartBtn.addEventListener('click', async (event) => {
-    const btn = event.currentTarget as HTMLButtonElement;
-    disableBtn(btn);
-    if (hasCart()) {
-      const id = getLocalStorage(KEY_CART) as string;
-      const { version } = await new ApiClient().getCartById(id);
-      updateCart({
-        id,
-        version,
-        centAmount: productPrice![0].value.centAmount,
-        productId: product.id,
-      });
-    } else {
-      const cart = await createCart();
-      const { id, version } = cart;
-      updateCart({
-        id,
-        version,
-        centAmount: productPrice![0].value.centAmount,
-        productId: product.id,
-      });
+    const btnElem = event.target as HTMLElement;
+    if (!btnElem.classList.contains('disable')) {
+      if (hasCart()) {
+        const id = getLocalStorage(KEY_CART) as string;
+        const { version } = await new ApiClient().getCartById(id);
+        updateCart({
+          id,
+          version,
+          productId: product.id,
+        });
+        disableBtn(btnElem as HTMLButtonElement);
+      } else {
+        await createCart(product.id);
+        disableBtn(btnElem as HTMLButtonElement);
+      }
     }
   });
   let price: string;
@@ -337,6 +335,7 @@ export const drawCatalog = async () => {
     });
   });
 };
+
 const fetchAndDisplayProducts = async (event: MouseEvent) => {
   const productWrapper = document.querySelector('.product__wrapper') as HTMLElement;
   const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;

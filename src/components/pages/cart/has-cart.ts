@@ -1,10 +1,10 @@
-import { getLocalStorage } from '../../app/localStorage/localStorage';
+import { getLocalStorage } from '../../app/local-storage/local-storage';
 
 const KEY_CART = 'CartId';
 
 const hasCart = (): boolean => {
-  const cart = getLocalStorage(KEY_CART);
-  if (cart) {
+  const cartId = getLocalStorage(KEY_CART);
+  if (cartId) {
     return true;
   }
   return false;

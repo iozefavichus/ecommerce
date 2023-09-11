@@ -1,5 +1,5 @@
 import { ApiClient } from '../../shared/api/stp-client-api';
-import { setLocalStorageValue } from '../localStorage/localStorage';
+import { setLocalStorageValue } from '../local-storage/local-storage';
 
 export const PRODUCTS_PATH = 'products path';
 

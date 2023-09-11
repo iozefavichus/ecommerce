@@ -3,7 +3,7 @@ import { createFormDiv } from '../registration/creationform-helpers';
 import { CheckIt, setError, setSuccess } from '../registration/validation-helpers';
 import { checkName, checkSurname, checkBirth, checkEmail } from '../registration/validation';
 import { ApiClient } from '../../shared/api/stp-client-api';
-import { setLocalStorageValue } from '../../app/localStorage/localStorage';
+import { setLocalStorageValue } from '../../app/local-storage/local-storage';
 import { customRoute } from '../../app/router/router';
 
 export const PersonalInfo = (

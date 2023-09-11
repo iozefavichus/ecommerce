@@ -1,4 +1,4 @@
-import { setLocalStorageValue } from '../../app/localStorage/localStorage';
+import { setLocalStorageValue } from '../../app/local-storage/local-storage';
 import { customRoute } from '../../app/router/router';
 import { applyStyle } from '../../app/validation/login-valid';
 import { KEY_1, KEY_2 } from '../../pages/log-in/log-out';

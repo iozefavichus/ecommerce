@@ -12,7 +12,7 @@ import { drawProfile } from '../../pages/profile/draw-profile';
 import { drawCatalog } from '../../pages/catalog/draw-catalog';
 import { PRODUCT_BODY, PRODUCT_KEY } from '../../pages/detail/open-detail';
 import { drawDetail } from '../../pages/detail/draw-detail';
-import { getLocalStorage, setLocalStorageValue } from '../../app/localStorage/localStorage';
+import { getLocalStorage, setLocalStorageValue } from '../../app/local-storage/local-storage';
 import { isLogin } from '../api/is-login';
 import { drawChangePassword } from '../../pages/profile/change-password';
 import { PRODUCTS_PATH } from '../../app/path-products/save-paths';

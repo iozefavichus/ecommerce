@@ -4,7 +4,7 @@ import { checkPassword, checkName, checkSurname, checkBirth, checkCity, checkPos
 import { createPageTitle } from '../../shared/utilities/title';
 import { ApiClient } from '../../shared/api/stp-client-api';
 import { customRoute } from '../../app/router/router';
-import { setLocalStorageValue } from '../../app/localStorage/localStorage';
+import { setLocalStorageValue } from '../../app/local-storage/local-storage';
 import { regCardObj } from '../../../types/shared';
 import { setError, setSuccess, CheckIt } from './validation-helpers';
 import { KEY_1, KEY_2 } from '../log-in/log-out';

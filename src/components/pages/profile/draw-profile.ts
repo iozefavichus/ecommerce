@@ -4,7 +4,7 @@ import { createPageTitle } from '../../shared/utilities/title';
 import { PersonalInfo } from './from-personal';
 import { AddressesInfo } from './form-addresses';
 import { ApiClient } from '../../shared/api/stp-client-api';
-import { setLocalStorageValue } from '../../app/localStorage/localStorage';
+import { setLocalStorageValue } from '../../app/local-storage/local-storage';
 import { customRoute } from '../../app/router/router';
 
 export const drawProfile = async () => {

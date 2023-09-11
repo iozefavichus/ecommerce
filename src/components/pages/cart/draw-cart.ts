@@ -1,5 +1,5 @@
 import { createPageTitle } from '../../shared/utilities/title';
-import { getLocalStorage, removeLocalStorageValue } from '../../app/localStorage/localStorage';
+import { getLocalStorage, removeLocalStorageValue } from '../../app/local-storage/local-storage';
 import { KEY_CART, hasCart } from './has-cart';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { productImage } from './poduct-image';

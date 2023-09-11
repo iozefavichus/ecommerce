@@ -1,4 +1,5 @@
 import { Constants } from '../../../types/shared';
+import { viewQuantityItemInCart } from '../../app/product-in-cart/has-product-in-cart';
 import { customRoute } from '../../app/router/router';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { logoutCustomer } from '../log-in/log-out';
@@ -106,6 +107,7 @@ const drawHeader = (isLogin: boolean): void => {
   wrapper.append(logo, navBar, hamburgerBtn, iconBar);
   header.append(wrapper);
   body?.append(header);
+  viewQuantityItemInCart();
 };
 
 export { headerClasses, links, createNavBar, createIconBar, createHamburgerBtn, drawHeader };
