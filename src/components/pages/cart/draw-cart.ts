@@ -5,6 +5,7 @@ import { getLocalStorage, removeLocalStorageValue } from '../../app/localStorage
 import { KEY_CART, hasCart } from './has-cart';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { productImage } from './poduct-image';
+// import { version } from 'html-webpack-plugin';
 
 
 const DrawCart = async ()=>{
@@ -14,19 +15,17 @@ const DrawCart = async ()=>{
   if (hasCart()) {
     const id = getLocalStorage(KEY_CART) as string;
     const cart = await new StpClientApi().getCartById(id);
-    console.log(cart);
-    if(cart.lineItems.length === 0){
+    if(cart.customLineItems.length === 0){
       const emptyCart = createCustomElement('div', ['empty__text'], `Your shopping cart is empty! Let's go to the catalog to choose something new!`);
       const btnCatalog = createCustomElement('button', ['btn-catalog'],'To catalog') as HTMLButtonElement;
       wrapper.append(emptyCart, btnCatalog);
     } else {
-      let total = 0;
       const divCart = createCustomElement('div',['container-cart']);
-      const {version} = cart;
-      for(let i=0; i<cart.lineItems.length; i+=1 ){
-        const lineId = cart.lineItems[i].id;
-        console.log(lineId);
-
+      for(let i=0; i<cart.customLineItems.length; i+=1 ){
+        const lineId = cart.customLineItems[i].id;
+        const {slug} = cart.customLineItems[i];
+        const taxCategoryId = String(cart.customLineItems[i].taxCategory?.id);
+        const {centAmount} = cart.lineItems[i].price.value;
         const divItem = createCustomElement('div',['cart-item']);
 
         const numberDiv = createCustomElement('div',['cart-number'],`${i+1}.`);
@@ -36,46 +35,72 @@ const DrawCart = async ()=>{
         if(productID){
           productImage(productID,i);
         }
-        const name = cart.lineItems[i].name.en;
+        const name = cart.customLineItems[i].name.en;
+
         const divName = createCustomElement('div',['cart-name'],`${name}`);
 
         const price = cart.lineItems[i].price.value.centAmount;
         const divPriceForOne = createCustomElement('div',['cart-price'],`${price/100}USD`);
 
-        const {quantity} = cart.lineItems[i];
-        total += (price*quantity)/100;
+        const {quantity} = cart.customLineItems[i];
         const divQuantity = createCustomElement('div',['cart-quantity']);
         const quantityValue = createCustomElement('input',['quantity'],`${quantity}`) as HTMLFormElement;
         quantityValue.setAttribute('value',`${quantity}`);
         const btnMinus = createCustomElement('button',['btn-minus'],'-') as HTMLButtonElement;
         btnMinus.addEventListener('click',()=>{
-          // if(quantity===1){
-
-          // } else {
-            // const updateQuantity = new StpClientApi().updateCart();
-          // }
+          if(quantity===1){
+            btnMinus.classList.add('non-active');
+          } else {
+            const {version}=cart;
+            const updateQuantity = new StpClientApi().removeOneItemFromCart(id,version,lineId);
+            console.log(updateQuantity);
+          }
         })
-        const btnPlus = createCustomElement('button',['btn-plus'],'+') as HTMLButtonElement;
-        btnPlus.addEventListener('click',()=>{
-          // const updateQuantity = new StpClientApi().updateCart();
-        })
-        divQuantity.append(btnMinus, quantityValue, btnPlus);
 
         const priceForAll = price/100*quantity;
         const divPriceForAll = createCustomElement('div',['cart-all-price'], `${priceForAll}USD`);
+
+        const btnPlus = createCustomElement('button',['btn-plus'],'+') as HTMLButtonElement;
+        btnPlus.addEventListener('click',()=>{
+          const plus = async() =>{
+            const cart = await new StpClientApi().getCartById(id);
+            const {version} = cart;
+            const updateQuantity = await new StpClientApi().update2Cart(id, version, name, centAmount, slug, taxCategoryId)
+            const cartNew = await new StpClientApi().getCartById(id);
+            const quantityNew = cartNew.customLineItems[i].quantity;
+            quantityValue.setAttribute('value',`${quantityNew}`);
+            divPriceForAll.textContent = `${(price/100)*(quantity+1)}USD`;
+            const total = cartNew.totalPrice.centAmount/100;
+            const totalDiv = document.querySelector('.cart-total');
+            if(totalDiv){
+              totalDiv.textContent = `Total price: ${total}USD`;
+            }
+            console.log(cartNew);
+            console.log(updateQuantity);
+
+          };
+          plus();
+        })
+        divQuantity.append(btnMinus, quantityValue, btnPlus);
 
         const divForDeleteBtn =  createCustomElement('div',['cart-delete']);
         const BtnDelete = createCustomElement('button',['cart-btn-delete'],'Delete') as HTMLButtonElement;
 
         BtnDelete.addEventListener('click',()=>{
-          const removeItem = new StpClientApi().deleteItemFromCart(id, version, lineId);
-          console.log(removeItem);
+          const remove = async() => {
+            const cart = await new StpClientApi().getCartById(id);
+            const {version} = cart;
+            const removeItem = await new StpClientApi().deleteItemFromCart(id, version, lineId);
+            console.log(removeItem);
+          }
+          remove();
         })
         divForDeleteBtn.append(BtnDelete);
 
         divItem.append(numberDiv, divImg, divName, divPriceForOne, divQuantity, divPriceForAll, divForDeleteBtn);
         divCart.append(divItem);
       }
+      const total = cart.totalPrice.centAmount/100;
       const totalDiv = createCustomElement('div',['cart-total'],`Total price: ${total}USD`);
       const promoDiv = createCustomElement('div',['div-promo']);
       const promoTitle = createCustomElement('div',['promo-title'],'Promo code');
@@ -83,10 +108,8 @@ const DrawCart = async ()=>{
       let promoValue = promoCode.value;
       promoCode.addEventListener('input',(event)=>{
         promoValue = (event.target as HTMLInputElement).value.trim();
-        console.log(promoValue);
+        // console.log(promoValue);
       })
-
-      // console.log(promoValue);
       const btnPromo = createCustomElement('button', ['btn-promo'],'Apply') as HTMLButtonElement
 
       btnPromo.addEventListener('click',()=>{

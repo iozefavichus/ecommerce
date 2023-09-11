@@ -440,26 +440,35 @@ class StpClientApi {
       .then((data) => data.body);
   }
 
-  // public updateQuantity(options: IUpdateCart, n: number) {
-  //   const { id, version, productId } = options;
-  //   return this.apiRoot
-  //     .carts()
-  //     .withId({ ID: id })
-  //     .post({
-  //       body: {
-  //         version,
-  //         actions: [
-  //           {
-  //             action: 'changeCustomLineItemQuantity',
-  //             productId,
-  //             quantity: n,
-  //           },
-  //         ],
-  //       },
-  //     })
-  //     .execute()
-  //     .then((data) => data.body);
-  // }
+  public update2Cart(id:string, version:number, name:string, centAmount: number, slug: string, taxCategoryId: string) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'addCustomLineItem',
+              "name": {
+                "en": name,
+              },
+              "money": {
+              "currencyCode": "USD",
+              centAmount,
+              },
+              slug,
+              "taxCategory": {
+                  "typeId": "tax-category",
+                  "id": taxCategoryId,
+              }
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
 
   public deleteItemFromCart(id: string, version: number, lineId: string) {
     return this.apiRoot
@@ -472,6 +481,26 @@ class StpClientApi {
             {
               action: 'removeCustomLineItem',
               "customLineItemId": lineId
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
+
+  public removeOneItemFromCart(id: string, version: number, lineId: string) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'removeLineItem',
+              "lineItemId": lineId,
+              quantity: 1,
             },
           ],
         },
@@ -520,26 +549,6 @@ class StpClientApi {
       .execute()
       .then((data) => data.body);
   }
-
-  // public deleteCart(id: string) {
-  //   return this.apiRoot
-  //     .carts()
-  //     .withId({ ID: id })
-  //     .delete({
-  //       queryArgs: {
-  //         version: 1
-  //       }
-  //      }).execute()
-  // }
-
-
-  // public getCart(id: string) {
-  //   return this.apiRoot
-  //   .carts()
-  //   .withId({ ID: id })
-  //   .get()
-  //   .execute()
-  // }
 
   public deleteCart(id:string, vers: number){
     return this.apiRoot

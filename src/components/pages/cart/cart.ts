@@ -19,7 +19,7 @@ const updateCart = async (options: IUpdateCart) => {
     centAmount,
     productId,
   });
-  console.log(cart);
+
   quantityItemElem.classList.add('active');
   quantityItemElem.textContent = `${cart.lineItems.length}`;
 };
