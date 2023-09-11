@@ -2,8 +2,8 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createFormDiv } from '../registration/creationform-helpers';
 import { CheckIt, setError, setSuccess } from '../registration/validation-helpers';
 import { checkName, checkSurname, checkBirth, checkEmail } from '../registration/validation';
-import { StpClientApi } from '../../shared/api/stpClient-api';
-import { setLocalStorageValue } from '../../app/localStorage/localStorage';
+import { ApiClient } from '../../shared/api/stp-client-api';
+import { setLocalStorageValue } from '../../app/local-storage/local-storage';
 import { customRoute } from '../../app/router/router';
 
 export const PersonalInfo = (
@@ -133,10 +133,10 @@ export const PersonalInfo = (
         let version: string;
         const updateCus = async () => {
           if (id) {
-            const customer = await new StpClientApi().getCustomerbyId(id);
+            const customer = await new ApiClient().getCustomerById(id);
             version = String(customer.version);
           }
-          const updateCustomer = new StpClientApi().updateCustomer(
+          const updateCustomer = new ApiClient().updateCustomer(
             localStorage.id,
             version,
             valueforName,

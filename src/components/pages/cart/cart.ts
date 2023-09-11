@@ -1,27 +1,29 @@
+import { Cart } from '@commercetools/platform-sdk';
 import { IUpdateCart } from '../../../types/shared';
-import { setLocalStorageValue } from '../../app/localStorage/localStorage';
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { setLocalStorageValue } from '../../app/local-storage/local-storage';
+import { ApiClient } from '../../shared/api/stp-client-api';
 import { KEY_CART } from './has-cart';
 
-const createCart = async () => {
-  const cart = await new StpClientApi().addProductToCartAnonymousCustomer();
+const createCart = async (productId: string): Promise<Cart> => {
+  const quantityItemElem = document.querySelector('.quantity-item') as HTMLElement;
+  const cart = await new ApiClient().addProductToCartAnonymousCustomer(productId);
   const { id } = cart;
   setLocalStorageValue(KEY_CART, id);
+  quantityItemElem.classList.add('active');
+  quantityItemElem.textContent = `${cart.totalLineItemQuantity}`;
   return cart;
 };
 
 const updateCart = async (options: IUpdateCart) => {
   const quantityItemElem = document.querySelector('.quantity-item') as HTMLElement;
-  const { id, version, centAmount, productId } = options;
-  const cart = await new StpClientApi().updateCart({
+  const { id, version, productId } = options;
+  const cart = await new ApiClient().updateCart({
     id,
     version,
-    centAmount,
     productId,
   });
-  console.log(cart);
   quantityItemElem.classList.add('active');
-  quantityItemElem.textContent = `${cart.lineItems.length}`;
+  quantityItemElem.textContent = `${cart.totalLineItemQuantity}`;
 };
 
 export { createCart, updateCart };

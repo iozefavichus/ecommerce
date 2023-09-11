@@ -1,12 +1,13 @@
 import { Product } from '@commercetools/platform-sdk';
-import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { activeBtn, createCustomElement, disableBtn } from '../../shared/utilities/helper-functions';
 import { createPageTitle } from '../../shared/utilities/title';
 import { nextImage, prevImage, updateImagePosition } from './slider';
 import { openPopup } from './popup';
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { ApiClient } from '../../shared/api/stp-client-api';
 import { KEY_CART, hasCart } from '../cart/has-cart';
-import { getLocalStorage } from '../../app/localStorage/localStorage';
+import { getLocalStorage } from '../../app/local-storage/local-storage';
 import { createCart, updateCart } from '../cart/cart';
+import { disableCartBtnToProductCard } from '../../app/product-in-cart/has-product-in-cart';
 
 const detailClasses = {
   DETAIL: 'detail',
@@ -82,6 +83,7 @@ const createImagesBlock = (product: Product): HTMLElement => {
 
 export const drawDetail = async (product: Product | string): Promise<void> => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;
+  const productKey = window.location.pathname.replace(/\//, '');
   if (typeof product === 'string') {
     const textNotFound = createCustomElement('h1', [detailClasses.NOT_PRODUCT], product);
     mailWrapper.append(textNotFound);
@@ -97,35 +99,41 @@ export const drawDetail = async (product: Product | string): Promise<void> => {
     const imgBlock = createImagesBlock(product);
     const InfoBlock = createCustomElement('div', [detailClasses.INFO_BLOCK]);
     const btnsContainer = createCustomElement('div', [detailClasses.BTNS_CONTAINER]);
-    const addBtn = createCustomElement('button', [detailClasses.ADD_PRODUCT, 'button'], 'Add to cart');
-    addBtn.addEventListener('click', async () => {
-      if (hasCart()) {
-        const id = getLocalStorage(KEY_CART) as string;
-        const { version } = await new StpClientApi().getCartById(id);
-        updateCart({
-          id,
-          version,
-          centAmount: productPrice![0].value.centAmount,
-          productId: product.id,
-        }).then((data) => console.log(data));
-      } else {
-        const cart = await createCart();
-        console.log('Hello');
-        const { id, version } = cart;
-        updateCart({
-          id,
-          version,
-          centAmount: productPrice![0].value.centAmount,
-          productId: product.id,
-        });
-      }
-    });
+    const addBtn = createCustomElement(
+      'button',
+      [detailClasses.ADD_PRODUCT, 'button'],
+      'Add to cart',
+    ) as HTMLButtonElement;
     const removeBtn = createCustomElement(
       'button',
       [detailClasses.REMOVE_PRODUCT, 'button', 'disable'],
       'Remove from cart',
-    );
-
+    ) as HTMLButtonElement;
+    disableCartBtnToProductCard(productKey, addBtn, removeBtn);
+    addBtn.addEventListener('click', async (event) => {
+      const btnElem = event.target as HTMLElement;
+      if (!btnElem.classList.contains('disable')) {
+        disableBtn(addBtn as HTMLButtonElement);
+        activeBtn(removeBtn as HTMLButtonElement);
+        if (hasCart()) {
+          const id = getLocalStorage(KEY_CART) as string;
+          const { version } = await new ApiClient().getCartById(id);
+          updateCart({
+            id,
+            version,
+            productId: product.id,
+          });
+        } else {
+          const cart = await createCart(product.id);
+          const { id, version } = cart;
+          updateCart({
+            id,
+            version,
+            productId: product.id,
+          });
+        }
+      }
+    });
     btnsContainer.append(addBtn, removeBtn);
     detail.append(imgBlock, InfoBlock);
     if (productPrice) {

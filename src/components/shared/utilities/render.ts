@@ -12,11 +12,11 @@ import { drawProfile } from '../../pages/profile/draw-profile';
 import { drawCatalog } from '../../pages/catalog/draw-catalog';
 import { PRODUCT_BODY, PRODUCT_KEY } from '../../pages/detail/open-detail';
 import { drawDetail } from '../../pages/detail/draw-detail';
-import { getLocalStorage, setLocalStorageValue } from '../../app/localStorage/localStorage';
+import { getLocalStorage, setLocalStorageValue } from '../../app/local-storage/local-storage';
 import { isLogin } from '../api/is-login';
 import { drawChangePassword } from '../../pages/profile/change-password';
 import { PRODUCTS_PATH } from '../../app/path-products/save-paths';
-import { StpClientApi } from '../api/stpClient-api';
+import { ApiClient } from '../api/stp-client-api';
 import { drawSuccessUpdate } from '../../pages/profile/successupdate';
 import { drawSuccessPassword } from '../../pages/profile/successpassword';
 import { drawCartPage } from '../../pages/cart/draw-cart';
@@ -55,7 +55,7 @@ export const renderChangeContent = async (path: string, product?: Product | stri
 
   if (isProductPath) {
     setLocalStorageValue(PRODUCT_KEY, `${key}`);
-    const product = (await new StpClientApi().getProductByKey(key))?.body;
+    const product = (await new ApiClient().getProductByKey(key))?.body;
     const productBody = JSON.stringify(product);
     setLocalStorageValue(PRODUCT_BODY, productBody);
     drawDetail(product);

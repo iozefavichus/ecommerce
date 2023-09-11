@@ -138,6 +138,9 @@ module.exports = {
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|svg|webp)$/i,
         type: 'asset/resource',
+        generator: {
+        filename: 'images/[name].[hash][ext]',
+      },
       },
       {
         test: /\.(?:mp3|wav|ogg|mp4)$/i,

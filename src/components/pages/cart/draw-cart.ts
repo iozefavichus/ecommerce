@@ -1,9 +1,9 @@
 import { createPageTitle } from '../../shared/utilities/title';
-import { StpClientApi } from '../../shared/api/stpClient-api';
-import { getLocalStorage, removeLocalStorageValue } from '../../app/localStorage/localStorage';
+import { getLocalStorage, removeLocalStorageValue } from '../../app/local-storage/local-storage';
 import { KEY_CART, hasCart } from './has-cart';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { productImage } from './poduct-image';
+import { ApiClient } from '../../shared/api/stp-client-api';
 
 const DrawCart = async () => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;
@@ -11,7 +11,7 @@ const DrawCart = async () => {
   mailWrapper.append(wrapper);
   if (hasCart()) {
     const id = getLocalStorage(KEY_CART) as string;
-    const cart = await new StpClientApi().getCartById(id);
+    const cart = await new ApiClient().getCartById(id);
     if (cart.lineItems.length === 0) {
       const emptyCart = createCustomElement(
         'div',
@@ -49,12 +49,12 @@ const DrawCart = async () => {
         btnMinus.addEventListener('click', () => {
           // if(quantity===1){
           // } else {
-          // const updateQuantity = new StpClientApi().updateCart();
+          // const updateQuantity = new ApiClient().updateCart();
           // }
         });
         const btnPlus = createCustomElement('button', ['btn-plus'], '+') as HTMLButtonElement;
         btnPlus.addEventListener('click', () => {
-          // const updateQuantity = new StpClientApi().updateCart();
+          // const updateQuantity = new ApiClient().updateCart();
         });
         divQuantity.append(btnMinus, quantityValue, btnPlus);
 
@@ -65,7 +65,7 @@ const DrawCart = async () => {
         const BtnDelete = createCustomElement('button', ['cart-btn-delete'], 'Delete') as HTMLButtonElement;
 
         // BtnDelete.addEventListener('click',()=>{
-        //   const removeItem = new StpClientApi().deleteItemFromCart();
+        //   const removeItem = new ApiClient().deleteItemFromCart();
         // })
         divForDeleteBtn.append(BtnDelete);
 
@@ -77,9 +77,9 @@ const DrawCart = async () => {
 
       btnCLearCart.addEventListener('click', () => {
         const cLearCart = async () => {
-          const cart = await new StpClientApi().getCartById(id);
+          const cart = await new ApiClient().getCartById(id);
           const cartVersion = cart.version;
-          const clear = await new StpClientApi().deleteCart(id, cartVersion);
+          const clear = await new ApiClient().deleteCart(id, cartVersion);
           removeLocalStorageValue(KEY_CART);
           console.log(clear);
           wrapper.innerHTML = '';
