@@ -8,6 +8,7 @@ import { KEY_CART, hasCart } from '../cart/has-cart';
 import { getLocalStorage } from '../../app/local-storage/local-storage';
 import { createCart, updateCart } from '../cart/cart';
 import { disableCartBtnToProductCard } from '../../app/product-in-cart/has-product-in-cart';
+import { animationProductInCart } from '../../app/animation-product/animation-product';
 
 const detailClasses = {
   DETAIL: 'detail',
@@ -115,6 +116,7 @@ export const drawDetail = async (product: Product | string): Promise<void> => {
       if (!btnElem.classList.contains('disable')) {
         disableBtn(addBtn as HTMLButtonElement);
         activeBtn(removeBtn as HTMLButtonElement);
+        animationProductInCart(event);
         if (hasCart()) {
           const id = getLocalStorage(KEY_CART) as string;
           const { version } = await new ApiClient().getCartById(id);
