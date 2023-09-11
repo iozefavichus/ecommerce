@@ -3,8 +3,8 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createPageTitle } from '../../shared/utilities/title';
 import { PersonalInfo } from './from-personal';
 import { AddressesInfo } from './form-addresses';
-import { StpClientApi } from '../../shared/api/stpClient-api';
-import { setLocalStorageValue } from '../../app/localStorage/localStorage';
+import { ApiClient } from '../../shared/api/stp-client-api';
+import { setLocalStorageValue } from '../../app/local-storage/local-storage';
 import { customRoute } from '../../app/router/router';
 
 export const drawProfile = async () => {
@@ -17,7 +17,7 @@ export const drawProfile = async () => {
   const email = localStorage.getItem('email');
 
   if (email) {
-    customer = await new StpClientApi().getCustomerInfoByEmail(email);
+    customer = await new ApiClient().getCustomerByEmail(email);
     setLocalStorageValue('id', customer[0].id);
   }
 

@@ -3,7 +3,7 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createFormDiv, createFormWithOptions } from '../registration/creationform-helpers';
 import { CheckIt, setError, setSuccess } from '../registration/validation-helpers';
 import { checkCity, checkPost } from '../registration/validation';
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { ApiClient } from '../../shared/api/stp-client-api';
 import { createRoundSwitch } from '../../shared/utilities/round-switch';
 import { LabelsBoolean } from './label';
 import { AddNewAddress } from './add-address';
@@ -150,7 +150,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
           let version: string;
           const updateCus = async () => {
             if (id) {
-              const customer = await new StpClientApi().getCustomerbyId(id);
+              const customer = await new ApiClient().getCustomerById(id);
               version = String(customer.version);
               const ShippingArray = customer.shippingAddressIds;
               const BillingArray = customer.billingAddressIds;
@@ -158,15 +158,15 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
               const billingDefaultValue = customer.defaultBillingAddressId;
 
               if (id && addressID) {
-                const customer = await new StpClientApi().getCustomerbyId(id);
+                const customer = await new ApiClient().getCustomerById(id);
                 version = String(customer.version);
-                const updateAdd = await new StpClientApi().changeAddress(id, version, addressID, UpdAddress);
+                const updateAdd = await new ApiClient().changeAddress(id, version, addressID, UpdAddress);
                 version = String(updateAdd.body.version);
 
                 const shipDefInput = shipDefaultSwitch.querySelector(`.shippingDefswitch-input${i}`);
                 const shipDefInputBoolean = shipDefInput?.hasAttribute('checked');
                 if (!(shippingDefaultValue === addressID) && addressID && shipDefInputBoolean) {
-                  const setDefaultShipping = await new StpClientApi().setDefaultShipping(id, version, addressID);
+                  const setDefaultShipping = await new ApiClient().setDefaultShipping(id, version, addressID);
                   version = String(setDefaultShipping.body.version);
                 }
                 if (
@@ -175,16 +175,16 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                   !shipDefInputBoolean &&
                   ShippingArray?.includes(addressID)
                 ) {
-                  const removeShipping = await new StpClientApi().removeShipping(id, version, addressID);
+                  const removeShipping = await new ApiClient().removeShipping(id, version, addressID);
                   version = String(removeShipping.body.version);
-                  const setShipping = await new StpClientApi().addShipping(id, version, addressID);
+                  const setShipping = await new ApiClient().addShipping(id, version, addressID);
                   version = String(setShipping.body.version);
                 }
 
                 const billDefInput = billDefaultSwitch.querySelector(`.billingDefswitch-input${i}`);
                 const billDefInputBoolean = billDefInput?.hasAttribute('checked');
                 if (!(billingDefaultValue === addressID) && addressID && billDefInputBoolean) {
-                  const setDefaultBilling = await new StpClientApi().setDefaultBilling(id, version, addressID);
+                  const setDefaultBilling = await new ApiClient().setDefaultBilling(id, version, addressID);
                   version = String(setDefaultBilling.body.version);
                 }
 
@@ -194,19 +194,19 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                   !billDefInputBoolean &&
                   BillingArray?.includes(addressID)
                 ) {
-                  const removeBilling = await new StpClientApi().removeBilling(id, version, addressID);
+                  const removeBilling = await new ApiClient().removeBilling(id, version, addressID);
                   version = String(removeBilling.body.version);
-                  const setBilling = await new StpClientApi().addBilling(id, version, addressID);
+                  const setBilling = await new ApiClient().addBilling(id, version, addressID);
                   version = String(setBilling.body.version);
                 }
 
                 const shipInput = shipSwitch.querySelector(`.shippingswitch-input${i}`);
                 const shipInputBoolean = shipInput?.hasAttribute('checked');
                 const ShipIncludes = ShippingArray?.includes(addressID);
-                const setShipping = await new StpClientApi().addShipping(id, version, addressID);
+                const setShipping = await new ApiClient().addShipping(id, version, addressID);
                 version = String(setShipping.body.version);
                 if (ShipIncludes && addressID && !shipInputBoolean) {
-                  const removeShipping = await new StpClientApi().removeShipping(id, version, addressID);
+                  const removeShipping = await new ApiClient().removeShipping(id, version, addressID);
                   version = String(removeShipping.body.version);
                 }
 
@@ -214,11 +214,11 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
                 const billInputBoolean = billInput?.hasAttribute('checked');
                 const billIncludes = BillingArray?.includes(addressID);
                 if (!billIncludes && addressID && billInputBoolean) {
-                  const setBilling = await new StpClientApi().addBilling(id, version, addressID);
+                  const setBilling = await new ApiClient().addBilling(id, version, addressID);
                   version = String(setBilling.body.version);
                 }
                 if (billIncludes && addressID && !billInputBoolean) {
-                  const removeBilling = await new StpClientApi().removeBilling(id, version, addressID);
+                  const removeBilling = await new ApiClient().removeBilling(id, version, addressID);
                   version = String(removeBilling.body.version);
                 }
               }
@@ -271,12 +271,12 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         let version: string;
         const updateCus = async () => {
           if (id) {
-            const customer = await new StpClientApi().getCustomerbyId(id);
+            const customer = await new ApiClient().getCustomerById(id);
             version = String(customer.version);
             if (id && addressID) {
-              const customer = await new StpClientApi().getCustomerbyId(id);
+              const customer = await new ApiClient().getCustomerById(id);
               version = String(customer.version);
-              const deleteAdd = new StpClientApi().deleteAddress(id, version, addressID);
+              const deleteAdd = new ApiClient().deleteAddress(id, version, addressID);
               deleteAdd.then(async (data) => {
                 if (data.statusCode === 200) {
                   try {

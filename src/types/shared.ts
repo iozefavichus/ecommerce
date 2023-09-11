@@ -30,7 +30,6 @@ type Constants = Record<string, string>;
 interface IUpdateCart {
   id: string;
   version: number;
-  centAmount: number;
   productId: string;
 }
 

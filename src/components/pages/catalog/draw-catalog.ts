@@ -1,6 +1,5 @@
 import { Product, ProductProjection } from '@commercetools/platform-sdk';
 import { createCustomElement, disableBtn } from '../../shared/utilities/helper-functions';
-import { StpClientApi } from '../../shared/api/stpClient-api';
 import { openDetail } from '../detail/open-detail';
 import {
   filterByColor,
@@ -11,27 +10,25 @@ import {
   sortedValue,
 } from './sort-catalog';
 import { KEY_CART, hasCart } from '../cart/has-cart';
-import { getLocalStorage } from '../../app/localStorage/localStorage';
+import { getLocalStorage } from '../../app/local-storage/local-storage';
 import { createCart, updateCart } from '../cart/cart';
+import { ApiClient } from '../../shared/api/stp-client-api';
+import { disableCartBtnToProductCard } from '../../app/product-in-cart/has-product-in-cart';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
   const headingImg = createCustomElement('div', ['heading-img']);
   const heading = createCustomElement('h2', ['heading-login'], 'Catalog');
-  const input = createCustomElement('input', ['input-search']);
-  input.setAttribute('autocomplete', 'off');
-  input.setAttribute('autofocus', '');
-  input.setAttribute('placeholder', 'Search');
-  headingImg.append(heading, input);
+  headingImg.append(heading);
   container.append(headingImg);
   return container;
 };
 
-const createPanel = (): HTMLElement => {
-  const wrapper = createCustomElement('div', ['panel__wrapper']);
-  const showBlock = createCustomElement('div', ['panel__wrapper-show']);
-  const showText = createCustomElement('p', ['panel__wrapper-show__text'], `Showing 1–16 of 32 results`);
-  showText.setAttribute('id', 'numberProducts');
+const createCategory = (): HTMLElement => {
+  const wrapperCategory = createCustomElement('div', ['wrapper__category']);
+  const categoryTitle = createCustomElement('h1', ['wrapper__category-title'], 'Category');
+  const select = createCustomElement('select', ['wrapper__category-select']);
+
   const sortBlock = createCustomElement('div', ['panel__wrapper-show--sort']);
   const showTextSort = createCustomElement(
     'p',
@@ -50,17 +47,14 @@ const createPanel = (): HTMLElement => {
   sortedValue3.setAttribute('data-value', 'sortPriceUp');
   sortedValue4.setAttribute('data-value', 'sortPriceDown');
   showSort.append(sortedValue, sortedValue1, sortedValue2, sortedValue3, sortedValue4);
-  showBlock.append(showText, sortBlock);
   sortBlock.append(showTextSort, showSort);
-  wrapper.append(showBlock);
-  return wrapper;
-};
 
-const createCategory = (): HTMLElement => {
-  const wrapperCategory = createCustomElement('div', ['wrapper__category']);
-  const categoryTitle = createCustomElement('h1', ['wrapper__category-title'], 'Category');
-  const select = createCustomElement('select', ['wrapper__category-select']);
-  wrapperCategory.append(categoryTitle, select);
+  const input = createCustomElement('input', ['input-search']);
+  input.setAttribute('autocomplete', 'off');
+  input.setAttribute('autofocus', '');
+  input.setAttribute('placeholder', 'Search');
+
+  wrapperCategory.append(categoryTitle, select, sortBlock, input);
   return wrapperCategory;
 };
 
@@ -122,10 +116,13 @@ const createFilter = (): HTMLElement => {
 
 const createNavigation = (): HTMLElement => {
   const navBlock = createCustomElement('div', ['navigation']);
+  const btnNavPrev = createCustomElement('button', ['navigation__btn', 'navigation__btn-prev'], 'Prev');
   const btnNav1 = createCustomElement('button', ['navigation__btn', 'navigation__btn-active'], '1');
-  const btnNav2 = createCustomElement('button', ['navigation__btn'], '2');
   const btnNavNext = createCustomElement('button', ['navigation__btn', 'navigation__btn-next'], 'Next');
-  navBlock.append(btnNav1, btnNav2, btnNavNext);
+  btnNavPrev.setAttribute('data-value', 'prev');
+  btnNavNext.setAttribute('data-value', 'next');
+  btnNavPrev.setAttribute('disabled', '');
+  navBlock.append(btnNavPrev, btnNav1, btnNavNext);
   return navBlock;
 };
 
@@ -148,35 +145,31 @@ const createPriceDiscountBlock = (price: string): HTMLElement => {
 
 export const drawCard = (product: Product, el: HTMLElement): void => {
   const card = createCustomElement('div', ['product__card']);
-  const cartBtn = createCustomElement('div', ['cart-btn']);
+  const cartBtn = createCustomElement('button', ['cart-btn']) as HTMLButtonElement;
   cartBtn.title = 'add to cart';
   const productKey = product.key;
+
+  disableCartBtnToProductCard(productKey as string, cartBtn);
   const productImg = product.masterData.current.masterVariant?.images;
   const productName = product.masterData.current.name.en;
   const productPrice = product.masterData.current.masterVariant?.prices;
   const discountedPrice = product.masterData.current.masterVariant?.prices;
   cartBtn.addEventListener('click', async (event) => {
-    const btn = event.currentTarget as HTMLButtonElement;
-    disableBtn(btn);
-    if (hasCart()) {
-      const id = getLocalStorage(KEY_CART) as string;
-      const { version } = await new StpClientApi().getCartById(id);
-      updateCart({
-        id,
-        version,
-        centAmount: productPrice![0].value.centAmount,
-        productId: product.id,
-      }).then((data) => console.log(data));
-    } else {
-      const cart = await createCart();
-      // console.log(`cart id ${cart.id}`)
-      const { id, version } = cart;
-      updateCart({
-        id,
-        version,
-        centAmount: productPrice![0].value.centAmount,
-        productId: product.id,
-      });
+    const btnElem = event.target as HTMLElement;
+    if (!btnElem.classList.contains('disable')) {
+      if (hasCart()) {
+        const id = getLocalStorage(KEY_CART) as string;
+        const { version } = await new ApiClient().getCartById(id);
+        updateCart({
+          id,
+          version,
+          productId: product.id,
+        });
+        disableBtn(btnElem as HTMLButtonElement);
+      } else {
+        await createCart(product.id);
+        disableBtn(btnElem as HTMLButtonElement);
+      }
     }
   });
   let price: string;
@@ -273,26 +266,26 @@ export const drawCatalog = async () => {
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   mainWrapper.innerHTML = '';
   const searcher = createSearch();
-  const panel = createPanel();
   const navigation = createNavigation();
   const filter = createFilter();
   const category = createCategory();
-  mainWrapper.append(searcher, panel, category, filter, productWrapper, navigation);
+  mainWrapper.append(searcher, category, filter, productWrapper, navigation);
   const sortField = document.querySelector('.panel__wrapper-show--default') as HTMLSelectElement;
   const searchField = document.querySelector('.input-search') as HTMLInputElement;
-  const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
+  const btnPaginationPrev = document.querySelector('.navigation__btn-prev') as HTMLButtonElement;
+  const btnPaginationNext = document.querySelector('.navigation__btn-next') as HTMLButtonElement;
   const categoryList = document.querySelector('.wrapper__category-select') as HTMLSelectElement;
   const filterName = document.querySelector('.filter_select_name') as HTMLSelectElement;
   const resetBtn = document.querySelector('.reset');
 
-  if (btnPagination?.textContent === '1') {
-    btnPagination.setAttribute('disabled', '');
-  }
-  const products = new StpClientApi().getProducts(12);
+  btnPaginationNext?.addEventListener('click', fetchAndDisplayProducts);
+  btnPaginationPrev?.addEventListener('click', fetchAndDisplayProducts);
+
+  const products = new ApiClient().getProducts(12, 0);
   resetBtn?.addEventListener('click', () => {
     drawCatalog();
   });
-  const categories = await new StpClientApi().getCategory();
+  const categories = await new ApiClient().getCategory();
   for (let i = 0; i < categories.length; i++) {
     const categoryItem = createCustomElement('option', ['wrapper__category-element']) as HTMLOptionElement;
     categoryItem.setAttribute('data-id', `${categories[i].id}`);
@@ -321,15 +314,7 @@ export const drawCatalog = async () => {
       drawSortCard(product, productWrapper);
     });
   });
-  const numberCards = document.querySelector('#numberCards');
-  const numberProducts = document.querySelector('#numberProducts');
-  const size = Object.keys(products).length;
-  if (numberCards !== undefined && numberCards !== null) {
-    numberCards.textContent = String(size);
-  }
-  if (numberProducts !== undefined && numberProducts !== null) {
-    numberProducts.textContent = `Showing 1–${String(size)} of ${String(size)} results`;
-  }
+
   sortField?.addEventListener('change', async (event) => {
     const sortProducts = await sortedValue(event);
     productWrapper.innerHTML = '';
@@ -349,4 +334,45 @@ export const drawCatalog = async () => {
       drawCard(product, productWrapper);
     });
   });
+};
+
+const fetchAndDisplayProducts = async (event: MouseEvent) => {
+  const productWrapper = document.querySelector('.product__wrapper') as HTMLElement;
+  const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
+  const btnPaginationPrev = document.querySelector('.navigation__btn-prev') as HTMLButtonElement;
+  const btnPaginationNext = document.querySelector('.navigation__btn-next') as HTMLButtonElement;
+
+  try {
+    let value = parseInt(btnPagination.textContent || '0', 10);
+
+    const target = event.target as HTMLElement;
+    const isNext = target.dataset.value === 'next';
+    const step = isNext ? 1 : -1;
+
+    value += step;
+    btnPagination.textContent = value.toString();
+
+    const products = await new ApiClient().getProducts(12, 12 * (value - 1));
+
+    productWrapper.innerHTML = '';
+
+    if (value === 1) {
+      btnPaginationPrev.setAttribute('disabled', '');
+    } else {
+      btnPaginationPrev.removeAttribute('disabled');
+    }
+
+    if (value === 3) {
+      btnPaginationNext.setAttribute('disabled', '');
+    } else {
+      btnPaginationNext.removeAttribute('disabled');
+    }
+
+    products.forEach((product) => {
+      drawCard(product, productWrapper);
+    });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('An error occurred while receiving products:', error);
+  }
 };

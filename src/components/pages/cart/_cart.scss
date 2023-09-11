@@ -12,13 +12,13 @@
   margin: 10px auto;
 }
 
-.empty__text{
-    font-family: Poppins, sans-serif;
-    font-size: 30px;
-    font-style: normal;
-    font-weight: 400;
-    margin: 40px auto;
-    text-align: center;
+.empty__text {
+  font-family: Poppins, sans-serif;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 40px auto;
+  text-align: center;
 }
 
 .cart-item {
@@ -79,10 +79,10 @@
       }
 }
 
-.cart-btn-delete{
-    background-color: $color-brand-dark;
-    border-radius: 20px;
-    width: 70px;
+.cart-btn-delete {
+  background-color: $color-brand-dark;
+  border-radius: 20px;
+  width: 70px;
 
     &:hover {
         cursor: pointer;
@@ -112,8 +112,8 @@
 }
 
 .cart-total {
-    margin: 50px;
-    text-align: end;
+  margin: 50px;
+  text-align: end;
 }
 
 .btn-clear {
@@ -138,8 +138,8 @@
 }
 
 .cart-wrapper {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .div-promo {

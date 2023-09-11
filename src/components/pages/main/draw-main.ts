@@ -1,5 +1,5 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { ApiClient } from '../../shared/api/stp-client-api';
 import { drawCard } from '../catalog/draw-catalog';
 
 const createDiscover = (): HTMLElement => {
@@ -46,7 +46,6 @@ const createBrowse = (): HTMLElement => {
 export const drawMain = () => {
   const body = document.querySelector('body');
   const main = createCustomElement('main', ['main']);
-  body?.append(main);
   const wrapper = createCustomElement('div', ['main__wrapper']);
   main.append(wrapper);
   const productWrapper = createCustomElement('div', ['product__wrapper']);
@@ -56,10 +55,11 @@ export const drawMain = () => {
   const productsTitle = createCustomElement('p', ['products__title'], 'Our Products');
   sectionProducts.append(productsTitle);
   wrapper.append(discover, browse, sectionProducts, productWrapper);
-  const products = new StpClientApi().getProducts(4);
+  const products = new ApiClient().getProducts(4);
   products.then((products) => {
     products.forEach((product) => {
       drawCard(product, productWrapper);
     });
   });
+  body?.append(main);
 };
