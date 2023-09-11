@@ -1,6 +1,6 @@
 import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { customRoute } from '../../app/router/router';
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { StpClientApi } from '../../shared/api/stp-client-api';
 
 let productPath: string;
 export const PRODUCT_BODY = 'product.body';

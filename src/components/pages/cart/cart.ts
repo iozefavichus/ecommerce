@@ -1,6 +1,6 @@
 import { IUpdateCart } from '../../../types/shared';
 import { setLocalStorageValue } from '../../app/localStorage/localStorage';
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { StpClientApi } from '../../shared/api/stp-client-api';
 import { KEY_CART } from './has-cart';
 
 const createCart = async () => {
@@ -19,7 +19,7 @@ const updateCart = async (options: IUpdateCart) => {
     centAmount,
     productId,
   });
-  console.log(cart);
+  // console.log(cart);
   quantityItemElem.classList.add('active');
   quantityItemElem.textContent = `${cart.lineItems.length}`;
 };

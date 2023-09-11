@@ -4,7 +4,7 @@ import {
   CustomerSignInResult,
   ProductDiscount,
   ProductDiscountPagedQueryResponse,
-  ProductPagedQueryResponse,
+  // ProductPagedQueryResponse,
   ProductProjection,
   ProductProjectionPagedQueryResponse,
   CustomerPagedQueryResponse,
@@ -13,38 +13,35 @@ import {
   CategoryPagedQueryResponse,
   Category,
   AddressDraft,
-  // Cart,
 } from '@commercetools/platform-sdk';
-import { ctpClient } from './build-client';
+import { ClientFactory } from './build-client';
 import { regCardObj, baseAdress, IUpdateCart } from '../../../types/shared';
 
-class StpClientApi {
+class ApiClient {
   private email;
 
   private password;
 
-  private apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey: 'ecommerce_furniture' });
+  private client;
+
+  private apiRoot;
 
   constructor(email?: string, password?: string) {
-    this.email = email;
-    this.password = password;
+    if (email && password) {
+      this.email = email;
+      this.password = password;
+      this.client = new ClientFactory().createClient(this.email, this.password);
+      this.apiRoot = createApiBuilderFromCtpClient(this.client).withProjectKey({ projectKey: 'ecommerce_furniture' });
+    } else {
+      this.client = new ClientFactory().createClient();
+      this.apiRoot = createApiBuilderFromCtpClient(this.client).withProjectKey({ projectKey: 'ecommerce_furniture' });
+    }
   }
 
-  public getCustomerByEmail(): Promise<ClientResponse<CustomerPagedQueryResponse>> {
+  public getCustomerByEmail(email: string): Promise<Customer[]> {
     if (!this.apiRoot) {
       throw new Error('Authentication credentials are missing.');
     }
-    return this.apiRoot
-      .customers()
-      .get({
-        queryArgs: {
-          where: `email="${this.email}"`,
-        },
-      })
-      .execute();
-  }
-
-  public getCustomerInfoByEmail(email: string): Promise<Customer[]> {
     return this.apiRoot
       .customers()
       .get({
@@ -56,7 +53,7 @@ class StpClientApi {
       .then((data: ClientResponse<CustomerPagedQueryResponse>) => data.body.results);
   }
 
-  public getCustomerbyId(id: string): Promise<Customer> {
+  public getCustomerById(id: string): Promise<Customer> {
     return this.apiRoot
       .customers()
       .withId({ ID: id })
@@ -133,7 +130,7 @@ class StpClientApi {
       .products()
       .get({ queryArgs: { limit: limitNum } })
       .execute()
-      .then((data: ClientResponse<ProductPagedQueryResponse>) => data.body.results);
+      .then((data) => data.body.results);
   }
 
   public getProductDiscounts(): Promise<ProductDiscount[]> {
@@ -159,7 +156,7 @@ class StpClientApi {
 
   public getProductSearchProjections(valueFilter?: string): Promise<ProductProjection[]> {
     return this.apiRoot
-      ?.productProjections()
+      .productProjections()
       .search()
       .get({
         queryArgs: {
@@ -173,7 +170,7 @@ class StpClientApi {
 
   public getCategory(): Promise<Category[]> {
     return this.apiRoot
-      ?.categories()
+      .categories()
       .get()
       .execute()
       .then((data: ClientResponse<CategoryPagedQueryResponse>) => data.body.results);
@@ -424,7 +421,6 @@ class StpClientApi {
             {
               action: 'addLineItem',
               productId,
-              quantity: 1,
               externalPrice: {
                 centAmount,
                 currencyCode: 'USD',
@@ -470,4 +466,4 @@ class StpClientApi {
   // }
 }
 
-export { StpClientApi };
+export { ApiClient as StpClientApi };

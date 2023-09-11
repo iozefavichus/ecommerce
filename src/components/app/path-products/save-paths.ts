@@ -1,4 +1,4 @@
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { StpClientApi } from '../../shared/api/stp-client-api';
 import { setLocalStorageValue } from '../localStorage/localStorage';
 
 export const PRODUCTS_PATH = 'products path';

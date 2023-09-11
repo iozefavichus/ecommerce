@@ -16,7 +16,7 @@ import { getLocalStorage, setLocalStorageValue } from '../../app/localStorage/lo
 import { isLogin } from '../api/is-login';
 import { drawChangePassword } from '../../pages/profile/change-password';
 import { PRODUCTS_PATH } from '../../app/path-products/save-paths';
-import { StpClientApi } from '../api/stpClient-api';
+import { StpClientApi } from '../api/stp-client-api';
 import { drawSuccessUpdate } from '../../pages/profile/successupdate';
 import { drawSuccessPassword } from '../../pages/profile/successpassword';
 import { drawCartPage } from '../../pages/cart/draw-cart';

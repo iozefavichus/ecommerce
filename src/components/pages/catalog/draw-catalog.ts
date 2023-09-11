@@ -1,6 +1,6 @@
 import { Product, ProductProjection } from '@commercetools/platform-sdk';
 import { createCustomElement, disableBtn } from '../../shared/utilities/helper-functions';
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { StpClientApi } from '../../shared/api/stp-client-api';
 import { openDetail } from '../detail/open-detail';
 import {
   filterByColor,
@@ -166,7 +166,7 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
         version,
         centAmount: productPrice![0].value.centAmount,
         productId: product.id,
-      }).then((data) => console.log(data));
+      });
     } else {
       const cart = await createCart();
       const { id, version } = cart;

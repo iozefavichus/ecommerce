@@ -1,4 +1,4 @@
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { StpClientApi } from '../../shared/api/stp-client-api';
 import { drawSortCard } from './draw-catalog';
 
 export const sortedValue = async (event: Event) => {

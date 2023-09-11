@@ -3,7 +3,7 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createFormDiv, createFormWithOptions } from '../registration/creationform-helpers';
 import { CheckIt, setError, setSuccess } from '../registration/validation-helpers';
 import { checkCity, checkPost } from '../registration/validation';
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { StpClientApi } from '../../shared/api/stp-client-api';
 import { createRoundSwitch } from '../../shared/utilities/round-switch';
 import { LabelsBoolean } from './label';
 import { AddNewAddress } from './add-address';
@@ -150,7 +150,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
           let version: string;
           const updateCus = async () => {
             if (id) {
-              const customer = await new StpClientApi().getCustomerbyId(id);
+              const customer = await new StpClientApi().getCustomerById(id);
               version = String(customer.version);
               const ShippingArray = customer.shippingAddressIds;
               const BillingArray = customer.billingAddressIds;
@@ -158,7 +158,7 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
               const billingDefaultValue = customer.defaultBillingAddressId;
 
               if (id && addressID) {
-                const customer = await new StpClientApi().getCustomerbyId(id);
+                const customer = await new StpClientApi().getCustomerById(id);
                 version = String(customer.version);
                 const updateAdd = await new StpClientApi().changeAddress(id, version, addressID, UpdAddress);
                 version = String(updateAdd.body.version);
@@ -271,10 +271,10 @@ export const AddressesInfo = (customerAddresses: BaseAddress[]): HTMLElement => 
         let version: string;
         const updateCus = async () => {
           if (id) {
-            const customer = await new StpClientApi().getCustomerbyId(id);
+            const customer = await new StpClientApi().getCustomerById(id);
             version = String(customer.version);
             if (id && addressID) {
-              const customer = await new StpClientApi().getCustomerbyId(id);
+              const customer = await new StpClientApi().getCustomerById(id);
               version = String(customer.version);
               const deleteAdd = new StpClientApi().deleteAddress(id, version, addressID);
               deleteAdd.then(async (data) => {

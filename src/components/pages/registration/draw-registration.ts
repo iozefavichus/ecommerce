@@ -2,13 +2,13 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { RegistrationForm, RegistrationObject } from './registration-form';
 import { checkPassword, checkName, checkSurname, checkBirth, checkCity, checkPost, checkEmail } from './validation';
 import { createPageTitle } from '../../shared/utilities/title';
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { StpClientApi } from '../../shared/api/stp-client-api';
 import { customRoute } from '../../app/router/router';
 import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { regCardObj } from '../../../types/shared';
 import { setError, setSuccess, CheckIt } from './validation-helpers';
-import { authTokenCache } from '../../shared/api/build-client';
 import { KEY_1, KEY_2 } from '../log-in/log-out';
+import { authTokenCache } from '../../shared/api/token-cache';
 
 export const drawRegistration = () => {
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;

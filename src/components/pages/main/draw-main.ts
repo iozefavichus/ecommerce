@@ -1,5 +1,5 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { StpClientApi } from '../../shared/api/stp-client-api';
 import { drawCard } from '../catalog/draw-catalog';
 
 const createDiscover = (): HTMLElement => {

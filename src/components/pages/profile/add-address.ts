@@ -2,7 +2,7 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createFormWithOptions, createFormDiv } from '../registration/creationform-helpers';
 import { createRoundSwitch } from '../../shared/utilities/round-switch';
 import { CheckIt, setError, setSuccess } from '../registration/validation-helpers';
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { StpClientApi } from '../../shared/api/stp-client-api';
 import { checkCity, checkPost } from '../registration/validation';
 import { customRoute } from '../../app/router/router';
 
@@ -74,7 +74,7 @@ export const AddNewAddress = (): HTMLElement => {
       if (warningsArray.length === 0) {
         const addNew = async () => {
           if (id) {
-            const customer = await new StpClientApi().getCustomerbyId(id);
+            const customer = await new StpClientApi().getCustomerById(id);
             version = String(customer.version);
           }
           if (id && version) {

@@ -3,8 +3,8 @@ import { customRoute } from '../../app/router/router';
 import { applyStyle } from '../../app/validation/login-valid';
 import { KEY_1, KEY_2 } from '../../pages/log-in/log-out';
 import { createCustomElement } from '../utilities/helper-functions';
-import { authTokenCache } from './build-client';
-import { StpClientApi } from './stpClient-api';
+import { StpClientApi } from './stp-client-api';
+import { authTokenCache } from './token-cache';
 
 export const authorization = (): void => {
   const isValid = false;
@@ -20,8 +20,8 @@ export const authorization = (): void => {
     const password: string = passwordInput.value;
 
     if (email !== null && password !== null) {
-      const customer = await new StpClientApi(email).getCustomerByEmail();
-      const hasCustomer: boolean = customer.body.results.length > 0;
+      const customer = await new StpClientApi(email, password).getCustomerByEmail(email);
+      const hasCustomer: boolean = customer.length > 0;
 
       if (hasCustomer) {
         try {

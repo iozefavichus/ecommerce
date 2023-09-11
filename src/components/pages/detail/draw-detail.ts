@@ -3,7 +3,7 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createPageTitle } from '../../shared/utilities/title';
 import { nextImage, prevImage, updateImagePosition } from './slider';
 import { openPopup } from './popup';
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { StpClientApi } from '../../shared/api/stp-client-api';
 import { KEY_CART, hasCart } from '../cart/has-cart';
 import { getLocalStorage } from '../../app/localStorage/localStorage';
 import { createCart, updateCart } from '../cart/cart';
@@ -107,7 +107,7 @@ export const drawDetail = async (product: Product | string): Promise<void> => {
           version,
           centAmount: productPrice![0].value.centAmount,
           productId: product.id,
-        }).then((data) => console.log(data));
+        });
       } else {
         const cart = await createCart();
         const { id, version } = cart;
