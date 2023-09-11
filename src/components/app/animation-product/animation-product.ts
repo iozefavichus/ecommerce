@@ -13,7 +13,7 @@ const animationProductInCart = (event: MouseEvent) => {
   }, 0);
   const removeCartBtn = setTimeout(() => {
     parentElem?.removeChild(cartBtn);
-  }, 1000);
+  }, 1500);
 };
 
 export { animationProductInCart };
