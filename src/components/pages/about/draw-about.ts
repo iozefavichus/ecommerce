@@ -26,10 +26,11 @@ const createAboutPage = (): HTMLElement => {
   const text1 = createCustomElement(
     'p',
     ['text', 'text__custom'],
-    'I started learning JavaScript in JS / Front-end and ReactJS (with TypeScript) courses' +
-      ' at The Rolling Scopes School, while at university I studied more .NET and Angular.' +
-      ' Now I am developing my own projects, and I am ready to further develop my knowledge and ' +
-      'skills in web development.',
+    `I started learning JavaScript in JS / Front-end and ReactJS (with TypeScript) courses
+      at The Rolling Scopes School, while at university I studied more .NET and Angular.
+       Now I am developing my own projects, and I am ready to further develop my knowledge and
+      skills in web development.
+      <br/>Developed main page & catalog page, also sorting, filtering, searching`,
   );
 
   const githubLink = createCustomElement('a', ['rss_link']) as HTMLLinkElement;
@@ -57,10 +58,11 @@ const createAboutPage = (): HTMLElement => {
   const text2 = createCustomElement(
     'p',
     ['text', 'text__custom'],
-    'Hello! I am 30 years old. Graduated from college in 2008, university in 2012. ' +
-      'My specialty is an engineer electrician. In 2022, I started learn of Software Engineer.' +
-      ' I chose this profession because I like to see the result of my work. This job gives me a ' +
-      'chance work from anywhere and always learn something new.',
+    `Hello! I am 30 years old. Graduated from college in 2008, university in 2012.
+      My specialty is an engineer electrician. In 2022, I started learn of Software Engineer.
+       I chose this profession because I like to see the result of my work. This job gives me a
+      chance work from anywhere and always learn something new.
+      <br/>Developed page login & stpclient api & routing`,
   );
 
   const cellBlock3 = createCustomElement('div', [
@@ -83,8 +85,9 @@ const createAboutPage = (): HTMLElement => {
   const text3 = createCustomElement(
     'p',
     ['text', 'text__custom'],
-    'I like to study all new and I like to communicate with other people.' +
-      ' For a long time I work as photographer. So I have a lot of time to know something new.',
+    `I like to study all new and I like to communicate with other people.
+      For a long time I work as photographer. So I have a lot of time to know something new.
+      <br/>Developed page registartion & work in the data`,
   );
 
   githubLink.append(githubLogo);

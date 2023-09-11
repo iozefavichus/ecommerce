@@ -127,10 +127,10 @@ class StpClientApi {
       .execute();
   }
 
-  public getProducts(limitNum?: number) {
+  public getProducts(limitNum?: number, offsetNum?: number) {
     return this.apiRoot
       .products()
-      .get({ queryArgs: { limit: limitNum } })
+      .get({ queryArgs: { limit: limitNum, offset: offsetNum } })
       .execute()
       .then((data: ClientResponse<ProductPagedQueryResponse>) => data.body.results);
   }
@@ -460,7 +460,6 @@ class StpClientApi {
   //     .then((data) => data.body);
   // }
 
-
   public getCarts() {
     return this.apiRoot
       .carts()
@@ -493,7 +492,6 @@ class StpClientApi {
   //      }).execute()
   // }
 
-
   // public getCart(id: string) {
   //   return this.apiRoot
   //   .carts()
@@ -502,16 +500,15 @@ class StpClientApi {
   //   .execute()
   // }
 
-  public deleteCart(id:string, vers: number){
+  public deleteCart(id: string, vers: number) {
     return this.apiRoot
-    .carts()
-    .withId({ ID: id })
-    .delete({
-      queryArgs: { version: vers },
-    })
-    .execute()
+      .carts()
+      .withId({ ID: id })
+      .delete({
+        queryArgs: { version: vers },
+      })
+      .execute();
   }
-
 }
 
 export { StpClientApi };
