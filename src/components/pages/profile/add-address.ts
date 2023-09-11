@@ -2,7 +2,7 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createFormWithOptions, createFormDiv } from '../registration/creationform-helpers';
 import { createRoundSwitch } from '../../shared/utilities/round-switch';
 import { CheckIt, setError, setSuccess } from '../registration/validation-helpers';
-import { StpClientApi } from '../../shared/api/stp-client-api';
+import { ApiClient } from '../../shared/api/stp-client-api';
 import { checkCity, checkPost } from '../registration/validation';
 import { customRoute } from '../../app/router/router';
 
@@ -74,11 +74,11 @@ export const AddNewAddress = (): HTMLElement => {
       if (warningsArray.length === 0) {
         const addNew = async () => {
           if (id) {
-            const customer = await new StpClientApi().getCustomerById(id);
+            const customer = await new ApiClient().getCustomerById(id);
             version = String(customer.version);
           }
           if (id && version) {
-            const newAddressInfo = await new StpClientApi().addAddress(id, version, newAdd);
+            const newAddressInfo = await new ApiClient().addAddress(id, version, newAdd);
             version = String(newAddressInfo.body.version);
             const len = newAddressInfo.body.addresses.length;
             const addressID = newAddressInfo.body.addresses[len - 1].id;
@@ -86,28 +86,28 @@ export const AddNewAddress = (): HTMLElement => {
             const shipInput = shipSwitch.querySelector(`.shippingswitch-new`);
             const shipInputBoolean = shipInput?.hasAttribute('checked');
             if (shipInputBoolean) {
-              const setShipping = await new StpClientApi().addShipping(id, version, String(addressID));
+              const setShipping = await new ApiClient().addShipping(id, version, String(addressID));
               version = String(setShipping.body.version);
             }
 
             const billInput = billSwitch.querySelector(`.billingswitch-new`);
             const billInputBoolean = billInput?.hasAttribute('checked');
             if (billInputBoolean) {
-              const setBilling = await new StpClientApi().addBilling(id, version, String(addressID));
+              const setBilling = await new ApiClient().addBilling(id, version, String(addressID));
               version = String(setBilling.body.version);
             }
 
             const shipDefInput = shipDefaultSwitch.querySelector(`.shippingDefswitch-new`);
             const shipDefInputBoolean = shipDefInput?.hasAttribute('checked');
             if (shipDefInputBoolean) {
-              const setDefaultShipping = await new StpClientApi().setDefaultShipping(id, version, String(addressID));
+              const setDefaultShipping = await new ApiClient().setDefaultShipping(id, version, String(addressID));
               version = String(setDefaultShipping.body.version);
             }
 
             const billDefaultInput = billDefaultSwitch.querySelector(`.billingDefswitch-new`);
             const billDefaultInputBoolean = billDefaultInput?.hasAttribute('checked');
             if (billDefaultInputBoolean) {
-              const setDefaultBilling = await new StpClientApi().setDefaultBilling(id, version, String(addressID));
+              const setDefaultBilling = await new ApiClient().setDefaultBilling(id, version, String(addressID));
               version = String(setDefaultBilling.body.version);
             }
             newAddress.classList.add('newaddress-invisible');

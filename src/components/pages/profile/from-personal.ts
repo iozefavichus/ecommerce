@@ -2,7 +2,7 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { createFormDiv } from '../registration/creationform-helpers';
 import { CheckIt, setError, setSuccess } from '../registration/validation-helpers';
 import { checkName, checkSurname, checkBirth, checkEmail } from '../registration/validation';
-import { StpClientApi } from '../../shared/api/stp-client-api';
+import { ApiClient } from '../../shared/api/stp-client-api';
 import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { customRoute } from '../../app/router/router';
 
@@ -133,10 +133,10 @@ export const PersonalInfo = (
         let version: string;
         const updateCus = async () => {
           if (id) {
-            const customer = await new StpClientApi().getCustomerById(id);
+            const customer = await new ApiClient().getCustomerById(id);
             version = String(customer.version);
           }
-          const updateCustomer = new StpClientApi().updateCustomer(
+          const updateCustomer = new ApiClient().updateCustomer(
             localStorage.id,
             version,
             valueforName,

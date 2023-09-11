@@ -3,7 +3,7 @@ import { customRoute } from '../../app/router/router';
 import { applyStyle } from '../../app/validation/login-valid';
 import { KEY_1, KEY_2 } from '../../pages/log-in/log-out';
 import { createCustomElement } from '../utilities/helper-functions';
-import { StpClientApi } from './stp-client-api';
+import { ApiClient } from './stp-client-api';
 import { authTokenCache } from './token-cache';
 
 export const authorization = (): void => {
@@ -20,12 +20,12 @@ export const authorization = (): void => {
     const password: string = passwordInput.value;
 
     if (email !== null && password !== null) {
-      const customer = await new StpClientApi(email, password).getCustomerByEmail(email);
+      const customer = await new ApiClient(email, password).getCustomerByEmail(email);
       const hasCustomer: boolean = customer.length > 0;
 
       if (hasCustomer) {
         try {
-          await new StpClientApi(email, password).loginCustomer();
+          await new ApiClient(email, password).loginCustomer();
           const tokenData = Object.entries(authTokenCache.get());
           for (const [key, value] of tokenData) {
             if (key === KEY_1 || key === KEY_2) {

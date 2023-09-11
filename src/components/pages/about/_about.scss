@@ -11,6 +11,10 @@
   margin: 0;
   line-height: 25px;
   padding: 0;
+
+  &__custom {
+    text-align: justify;
+  }
 }
 
 .responsive-container-block {
@@ -22,6 +26,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  position: relative;
 }
 
 .outer-container {
@@ -89,6 +94,17 @@
 .card-container {
   padding: 0 25px;
   margin: 0 0 30px;
+}
+
+.rss_link {
+  position: absolute;
+  left: 0;
+}
+
+.rss_logo {
+  background: url('../assets/icons/rs_school_js.svg') no-repeat;
+  width: 80px;
+  height: 30px;
 }
 
 @media (width <= 1024px) {

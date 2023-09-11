@@ -1,1 +1,118 @@
-// styles
+.btn-catalog {
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  border-radius: 20px;
+  width: 15%;
+  background-color: $color-brand-dark;
+  color: $font-color;
+  border: none;
+  text-decoration: none;
+  margin: 10px auto;
+}
+
+.empty__text {
+  font-family: Poppins, sans-serif;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 400;
+  margin: 40px auto;
+  text-align: center;
+}
+
+.cart-item {
+  display: flex;
+  flex-flow: row nowrap;
+  border: 1px solid grey;
+  justify-content: space-between;
+  height: 200px;
+  align-items: center;
+
+  // margin-top: 20px;
+}
+
+.container-cart {
+  margin: 50px;
+}
+
+.image-item {
+  height: 150px;
+  border-radius: 10px;
+}
+
+.quantity {
+  width: 35px;
+  border: 1px solid grey;
+  border-radius: 10px;
+  padding-left: 12px;
+}
+
+.btn-minus,
+.btn-plus {
+  border-radius: 20px;
+  width: 20px;
+  height: 20px;
+  background-color: rgb(236 236 236);
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}
+
+.cart-btn-delete {
+  background-color: $color-brand-dark;
+  border-radius: 20px;
+  width: 70px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}
+
+.cart-number {
+  width: 7%;
+  text-align: center;
+}
+
+.cart-delete,
+.cart-all-price,
+.cart-quantity,
+.cart-price,
+.cart-name {
+  width: 15%;
+  text-align: center;
+}
+
+.cart-total {
+  margin: 50px;
+  text-align: end;
+}
+
+.btn-clear {
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  border-radius: 20px;
+  width: 30%;
+  background-color: $color-brand-dark;
+  color: $font-color;
+  border: none;
+  text-decoration: none;
+  margin-bottom: 50px;
+  margin-left: auto;
+  margin-right: auto;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}
+
+.cart-wrapper {
+  display: flex;
+  flex-direction: column;
+}

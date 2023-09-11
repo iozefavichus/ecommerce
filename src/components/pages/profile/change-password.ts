@@ -4,7 +4,7 @@ import { createFormDiv } from '../registration/creationform-helpers';
 import { customRoute } from '../../app/router/router';
 import { checkPassword } from '../registration/validation';
 import { CheckIt, setError } from '../registration/validation-helpers';
-import { StpClientApi } from '../../shared/api/stp-client-api';
+import { ApiClient } from '../../shared/api/stp-client-api';
 
 const ChangePassword = (): HTMLElement => {
   const container = createCustomElement('div', ['container-changepass']);
@@ -34,9 +34,9 @@ const ChangePassword = (): HTMLElement => {
           let version: string;
           const updatePassword = async () => {
             if (id) {
-              const customer = await new StpClientApi().getCustomerById(id);
+              const customer = await new ApiClient().getCustomerById(id);
               version = String(customer.version);
-              const updatePass = new StpClientApi().updatePassword(id, version, oldPassValue, newPassValue);
+              const updatePass = new ApiClient().updatePassword(id, version, oldPassValue, newPassValue);
               updatePass
                 .then(async (data) => {
                   if (data.statusCode === 200) {

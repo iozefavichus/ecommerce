@@ -2,7 +2,7 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { RegistrationForm, RegistrationObject } from './registration-form';
 import { checkPassword, checkName, checkSurname, checkBirth, checkCity, checkPost, checkEmail } from './validation';
 import { createPageTitle } from '../../shared/utilities/title';
-import { StpClientApi } from '../../shared/api/stp-client-api';
+import { ApiClient } from '../../shared/api/stp-client-api';
 import { customRoute } from '../../app/router/router';
 import { setLocalStorageValue } from '../../app/localStorage/localStorage';
 import { regCardObj } from '../../../types/shared';
@@ -155,13 +155,13 @@ export const handlerRegistration = (form: RegistrationObject) => {
 
   const warningsArray = document.querySelectorAll('.small-visible');
   if (warningsArray.length === 0) {
-    const createCustomer = new StpClientApi().createCustomer(registrationCard);
+    const createCustomer = new ApiClient().createCustomer(registrationCard);
     createCustomer
       .then(async (data) => {
         if (data.statusCode === 201) {
           try {
             const { email, password } = registrationCard;
-            await new StpClientApi(email, password).loginCustomer();
+            await new ApiClient(email, password).loginCustomer();
             const tokenData = Object.entries(authTokenCache.get());
             for (const [key, value] of tokenData) {
               if (key === KEY_1 || key === KEY_2) {

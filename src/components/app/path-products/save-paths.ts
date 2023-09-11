@@ -1,10 +1,10 @@
-import { StpClientApi } from '../../shared/api/stp-client-api';
+import { ApiClient } from '../../shared/api/stp-client-api';
 import { setLocalStorageValue } from '../localStorage/localStorage';
 
 export const PRODUCTS_PATH = 'products path';
 
 export const savePathToProducts = async () => {
-  const products = await new StpClientApi().getProducts();
+  const products = await new ApiClient().getProducts();
   const productsKey: string[] = [];
   products.forEach((product) => {
     const { key } = product;

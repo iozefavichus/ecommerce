@@ -1,9 +1,9 @@
 import { Product } from '@commercetools/platform-sdk';
-import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { activeBtn, createCustomElement, disableBtn } from '../../shared/utilities/helper-functions';
 import { createPageTitle } from '../../shared/utilities/title';
 import { nextImage, prevImage, updateImagePosition } from './slider';
 import { openPopup } from './popup';
-import { StpClientApi } from '../../shared/api/stp-client-api';
+import { ApiClient } from '../../shared/api/stp-client-api';
 import { KEY_CART, hasCart } from '../cart/has-cart';
 import { getLocalStorage } from '../../app/localStorage/localStorage';
 import { createCart, updateCart } from '../cart/cart';
@@ -98,10 +98,17 @@ export const drawDetail = async (product: Product | string): Promise<void> => {
     const InfoBlock = createCustomElement('div', [detailClasses.INFO_BLOCK]);
     const btnsContainer = createCustomElement('div', [detailClasses.BTNS_CONTAINER]);
     const addBtn = createCustomElement('button', [detailClasses.ADD_PRODUCT, 'button'], 'Add to cart');
+    const removeBtn = createCustomElement(
+      'button',
+      [detailClasses.REMOVE_PRODUCT, 'button', 'disable'],
+      'Remove from cart',
+    );
     addBtn.addEventListener('click', async () => {
+      disableBtn(addBtn as HTMLButtonElement);
+      activeBtn(removeBtn as HTMLButtonElement);
       if (hasCart()) {
         const id = getLocalStorage(KEY_CART) as string;
-        const { version } = await new StpClientApi().getCartById(id);
+        const { version } = await new ApiClient().getCartById(id);
         updateCart({
           id,
           version,
@@ -119,12 +126,6 @@ export const drawDetail = async (product: Product | string): Promise<void> => {
         });
       }
     });
-    const removeBtn = createCustomElement(
-      'button',
-      [detailClasses.REMOVE_PRODUCT, 'button', 'disable'],
-      'Remove from cart',
-    );
-
     btnsContainer.append(addBtn, removeBtn);
     detail.append(imgBlock, InfoBlock);
     if (productPrice) {

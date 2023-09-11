@@ -1,5 +1,5 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
-import { StpClientApi } from '../../shared/api/stp-client-api';
+import { ApiClient } from '../../shared/api/stp-client-api';
 
 export const drawLabels = (
   shippingValue: boolean,
@@ -43,7 +43,7 @@ export const drawLabels = (
 export const LabelsBoolean = async (addressID: string, i: number) => {
   const emailVal = localStorage.getItem('email');
   if (emailVal) {
-    const customer = await new StpClientApi().getCustomerByEmail(emailVal);
+    const customer = await new ApiClient().getCustomerByEmail(emailVal);
     const ArrayWithShipping = customer[0].shippingAddressIds;
     const ArrayWithBilling = customer[0].billingAddressIds;
     if (addressID === customer[0].defaultShippingAddressId) {
