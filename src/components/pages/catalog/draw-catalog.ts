@@ -14,6 +14,7 @@ import { getLocalStorage } from '../../app/local-storage/local-storage';
 import { createCart, updateCart } from '../cart/cart';
 import { ApiClient } from '../../shared/api/stp-client-api';
 import { disableCartBtnToProductCard } from '../../app/product-in-cart/has-product-in-cart';
+import { animationProductInCart } from '../../app/animation-product/animation-product';
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -157,6 +158,7 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
   cartBtn.addEventListener('click', async (event) => {
     const btnElem = event.target as HTMLElement;
     if (!btnElem.classList.contains('disable')) {
+      animationProductInCart(event);
       if (hasCart()) {
         const id = getLocalStorage(KEY_CART) as string;
         const { version } = await new ApiClient().getCartById(id);
