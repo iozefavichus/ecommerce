@@ -1,5 +1,6 @@
 import { ApiClient } from '../../shared/api/stp-client-api';
 import { drawSortCard } from './draw-catalog';
+import { getLocalStorage, setLocalStorageValue } from '../../app/local-storage/local-storage';
 
 const apiClient = new ApiClient();
 
@@ -48,6 +49,14 @@ const fetchAndDisplayProducts = async (pageNumber: number, itemsPerPage: number)
       btnPaginationNext.classList.remove('disabled');
     }
   }
+
+  setLocalStorageValue('page', JSON.stringify(pageNumber));
+
+  onpopstate = () => {
+    const str = getLocalStorage('page');
+    const pageLs = Number(str);
+    fetchAndDisplayProducts(pageLs, itemsPerPage);
+  };
 };
 
 export default fetchAndDisplayProducts;
