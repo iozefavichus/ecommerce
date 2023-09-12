@@ -434,6 +434,7 @@ class ApiClient {
               {
                 action: 'addLineItem',
                 productId,
+                quantity: 1,
               },
             ],
           },
@@ -443,25 +444,25 @@ class ApiClient {
     );
   }
 
-  // public deleteItemFromCart(options: IUpdateCart) {
-  //   const { id, version, productId } = options;
-  //   return this.apiRoot
-  //     .carts()
-  //     .withId({ ID: id })
-  //     .post({
-  //       body: {
-  //         version,
-  //         actions: [
-  //           {
-  //             action: 'removeCustomLineItem',
-  //             id: productId,
-  //           },
-  //         ],
-  //       },
-  //     })
-  //     .execute()
-  //     .then((data) => data.body);
-  // }
+  public deleteItemFromCart(options: IUpdateCart) {
+    const { id, version, productId } = options;
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'removeLineItem',
+              lineItemId: productId,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
 
   public getCarts() {
     return (

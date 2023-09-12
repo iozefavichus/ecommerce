@@ -22,8 +22,25 @@ const updateCart = async (options: IUpdateCart) => {
     version,
     productId,
   });
+  const countProduct = cart.totalLineItemQuantity;
   quantityItemElem.classList.add('active');
-  quantityItemElem.textContent = `${cart.totalLineItemQuantity}`;
+  quantityItemElem.textContent = `${countProduct}`;
+  return cart;
 };
 
-export { createCart, updateCart };
+const removeItem = async (options: IUpdateCart) => {
+  const quantityItemElem = document.querySelector('.quantity-item') as HTMLElement;
+  const { id, version, productId } = options;
+  const cart = await new ApiClient().deleteItemFromCart({
+    id,
+    version,
+    productId,
+  });
+  const countProduct = cart.totalLineItemQuantity;
+  if (!countProduct) {
+    quantityItemElem.classList.remove('active');
+    quantityItemElem.textContent = '';
+  }
+};
+
+export { createCart, updateCart, removeItem };

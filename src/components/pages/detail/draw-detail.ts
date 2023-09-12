@@ -6,9 +6,9 @@ import { openPopup } from './popup';
 import { ApiClient } from '../../shared/api/stp-client-api';
 import { KEY_CART, hasCart } from '../cart/has-cart';
 import { getLocalStorage } from '../../app/local-storage/local-storage';
-import { createCart, updateCart } from '../cart/cart';
+import { createCart, removeItem, updateCart } from '../cart/cart';
 import { disableCartBtnToProductCard } from '../../app/product-in-cart/has-product-in-cart';
-import { animationProductInCart } from '../../app/animation-product/animation-product';
+import { animationDeleteProduct, animationProductInCart } from '../../app/animation-product/animation-product';
 
 const detailClasses = {
   DETAIL: 'detail',
@@ -132,6 +132,29 @@ export const drawDetail = async (product: Product | string): Promise<void> => {
             id,
             version,
             productId: product.id,
+          });
+        }
+      }
+    });
+    removeBtn.addEventListener('click', async (event) => {
+      const btnElem = event.target as HTMLElement;
+      if (!btnElem.classList.contains('disable')) {
+        disableBtn(removeBtn as HTMLButtonElement);
+        activeBtn(addBtn as HTMLButtonElement);
+        animationDeleteProduct(event);
+        if (hasCart()) {
+          const id = getLocalStorage(KEY_CART) as string;
+          const { version, lineItems } = await new ApiClient().getCartById(id);
+          lineItems.forEach((line) => {
+            const { productId } = line;
+            const lineId = line.id;
+            if (productId === product.id) {
+              removeItem({
+                id,
+                version,
+                productId: lineId,
+              });
+            }
           });
         }
       }

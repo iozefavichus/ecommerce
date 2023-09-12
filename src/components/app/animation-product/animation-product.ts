@@ -16,4 +16,13 @@ const animationProductInCart = (event: MouseEvent) => {
   }, 1500);
 };
 
-export { animationProductInCart };
+const animationDeleteProduct = (event: MouseEvent) => {
+  const parentElem = (event.target as HTMLElement).parentElement;
+  const textElem = createCustomElement('p', ['text-delete'], 'Product is delete');
+  parentElem?.append(textElem);
+  setTimeout(() => {
+    parentElem?.removeChild(textElem);
+  }, 1000);
+};
+
+export { animationProductInCart, animationDeleteProduct };
