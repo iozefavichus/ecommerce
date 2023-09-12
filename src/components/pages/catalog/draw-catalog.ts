@@ -10,11 +10,15 @@ import {
   sortedValue,
 } from './sort-catalog';
 import { KEY_CART, hasCart } from '../cart/has-cart';
-import { getLocalStorage, setLocalStorageValue } from '../../app/local-storage/local-storage';
+import { getLocalStorage } from '../../app/local-storage/local-storage';
 import { createCart, updateCart } from '../cart/cart';
 import { ApiClient } from '../../shared/api/stp-client-api';
 import { disableCartBtnToProductCard } from '../../app/product-in-cart/has-product-in-cart';
 import { animationProductInCart } from '../../app/animation-product/animation-product';
+import fetchAndDisplayProducts from './fetchAndDisplayProducts';
+
+export const page = { currentPage: 1 };
+export const items = 12;
 
 const createSearch = (): HTMLElement => {
   const container = createCustomElement('div', ['search-wrapper']);
@@ -123,6 +127,19 @@ const createNavigation = (): HTMLElement => {
   btnNavPrev.setAttribute('data-value', 'prev');
   btnNavNext.setAttribute('data-value', 'next');
   btnNavPrev.setAttribute('disabled', '');
+
+  btnNavNext.addEventListener('click', () => {
+    page.currentPage++;
+    fetchAndDisplayProducts(page.currentPage, items);
+  });
+
+  btnNavPrev.addEventListener('click', () => {
+    if (page.currentPage > 1) {
+      page.currentPage--;
+      fetchAndDisplayProducts(page.currentPage, items);
+    }
+  });
+
   navBlock.append(btnNavPrev, btnNav1, btnNavNext);
   return navBlock;
 };
@@ -273,24 +290,9 @@ export const drawCatalog = async () => {
   mainWrapper.append(searcher, category, filter, productWrapper, navigation);
   const sortField = document.querySelector('.panel__wrapper-show--default') as HTMLSelectElement;
   const searchField = document.querySelector('.input-search') as HTMLInputElement;
-  const btnPaginationPrev = document.querySelector('.navigation__btn-prev') as HTMLButtonElement;
-  const btnPaginationNext = document.querySelector('.navigation__btn-next') as HTMLButtonElement;
   const categoryList = document.querySelector('.wrapper__category-select') as HTMLSelectElement;
   const filterName = document.querySelector('.filter_select_name') as HTMLSelectElement;
   const resetBtn = document.querySelector('.reset');
-
-  let currentPage = 1;
-
-  btnPaginationNext?.addEventListener('click', () => {
-    currentPage++;
-    fetchAndDisplayProducts(currentPage);
-  });
-  btnPaginationPrev?.addEventListener('click', () => {
-    if (currentPage > 1) {
-      currentPage--;
-      fetchAndDisplayProducts(currentPage);
-    }
-  });
 
   const products = new ApiClient().getProducts(12);
   resetBtn?.addEventListener('click', () => {
@@ -347,84 +349,6 @@ export const drawCatalog = async () => {
   });
 };
 
-const handlePopState = (event: PopStateEvent) => {
-  const { state } = event;
-
-  if (state && state.page) {
-    const { page } = state;
-    const url = `/catalog?page=${page}`;
-
-    // fetchAndDisplayProducts(page);
-    window.history.pushState(state, '', url);
-  }
-};
-
-window.addEventListener('popstate', handlePopState);
-
-const getPageHistory = () => {
-  const historyStr = getLocalStorage('pageHistory');
-  return historyStr ? JSON.parse(historyStr) : [];
-};
-
-const addToPageHistory = (pageNumber: number) => {
-  const history = getPageHistory();
-  history.push(pageNumber);
-  setLocalStorageValue('pageHistory', JSON.stringify(history));
-};
-
 document.addEventListener('DOMContentLoaded', () => {
-  fetchAndDisplayProducts(1);
+  fetchAndDisplayProducts(1, items);
 });
-
-const fetchAndDisplayProducts = async (pageNumber: number) => {
-  try {
-    const productWrapper = document.querySelector('.product__wrapper') as HTMLElement;
-
-    if (productWrapper) {
-      const btnPagination = document.querySelector('.navigation__btn-active') as HTMLButtonElement;
-      const btnPaginationPrev = document.querySelector('.navigation__btn-prev') as HTMLButtonElement;
-      const btnPaginationNext = document.querySelector('.navigation__btn-next') as HTMLButtonElement;
-
-      if (btnPagination) {
-        btnPagination.textContent = pageNumber.toString();
-      }
-
-      const state = { page: pageNumber };
-      const title = `Page ${pageNumber}`;
-      const url = `/catalog?page=${pageNumber}`;
-      window.history.pushState(state, title, url);
-
-      addToPageHistory(pageNumber);
-
-      const products = await new ApiClient().getProductsFromCatalog(12, 12 * (pageNumber - 1));
-
-      productWrapper.innerHTML = '';
-
-      if (btnPaginationPrev) {
-        if (pageNumber <= 1) {
-          btnPaginationPrev.setAttribute('disabled', '');
-        } else {
-          btnPaginationPrev.removeAttribute('disabled');
-        }
-      }
-
-      if (btnPaginationNext) {
-        if (pageNumber >= 3) {
-          btnPaginationNext.setAttribute('disabled', '');
-        } else {
-          btnPaginationNext.removeAttribute('disabled');
-        }
-      }
-
-      products.forEach((product) => {
-        drawSortCard(product, productWrapper);
-      });
-    } else {
-      // eslint-disable-next-line no-console
-      console.error('.product__wrapper element not found in the document.');
-    }
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('An error occurred while receiving products:', error);
-  }
-};

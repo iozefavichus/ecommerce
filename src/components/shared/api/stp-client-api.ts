@@ -534,6 +534,14 @@ class ApiClient {
       })
       .execute();
   }
+
+  async getTotalNumberOfProducts() {
+    return this.apiRoot
+      .productProjections()
+      .get()
+      .execute()
+      .then((data) => data.body.total);
+  }
 }
 
 export { ApiClient };
