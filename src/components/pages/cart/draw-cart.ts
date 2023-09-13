@@ -2,8 +2,8 @@ import { createPageTitle } from '../../shared/utilities/title';
 import { getLocalStorage, removeLocalStorageValue } from '../../app/local-storage/local-storage';
 import { KEY_CART, hasCart } from './has-cart';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
-import { productImage } from './poduct-image';
-// import { version } from 'html-webpack-plugin';
+import { ApiClient } from '../../shared/api/stp-client-api';
+import { lineItem } from './lineItem';
 
 const DrawCart = async () => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;
@@ -11,74 +11,57 @@ const DrawCart = async () => {
   mailWrapper.append(wrapper);
   if (hasCart()) {
     const id = getLocalStorage(KEY_CART) as string;
-    const cart = await new StpClientApi().getCartById(id);
-    if(cart.customLineItems.length === 0){
-      const emptyCart = createCustomElement('div', ['empty__text'], `Your shopping cart is empty! Let's go to the catalog to choose something new!`);
-      const btnCatalog = createCustomElement('button', ['btn-catalog'],'To catalog') as HTMLButtonElement;
+    const cart = await new ApiClient().getCartById(id);
+    const total = cart.totalPrice.centAmount/100;
+    if (cart.lineItems.length === 0) {
+      const emptyCart = createCustomElement(
+        'div',
+        ['empty__text'],
+        `Your shopping cart is empty! Let's go to the catalog to choose something new!`,
+      );
+      const btnCatalog = createCustomElement('button', ['btn-catalog'], 'To catalog') as HTMLButtonElement;
       wrapper.append(emptyCart, btnCatalog);
     } else {
-      const divCart = createCustomElement('div',['container-cart']);
-      for(let i=0; i<cart.customLineItems.length; i+=1 ){
-        const lineId = cart.customLineItems[i].id;
-        const {slug} = cart.customLineItems[i];
-        const taxCategoryId = String(cart.customLineItems[i].taxCategory?.id);
-        const {centAmount} = cart.lineItems[i].price.value;
-        const divItem = createCustomElement('div',['cart-item']);
+      const divCart = createCustomElement('div', ['container-cart']);
 
-        const divImg = createCustomElement('div', [`cart-img${i}`]);
-        const productID = cart.lineItems[i].productId;
-        if (productID) {
-          productImage(productID, i);
-        }
-        const name = cart.customLineItems[i].name.en;
-
-        const divName = createCustomElement('div',['cart-name'],`${name}`);
-
-        const price = cart.lineItems[i].price.value.centAmount;
-        const divPriceForOne = createCustomElement('div',['cart-price'],`${price/100}USD`);
-
-        const {quantity} = cart.lineItems[i];
-        const divQuantity = createCustomElement('div',['cart-quantity']);
-        const quantityValue = createCustomElement('input',['quantity'],`${quantity}`) as HTMLFormElement;
-        quantityValue.setAttribute('value',`${quantity}`);
-        const btnMinus = createCustomElement('button',['btn-minus'],'-') as HTMLButtonElement;
-        btnMinus.addEventListener('click',()=>{
-          // if(quantity===1){
-
-          // } else {
-            // const updateQuantity = new StpClientApi().updateCart();
-          // }
-        })
-        const btnPlus = createCustomElement('button',['btn-plus'],'+') as HTMLButtonElement;
-        btnPlus.addEventListener('click',()=>{
-          // const updateQuantity = new StpClientApi().updateCart();
-        })
-        divQuantity.append(btnMinus, quantityValue, btnPlus);
-
-        const priceForAll = price/100*quantity;
-        const divPriceForAll = createCustomElement('div',['cart-all-price'], `${priceForAll}USD`);
-
-        const divForDeleteBtn = createCustomElement('div', ['cart-delete']);
-        const BtnDelete = createCustomElement('button', ['cart-btn-delete'], 'Delete') as HTMLButtonElement;
-
-        // BtnDelete.addEventListener('click',()=>{
-        //   const removeItem = new StpClientApi().deleteItemFromCart();
-        // })
-        divForDeleteBtn.append(BtnDelete);
-
-        divItem.append(numberDiv, divImg, divName, divPriceForOne, divQuantity, divPriceForAll, divForDeleteBtn);
-        divCart.append(divItem);
+      for (let i = 0; i < cart.lineItems.length; i += 1) {
+        const item = lineItem(cart,i);
+        divCart.append(item);
       }
-      const totalDiv = createCustomElement('div',['cart-total'],`Total price: ${total}USD`);
-      const btnCLearCart = createCustomElement('button',['btn-clear'],'Clear cart') as HTMLButtonElement;
+      const totalDiv = createCustomElement('div', ['cart-total'], `Total price: ${total}USD`);
 
-      btnCLearCart.addEventListener('click',()=>{
-        const cLearCart = async() => {
-          const cart = await new StpClientApi().getCartById(id);
-          const cartVersion = cart.version;
-          const clear = await new ApiClient().deleteCart(id, cartVersion);
+      const promoDiv = createCustomElement('div',['div-promo']);
+      const promoTitle = createCustomElement('div',['promo-title'],'Promo code');
+      const warningPromo = createCustomElement('div',['promo-warning'],'Your discount code is activeted!');
+      warningPromo.classList.add('invisible');
+      const promoCode = createCustomElement('input',['promo-code']) as HTMLInputElement;
+      let promoValue = promoCode.value;
+      promoCode.addEventListener('input',(event)=>{
+        promoValue = (event.target as HTMLInputElement).value.trim();
+      })
+      const btnPromo = createCustomElement('button', ['btn-promo'],'Apply') as HTMLButtonElement
+
+      btnPromo.addEventListener('click',async ()=>{
+          const {version} = await new ApiClient().getCartById(id);
+          const promo = await new ApiClient().addDiscountCode(id, version, promoValue);
+          console.log(promo);
+          const total = document.querySelector('.cart-total');
+          const totalValue = await promo.totalPrice.centAmount
+          if(total){
+            total.textContent = `Total price: ${totalValue/100}USD`;
+          }
+          warningPromo.classList.remove('invisible');
+
+      })
+
+      promoDiv.append(promoTitle,promoCode,btnPromo,warningPromo );
+
+      const btnCLearCart = createCustomElement('button', ['btn-clear'], 'Clear cart') as HTMLButtonElement;
+
+      btnCLearCart.addEventListener('click', async () => {
+          const {version} = await new ApiClient().getCartById(id);
+          const clear = await new ApiClient().deleteCart(id, version);
           removeLocalStorageValue(KEY_CART);
-          console.log(clear);
           wrapper.innerHTML = '';
           const emptyCart = createCustomElement(
             'div',
@@ -87,12 +70,9 @@ const DrawCart = async () => {
           );
           const btnCatalog = createCustomElement('button', ['btn-catalog'], 'To catalog') as HTMLButtonElement;
           wrapper.append(emptyCart, btnCatalog);
+      });
 
-        }
-        cLearCart();
-      })
-
-      wrapper.append(divCart,totalDiv,btnCLearCart);
+      wrapper.append(divCart,promoDiv, totalDiv, btnCLearCart);
     }
   } else {
     const emptyCart = createCustomElement(
@@ -103,8 +83,7 @@ const DrawCart = async () => {
     const btnCatalog = createCustomElement('button', ['btn-catalog'], 'To catalog') as HTMLButtonElement;
     wrapper.append(emptyCart, btnCatalog);
   }
- }
-
+};
 
 const drawCartPage = () => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;

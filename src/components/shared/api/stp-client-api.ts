@@ -443,25 +443,24 @@ class ApiClient {
     );
   }
 
-  // public deleteItemFromCart(options: IUpdateCart) {
-  //   const { id, version, productId } = options;
-  //   return this.apiRoot
-  //     .carts()
-  //     .withId({ ID: id })
-  //     .post({
-  //       body: {
-  //         version,
-  //         actions: [
-  //           {
-  //             action: 'removeCustomLineItem',
-  //             id: productId,
-  //           },
-  //         ],
-  //       },
-  //     })
-  //     .execute()
-  //     .then((data) => data.body);
-  // }
+  public deleteItemFromCart(id:string, version: number, productId: string) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'removeLineItem',
+              lineItemId: productId,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
 
   public getCarts() {
     return (
@@ -490,34 +489,54 @@ class ApiClient {
     );
   }
 
-  // public deleteCart(id: string) {
-  //   return this.apiRoot
-  //     .carts()
-  //     .withId({ ID: id })
-  //     .delete({
-  //       queryArgs: {
-  //         version: 1
-  //       }
-  //      }).execute()
-  // }
-
-  // public getCart(id: string) {
-  //   return this.apiRoot
-  //   .carts()
-  //   .withId({ ID: id })
-  //   .get()
-  //   .execute()
-  // }
-
   public deleteCart(id: string, vers: number) {
     return this.apiRoot
-      .me()
+      // .me()
       .carts()
       .withId({ ID: id })
       .delete({
         queryArgs: { version: vers },
       })
       .execute();
+  }
+
+  public addDiscountCode(id:string, version: number, discountCode: string) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              "action": "addDiscountCode",
+              "code": discountCode
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
+
+  public changeQuantity(id:string, version: number, lineItemId: string, quantity:number) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'changeLineItemQuantity',
+              lineItemId,
+              quantity,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
   }
 }
 

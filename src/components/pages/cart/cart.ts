@@ -25,6 +25,7 @@ const updateCart = async (options: IUpdateCart) => {
 
   quantityItemElem.classList.add('active');
   quantityItemElem.textContent = `${cart.totalLineItemQuantity}`;
+  return cart;
 };
 
 export { createCart, updateCart };
