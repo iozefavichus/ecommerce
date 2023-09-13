@@ -221,12 +221,16 @@ export const drawCard = (product: Product, el: HTMLElement): void => {
     );
     priceDiscount = (discountedInCent / 100).toFixed(2);
     const blockProperty = createPriceDiscountBlock(priceDiscount);
-    const priceEl = document.querySelectorAll('.product__price');
-    Array.from(priceEl).forEach((price) => price.classList.add('through'));
     card.append(blockProperty, cartBtn);
   }
   imgBlock.append(img);
   el.append(card);
+  throughPrice();
+};
+
+const throughPrice = () => {
+  const priceEl = document.querySelectorAll('.product__price');
+  Array.from(priceEl).forEach((price) => price.classList.add('through'));
 };
 
 export const drawSortCard = (product: ProductProjection, el: HTMLElement): void => {
@@ -271,12 +275,12 @@ export const drawSortCard = (product: ProductProjection, el: HTMLElement): void 
     const discountCents = discountedPrice[0].discounted?.value.centAmount as number;
     priceDiscount = (discountCents / 100).toFixed(2);
     const blockProperty = createPriceDiscountBlock(priceDiscount);
-    const priceEl = document.querySelectorAll('.product__price');
-    Array.from(priceEl).forEach((price) => price.classList.add('through'));
     cardSort.append(blockProperty, cartBtn);
   }
   imgBlock.append(img);
   el.append(cardSort);
+
+  throughPrice();
 };
 
 export const drawCatalog = async () => {
