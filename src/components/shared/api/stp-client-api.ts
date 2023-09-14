@@ -130,10 +130,10 @@ class ApiClient {
       .execute();
   }
 
-  public getProducts(limitNum?: number, offsetNum?: number) {
+  public getProducts(limitNum?: number) {
     return this.apiRoot
       .products()
-      .get({ queryArgs: { limit: limitNum, offset: offsetNum } })
+      .get({ queryArgs: { limit: limitNum } })
       .execute()
       .then((data) => data.body.results);
   }
@@ -167,6 +167,20 @@ class ApiClient {
         queryArgs: {
           'text.en': valueFilter,
           fuzzy: true,
+        },
+      })
+      .execute()
+      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
+  }
+
+  public getProductsFromCatalog(limitNum?: number, offsetNum?: number): Promise<ProductProjection[]> {
+    return this.apiRoot
+      .productProjections()
+      .search()
+      .get({
+        queryArgs: {
+          limit: limitNum,
+          offset: offsetNum,
         },
       })
       .execute()
@@ -486,6 +500,25 @@ class ApiClient {
       .then((data) => data.body);
   }
 
+  public deletelineItemFromCart(id: string, version: number, productId: string) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'removeLineItem',
+              lineItemId: productId,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
+
   public getCarts() {
     return this.apiRoot
       .carts()
@@ -515,6 +548,53 @@ class ApiClient {
         queryArgs: { version: vers },
       })
       .execute();
+  }
+
+  async getTotalNumberOfProducts() {
+    return this.apiRoot
+      .productProjections()
+      .get()
+      .execute()
+      .then((data) => data.body.total);
+  }
+
+  public addDiscountCode(id: string, version: number, discountCode: string) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'addDiscountCode',
+              code: discountCode,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
+
+  public changeQuantity(id: string, version: number, lineItemId: string, quantity: number) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'changeLineItemQuantity',
+              lineItemId,
+              quantity,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
   }
 }
 

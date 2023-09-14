@@ -16,7 +16,6 @@ export const customRoute = (pathName: string, product?: Product | string): void 
 export const routing = (): void => {
   body?.addEventListener('click', (event): void => {
     const elem = event.target as HTMLElement;
-
     if (elem.tagName === 'A') {
       event.preventDefault();
       const path = elem.getAttribute('href') as string;
