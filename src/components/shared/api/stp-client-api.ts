@@ -4,7 +4,6 @@ import {
   CustomerSignInResult,
   ProductDiscount,
   ProductDiscountPagedQueryResponse,
-  // ProductPagedQueryResponse,
   ProductProjection,
   ProductProjectionPagedQueryResponse,
   CustomerPagedQueryResponse,
@@ -17,24 +16,26 @@ import {
 import { ClientFactory } from './build-client';
 import { regCardObj, baseAdress, IUpdateCart } from '../../../types/shared';
 
+const currentDate = new Date();
+const expiresCookie = currentDate.setMonth(currentDate.getMonth() + 1);
+
 class ApiClient {
-  private email;
+  static sharedEmail = '';
 
-  private password;
+  static sharedPassword = '';
 
-  private client;
+  private hasMail = ApiClient.sharedEmail.length > 0;
 
-  private apiRoot;
+  private hasPas = ApiClient.sharedPassword.length > 0;
+
+  private client = new ClientFactory().createClient();
+
+  private apiRoot = createApiBuilderFromCtpClient(this.client).withProjectKey({ projectKey: 'ecommerce_furniture' });
 
   constructor(email?: string, password?: string) {
     if (email && password) {
-      this.email = email;
-      this.password = password;
-      this.client = new ClientFactory().createClient(this.email, this.password);
-      this.apiRoot = createApiBuilderFromCtpClient(this.client).withProjectKey({ projectKey: 'ecommerce_furniture' });
-    } else {
-      this.client = new ClientFactory().createClient();
-      this.apiRoot = createApiBuilderFromCtpClient(this.client).withProjectKey({ projectKey: 'ecommerce_furniture' });
+      ApiClient.sharedEmail = email;
+      ApiClient.sharedPassword = password;
     }
   }
 
@@ -63,16 +64,20 @@ class ApiClient {
   }
 
   public loginCustomer() {
-    return this.apiRoot
-      .me()
-      .login()
-      .post({
-        body: {
-          email: this.email as string,
-          password: this.password as string,
-        },
-      })
-      .execute();
+    if (this.hasMail && this.hasPas) {
+      this.client = new ClientFactory().createClient(ApiClient.sharedEmail, ApiClient.sharedPassword);
+      this.apiRoot = createApiBuilderFromCtpClient(this.client).withProjectKey({ projectKey: 'ecommerce_furniture' });
+      return this.apiRoot
+        .me()
+        .login()
+        .post({
+          body: {
+            email: ApiClient.sharedEmail,
+            password: ApiClient.sharedPassword,
+          },
+        })
+        .execute();
+    }
   }
 
   public getProject(): Promise<ClientResponse<Project>> {
@@ -401,7 +406,27 @@ class ApiClient {
       .execute();
   }
 
-  public addProductToCartAnonymousCustomer(productId: string) {
+  public addCart(productId: string) {
+    if (this.hasMail && this.hasPas) {
+      this.client = new ClientFactory().createClient(ApiClient.sharedEmail, ApiClient.sharedPassword);
+      this.apiRoot = createApiBuilderFromCtpClient(this.client).withProjectKey({ projectKey: 'ecommerce_furniture' });
+      return this.apiRoot
+        .me()
+        .carts()
+        .post({
+          body: {
+            currency: 'USD',
+            lineItems: [
+              {
+                productId,
+                quantity: 1,
+              },
+            ],
+          },
+        })
+        .execute()
+        .then((cart) => cart.body);
+    }
     return this.apiRoot
       .me()
       .carts()
@@ -422,26 +447,23 @@ class ApiClient {
 
   public updateCart(options: IUpdateCart) {
     const { id, version, productId } = options;
-    return (
-      this.apiRoot
-        // .me()
-        .carts()
-        .withId({ ID: id })
-        .post({
-          body: {
-            version,
-            actions: [
-              {
-                action: 'addLineItem',
-                productId,
-                quantity: 1,
-              },
-            ],
-          },
-        })
-        .execute()
-        .then((data) => data.body)
-    );
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'addLineItem',
+              productId,
+              quantity: 1,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
   }
 
   public deleteItemFromCart(options: IUpdateCart) {
@@ -465,54 +487,28 @@ class ApiClient {
   }
 
   public getCarts() {
-    return (
-      this.apiRoot
-        // .me()
-        .carts()
-        .get({
-          queryArgs: {
-            limit: 100,
-          },
-        })
-        .execute()
-        .then((data) => data.body.results)
-    );
+    return this.apiRoot
+      .carts()
+      .get({
+        queryArgs: {
+          limit: 100,
+        },
+      })
+      .execute()
+      .then((data) => data.body.results);
   }
 
   public getCartById(id: string) {
-    return (
-      this.apiRoot
-        // .me()
-        .carts()
-        .withId({ ID: id })
-        .get()
-        .execute()
-        .then((data) => data.body)
-    );
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .get()
+      .execute()
+      .then((data) => data.body);
   }
-
-  // public deleteCart(id: string) {
-  //   return this.apiRoot
-  //     .carts()
-  //     .withId({ ID: id })
-  //     .delete({
-  //       queryArgs: {
-  //         version: 1
-  //       }
-  //      }).execute()
-  // }
-
-  // public getCart(id: string) {
-  //   return this.apiRoot
-  //   .carts()
-  //   .withId({ ID: id })
-  //   .get()
-  //   .execute()
-  // }
 
   public deleteCart(id: string, vers: number) {
     return this.apiRoot
-      .me()
       .carts()
       .withId({ ID: id })
       .delete({
