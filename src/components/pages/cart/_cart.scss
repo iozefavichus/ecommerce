@@ -196,3 +196,14 @@
   margin-bottom: 10px;
   margin-top: 0px;
 }
+
+.red-promo{
+  color: red;
+}
+
+.btn-catalog{
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}

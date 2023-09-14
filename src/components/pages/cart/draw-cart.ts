@@ -5,6 +5,8 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { ApiClient } from '../../shared/api/stp-client-api';
 import { lineItem } from './lineItem';
 import { totalpricebeforeDiscount } from './total-price-before-discount';
+import { customRoute } from '../../app/router/router';
+import { EmptyCart } from './empty-cart';
 
 const DrawCart = async () => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;
@@ -15,13 +17,7 @@ const DrawCart = async () => {
     const cart = await new ApiClient().getCartById(id);
     const total = cart.totalPrice.centAmount/100;
     if (cart.lineItems.length === 0) {
-      const emptyCart = createCustomElement(
-        'div',
-        ['empty__text'],
-        `Your shopping cart is empty! Let's go to the catalog to choose something new!`,
-      );
-      const btnCatalog = createCustomElement('button', ['btn-catalog'], 'To catalog') as HTMLButtonElement;
-      wrapper.append(emptyCart, btnCatalog);
+      EmptyCart();
     } else {
       const divCart = createCustomElement('div', ['container-cart']);
 
@@ -53,17 +49,24 @@ const DrawCart = async () => {
 
       btnPromo.addEventListener('click',async ()=>{
           const {version} = await new ApiClient().getCartById(id);
-          const promo = await new ApiClient().addDiscountCode(id, version, promoValue);
-          const totalnew = document.querySelector('.cartnew-total');
-          const total = document.querySelector('.cart-total');
-          total?.classList.add('crossline');
-          totalnew?.classList.remove('invisible');
-          const totalValue = await promo.totalPrice.centAmount
-          if(totalnew){
-            totalnew.textContent = `Total price: ${totalValue/100}USD`;
+            try {
+              const promo = await new ApiClient().addDiscountCode(id, version, promoValue);
+              const totalnew = document.querySelector('.cartnew-total');
+              const total = document.querySelector('.cart-total');
+              total?.classList.add('crossline');
+              totalnew?.classList.remove('invisible');
+              const totalValue = await promo.totalPrice.centAmount
+              if(totalnew){
+                 totalnew.textContent = `Total price: ${totalValue/100}USD`;
+              }
+              warningPromo.classList.remove('invisible');
+              warningPromo.textContent = 'Your discount code is activeted!';
+              warningPromo.classList.remove('red-promo');
+          } catch {
+            warningPromo.textContent = 'This promo code is not correct';
+            warningPromo.classList.remove('invisible');
+            warningPromo.classList.add('red-promo');
           }
-          warningPromo.classList.remove('invisible');
-
       })
 
       promoDiv.append(promoTitle,promoCode,btnPromo,warningPromo );
@@ -74,26 +77,14 @@ const DrawCart = async () => {
           const {version} = await new ApiClient().getCartById(id);
           const clear = await new ApiClient().deleteCart(id, version);
           removeLocalStorageValue(KEY_CART);
-          wrapper.innerHTML = '';
-          const emptyCart = createCustomElement(
-            'div',
-            ['empty__text'],
-            `Your shopping cart is empty! Let's go to the catalog to choose something new!`,
-          );
-          const btnCatalog = createCustomElement('button', ['btn-catalog'], 'To catalog') as HTMLButtonElement;
-          wrapper.append(emptyCart, btnCatalog);
+          wrapper.textContent = '';
+          EmptyCart();
       });
 
       wrapper.append(divCart, promoDiv, totalDiv, totalNewDiv, btnCLearCart);
     }
   } else {
-    const emptyCart = createCustomElement(
-      'div',
-      ['empty__text'],
-      `Your shopping cart is empty! Let's go to the catalog to choose something new!`,
-    );
-    const btnCatalog = createCustomElement('button', ['btn-catalog'], 'To catalog') as HTMLButtonElement;
-    wrapper.append(emptyCart, btnCatalog);
+    EmptyCart();
   }
 };
 

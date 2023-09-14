@@ -10,9 +10,7 @@ import { totalpricebeforeDiscount } from "./total-price-before-discount";
 
 export const lineItem = (cart: Cart,i: number): HTMLElement => {
     const divItem = createCustomElement('div', ['cart-item']);
-
     const numberDiv = createCustomElement('div', ['cart-number'], `${i + 1}.`);
-
     const divImg = createCustomElement('div', [`cart-img${i}`]);
     const productID = cart.lineItems[i].productId;
     const lineID = cart.lineItems[i].id;
@@ -33,6 +31,7 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
     const divQuantity = createCustomElement('div', ['cart-quantity']);
     const quantityValue = createCustomElement('input', ['quantity'], `${quantity}`) as HTMLFormElement;
     quantityValue.setAttribute('value', `${quantity}`);
+    quantityValue.setAttribute('readonly','readonly');
     const btnMinus = createCustomElement('button', ['btn-minus'], '-') as HTMLButtonElement;
 
     btnMinus.addEventListener('click', async () => {
@@ -44,12 +43,24 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
       if(quantity===1){
         const {version} = await new ApiClient().getCartById(id);
         const removeItem = await new ApiClient().deletelineItemFromCart(id, version, lineID,);
+        const cart = await new ApiClient().getCartById(id);
+        const quantityItemElem = document.querySelector('.quantity-item') as HTMLElement;
+        const countProduct = cart.totalLineItemQuantity;
+        if(countProduct){
+          quantityItemElem.textContent = `${countProduct}`;
+        } else {
+          quantityItemElem.textContent = ``;
+          quantityItemElem.classList.remove('active');
+        }
         customRoute('/cart');
       } else {
         const {version} = await new ApiClient().getCartById(id);
         count -= 1;
         const updateQuantity = await new ApiClient().changeQuantity(id, version, lineID, count);
         quantityValue.setAttribute('value', `${count}`);
+        const quantityItemElem = document.querySelector('.quantity-item') as HTMLElement;
+        const countProduct = updateQuantity.totalLineItemQuantity;
+        quantityItemElem.textContent = `${countProduct}`;
         if(price){
           divPriceForAll.innerHTML =  `${count*price/100}USD`;
         }
@@ -104,6 +115,15 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
       const id = getLocalStorage(KEY_CART) as string;
       const {version} = await new ApiClient().getCartById(id);
       const removeItem = await new ApiClient().deletelineItemFromCart(id, version, lineID);
+      const cart = await new ApiClient().getCartById(id);
+      const quantityItemElem = document.querySelector('.quantity-item') as HTMLElement;
+      const countProduct = cart.totalLineItemQuantity;
+      if(countProduct){
+        quantityItemElem.textContent = `${countProduct}`;
+      } else {
+        quantityItemElem.textContent = ``;
+        quantityItemElem.classList.remove('active');
+      }
       customRoute('/cart');
     })
     divForDeleteBtn.append(BtnDelete);
