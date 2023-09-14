@@ -43,7 +43,7 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
 
       if(quantity===1){
         const {version} = await new ApiClient().getCartById(id);
-        const removeItem = await new ApiClient().deleteItemFromCart(id, version, lineID);
+        const removeItem = await new ApiClient().deletelineItemFromCart(id, version, lineID,);
         customRoute('/cart');
       } else {
         const {version} = await new ApiClient().getCartById(id);
@@ -103,7 +103,7 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
     BtnDelete.addEventListener('click',async ()=>{
       const id = getLocalStorage(KEY_CART) as string;
       const {version} = await new ApiClient().getCartById(id);
-      const removeItem = await new ApiClient().deleteItemFromCart(id, version, lineID);
+      const removeItem = await new ApiClient().deletelineItemFromCart(id, version, lineID);
       customRoute('/cart');
     })
     divForDeleteBtn.append(BtnDelete);

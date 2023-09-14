@@ -458,7 +458,27 @@ class ApiClient {
     );
   }
 
-  public deleteItemFromCart(id:string, version: number, productId: string) {
+  public deleteItemFromCart(options: IUpdateCart) {
+    const { id, version, productId } = options;
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'removeLineItem',
+              lineItemId: productId,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
+
+  public deletelineItemFromCart(id:string, version: number, productId: string) {
     return this.apiRoot
       .carts()
       .withId({ ID: id })
