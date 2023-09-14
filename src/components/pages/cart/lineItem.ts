@@ -6,6 +6,7 @@ import { getLocalStorage } from "../../app/local-storage/local-storage";
 import { KEY_CART } from './has-cart';
 import { updateCart } from "./cart";
 import { customRoute } from "../../app/router/router";
+import { totalpricebeforeDiscount } from "./total-price-before-discount";
 
 export const lineItem = (cart: Cart,i: number): HTMLElement => {
     const divItem = createCustomElement('div', ['cart-item']);
@@ -35,8 +36,11 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
     const btnMinus = createCustomElement('button', ['btn-minus'], '-') as HTMLButtonElement;
 
     btnMinus.addEventListener('click', async () => {
-
       const id = getLocalStorage(KEY_CART) as string;
+      const cart = await new ApiClient().getCartById(id);
+      const {version} = cart;
+      const {quantity} = cart.lineItems[i];
+
       if(quantity===1){
         const {version} = await new ApiClient().getCartById(id);
         const removeItem = await new ApiClient().deleteItemFromCart(id, version, lineID);
@@ -50,10 +54,14 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
           divPriceForAll.innerHTML =  `${count*price/100}USD`;
         }
         const total = document.querySelector('.cart-total');
-        const totalValue = await updateQuantity.totalPrice.centAmount;
-        console.log(total);
+        const totalBefore = totalpricebeforeDiscount(updateQuantity);
         if(total){
-          total.textContent = `Total price: ${totalValue/100}USD`;
+          total.textContent = `Total price: ${totalBefore/100}USD`;
+        }
+        const totalNew = document.querySelector('.cartnew-total');
+        const totalNewValue = updateQuantity.totalPrice.centAmount;
+        if(totalNew){
+          totalNew.textContent = `Total price: ${totalNewValue/100}USD`;
         }
       }
     });
@@ -64,8 +72,9 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
     const btnPlus = createCustomElement('button', ['btn-plus'], '+') as HTMLButtonElement;
     btnPlus.addEventListener('click', async() => {
         const id = getLocalStorage(KEY_CART) as string;
-        const {version} = await new ApiClient().getCartById(id);
-        const cart = updateCart({
+        const cart = await new ApiClient().getCartById(id);
+        const {version} = cart;
+        const cartNew = await updateCart({
             id,
             version,
             productId: productID,
@@ -76,9 +85,14 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
             divPriceForAll.innerHTML =  `${count*price/100}USD`;
           }
           const total = document.querySelector('.cart-total');
-          const totalValue = await (await cart).totalPrice.centAmount
+          const totalBefore = totalpricebeforeDiscount(cartNew);
           if(total){
-            total.textContent = `Total price: ${totalValue/100}USD`;
+            total.textContent = `Total price: ${totalBefore/100}USD`;
+          }
+          const totalNew = document.querySelector('.cartnew-total');
+          const totalNewValue = cartNew.totalPrice.centAmount;
+          if(totalNew){
+            totalNew.textContent = `Total price: ${totalNewValue/100}USD`;
           }
     });
     divQuantity.append(btnMinus, quantityValue, btnPlus);

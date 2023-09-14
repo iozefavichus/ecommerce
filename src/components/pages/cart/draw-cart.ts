@@ -4,6 +4,7 @@ import { KEY_CART, hasCart } from './has-cart';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { ApiClient } from '../../shared/api/stp-client-api';
 import { lineItem } from './lineItem';
+import { totalpricebeforeDiscount } from './total-price-before-discount';
 
 const DrawCart = async () => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;
@@ -28,7 +29,16 @@ const DrawCart = async () => {
         const item = lineItem(cart,i);
         divCart.append(item);
       }
-      const totalDiv = createCustomElement('div', ['cart-total'], `Total price: ${total}USD`);
+      const totalBefore = totalpricebeforeDiscount(cart);
+      const totalDiv = createCustomElement('div', ['cart-total'], `Total price: ${totalBefore/100}USD`);
+      if(!(cart.discountCodes.length===0)){
+        totalDiv.classList.add('crossline');
+      }
+      const totalNewDiv = createCustomElement('div', ['cartnew-total'], `Total price: ${total}USD`);
+
+      if(cart.discountCodes.length===0){
+        totalNewDiv.classList.add('invisible');
+      }
 
       const promoDiv = createCustomElement('div',['div-promo']);
       const promoTitle = createCustomElement('div',['promo-title'],'Promo code');
@@ -44,11 +54,13 @@ const DrawCart = async () => {
       btnPromo.addEventListener('click',async ()=>{
           const {version} = await new ApiClient().getCartById(id);
           const promo = await new ApiClient().addDiscountCode(id, version, promoValue);
-          console.log(promo);
+          const totalnew = document.querySelector('.cartnew-total');
           const total = document.querySelector('.cart-total');
+          total?.classList.add('crossline');
+          totalnew?.classList.remove('invisible');
           const totalValue = await promo.totalPrice.centAmount
-          if(total){
-            total.textContent = `Total price: ${totalValue/100}USD`;
+          if(totalnew){
+            totalnew.textContent = `Total price: ${totalValue/100}USD`;
           }
           warningPromo.classList.remove('invisible');
 
@@ -72,7 +84,7 @@ const DrawCart = async () => {
           wrapper.append(emptyCart, btnCatalog);
       });
 
-      wrapper.append(divCart,promoDiv, totalDiv, btnCLearCart);
+      wrapper.append(divCart, promoDiv, totalDiv, totalNewDiv, btnCLearCart);
     }
   } else {
     const emptyCart = createCustomElement(
