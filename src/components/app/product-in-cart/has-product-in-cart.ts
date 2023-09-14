@@ -30,6 +30,9 @@ const viewQuantityItemInCart = async (): Promise<void> => {
     const itemsNum = quantityItem ?? '';
     itemsCountElem.classList.add('active');
     itemsCountElem.textContent = `${itemsNum}`;
+    if (!quantityItem) {
+      itemsCountElem.classList.remove('active');
+    }
   } else {
     itemsCountElem.classList.remove('active');
   }

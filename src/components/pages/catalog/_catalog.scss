@@ -285,6 +285,13 @@
         opacity: 0.5;
         transition: all 0.5s;
       }
+
+      &:hover.disabled {
+        cursor: default;
+        color: $color-text-base;
+        background: $color-panel-product;
+        opacity: 1;
+      }
     }
 
     &-active {

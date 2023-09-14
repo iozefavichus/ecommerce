@@ -125,10 +125,10 @@ class ApiClient {
       .execute();
   }
 
-  public getProducts(limitNum?: number, offsetNum?: number) {
+  public getProducts(limitNum?: number) {
     return this.apiRoot
       .products()
-      .get({ queryArgs: { limit: limitNum, offset: offsetNum } })
+      .get({ queryArgs: { limit: limitNum } })
       .execute()
       .then((data) => data.body.results);
   }
@@ -162,6 +162,20 @@ class ApiClient {
         queryArgs: {
           'text.en': valueFilter,
           fuzzy: true,
+        },
+      })
+      .execute()
+      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
+  }
+
+  public getProductsFromCatalog(limitNum?: number, offsetNum?: number): Promise<ProductProjection[]> {
+    return this.apiRoot
+      .productProjections()
+      .search()
+      .get({
+        queryArgs: {
+          limit: limitNum,
+          offset: offsetNum,
         },
       })
       .execute()
@@ -434,6 +448,7 @@ class ApiClient {
               {
                 action: 'addLineItem',
                 productId,
+                quantity: 1,
               },
             ],
           },
@@ -498,6 +513,14 @@ class ApiClient {
         queryArgs: { version: vers },
       })
       .execute();
+  }
+
+  async getTotalNumberOfProducts() {
+    return this.apiRoot
+      .productProjections()
+      .get()
+      .execute()
+      .then((data) => data.body.total);
   }
 
   public addDiscountCode(id:string, version: number, discountCode: string) {
