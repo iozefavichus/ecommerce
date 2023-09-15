@@ -401,3 +401,16 @@
     }
   }
 }
+
+.main__promo-code {
+  position: absolute;
+  top: 140px;
+  left: 100px;
+  transform: rotate(-25deg);
+  color: $color-brand;
+  background-color: $color-brand-dark;
+  padding: 45px 30px 60px;
+  border-radius: 50%;
+  font-size: 30px;
+  text-align: center;
+}

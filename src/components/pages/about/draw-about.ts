@@ -1,10 +1,9 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { createPageTitle } from '../../shared/utilities/title';
 
 const createAboutPage = (): HTMLElement => {
   const wrapper = createCustomElement('div', ['responsive-container-block', 'outer-container']);
   const inner = createCustomElement('div', ['responsive-container-block', 'inner-container']);
-  const heading = createCustomElement('p', ['text', 'heading-text'], 'Our Team');
-  const subheading = createCustomElement('p', ['text', 'sub-heading-text'], 'We are going to do our best');
   const cardContainer = createCustomElement('div', ['responsive-container-block', 'cards-container']);
   const cellBlock1 = createCustomElement('div', [
     'responsive-cell-block',
@@ -30,7 +29,7 @@ const createAboutPage = (): HTMLElement => {
       at The Rolling Scopes School, while at university I studied more .NET and Angular.
        Now I am developing my own projects, and I am ready to further develop my knowledge and
       skills in web development.
-      <br/>Developed main page & catalog page, also sorting, filtering, searching`,
+      <br/><b>Developed main page, catalog page, about page, also sorting, filtering, searching, apiClient.<b>`,
   );
 
   const githubLink = createCustomElement('a', ['rss_link']) as HTMLLinkElement;
@@ -58,11 +57,12 @@ const createAboutPage = (): HTMLElement => {
   const text2 = createCustomElement(
     'p',
     ['text', 'text__custom'],
-    `Hello! I am 30 years old. Graduated from college in 2008, university in 2012.
+    `Hello! I am 30 years old. Graduated from college in 2012, university in 2014.
       My specialty is an engineer electrician. In 2022, I started learn of Software Engineer.
        I chose this profession because I like to see the result of my work. This job gives me a
       chance work from anywhere and always learn something new.
-      <br/>Developed page login & stpclient api & routing`,
+      <br/><b>Developed header, footer, page login, detail page, build client, apiClient, routing.
+      Also participated in the development of the catalog page and about page.<b>`,
   );
 
   const cellBlock3 = createCustomElement('div', [
@@ -87,7 +87,7 @@ const createAboutPage = (): HTMLElement => {
     ['text', 'text__custom'],
     `I like to study all new and I like to communicate with other people.
       For a long time I work as photographer. So I have a lot of time to know something new.
-      <br/>Developed page registartion & work in the data`,
+      <br/><b>Developed page registration, cart page, profile page, work in the data, apiClient.<b>`,
   );
 
   githubLink.append(githubLogo);
@@ -97,8 +97,8 @@ const createAboutPage = (): HTMLElement => {
   cellBlock1.append(name1, position1, img1, a1, text1);
   cellBlock2.append(name2, position2, img2, a2, text2);
   cellBlock3.append(name3, position3, img3, a3, text3);
-  cardContainer.append(cellBlock1, cellBlock2, cellBlock3);
-  inner.append(githubLink, heading, subheading, cardContainer);
+  cardContainer.append(cellBlock3, cellBlock1, cellBlock2);
+  inner.append(githubLink, cardContainer);
   wrapper.append(inner);
   return wrapper;
 };
@@ -106,6 +106,7 @@ const createAboutPage = (): HTMLElement => {
 export const drawAbout = async () => {
   const mainWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   mainWrapper.innerHTML = '';
+  const title = createPageTitle('About us');
   const aboutPage = createAboutPage();
-  mainWrapper.append(aboutPage);
+  mainWrapper.append(title, aboutPage);
 };
