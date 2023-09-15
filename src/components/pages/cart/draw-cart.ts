@@ -5,17 +5,18 @@ import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { ApiClient } from '../../shared/api/stp-client-api';
 import { lineItem } from './lineItem';
 import { totalpricebeforeDiscount } from './total-price-before-discount';
-import { customRoute } from '../../app/router/router';
 import { EmptyCart } from './empty-cart';
 
 const DrawCart = async () => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   const wrapper = createCustomElement('div', ['cart-wrapper']);
   mailWrapper.append(wrapper);
+
   if (hasCart()) {
     const id = getLocalStorage(KEY_CART) as string;
     const cart = await new ApiClient().getCartById(id);
     const total = cart.totalPrice.centAmount/100;
+
     if (cart.lineItems.length === 0) {
       EmptyCart();
     } else {
@@ -25,13 +26,13 @@ const DrawCart = async () => {
         const item = lineItem(cart,i);
         divCart.append(item);
       }
+
       const totalBefore = totalpricebeforeDiscount(cart);
       const totalDiv = createCustomElement('div', ['cart-total'], `Total price: ${totalBefore/100}USD`);
       if(!(cart.discountCodes.length===0)){
         totalDiv.classList.add('crossline');
       }
       const totalNewDiv = createCustomElement('div', ['cartnew-total'], `Total price: ${total}USD`);
-
       if(cart.discountCodes.length===0){
         totalNewDiv.classList.add('invisible');
       }
@@ -77,7 +78,6 @@ const DrawCart = async () => {
           const {version} = await new ApiClient().getCartById(id);
           const clear = await new ApiClient().deleteCart(id, version);
           removeLocalStorageValue(KEY_CART);
-          wrapper.textContent = '';
           EmptyCart();
       });
 
@@ -90,7 +90,7 @@ const DrawCart = async () => {
 
 const drawCartPage = () => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;
-  mailWrapper.innerHTML = '';
+  mailWrapper.textContent = '';
   const title = createPageTitle('Cart');
   mailWrapper.append(title);
   DrawCart();

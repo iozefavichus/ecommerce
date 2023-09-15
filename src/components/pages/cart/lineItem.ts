@@ -37,7 +37,6 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
     btnMinus.addEventListener('click', async () => {
       const id = getLocalStorage(KEY_CART) as string;
       const cart = await new ApiClient().getCartById(id);
-      const {version} = cart;
       const {quantity} = cart.lineItems[i];
 
       if(quantity===1){
@@ -62,7 +61,7 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
         const countProduct = updateQuantity.totalLineItemQuantity;
         quantityItemElem.textContent = `${countProduct}`;
         if(price){
-          divPriceForAll.innerHTML =  `${count*price/100}USD`;
+          divPriceForAll.textContent =  `${count*price/100}USD`;
         }
         const total = document.querySelector('.cart-total');
         const totalBefore = totalpricebeforeDiscount(updateQuantity);
@@ -83,8 +82,7 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
     const btnPlus = createCustomElement('button', ['btn-plus'], '+') as HTMLButtonElement;
     btnPlus.addEventListener('click', async() => {
         const id = getLocalStorage(KEY_CART) as string;
-        const cart = await new ApiClient().getCartById(id);
-        const {version} = cart;
+        const {version} = await new ApiClient().getCartById(id);
         const cartNew = await updateCart({
             id,
             version,
@@ -93,7 +91,7 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
           count += 1;
           quantityValue.setAttribute('value', `${count}`);
           if(price){
-            divPriceForAll.innerHTML =  `${count*price/100}USD`;
+            divPriceForAll.textContent =  `${count*price/100}USD`;
           }
           const total = document.querySelector('.cart-total');
           const totalBefore = totalpricebeforeDiscount(cartNew);
