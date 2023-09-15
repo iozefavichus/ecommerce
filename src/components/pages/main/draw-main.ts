@@ -4,6 +4,11 @@ import { drawCard } from '../catalog/draw-catalog';
 
 const createDiscover = (): HTMLElement => {
   const bgMain = createCustomElement('div', ['main-img']);
+  const promoCode = createCustomElement(
+    'h3',
+    ['main__promo-code'],
+    'Discount 10%<br>from $1000<br>Spend1000EURSave10pct',
+  );
   const discoverBlock = createCustomElement('div', ['discover-block']);
   const discoverInnerBlock = createCustomElement('div', ['discover-inner-block']);
   const discoverAppointment = createCustomElement('p', ['discover__appointment'], 'New Arrival');
@@ -17,7 +22,7 @@ const createDiscover = (): HTMLElement => {
   discoverBtn.href = '/catalog';
   discoverInnerBlock.append(discoverAppointment, discoverTitle, discoverSubtitle, discoverBtn);
   discoverBlock.append(discoverInnerBlock);
-  bgMain.append(discoverBlock);
+  bgMain.append(promoCode, discoverBlock);
   return bgMain;
 };
 
