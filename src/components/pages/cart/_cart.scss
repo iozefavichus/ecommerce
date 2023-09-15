@@ -26,6 +26,7 @@
   font-weight: 400;
   margin: 40px auto;
   text-align: center;
+
   @include media-table {
     font-size: 20px;
   }
@@ -175,9 +176,9 @@
   margin-bottom: 30px;
   align-items: center;
   margin-left: 50px;
+
   @include media-table {
     margin-left: 30px;
-
   }
 }
 
@@ -197,6 +198,7 @@
     cursor: pointer;
     opacity: 0.5;
   }
+
   @include media-table {
     font-size: 12px;
     width: 30%;
@@ -231,11 +233,11 @@
   margin-top: 0;
 }
 
-.red-promo{
+.red-promo {
   color: red;
 }
 
-.btn-catalog{
+.btn-catalog {
   &:hover {
     cursor: pointer;
     opacity: 0.5;
@@ -244,10 +246,7 @@
 
 .modal-container {
   position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
+  inset: 0;
   overflow: hidden;
   overflow-y: auto;
   display: flex;
@@ -255,10 +254,10 @@
   justify-content: center;
   align-items: center;
   z-index: 99;
-  padding:30px 0;
+  padding: 30px 0;
 }
 
-.modal-window{
+.modal-window {
   background: #f9f1e4;
   width: 600px;
   height: 300px;
@@ -273,12 +272,13 @@
   display: none;
 }
 
-.button-container{
+.button-container {
   display: flex;
   width: 50%;
 }
 
-.button-cancel, .button-approve {
+.button-cancel,
+.button-approve {
   font-family: Poppins, sans-serif;
   font-size: 12px;
   font-style: normal;
@@ -292,19 +292,20 @@
   text-decoration: none;
   margin: 10px;
   padding: 5px 0;
+
   &:hover {
     cursor: pointer;
     opacity: 0.5;
   }
 }
 
-.promo-title{
+.promo-title {
   font-family: Poppins, sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
+
   @include media-table {
     font-size: 12px;
-
   }
 }
