@@ -413,4 +413,13 @@
   border-radius: 50%;
   font-size: 30px;
   text-align: center;
+
+  @include media-netbook {
+    top: 0;
+    left: 20%;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 20px;
+    transform: rotate(0deg);
+  }
 }
