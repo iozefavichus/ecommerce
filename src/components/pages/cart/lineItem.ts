@@ -1,12 +1,12 @@
-import { Cart } from "@commercetools/platform-sdk";
-import { createCustomElement } from "../../shared/utilities/helper-functions";
-import { productImage } from "./poduct-image";
-import { ApiClient } from "../../shared/api/stp-client-api";
-import { getLocalStorage } from "../../app/local-storage/local-storage";
+import { Cart } from '@commercetools/platform-sdk';
+import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { productImage } from './poduct-image';
+import { ApiClient } from '../../shared/api/stp-client-api';
+import { getLocalStorage } from '../../app/local-storage/local-storage';
 import { KEY_CART } from './has-cart';
-import { updateCart } from "./cart";
-import { customRoute } from "../../app/router/router";
-import { totalpricebeforeDiscount } from "./total-price-before-discount";
+import { updateCart } from './cart';
+import { customRoute } from '../../app/router/router';
+import { totalpricebeforeDiscount } from './total-price-before-discount';
 
 export const lineItem = (cart: Cart,i: number): HTMLElement => {
     const divItem = createCustomElement('div', ['cart-item']);
@@ -20,11 +20,11 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
     const name = cart.lineItems[i].name.en;
     const divName = createCustomElement('div', ['cart-name'], `${name}`);
 
-    let price = cart.lineItems[i].price.discounted?.value.centAmount;
-    if(!price){
-      price = cart.lineItems[i].price.value.centAmount;
-    }
-    const divPriceForOne = createCustomElement('div', ['cart-price'], `${price / 100}USD`);
+  let price = cart.lineItems[i].price.discounted?.value.centAmount;
+  if (!price) {
+    price = cart.lineItems[i].price.value.centAmount;
+  }
+  const divPriceForOne = createCustomElement('div', ['cart-price'], `${price / 100}USD`);
 
     const { quantity } = cart.lineItems[i];
     let count = quantity;
@@ -76,8 +76,8 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
       }
     });
 
-    const priceForAll = (price / 100) * quantity;
-    const divPriceForAll = createCustomElement('div', ['cart-all-price'], `${priceForAll}USD`);
+  const priceForAll = (price / 100) * quantity;
+  const divPriceForAll = createCustomElement('div', ['cart-all-price'], `${priceForAll}USD`);
 
     const btnPlus = createCustomElement('button', ['btn-plus'], '+') as HTMLButtonElement;
     btnPlus.addEventListener('click', async() => {
@@ -106,8 +106,8 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
     });
     divQuantity.append(btnMinus, quantityValue, btnPlus);
 
-    const divForDeleteBtn = createCustomElement('div', ['cart-delete']);
-    const BtnDelete = createCustomElement('button', ['cart-btn-delete'], 'Delete') as HTMLButtonElement;
+  const divForDeleteBtn = createCustomElement('div', ['cart-delete']);
+  const BtnDelete = createCustomElement('button', ['cart-btn-delete'], 'Delete') as HTMLButtonElement;
 
     BtnDelete.addEventListener('click',async ()=>{
       const id = getLocalStorage(KEY_CART) as string;
@@ -126,6 +126,6 @@ export const lineItem = (cart: Cart,i: number): HTMLElement => {
     })
     divForDeleteBtn.append(BtnDelete);
 
-    divItem.append(numberDiv, divImg, divName, divPriceForOne, divQuantity, divPriceForAll, divForDeleteBtn);
-    return divItem;
-}
+  divItem.append(numberDiv, divImg, divName, divPriceForOne, divQuantity, divPriceForAll, divForDeleteBtn);
+  return divItem;
+};

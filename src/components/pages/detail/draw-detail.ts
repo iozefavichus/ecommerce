@@ -126,13 +126,7 @@ export const drawDetail = async (product: Product | string): Promise<void> => {
             productId: product.id,
           });
         } else {
-          const cart = await createCart(product.id);
-          const { id, version } = cart;
-          updateCart({
-            id,
-            version,
-            productId: product.id,
-          });
+          await createCart(product.id);
         }
       }
     });

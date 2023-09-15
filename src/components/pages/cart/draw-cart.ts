@@ -23,13 +23,13 @@ const DrawCart = async () => {
       const divCart = createCustomElement('div', ['container-cart']);
 
       for (let i = 0; i < cart.lineItems.length; i += 1) {
-        const item = lineItem(cart,i);
+        const item = lineItem(cart, i);
         divCart.append(item);
       }
 
       const totalBefore = totalpricebeforeDiscount(cart);
-      const totalDiv = createCustomElement('div', ['cart-total'], `Total price: ${totalBefore/100}USD`);
-      if(!(cart.discountCodes.length===0)){
+      const totalDiv = createCustomElement('div', ['cart-total'], `Total price: ${totalBefore / 100}USD`);
+      if (!(cart.discountCodes.length === 0)) {
         totalDiv.classList.add('crossline');
       }
       const totalNewDiv = createCustomElement('div', ['cartnew-total'], `Total price: ${total}USD`);
@@ -37,37 +37,30 @@ const DrawCart = async () => {
         totalNewDiv.classList.add('invisible');
       }
 
-      const promoDiv = createCustomElement('div',['div-promo']);
-      const promoTitle = createCustomElement('div',['promo-title'],'Promo code');
-      const warningPromo = createCustomElement('div',['promo-warning'],'Your discount code is activeted!');
+      const promoDiv = createCustomElement('div', ['div-promo']);
+      const promoTitle = createCustomElement('div', ['promo-title'], 'Promo code');
+      const warningPromo = createCustomElement('div', ['promo-warning'], 'Your discount code is activeted!');
       warningPromo.classList.add('invisible');
-      const promoCode = createCustomElement('input',['promo-code']) as HTMLInputElement;
+      const promoCode = createCustomElement('input', ['promo-code']) as HTMLInputElement;
       let promoValue = promoCode.value;
-      promoCode.addEventListener('input',(event)=>{
+      promoCode.addEventListener('input', (event) => {
         promoValue = (event.target as HTMLInputElement).value.trim();
-      })
-      const btnPromo = createCustomElement('button', ['btn-promo'],'Apply') as HTMLButtonElement
+      });
+      const btnPromo = createCustomElement('button', ['btn-promo'], 'Apply') as HTMLButtonElement;
 
       btnPromo.addEventListener('click',async ()=>{
           const {version} = await new ApiClient().getCartById(id);
-            try {
-              const promo = await new ApiClient().addDiscountCode(id, version, promoValue);
-              const totalnew = document.querySelector('.cartnew-total');
-              const total = document.querySelector('.cart-total');
-              total?.classList.add('crossline');
-              totalnew?.classList.remove('invisible');
-              const totalValue = await promo.totalPrice.centAmount
-              if(totalnew){
-                 totalnew.textContent = `Total price: ${totalValue/100}USD`;
-              }
-              warningPromo.classList.remove('invisible');
-              warningPromo.textContent = 'Your discount code is activeted!';
-              warningPromo.classList.remove('red-promo');
-          } catch {
-            warningPromo.textContent = 'This promo code is not correct';
-            warningPromo.classList.remove('invisible');
-            warningPromo.classList.add('red-promo');
+          const promo = await new ApiClient().addDiscountCode(id, version, promoValue);
+          const totalnew = document.querySelector('.cartnew-total');
+          const total = document.querySelector('.cart-total');
+          total?.classList.add('crossline');
+          totalnew?.classList.remove('invisible');
+          const totalValue = await promo.totalPrice.centAmount
+          if(totalnew){
+            totalnew.textContent = `Total price: ${totalValue/100}USD`;
           }
+          warningPromo.classList.remove('invisible');
+
       })
 
       promoDiv.append(promoTitle,promoCode,btnPromo,warningPromo );
