@@ -6,11 +6,15 @@ import { ApiClient } from '../../shared/api/stp-client-api';
 import { lineItem } from './lineItem';
 import { totalpricebeforeDiscount } from './total-price-before-discount';
 import { EmptyCart } from './empty-cart';
+import { confirmationWindow } from './modal-question';
 
 const DrawCart = async () => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;
   const wrapper = createCustomElement('div', ['cart-wrapper']);
-  mailWrapper.append(wrapper);
+  const modal = createCustomElement('div',['modal-container']);
+  modal.classList.add('modal-invisible');
+  mailWrapper.append(wrapper, modal);
+  confirmationWindow();
 
   if (hasCart()) {
     const id = getLocalStorage(KEY_CART) as string;
@@ -73,14 +77,9 @@ const DrawCart = async () => {
       promoDiv.append(promoTitle,promoCode,btnPromo,warningPromo );
 
       const btnCLearCart = createCustomElement('button', ['btn-clear'], 'Clear cart') as HTMLButtonElement;
-
       btnCLearCart.addEventListener('click', async () => {
-          const {version} = await new ApiClient().getCartById(id);
-          const clear = await new ApiClient().deleteCart(id, version);
-          removeLocalStorageValue(KEY_CART);
-          EmptyCart();
+          modal?.classList.remove('modal-invisible');
       });
-
       wrapper.append(divCart, promoDiv, totalDiv, totalNewDiv, btnCLearCart);
     }
   } else {
