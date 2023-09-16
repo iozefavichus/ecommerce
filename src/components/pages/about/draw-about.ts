@@ -29,7 +29,7 @@ const createAboutPage = (): HTMLElement => {
       at The Rolling Scopes School, while at university I studied more .NET and Angular.
        Now I am developing my own projects, and I am ready to further develop my knowledge and
       skills in web development.
-      <br/><b>Developed main page, catalog page, about page, also sorting, filtering, searching, apiClient.<b>`,
+      <br/><b>Developed main page, catalog page, about page, not-found page, also sorting, filtering, searching, apiClient.<b>`,
   );
 
   const githubLink = createCustomElement('a', ['rss_link']) as HTMLLinkElement;

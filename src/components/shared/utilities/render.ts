@@ -32,7 +32,6 @@ const routes = [
   '/',
   '/catalog',
   '/about',
-  '/contact',
   '/registration',
   '/cart',
   '/profile',
@@ -71,9 +70,6 @@ export const renderChangeContent = async (path: string, product?: Product | stri
   }
   if (renderPage === '/about') {
     drawAbout();
-  }
-  if (renderPage === '/contact') {
-    drawNotFound();
   }
   if (renderPage === '/changepassword') {
     drawChangePassword();
