@@ -89,7 +89,9 @@ const DrawCart = async () => {
 
 const drawCartPage = () => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;
-  mailWrapper.textContent = '';
+  if(mailWrapper){
+    mailWrapper.textContent = '';
+  }
   const title = createPageTitle('Cart');
   mailWrapper.append(title);
   DrawCart();
