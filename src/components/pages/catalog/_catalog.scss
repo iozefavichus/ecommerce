@@ -48,6 +48,12 @@
     color: $font-color-desc;
     opacity: 0.8;
   }
+
+  @include media-mobile {
+    &:focus {
+      width: 150%;
+    }
+  }
 }
 
 .panel__wrapper {
@@ -107,6 +113,11 @@
       @include display-flex(center, space-between);
 
       column-gap: 20px;
+
+      @include media-mobile {
+        flex-direction: column;
+        gap: 10px;
+      }
     }
 
     &__text2 {
@@ -312,6 +323,10 @@
   background: $color-panel-product;
   margin: 0 auto 20px;
   padding: 20px 10px;
+
+  @include media-mobile {
+    flex-direction: column;
+  }
 
   &-title {
     font-size: 20px;
