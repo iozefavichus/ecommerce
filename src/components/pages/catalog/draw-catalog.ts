@@ -54,12 +54,7 @@ const createCategory = (): HTMLElement => {
   showSort.append(sortedValue, sortedValue1, sortedValue2, sortedValue3, sortedValue4);
   sortBlock.append(showTextSort, showSort);
 
-  const input = createCustomElement('input', ['input-search']);
-  input.setAttribute('autocomplete', 'off');
-  input.setAttribute('autofocus', '');
-  input.setAttribute('placeholder', 'Search');
-
-  wrapperCategory.append(categoryTitle, select, sortBlock, input);
+  wrapperCategory.append(categoryTitle, select, sortBlock);
   return wrapperCategory;
 };
 
@@ -86,6 +81,11 @@ const createFilter = (): HTMLElement => {
   grey.setAttribute('data-color', 'grey');
   const red = createCustomElement('input', ['red']) as HTMLInputElement;
   red.setAttribute('data-color', 'red');
+
+  const input = createCustomElement('input', ['input-search']);
+  input.setAttribute('autocomplete', 'off');
+  input.setAttribute('autofocus', '');
+  input.setAttribute('placeholder', 'Search');
   filterColor.append(multicolored, red, green, white, grey);
   filterColor.addEventListener('click', (event) => {
     const targetElem = event.target as HTMLElement;
@@ -114,7 +114,7 @@ const createFilter = (): HTMLElement => {
   filterName.append(filterTitlesName, selectName);
   rangeSlider.append(inputPrice1, inputPrice2);
   filterPrice.append(filterTitlesPrice, rangeSlider);
-  filterItem.append(filterName, filterPrice, filterColor, resetBtn);
+  filterItem.append(input, filterName, filterPrice, filterColor, resetBtn);
   wrapper.append(filterItem);
   return wrapper;
 };
