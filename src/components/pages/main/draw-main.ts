@@ -1,9 +1,14 @@
 import { createCustomElement } from '../../shared/utilities/helper-functions';
-import { StpClientApi } from '../../shared/api/stpClient-api';
+import { ApiClient } from '../../shared/api/stp-client-api';
 import { drawCard } from '../catalog/draw-catalog';
 
 const createDiscover = (): HTMLElement => {
   const bgMain = createCustomElement('div', ['main-img']);
+  const promoCode = createCustomElement(
+    'h3',
+    ['main__promo-code'],
+    'Discount 10%<br>from $1000<br>Spend1000EURSave10pct',
+  );
   const discoverBlock = createCustomElement('div', ['discover-block']);
   const discoverInnerBlock = createCustomElement('div', ['discover-inner-block']);
   const discoverAppointment = createCustomElement('p', ['discover__appointment'], 'New Arrival');
@@ -17,7 +22,7 @@ const createDiscover = (): HTMLElement => {
   discoverBtn.href = '/catalog';
   discoverInnerBlock.append(discoverAppointment, discoverTitle, discoverSubtitle, discoverBtn);
   discoverBlock.append(discoverInnerBlock);
-  bgMain.append(discoverBlock);
+  bgMain.append(promoCode, discoverBlock);
   return bgMain;
 };
 
@@ -46,7 +51,6 @@ const createBrowse = (): HTMLElement => {
 export const drawMain = () => {
   const body = document.querySelector('body');
   const main = createCustomElement('main', ['main']);
-  body?.append(main);
   const wrapper = createCustomElement('div', ['main__wrapper']);
   main.append(wrapper);
   const productWrapper = createCustomElement('div', ['product__wrapper']);
@@ -56,10 +60,11 @@ export const drawMain = () => {
   const productsTitle = createCustomElement('p', ['products__title'], 'Our Products');
   sectionProducts.append(productsTitle);
   wrapper.append(discover, browse, sectionProducts, productWrapper);
-  const products = new StpClientApi().getProducts(4);
+  const products = new ApiClient().getProducts(4);
   products.then((products) => {
     products.forEach((product) => {
       drawCard(product, productWrapper);
     });
   });
+  body?.append(main);
 };

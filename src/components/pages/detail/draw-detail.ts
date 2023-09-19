@@ -1,12 +1,19 @@
 import { Product } from '@commercetools/platform-sdk';
-import { createCustomElement } from '../../shared/utilities/helper-functions';
+import { activeBtn, createCustomElement, disableBtn } from '../../shared/utilities/helper-functions';
 import { createPageTitle } from '../../shared/utilities/title';
 import { nextImage, prevImage, updateImagePosition } from './slider';
 import { openPopup } from './popup';
+import { ApiClient } from '../../shared/api/stp-client-api';
+import { KEY_CART, hasCart } from '../cart/has-cart';
+import { getLocalStorage } from '../../app/local-storage/local-storage';
+import { createCart, removeItem, updateCart } from '../cart/cart';
+import { disableCartBtnToProductCard } from '../../app/product-in-cart/has-product-in-cart';
+import { animationDeleteProduct, animationProductInCart } from '../../app/animation-product/animation-product';
 
 const detailClasses = {
   DETAIL: 'detail',
   IMG_BLOCK: 'detail__images-block',
+  INFO_BLOCK: 'detail__info-block',
   IMG_WRAPPER: 'detail__img-wrapper',
   NOT_PRODUCT: 'not-found-product',
   IMG: 'img',
@@ -18,10 +25,13 @@ const detailClasses = {
   BASE_PRICE: 'product-price',
   DISCOUNT: 'product-discount',
   DESCRIPTION: 'product-description',
+  ADD_PRODUCT: 'add-product-btn',
+  REMOVE_PRODUCT: 'remove-product-btn',
+  BTNS_CONTAINER: 'detail__btns',
 };
 
 const createInformBlock = (name: string, price: string, description: string, discountPrice?: string): HTMLElement => {
-  const informBlock = createCustomElement('div', [detailClasses.INFO]);
+  const productInfo = createCustomElement('div', [detailClasses.INFO]);
   const productName = createCustomElement('h2', [detailClasses.NAME], `${name}`);
   const productPrice = createCustomElement('p', [detailClasses.BASE_PRICE], `USD ${price}`);
   const productDescription = createCustomElement('p', [detailClasses.DESCRIPTION], `${description}`);
@@ -31,13 +41,13 @@ const createInformBlock = (name: string, price: string, description: string, dis
     productPrice.style.textDecoration = 'line-through';
     const discount = createCustomElement('p', [detailClasses.DISCOUNT], `USD ${discountPrice}`);
     priceContainer.append(discount, productPrice);
-    informBlock.append(productName, priceContainer, productDescription);
+    productInfo.append(productName, priceContainer, productDescription);
   } else {
     priceContainer.append(productPrice);
-    informBlock.append(productName, priceContainer, productDescription);
+    productInfo.append(productName, priceContainer, productDescription);
   }
 
-  return informBlock;
+  return productInfo;
 };
 
 const createImagesBlock = (product: Product): HTMLElement => {
@@ -74,6 +84,7 @@ const createImagesBlock = (product: Product): HTMLElement => {
 
 export const drawDetail = async (product: Product | string): Promise<void> => {
   const mailWrapper = document.querySelector('.main__wrapper') as HTMLElement;
+  const productKey = window.location.pathname.replace(/\//, '');
   if (typeof product === 'string') {
     const textNotFound = createCustomElement('h1', [detailClasses.NOT_PRODUCT], product);
     mailWrapper.append(textNotFound);
@@ -87,19 +98,74 @@ export const drawDetail = async (product: Product | string): Promise<void> => {
     const title = createPageTitle('About the product');
     const detail = createCustomElement('div', [detailClasses.DETAIL]);
     const imgBlock = createImagesBlock(product);
-
-    detail.append(imgBlock);
+    const InfoBlock = createCustomElement('div', [detailClasses.INFO_BLOCK]);
+    const btnsContainer = createCustomElement('div', [detailClasses.BTNS_CONTAINER]);
+    const addBtn = createCustomElement(
+      'button',
+      [detailClasses.ADD_PRODUCT, 'button'],
+      'Add to cart',
+    ) as HTMLButtonElement;
+    const removeBtn = createCustomElement(
+      'button',
+      [detailClasses.REMOVE_PRODUCT, 'button', 'disable'],
+      'Remove from cart',
+    ) as HTMLButtonElement;
+    disableCartBtnToProductCard(productKey, addBtn, removeBtn);
+    addBtn.addEventListener('click', async (event) => {
+      const btnElem = event.target as HTMLElement;
+      if (!btnElem.classList.contains('disable')) {
+        disableBtn(addBtn as HTMLButtonElement);
+        activeBtn(removeBtn as HTMLButtonElement);
+        animationProductInCart(event);
+        if (hasCart()) {
+          const id = getLocalStorage(KEY_CART) as string;
+          const { version } = await new ApiClient().getCartById(id);
+          updateCart({
+            id,
+            version,
+            productId: product.id,
+          });
+        } else {
+          await createCart(product.id);
+        }
+      }
+    });
+    removeBtn.addEventListener('click', async (event) => {
+      const btnElem = event.target as HTMLElement;
+      if (!btnElem.classList.contains('disable')) {
+        disableBtn(removeBtn as HTMLButtonElement);
+        activeBtn(addBtn as HTMLButtonElement);
+        animationDeleteProduct(event);
+        if (hasCart()) {
+          const id = getLocalStorage(KEY_CART) as string;
+          const { version, lineItems } = await new ApiClient().getCartById(id);
+          lineItems.forEach((line) => {
+            const { productId } = line;
+            const lineId = line.id;
+            if (productId === product.id) {
+              removeItem({
+                id,
+                version,
+                productId: lineId,
+              });
+            }
+          });
+        }
+      }
+    });
+    btnsContainer.append(addBtn, removeBtn);
+    detail.append(imgBlock, InfoBlock);
     if (productPrice) {
       const basePrice = productPrice[0].value.centAmount;
       const discountPrice = productPrice[0].discounted?.value.centAmount;
       price = (basePrice / 100).toFixed(2);
       if (discountPrice) {
         const discount = (discountPrice / 100).toFixed(2);
-        const informBlock = createInformBlock(productName, price, productDescription, discount);
-        detail.append(informBlock);
+        const productInfo = createInformBlock(productName, price, productDescription, discount);
+        InfoBlock.append(productInfo, btnsContainer);
       } else {
-        const informBlock = createInformBlock(productName, price, productDescription);
-        detail.append(informBlock);
+        const productInfo = createInformBlock(productName, price, productDescription);
+        InfoBlock.append(productInfo, btnsContainer);
       }
     }
     mailWrapper.append(title, detail);

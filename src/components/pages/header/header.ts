@@ -1,4 +1,5 @@
 import { Constants } from '../../../types/shared';
+import { viewQuantityItemInCart } from '../../app/product-in-cart/has-product-in-cart';
 import { customRoute } from '../../app/router/router';
 import { createCustomElement } from '../../shared/utilities/helper-functions';
 import { logoutCustomer } from '../log-in/log-out';
@@ -21,6 +22,7 @@ const headerClasses: Constants = {
   LOGIN_LINK: 'login-link',
   LOGOUT: 'log-out',
   REG_LINK: 'registration-link',
+  QUANTITY_ITEM: 'quantity-item',
 };
 
 const links: Constants = {
@@ -42,9 +44,7 @@ const createNavBar = (): HTMLElement => {
   linkCatalog.href = links.CATALOG;
   const linkAbout = createCustomElement('a', [headerClasses.NAV_LINK], 'About') as HTMLLinkElement;
   linkAbout.href = links.ABOUT;
-  const linkContact = createCustomElement('a', [headerClasses.NAV_LINK], 'Contact') as HTMLLinkElement;
-  linkContact.href = links.CONTACT;
-  navBar.append(linkHome, linkCatalog, linkAbout, linkContact);
+  navBar.append(linkHome, linkCatalog, linkAbout);
 
   return navBar;
 };
@@ -60,6 +60,8 @@ const createIconBar = (isLogin: boolean): HTMLElement => {
   const linkProfile = createCustomElement('a', [headerClasses.PROFILE_LINK], 'Profile') as HTMLLinkElement;
   linkProfile.href = links.PROFILE;
   const linkBasket = createCustomElement('a', [headerClasses.BASKET_LINK]) as HTMLLinkElement;
+  const quantityItem = createCustomElement('div', [headerClasses.QUANTITY_ITEM]);
+  linkBasket.append(quantityItem);
   linkBasket.href = links.BASKET;
   const profileBtn = isLogin ? linkProfile : '';
   const logBtn = isLogin ? logOut : logIn;
@@ -105,6 +107,7 @@ const drawHeader = (isLogin: boolean): void => {
   wrapper.append(logo, navBar, hamburgerBtn, iconBar);
   header.append(wrapper);
   body?.append(header);
+  viewQuantityItemInCart();
 };
 
 export { headerClasses, links, createNavBar, createIconBar, createHamburgerBtn, drawHeader };

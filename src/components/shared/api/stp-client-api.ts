@@ -4,7 +4,6 @@ import {
   CustomerSignInResult,
   ProductDiscount,
   ProductDiscountPagedQueryResponse,
-  ProductPagedQueryResponse,
   ProductProjection,
   ProductProjectionPagedQueryResponse,
   CustomerPagedQueryResponse,
@@ -14,36 +13,36 @@ import {
   Category,
   AddressDraft,
 } from '@commercetools/platform-sdk';
-import { ctpClient } from './build-client';
-import { regCardObj, baseAdress } from '../../../types/shared';
+import { ClientFactory } from './build-client';
+import { regCardObj, baseAdress, IUpdateCart } from '../../../types/shared';
 
-class StpClientApi {
-  private email;
+const currentDate = new Date();
+const expiresCookie = currentDate.setMonth(currentDate.getMonth() + 1);
 
-  private password;
+class ApiClient {
+  static sharedEmail = '';
 
-  private apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({ projectKey: 'ecommerce_furniture' });
+  static sharedPassword = '';
+
+  private hasMail = ApiClient.sharedEmail.length > 0;
+
+  private hasPas = ApiClient.sharedPassword.length > 0;
+
+  private client = new ClientFactory().createClient();
+
+  private apiRoot = createApiBuilderFromCtpClient(this.client).withProjectKey({ projectKey: 'ecommerce_furniture' });
 
   constructor(email?: string, password?: string) {
-    this.email = email;
-    this.password = password;
+    if (email && password) {
+      ApiClient.sharedEmail = email;
+      ApiClient.sharedPassword = password;
+    }
   }
 
-  public getCustomerByEmail(): Promise<ClientResponse<CustomerPagedQueryResponse>> {
+  public getCustomerByEmail(email: string): Promise<Customer[]> {
     if (!this.apiRoot) {
       throw new Error('Authentication credentials are missing.');
     }
-    return this.apiRoot
-      .customers()
-      .get({
-        queryArgs: {
-          where: `email="${this.email}"`,
-        },
-      })
-      .execute();
-  }
-
-  public getCustomerInfoByEmail(email: string): Promise<Customer[]> {
     return this.apiRoot
       .customers()
       .get({
@@ -55,7 +54,7 @@ class StpClientApi {
       .then((data: ClientResponse<CustomerPagedQueryResponse>) => data.body.results);
   }
 
-  public getCustomerbyId(id: string): Promise<Customer> {
+  public getCustomerById(id: string): Promise<Customer> {
     return this.apiRoot
       .customers()
       .withId({ ID: id })
@@ -65,16 +64,20 @@ class StpClientApi {
   }
 
   public loginCustomer() {
-    return this.apiRoot
-      .me()
-      .login()
-      .post({
-        body: {
-          email: this.email as string,
-          password: this.password as string,
-        },
-      })
-      .execute();
+    if (this.hasMail && this.hasPas) {
+      this.client = new ClientFactory().createClient(ApiClient.sharedEmail, ApiClient.sharedPassword);
+      this.apiRoot = createApiBuilderFromCtpClient(this.client).withProjectKey({ projectKey: 'ecommerce_furniture' });
+      return this.apiRoot
+        .me()
+        .login()
+        .post({
+          body: {
+            email: ApiClient.sharedEmail,
+            password: ApiClient.sharedPassword,
+          },
+        })
+        .execute();
+    }
   }
 
   public getProject(): Promise<ClientResponse<Project>> {
@@ -132,7 +135,7 @@ class StpClientApi {
       .products()
       .get({ queryArgs: { limit: limitNum } })
       .execute()
-      .then((data: ClientResponse<ProductPagedQueryResponse>) => data.body.results);
+      .then((data) => data.body.results);
   }
 
   public getProductDiscounts(): Promise<ProductDiscount[]> {
@@ -158,7 +161,7 @@ class StpClientApi {
 
   public getProductSearchProjections(valueFilter?: string): Promise<ProductProjection[]> {
     return this.apiRoot
-      ?.productProjections()
+      .productProjections()
       .search()
       .get({
         queryArgs: {
@@ -170,9 +173,23 @@ class StpClientApi {
       .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
   }
 
+  public getProductsFromCatalog(limitNum?: number, offsetNum?: number): Promise<ProductProjection[]> {
+    return this.apiRoot
+      .productProjections()
+      .search()
+      .get({
+        queryArgs: {
+          limit: limitNum,
+          offset: offsetNum,
+        },
+      })
+      .execute()
+      .then((data: ClientResponse<ProductProjectionPagedQueryResponse>) => data.body.results);
+  }
+
   public getCategory(): Promise<Category[]> {
     return this.apiRoot
-      ?.categories()
+      .categories()
       .get()
       .execute()
       .then((data: ClientResponse<CategoryPagedQueryResponse>) => data.body.results);
@@ -180,6 +197,10 @@ class StpClientApi {
 
   public getProductByKey(productKey: string) {
     return this.apiRoot.products().withKey({ key: productKey }).get().execute();
+  }
+
+  public getProductByID(productID: string) {
+    return this.apiRoot.products().withId({ ID: productID }).get().execute();
   }
 
   public getProductCategory(catId: string) {
@@ -398,6 +419,183 @@ class StpClientApi {
       })
       .execute();
   }
+
+  public addCart(productId: string) {
+    if (this.hasMail && this.hasPas) {
+      this.client = new ClientFactory().createClient(ApiClient.sharedEmail, ApiClient.sharedPassword);
+      this.apiRoot = createApiBuilderFromCtpClient(this.client).withProjectKey({ projectKey: 'ecommerce_furniture' });
+      return this.apiRoot
+        .me()
+        .carts()
+        .post({
+          body: {
+            currency: 'USD',
+            lineItems: [
+              {
+                productId,
+                quantity: 1,
+              },
+            ],
+          },
+        })
+        .execute()
+        .then((cart) => cart.body);
+    }
+    return this.apiRoot
+      .me()
+      .carts()
+      .post({
+        body: {
+          currency: 'USD',
+          lineItems: [
+            {
+              productId,
+              quantity: 1,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((cart) => cart.body);
+  }
+
+  public updateCart(options: IUpdateCart) {
+    const { id, version, productId } = options;
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'addLineItem',
+              productId,
+              quantity: 1,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
+
+  public deleteItemFromCart(options: IUpdateCart) {
+    const { id, version, productId } = options;
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'removeLineItem',
+              lineItemId: productId,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
+
+  public deletelineItemFromCart(id: string, version: number, productId: string) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'removeLineItem',
+              lineItemId: productId,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
+
+  public getCarts() {
+    return this.apiRoot
+      .carts()
+      .get({
+        queryArgs: {
+          limit: 100,
+        },
+      })
+      .execute()
+      .then((data) => data.body.results);
+  }
+
+  public getCartById(id: string) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .get()
+      .execute()
+      .then((data) => data.body);
+  }
+
+  public deleteCart(id: string, vers: number) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .delete({
+        queryArgs: { version: vers },
+      })
+      .execute();
+  }
+
+  async getTotalNumberOfProducts() {
+    return this.apiRoot
+      .productProjections()
+      .get()
+      .execute()
+      .then((data) => data.body.total);
+  }
+
+  public addDiscountCode(id: string, version: number, discountCode: string) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'addDiscountCode',
+              code: discountCode,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
+
+  public changeQuantity(id: string, version: number, lineItemId: string, quantity: number) {
+    return this.apiRoot
+      .carts()
+      .withId({ ID: id })
+      .post({
+        body: {
+          version,
+          actions: [
+            {
+              action: 'changeLineItemQuantity',
+              lineItemId,
+              quantity,
+            },
+          ],
+        },
+      })
+      .execute()
+      .then((data) => data.body);
+  }
 }
 
-export { StpClientApi };
+export { ApiClient };

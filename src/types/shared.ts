@@ -1,11 +1,10 @@
-export interface baseAdress {
+interface baseAdress {
   country: string;
   city: string;
   streetName: string;
   postalCode: string;
 }
-
-export interface regCardObj {
+interface regCardObj {
   email: string;
   firstName: string;
   lastName: string;
@@ -18,7 +17,7 @@ export interface regCardObj {
   defaultBillingAddress: number | undefined;
 }
 
-export interface personalInfoObj {
+interface personalInfoObj {
   email: string;
   firstName: string;
   lastName: string;
@@ -26,4 +25,12 @@ export interface personalInfoObj {
   dateOfBirth: string;
 }
 
-export type Constants = Record<string, string>;
+type Constants = Record<string, string>;
+
+interface IUpdateCart {
+  id: string;
+  version: number;
+  productId: string;
+}
+
+export { baseAdress, regCardObj, personalInfoObj, Constants, IUpdateCart };
