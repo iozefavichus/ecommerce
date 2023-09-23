@@ -1,0 +1,30 @@
+$color-text-base: rgb(0 0 0);
+$color-popup: rgb(0 0 0 / 50%);
+$color-brand: rgb(255 243 227);
+$color-brand-dark: rgb(184 142 47);
+$font-color: rgb(51 51 51);
+$font-color-subtitle: rgb(102 102 102);
+$font-color-title: rgb(58 58 58);
+$font-color-desc: rgb(137 137 137);
+$color-panel-product: rgb(249 241 231);
+$color-separator: rgb(159 159 159);
+$color-default: rgb(255 255 255);
+
+%icon-param {
+  background-size: contain;
+  width: 30px;
+  height: 30px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}
+
+%hover-transition {
+  transition: 0.5s;
+}
+
+$netbook-with: 1200px;
+$tablet-with: 768px;
+$mobile-with: 500px;

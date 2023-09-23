@@ -1,0 +1,56 @@
+@use 'sass:math';
+
+@mixin display-flex($align-item, $justify) {
+  display: flex;
+  align-items: $align-item;
+  justify-content: $justify;
+}
+
+@mixin media-netbook {
+  @media screen and (max-width: $netbook-with) {
+    @content;
+  }
+}
+
+@mixin media-table {
+  @media screen and (max-width: $tablet-with) {
+    @content;
+  }
+}
+
+@mixin media-mobile {
+  @media screen and (max-width: $mobile-with) {
+    @content;
+  }
+}
+
+@mixin font($font_name, $file_name, $weight, $style) {
+  @font-face {
+    font-family: $font_name;
+    font-display: swap;
+    src: url('../assets/fonts/#{$file_name}.ttf') format('truetype');
+    font-weight: #{$weight};
+    font-style: #{$style};
+  }
+}
+
+// Percent
+@function percent($px, $from) {
+  $result: math.div($px, $from) * 100%;
+
+  @return $result;
+}
+
+// REM
+@function rem($px) {
+  $result: math.div($px, 16) + rem;
+
+  @return $result;
+}
+
+// EM
+@function em($px, $current: 16) {
+  $result: math.div($px, $current) + em;
+
+  @return $result;
+}
